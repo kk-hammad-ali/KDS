@@ -30,7 +30,6 @@
                                     <th scope="col">Admission Date</th>
                                     <th scope="col">Driving Time Per Week</th>
                                     <th scope="col">Fees</th>
-                                    <th scope="col">Driving Type</th>
                                     <th scope="col">Practical Driving Hours</th>
                                     <th scope="col">Theory Classes</th>
                                     <th scope="col">Action</th>
@@ -49,7 +48,6 @@
                                         <td>{{ $student->admission_date }}</td>
                                         <td>{{ $student->driving_time_per_week }}</td>
                                         <td>{{ $student->fees }}</td>
-                                        <td>{{ ucfirst($student->driving_type) }}</td>
                                         <td>{{ $student->practical_driving_hours }}</td>
                                         <td>{{ $student->theory_classes }}</td>
                                         <td style="min-width: 150px">

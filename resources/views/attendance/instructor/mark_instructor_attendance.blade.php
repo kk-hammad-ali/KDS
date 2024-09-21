@@ -36,9 +36,7 @@
                                 <thead class="bg-info text-white">
                                     <tr>
                                         <th class="text-start" style="min-width: 100px;">Instructor Name</th>
-                                        <!-- Align left using Bootstrap class -->
                                         <th>Present / Absent</th>
-                                        {{-- <th>Absent</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,7 +49,8 @@
                                                 ->first();
                                         @endphp
                                         <tr>
-                                            <td class="text-start"><strong>{{ $instructor->user->name }}</strong></td>
+                                            <td class="text-start"><strong>{{ $instructor->employee->user->name }}</strong>
+                                            </td>
                                             <!-- Align left using Bootstrap class -->
                                             <td>
                                                 <label class="form-check-label me-2">

@@ -7,7 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
 
-    protected $fillable = ['student_id', 'instructor_id', 'vehicle_id', 'class_date', 'start_time', 'end_time'];
+    protected $fillable = [
+        'student_id',
+        'instructor_id',
+        'vehicle_id',
+        'class_date',
+        'start_time',
+        'end_time',
+        'class_end_date',
+    ];
 
     public function student()
     {

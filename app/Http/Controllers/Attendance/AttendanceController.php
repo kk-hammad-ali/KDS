@@ -48,9 +48,10 @@ class AttendanceController extends Controller
 
     public function markTodayStudentAttendance($date)
     {
-        $students = Student::all();
+        $students = Student::where('admission_date', '<=', $date)
+            ->where('course_end_date', '>=', $date)
+            ->get();
 
-        // Pass the students and the selected date to the view
         return view('attendance.student.mark_student_attendance', compact('students', 'date'));
     }
 
@@ -87,7 +88,7 @@ class AttendanceController extends Controller
             ->get()
             ->map(function($attendance) {
                 return [
-                    'title' => $attendance->instructor->user->name,
+                    'title' => $attendance->instructor->employee->user->name,
                     'start' => $attendance->attendance_date, // Date of attendance
                     'attendance' => $attendance->instructor_present ? 'present' : 'absent', // Determine status
                 ];

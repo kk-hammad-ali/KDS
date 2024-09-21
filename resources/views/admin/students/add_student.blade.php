@@ -205,9 +205,10 @@
                                             @foreach ($instructors as $instructor)
                                                 <option value="{{ $instructor->id }}"
                                                     {{ old('instructor_id') == $instructor->id ? 'selected' : '' }}>
-                                                    {{ $instructor->user->name }}
+                                                    {{ $instructor->employee ? ($instructor->employee->user ? $instructor->employee->user->name : 'No User') : 'No Employee' }}
                                                 </option>
                                             @endforeach
+
                                         </select>
                                         @error('instructor_id')
                                             <div class="text-danger">{{ $message }}</div>

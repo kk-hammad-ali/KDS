@@ -9,6 +9,7 @@ use App\Models\Employee;
 use App\Models\Schedule;
 use App\Models\Course;
 use App\Models\Coupon;
+use App\Models\Instructor;
 use App\Models\User;
 use App\Models\Car;
 use Illuminate\Support\Facades\Hash;
@@ -29,26 +30,15 @@ class StudentController extends Controller
         return view('admin.students.all_students', compact('students'));
     }
 
-    /**
-     * Show the form to add a new student.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function adminAddStudent()
     {
+        $instructors = Instructor::with('employee.user')->get();
         $courses = Course::all();
-        $instructors = Employee::where('designation', 'instructor')->get(); // Fetch instructors from employees
         $cars = Car::all();
 
         return view('admin.students.add_student', compact('courses', 'cars', 'instructors'));
     }
 
-    /**
-     * Store a newly created student.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function adminStoreStudent(Request $request)
     {
         $validated = $request->validate([
@@ -65,7 +55,7 @@ class StudentController extends Controller
             'practical_driving_hours' => 'required|numeric',
             'theory_classes' => 'required|numeric',
             'coupon_code' => 'nullable|string|max:50',
-            'instructor_id' => 'required|exists:employees,id', // Use employee as instructor
+            'instructor_id' => 'required|exists:employees,id',
             'vehicle_id' => 'required|exists:cars,id',
             'course_duration' => 'required|integer',
             'class_start_time' => 'required',
@@ -77,7 +67,7 @@ class StudentController extends Controller
             ->addMinutes((int)$request->class_duration)
             ->format('H:i:s');
 
-        // Calculate course end date
+        // Calculate course end date based on course duration
         $course_end_date = Carbon::parse($request->admission_date)
             ->addDays((int)$request->course_duration)
             ->format('Y-m-d');
@@ -126,28 +116,19 @@ class StudentController extends Controller
         ]);
 
         // Create schedule
-        $current_date = Carbon::parse($request->admission_date);
-        for ($i = 0; $i < $request->course_duration; $i++) {
-            Schedule::create([
-                'student_id' => $student->id,
-                'instructor_id' => $request->instructor_id,
-                'vehicle_id' => $request->vehicle_id,
-                'class_date' => $current_date->format('Y-m-d'),
-                'start_time' => $request->class_start_time,
-                'end_time' => $class_end_time,
-            ]);
-            $current_date->addDay();
-        }
+        Schedule::create([
+            'student_id' => $student->id,
+            'instructor_id' => $request->instructor_id,
+            'vehicle_id' => $request->vehicle_id,
+            'class_date' => $request->admission_date,  // Start date
+            'class_end_date' => $course_end_date,      // End date
+            'start_time' => $request->class_start_time,
+            'end_time' => $class_end_time,
+        ]);
 
         return redirect()->route('admin.allStudents')->with('success_student', 'Student added successfully.');
     }
 
-    /**
-     * Show the form for editing the specified student.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function adminEditStudent($id)
     {
         $student = Student::with('user')->findOrFail($id);
@@ -158,13 +139,6 @@ class StudentController extends Controller
         return view('admin.students.edit_student', compact('student', 'instructors', 'cars', 'courses'));
     }
 
-    /**
-     * Update the specified student in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function adminUpdateStudent(Request $request, $id)
     {
         $validated = $request->validate([

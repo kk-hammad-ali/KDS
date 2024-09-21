@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Instructor;
+use App\Models\Course;
+use App\Models\Car;
 
 class Student extends Model
 {
@@ -54,7 +57,7 @@ class Student extends Model
     // Define relationship with Vehicle (Car)
     public function vehicle()
     {
-        return $this->belongsTo(Car::class, 'vehicle_id');
+        return $this->belongsTo(Car::class);
     }
 
     // Define relationship with Schedule

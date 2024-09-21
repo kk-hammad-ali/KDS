@@ -17,20 +17,27 @@ class ScheduleController extends Controller
         $events = [];
 
         foreach ($schedules as $schedule) {
-            $events[] = [
-                'title' => 'S' . $schedule->student->id . ' - ' . $schedule->instructor->user->name,
-                'start' => $schedule->class_date . 'T' . $schedule->start_time,
-                'end' => $schedule->class_date . 'T' . $schedule->end_time, // Ensure end time is provided
-                'backgroundColor' => '#ff0000', // Red for booked slots
-                'textColor' => 'white',
-                'extendedProps' => [
-                    'course_end_date' => $schedule->student->course_end_date,
-                ],
-            ];
+            $startDate = Carbon::parse($schedule->class_date);
+            $endDate = Carbon::parse($schedule->class_end_date);
+
+            // Create events for each day between start and end date
+            for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
+                $events[] = [
+                    'title' => 'S' . $schedule->student->id . ' - ' . $schedule->instructor->employee->user->name,
+                    'start' => $date->format('Y-m-d') . 'T' . $schedule->start_time,
+                    'end' => $date->format('Y-m-d') . 'T' . $schedule->end_time,
+                    'backgroundColor' => '#ff0000', // Red for booked slots
+                    'textColor' => 'white',
+                    'extendedProps' => [
+                        'course_end_date' => $schedule->student->course_end_date,
+                    ],
+                ];
+            }
         }
 
         return view('admin.schedules.all_schedules', compact('events'));
     }
+
 
     public function getBookedTimes(Request $request)
     {
@@ -50,7 +57,7 @@ class ScheduleController extends Controller
         }
 
         if ($vehicleId) {
-            $query->orWhere('vehicle_id', $vehicleId); // Added `orWhere` to also check for vehicle availability
+            $query->where('vehicle_id', $vehicleId);
         }
 
         // Fetch both start_time and end_time
@@ -72,7 +79,6 @@ class ScheduleController extends Controller
 
         return response()->json(['booked_times' => $bookedTimes]);
     }
-
 
     public function instructorSchedules(Request $request)
     {

@@ -114,20 +114,21 @@
                             <i class="fa fa-book me-2"></i>Expense
                         </a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href=""
+                            <a href="{{ route('admin.fixedExpenses') }}"
                                 class="dropdown-item {{ Request::is('admin/expense/fixed*') ? 'active' : '' }}">
                                 <i class="ms-4 fa fa-file-invoice-dollar me-2"></i>Fixed Expense
                             </a>
-                            <a href=""
+                            <a href="{{ route('admin.carExpenses') }}"
                                 class="dropdown-item {{ Request::is('admin/expense/car*') ? 'active' : '' }}">
                                 <i class="ms-4 fa fa-car me-2"></i>Car
                             </a>
-                            <a href=""
+                            <a href="{{ route('admin.dailyExpenses') }}"
                                 class="dropdown-item {{ Request::is('admin/expense/daily*') ? 'active' : '' }}">
                                 <i class="ms-4 fa fa-calendar-day me-2"></i>Daily
                             </a>
                         </div>
                     </div>
+
 
                     <a href="{{ route('admin.allSchedules') }}"
                         class="nav-item nav-link {{ Request::is('admin/schedules*') ? 'active' : '' }}">

@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Instructor;
+use App\Models\User;
 use App\Models\Employee;
+use App\Models\Instructor;
+use Illuminate\Support\Facades\Hash;
 
 class InstructorSeeder extends Seeder
 {
@@ -15,27 +17,34 @@ class InstructorSeeder extends Seeder
      */
     public function run()
     {
-        // Create 3 Instructor employees
         for ($i = 1; $i <= 3; $i++) {
-            // Create the employee record for the instructor
+            // Create a user for each instructor
+            $user = User::create([
+                'name' => "Instructor $i",
+                'password' => Hash::make('password123'),  // Default password
+                'role' => 1,  // Role 1 for Instructor
+            ]);
+
+            // Create the employee record and link it to the user
             $employee = Employee::create([
-                'designation' => 'Instructor',
-                'address' => 'Address ' . $i,
-                'salary' => rand(30000, 50000),
-                'salary_status' => 'paid',
-                'employee_status' => 'employed',
+                'user_id' => $user->id,  // Ensure the employee is linked to the user
+                'email' => "instructor$i@example.com",
+                'phone' => '123456789' . $i,
+                'address' => "Instructor Address $i",
+                'salary' => 20000 + $i * 1000,
+                'id_card_number' => 'ID' . str_pad($i, 6, '0', STR_PAD_LEFT),
                 'gender' => $i % 2 == 0 ? 'male' : 'female',
+                'designation' => 'Instructor',
                 'picture' => null,
             ]);
 
-            // Create the instructor-specific data
+            // Create the instructor record and link it to the employee
             Instructor::create([
                 'employee_id' => $employee->id,
-                'id_card_number' => 'ID' . str_pad($i, 6, '0', STR_PAD_LEFT),
-                'license_city' => 'City ' . $i,
-                'license_start_date' => now()->subYears($i + 5),
+                'license_city' => "City $i",
+                'license_start_date' => now()->subYears(5),
                 'license_end_date' => now()->addYears(5),
-                'experience' => $i . ' years',
+                'experience' => "$i years",
                 'license_number' => 'LIC-' . str_pad($i, 6, '0', STR_PAD_LEFT),
             ]);
         }

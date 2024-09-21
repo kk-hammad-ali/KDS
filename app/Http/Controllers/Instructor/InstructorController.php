@@ -81,7 +81,6 @@ class InstructorController extends Controller
             ]);
 
             return redirect()->route('admin.allInstructors')->with('success_instructor', 'Instructor added successfully.');
-
     }
 
 

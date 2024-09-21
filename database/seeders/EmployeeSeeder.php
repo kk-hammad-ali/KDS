@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use App\Models\Employee;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeSeeder extends Seeder
 {
@@ -14,16 +16,25 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
-        // Create 3 generic Employee records
-        for ($i = 1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
+            // Create a user for each employee
+            $user = User::create([
+                'name' => "Employee $i",
+                'password' => Hash::make('password123'),  // Default password
+                'role' => 0,  // Assuming 0 is for employees without system access (or adjust based on your system)
+            ]);
+
+            // Create employees with user ID
             Employee::create([
-                'designation' => "Employee $i",
-                'address' => 'Employee Address ' . $i,
-                'salary' => rand(25000, 40000),
-                'salary_status' => 'unpaid',
-                'employee_status' => 'employed',
-                'gender' => $i % 2 == 0 ? 'male' : 'female',
-                'picture' => null, // Optional
+                'user_id' => $user->id,  // Link the employee to the created user
+                'email' => "employee$i@example.com",
+                'phone' => '987654321' . $i,
+                'address' => "Employee Address $i",
+                'salary' => 15000 + $i * 1000,
+                'gender' => $i % 2 == 0 ? 'female' : 'male',
+                'id_card_number' => 'ID' . str_pad($i, 6, '0', STR_PAD_LEFT),
+                'designation' => 'Employee',
+                'picture' => null,  // Add default if needed
             ]);
         }
     }

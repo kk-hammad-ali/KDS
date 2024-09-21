@@ -42,10 +42,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($students as $student)
+                                    @forelse ($students as $student)
                                         <tr>
                                             <td class="text-start"><strong>{{ $student->user->name }}</strong></td>
-                                            <td class="text-start"><strong>{{ $student->instructor->user->name }}</strong>
+                                            <td class="text-start">
+                                                <strong>{{ $student->instructor->employee->user->name }}</strong>
                                             </td>
                                             <td class="text-start"><strong>{{ $student->vehicle->make }}</strong></td>
                                             <td>
@@ -63,7 +64,11 @@
                                                 </label>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="4">No students available for attendance on this date.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

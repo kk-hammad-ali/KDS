@@ -118,7 +118,14 @@
                 allDaySlot: false, // Disable all-day slot for day view by default
                 headerToolbar: {
                     left: 'prev,next today',
+                    center: 'title',
                     right: 'timeGridDay,timeGridWeek'
+                },
+                titleFormat: { // Custom format for the title to show current date
+                    weekday: 'long', // Display the full weekday name (e.g., "Saturday")
+                    year: 'numeric', // Show the year (e.g., "2024")
+                    month: 'long', // Show the full month name (e.g., "September")
+                    day: 'numeric' // Show the day of the month (e.g., "21")
                 },
                 buttonText: {
                     today: 'Today', // Capitalize 'today'

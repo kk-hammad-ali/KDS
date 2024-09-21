@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('instructor_id')->constrained('instructors')->onDelete('cascade');
             $table->foreignId('vehicle_id')->constrained('cars')->onDelete('cascade');
             $table->date('class_date'); // Date of the class
+            $table->date('class_end_date');
             $table->time('start_time'); // Start time of the class
             $table->time('end_time');   // End time of the class
             $table->timestamps();

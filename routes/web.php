@@ -14,7 +14,9 @@ use App\Http\Controllers\Coupon\CouponController;
 
 use App\Http\Controllers\Courses\CoursesController;
 
-use App\Http\Controllers\Expense\ExpenseController;
+use App\Http\Controllers\Expense\FixedExpenseController;
+use App\Http\Controllers\Expense\CarExpenseController;
+use App\Http\Controllers\Expense\DailyExpenseController;
 
 use App\Http\Controllers\Auth\SignInController;
 
@@ -119,12 +121,37 @@ Route::get('/admin/fix-expenses/', [ExpenseController::class, 'fix_expense_page'
     Route::get('/admin/cars/delete/{id}', [CarController::class, 'destroy'])->name('admin.deleteCars');
 
 // Admin Expenses
-Route::get('/admin/expenses', [ExpenseController::class, 'allExpensePage'])->name('admin.allExpenses');
-Route::get('/admin/expenses/create', [ExpenseController::class, 'addExpenses'])->name('admin.addExpense');
-Route::post('/admin/expenses/add', [ExpenseController::class, 'storeExpenses'])->name('admin.expenses.store');
-Route::get('/admin/expenses/edit/{id}', [ExpenseController::class, 'editExpenses'])->name('admin.editExpense');
-Route::put('/admin/expenses/{id}', [ExpenseController::class, 'update'])->name('admin.updateExpenses');
-Route::get('/admin/expenses/delete/{id}', [ExpenseController::class, 'destroy'])->name('admin.deleteExpenses');
+    // Route::get('/admin/expenses', [ExpenseController::class, 'allExpensePage'])->name('admin.allExpenses');
+    // Route::get('/admin/expenses/create', [ExpenseController::class, 'addExpenses'])->name('admin.addExpense');
+    // Route::post('/admin/expenses/add', [ExpenseController::class, 'storeExpenses'])->name('admin.expenses.store');
+    // Route::get('/admin/expenses/edit/{id}', [ExpenseController::class, 'editExpenses'])->name('admin.editExpense');
+    // Route::put('/admin/expenses/{id}', [ExpenseController::class, 'update'])->name('admin.updateExpenses');
+    // Route::get('/admin/expenses/delete/{id}', [ExpenseController::class, 'destroy'])->name('admin.deleteExpenses');
+
+    // Fixed Expenses Routes
+    Route::get('/admin/expense/fixed', [FixedExpenseController::class, 'index'])->name('admin.fixedExpenses');
+    Route::get('/admin/expense/fixed/create', [FixedExpenseController::class, 'create'])->name('admin.fixedExpenses.create');
+    Route::post('/admin/expense/fixed/store', [FixedExpenseController::class, 'store'])->name('admin.fixedExpenses.store');
+    Route::get('/admin/expense/fixed/edit/{id}', [FixedExpenseController::class, 'edit'])->name('admin.fixedExpenses.edit');
+    Route::put('/admin/expense/fixed/update/{id}', [FixedExpenseController::class, 'update'])->name('admin.fixedExpenses.update');
+    Route::get('/admin/expense/fixed/delete/{id}', [FixedExpenseController::class, 'destroy'])->name('admin.fixedExpenses.delete');
+
+    // Car Expenses Routes
+    Route::get('/admin/expense/car', [CarExpenseController::class, 'index'])->name('admin.carExpenses');
+    Route::get('/admin/expense/car/create', [CarExpenseController::class, 'create'])->name('admin.carExpenses.create');
+    Route::post('/admin/expense/car/store', [CarExpenseController::class, 'store'])->name('admin.carExpenses.store');
+    Route::get('/admin/expense/car/edit/{id}', [CarExpenseController::class, 'edit'])->name('admin.carExpenses.edit');
+    Route::put('/admin/expense/car/update/{id}', [CarExpenseController::class, 'update'])->name('admin.carExpenses.update');
+    Route::get('/admin/expense/car/delete/{id}', [CarExpenseController::class, 'destroy'])->name('admin.carExpenses.delete');
+
+    // Daily Expenses Routes
+    Route::get('/admin/expense/daily', [DailyExpenseController::class, 'index'])->name('admin.dailyExpenses');
+    Route::get('/admin/expense/daily/create', [DailyExpenseController::class, 'create'])->name('admin.dailyExpenses.create');
+    Route::post('/admin/expense/daily/store', [DailyExpenseController::class, 'store'])->name('admin.dailyExpenses.store');
+    Route::get('/admin/expense/daily/edit/{id}', [DailyExpenseController::class, 'edit'])->name('admin.dailyExpenses.edit');
+    Route::put('/admin/expense/daily/update/{id}', [DailyExpenseController::class, 'update'])->name('admin.dailyExpenses.update');
+    Route::get('/admin/expense/daily/delete/{id}', [DailyExpenseController::class, 'destroy'])->name('admin.dailyExpenses.delete');
+
 
 // Admin Leaves
     Route::get('/admin/leaves', [LeaveController::class, 'allLeavePage'])->name('admin.allLeaves');
