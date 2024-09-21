@@ -1,0 +1,28 @@
+.registernow {
+    background-color: #03312E; /* Background color */
+}
+
+.input-custom {
+    border: none; /* Remove all borders */
+    border-bottom: 2px solid #ccc; /* Add only bottom border */
+    border-radius: 0; /* Remove rounded corners */
+    box-shadow: none; /* Remove default shadow */
+    background-color: transparent; /* Transparent background for cleaner look */
+    outline: none; /* Remove focus outline */
+    color: white; /* Input text color */
+    caret-color: white; /* Cursor color */
+}
+
+.input-custom::placeholder {
+    color: white; /* Placeholder text color */
+    opacity: 1; /* Ensure placeholder is fully opaque */
+}
+
+.input-custom:focus {
+    border-bottom: 2px solid #ccc; /* Bottom border color on focus */
+    box-shadow: none; /* Remove default shadow */
+    outline: none; /* Remove default focus outline */
+    background-color: transparent; /* Keep background transparent */
+    color: white; /* Keep text color white on focus */
+    caret-color: white; /* Keep cursor color white on focus */
+}
