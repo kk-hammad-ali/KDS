@@ -15,16 +15,12 @@ return new class extends Migration
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('id_card_number');
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade'); // References employees table
+
             $table->string('license_city');
             $table->date('license_start_date');
             $table->date('license_end_date');
             $table->string('experience')->nullable();
-            $table->string('phone_number')->unique();
-            $table->string('address')->nullable();
-            $table->string('picture')->nullable();
-            $table->enum('gender', ['male', 'female']);
             $table->string('license_number');
             $table->timestamps();
         });

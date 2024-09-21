@@ -15,13 +15,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // Create 3 Admin users
-        for ($i = 1; $i <= 3; $i++) {
-            User::create([
-                'name' => "Admin User $i",
-                'password' => Hash::make('password123'),
-                'role' => 0, // Role 1 for Admin
-            ]);
-        }
+
+        User::create([
+            'name' => "Admin User",
+            'password' => Hash::make('password123'),
+            'role' => 0, // Role 0 for Admin
+        ]);
+
     }
 }

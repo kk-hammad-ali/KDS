@@ -28,7 +28,7 @@ return new class extends Migration
             $table->integer('theory_classes');
             $table->string('coupon_code')->nullable();
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
-            $table->foreignId('instructor_id')->constrained('instructors')->onDelete('cascade');
+            $table->foreignId('instructor_id')->constrained('employees')->onDelete('cascade'); // Updated to reference employees
             $table->foreignId('vehicle_id')->constrained('cars')->onDelete('cascade');
             $table->integer('course_duration');
             $table->time('class_start_time');

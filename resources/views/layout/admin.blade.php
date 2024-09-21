@@ -141,7 +141,8 @@
                     <a href="#" class="nav-item nav-link {{ Request::is('feedback*') ? 'active' : '' }}"><i
                             class="fa fa-comment me-2"></i>Feedback</a>
 
-                    <a href="#" class="nav-item nav-link {{ Request::is('employee*') ? 'active' : '' }}"><i
+                    <a href="{{ route('admin.allEmployees') }}"
+                        class="nav-item nav-link {{ Request::is('employee*') ? 'active' : '' }}"><i
                             class="fa fa-tags me-2"></i>Employee</a>
 
                     <a href="{{ route('admin.allCoupons') }}"

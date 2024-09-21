@@ -4,8 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Instructor;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Employee;
 
 class InstructorSeeder extends Seeder
 {
@@ -16,25 +15,27 @@ class InstructorSeeder extends Seeder
      */
     public function run()
     {
-        // Create 3 Instructor users
+        // Create 3 Instructor employees
         for ($i = 1; $i <= 3; $i++) {
-            $user = User::create([
-                'name' => "Instructor $i",
-                'password' => Hash::make('password123'),
-                'role' => 1, // Assuming role 2 is Instructor
+            // Create the employee record for the instructor
+            $employee = Employee::create([
+                'designation' => 'Instructor',
+                'address' => 'Address ' . $i,
+                'salary' => rand(30000, 50000),
+                'salary_status' => 'paid',
+                'employee_status' => 'employed',
+                'gender' => $i % 2 == 0 ? 'male' : 'female',
+                'picture' => null,
             ]);
 
-            // Create the instructor record
+            // Create the instructor-specific data
             Instructor::create([
-                'user_id' => $user->id,
+                'employee_id' => $employee->id,
                 'id_card_number' => 'ID' . str_pad($i, 6, '0', STR_PAD_LEFT),
                 'license_city' => 'City ' . $i,
-                'license_start_date' => now()->subYears($i + 5),  // License starts 5+ years ago
-                'license_end_date' => now()->addYears(5),         // License valid for 5 more years
+                'license_start_date' => now()->subYears($i + 5),
+                'license_end_date' => now()->addYears(5),
                 'experience' => $i . ' years',
-                'phone_number' => '123456789' . $i,
-                'address' => 'Address ' . $i,
-                'gender' => $i % 2 == 0 ? 'male' : 'female',
                 'license_number' => 'LIC-' . str_pad($i, 6, '0', STR_PAD_LEFT),
             ]);
         }

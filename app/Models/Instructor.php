@@ -4,29 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
+use App\Models\Employee;
+use App\Models\Student;
 
 class Instructor extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'id_card_number',
+        'employee_id',
         'license_city',
         'license_start_date',
         'license_end_date',
-        'experience',
-        'phone_number',
-        'address',
-        'picture',
-        'gender',
         'license_number',
     ];
 
-    public function user()
+    public function employee()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Employee::class);
     }
 
     public function students()

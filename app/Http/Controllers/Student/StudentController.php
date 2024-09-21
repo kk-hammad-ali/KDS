@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Student;
-use App\Models\Instructor;
+use App\Models\Employee;
 use App\Models\Schedule;
 use App\Models\Course;
 use App\Models\Coupon;
@@ -17,34 +17,38 @@ use Carbon\Carbon;
 
 class StudentController extends Controller
 {
-    public function adminAllStudent(){
+    /**
+     * Display all students.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function adminAllStudent()
+    {
         $students = Student::with('user')->get();
 
         return view('admin.students.all_students', compact('students'));
     }
 
-
-    public function adminAddStudent(Request $request)
+    /**
+     * Show the form to add a new student.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function adminAddStudent()
     {
         $courses = Course::all();
-        $instructors = Instructor::join('users', 'instructors.user_id', '=', 'users.id')
-                         ->where('users.role', 1)
-                         ->select('instructors.*')
-                         ->get();
+        $instructors = Employee::where('designation', 'instructor')->get(); // Fetch instructors from employees
         $cars = Car::all();
 
         return view('admin.students.add_student', compact('courses', 'cars', 'instructors'));
     }
 
-    public function adminEditStudent($id){
-        $student = Student::with('user')->findOrFail($id);
-        $instructors = Instructor::all();
-        $cars = Car::all();
-        $courses = Course::all();
-
-        return view('admin.students.edit_student', compact('student', 'instructors', 'cars', 'courses'));
-    }
-
+    /**
+     * Store a newly created student.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function adminStoreStudent(Request $request)
     {
         $validated = $request->validate([
@@ -61,48 +65,24 @@ class StudentController extends Controller
             'practical_driving_hours' => 'required|numeric',
             'theory_classes' => 'required|numeric',
             'coupon_code' => 'nullable|string|max:50',
-            'instructor_id' => 'required|exists:instructors,id',
+            'instructor_id' => 'required|exists:employees,id', // Use employee as instructor
             'vehicle_id' => 'required|exists:cars,id',
             'course_duration' => 'required|integer',
             'class_start_time' => 'required',
             'class_duration' => 'required|integer',
         ]);
 
-        // Retrieve the selected course
-        $course = Course::find($validated['course_id']);
-
-        // Initialize fees with the course fees
-        $fees = $course->fees;
-
-        // Apply coupon discount if a valid coupon is provided
-        if ($request->filled('coupon_code')) {
-            $coupon = Coupon::where('code', $validated['coupon_code'])
-                            ->where('is_active', true)
-                            ->where('expiry_date', '>=', now())
-                            ->first();
-
-            if ($coupon) {
-                $fees -= $coupon->discount;
-            }
-        }
-
-        // Create the user
-        $user = User::create([
-            'name' => $validated['name'],
-            'password' => Hash::make("12345678"),
-        ]);
-
-        // Calculate class end time based on the start time and duration
+        // Calculate class end time
         $class_end_time = Carbon::parse($request->class_start_time)
             ->addMinutes((int)$request->class_duration)
             ->format('H:i:s');
 
-        // Calculate the course end date
+        // Calculate course end date
         $course_end_date = Carbon::parse($request->admission_date)
             ->addDays((int)$request->course_duration)
             ->format('Y-m-d');
 
-        // Check for overlapping schedules in the schedules table (now including vehicle check)
+        // Check for overlapping schedule
         $overlappingSchedule = Schedule::where('instructor_id', $request->instructor_id)
             ->where('vehicle_id', $request->vehicle_id)
             ->where(function ($query) use ($request, $class_end_time) {
@@ -115,7 +95,13 @@ class StudentController extends Controller
             return redirect()->back()->withErrors(['error' => 'The selected time slot or car is already booked.'])->withInput();
         }
 
-        // Create the student
+        // Create user
+        $user = User::create([
+            'name' => $validated['name'],
+            'password' => Hash::make("12345678"),
+        ]);
+
+        // Create student
         $student = Student::create([
             'user_id' => $user->id,
             'father_or_husband_name' => $validated['father_or_husband_name'],
@@ -125,7 +111,7 @@ class StudentController extends Controller
             'optional_phone' => $validated['optional_phone'],
             'admission_date' => $validated['admission_date'],
             'driving_time_per_week' => $validated['driving_time_per_week'],
-            'fees' => $fees,
+            'fees' => $validated['fees'],
             'practical_driving_hours' => $validated['practical_driving_hours'],
             'theory_classes' => $validated['theory_classes'],
             'coupon_code' => $validated['coupon_code'],
@@ -139,7 +125,7 @@ class StudentController extends Controller
             'class_duration' => $request->class_duration,
         ]);
 
-        // Automatically create the schedule
+        // Create schedule
         $current_date = Carbon::parse($request->admission_date);
         for ($i = 0; $i < $request->course_duration; $i++) {
             Schedule::create([
@@ -156,10 +142,31 @@ class StudentController extends Controller
         return redirect()->route('admin.allStudents')->with('success_student', 'Student added successfully.');
     }
 
+    /**
+     * Show the form for editing the specified student.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function adminEditStudent($id)
+    {
+        $student = Student::with('user')->findOrFail($id);
+        $instructors = Employee::where('designation', 'instructor')->get();
+        $cars = Car::all();
+        $courses = Course::all();
 
+        return view('admin.students.edit_student', compact('student', 'instructors', 'cars', 'courses'));
+    }
+
+    /**
+     * Update the specified student in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function adminUpdateStudent(Request $request, $id)
     {
-        // Validate only personal attributes
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'father_or_husband_name' => 'required|string|max:255',
@@ -169,16 +176,16 @@ class StudentController extends Controller
             'optional_phone' => 'nullable|string|max:15',
         ]);
 
-        // Find the student by id
+        // Find student and user
         $student = Student::findOrFail($id);
-        $user = $student->user;  // Retrieve the associated user
+        $user = $student->user;
 
-        // Update the user name
+        // Update user
         $user->update([
             'name' => $validated['name'],
         ]);
 
-        // Update student personal record
+        // Update student
         $student->update([
             'father_or_husband_name' => $validated['father_or_husband_name'],
             'cnic' => $validated['cnic'],
@@ -187,33 +194,38 @@ class StudentController extends Controller
             'optional_phone' => $validated['optional_phone'],
         ]);
 
-        // Return success message and redirect
         return redirect()->route('admin.allStudents')->with('success', 'Student updated successfully.');
     }
 
-
+    /**
+     * Remove the specified student from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function adminDestroyStudent($id)
     {
-        // Retrieve the student instance by ID
         $student = Student::findOrFail($id);
 
-        // Delete the associated user first
+        // Delete associated user and student
         $student->user()->delete();
-
-        // Then delete the student
         $student->delete();
 
-        // Redirect back with a success message
         return redirect()->route('admin.allStudents')->with('success_deleted_student', 'Student deleted successfully.');
     }
 
+    /**
+     * Display students assigned to the instructor.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function instructorStudents()
     {
-        // $instructor = auth()->user()->instructor; // Assuming the instructor is logged in and has a relationship to the instructor model
+        // Assuming the instructor is logged in
+        $instructor = auth()->user()->instructor; // Use the Employee model for instructors
 
-        // Fetch students who belong to the logged-in instructor
         $students = Student::with('user')
-            ->where('instructor_id', 1) // Filter students by the instructor ID
+            ->where('instructor_id', $instructor->id)
             ->get();
 
         return view('instructor.my_students', compact('students'));

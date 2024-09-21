@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\DashboardController;
 
+use App\Http\Controllers\Employee\EmployeeController;
+
 use App\Http\Controllers\Instructor\InstructorController;
 
 use App\Http\Controllers\Student\StudentController;
@@ -51,7 +53,7 @@ Route::get('/', function () {
 // Admin
     Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-// Admin-Student Routes
+    // Admin-Student Routes
     Route::get('/admin/students/', [StudentController::class, 'adminAllStudent'])->name("admin.allStudents");
     Route::get('/admin/students/add', [StudentController::class, 'adminAddStudent'])->name("admin.addStudent");
     Route::post('/admin/students/add', [StudentController::class, 'adminStoreStudent'])->name("admin.students.store");
@@ -59,13 +61,22 @@ Route::get('/', function () {
     Route::put('/admin/students/update/{id}', [StudentController::class, 'adminUpdateStudent'])->name('admin.students.update');
     Route::get('/admin/students/delete/{id}', [StudentController::class, 'adminDestroyStudent'])->name('admin.deleteStudent');
 
-// Admin-Instructor Routes
+    // Admin-Instructor Routes
     Route::get('/admin/instructors/', [InstructorController::class, 'adminAllInstructors'])->name("admin.allInstructors");
     Route::get('/admin/instructors/add', [InstructorController::class, 'adminAddInstructor'])->name("admin.addInstructor");
     Route::post('/admin/instructors/add', [InstructorController::class, 'adminStoreInstructor'])->name("admin.instructors.store");
     Route::get('/admin/instructors/edit/{id}', [InstructorController::class, 'adminEditInstructor'])->name('admin.editInstructor');
     Route::put('/admin/instructors/update/{id}', [InstructorController::class, 'adminUpdateInstructor'])->name('admin.updateInstructor');
     Route::get('/admin/students/delete/{id}', [InstructorController::class, 'adminDestroyInstructor'])->name('admin.deleteInstructor');
+
+    // Admin-Employee Routes
+    Route::get('/admin/employees/', [EmployeeController::class, 'adminAllEmployees'])->name("admin.allEmployees");
+    Route::get('/admin/employees/add', [EmployeeController::class, 'adminAddEmployee'])->name("admin.addEmployee");
+    Route::post('/admin/employees/add', [EmployeeController::class, 'adminStoreEmployee'])->name("admin.employees.store");
+    Route::get('/admin/employees/edit/{id}', [EmployeeController::class, 'adminEditEmployee'])->name('admin.editEmployee');
+    Route::put('/admin/employees/update/{id}', [EmployeeController::class, 'adminUpdateEmployee'])->name('admin.updateEmployee');
+    Route::get('/admin/employees/delete/{id}', [EmployeeController::class, 'adminDestroyEmployee'])->name('admin.deleteEmployee');
+
 
 // Admin-Courses Routes
     Route::get('/admin/courses/', [CoursesController::class, 'allCoursesPage'])->name("admin.allCourses");

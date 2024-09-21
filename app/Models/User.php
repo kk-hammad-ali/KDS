@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,6 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Admin;
 use App\Models\Student;
 use App\Models\Instructor;
+use App\Models\Employee;
 
 class User extends Authenticatable
 {
@@ -52,11 +52,16 @@ class User extends Authenticatable
 
     public function instructor()
     {
-        return $this->hasOne(Instructor::class);
+        return $this->hasOneThrough(Instructor::class, Employee::class, 'user_id', 'employee_id', 'id', 'id');
     }
 
     public function student()
     {
         return $this->hasOne(Student::class);
+    }
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
     }
 }
