@@ -49,8 +49,7 @@
                                 <option value="paid"
                                     {{ old('status', $fixedExpense->status) == 'paid' ? 'selected' : '' }}>Paid</option>
                                 <option value="unpaid"
-                                    {{ old('status', $fixedExpense->status) == 'unpaid' ? 'selected' : '' }}>Unpaid
-                                </option>
+                                    {{ old('status', $fixedExpense->status) == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
                             </select>
                         </div>
 
@@ -62,7 +61,6 @@
 
                         <button type="submit" class="btn btn-primary">Update Expense</button>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -73,19 +71,17 @@
             var expenseTypeField = document.getElementById('expense_type');
             var employeeField = document.getElementById('employee_field');
 
-            // Show or hide employee field based on the existing expense type
             if (expenseTypeField.value === 'Salary') {
-                employeeField.style.display = 'block'; // Show employee dropdown
+                employeeField.style.display = 'block';
             } else {
-                employeeField.style.display = 'none'; // Hide employee dropdown
+                employeeField.style.display = 'none';
             }
 
-            // Show or hide employee field based on changes to the expense type
             expenseTypeField.addEventListener('change', function() {
                 if (expenseTypeField.value === 'Salary') {
-                    employeeField.style.display = 'block'; // Show employee dropdown
+                    employeeField.style.display = 'block';
                 } else {
-                    employeeField.style.display = 'none'; // Hide employee dropdown
+                    employeeField.style.display = 'none';
                 }
             });
         });

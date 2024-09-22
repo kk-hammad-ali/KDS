@@ -20,7 +20,7 @@
                             </select>
                         </div>
 
-                        <div class="mb-3" id="employee_field">
+                        <div class="mb-3" id="employee_field" style="display: none;">
                             <label for="employee_id" class="form-label">Select Employee (Only for Salary)</label>
                             <select class="form-select" id="employee_id" name="employee_id">
                                 <option value="" selected>No Employee</option>
@@ -63,15 +63,11 @@
             var expenseTypeField = document.getElementById('expense_type');
             var employeeField = document.getElementById('employee_field');
 
-            // Hide the employee field by default
-            employeeField.style.display = 'none';
-
-            // Show or hide employee field based on the selected expense type
             expenseTypeField.addEventListener('change', function() {
                 if (expenseTypeField.value === 'Salary') {
-                    employeeField.style.display = 'block'; // Show employee dropdown
+                    employeeField.style.display = 'block';
                 } else {
-                    employeeField.style.display = 'none'; // Hide employee dropdown
+                    employeeField.style.display = 'none';
                 }
             });
         });

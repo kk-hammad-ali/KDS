@@ -12,7 +12,7 @@ class FixedExpense extends Model
     protected $fillable = [
         'expense_type',
         'amount',
-        'employee_id', // Optional for salaries
+        'employee_id',
         'status',
         'expense_date'
     ];
@@ -20,5 +20,10 @@ class FixedExpense extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+    public function salaries()
+    {
+        return $this->hasMany(Salary::class);
     }
 }

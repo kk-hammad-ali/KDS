@@ -16,8 +16,6 @@
                         </div>
                     @endif
 
-
-
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -42,6 +40,32 @@
                                             class="btn btn-warning">Edit</a>
                                         <a href="{{ route('admin.fixedExpenses.delete', $expense->id) }}"
                                             class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    {{-- Salary Expenses Table --}}
+                    <h5 class="mt-4">Salary Expenses</h5>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Month</th>
+                                <th>Salary Amount</th>
+                                <th>Status</th>
+                                <th>Date Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($salaries as $salary)
+                                <tr>
+                                    <td>{{ $salary->employee->user->name }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($salary->month)->format('F Y') }}</td>
+                                    <td>{{ $salary->amount }}</td>
+                                    <td>{{ ucfirst($salary->payment_status) }}</td>
+                                    <td>{{ $salary->payment_date ? \Carbon\Carbon::parse($salary->payment_date)->format('Y-m-d') : 'Not Paid' }}
                                     </td>
                                 </tr>
                             @endforeach

@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Public\AboutController;
+use App\Http\Controllers\Public\ContactController;
+use App\Http\Controllers\Public\BranchController;
+use App\Http\Controllers\Public\GalleryController;
+use App\Http\Controllers\Public\CourseController;
+use App\Http\Controllers\Public\BlogController;
+
 use App\Http\Controllers\Admin\DashboardController;
 
 use App\Http\Controllers\Employee\EmployeeController;
@@ -42,11 +49,25 @@ use App\Http\Controllers\Main\LoginController;
 |
 */
 
-Route::get('/', function () {
-    return view('public.index');
-})->name('home');
+    Route::get('/', function () {
+        return view('public.index');
+    })->name('home');
 
-
+    Route::get('/about', [AboutController::class, 'index'])->name("public.about");
+    Route::get('/contact', [ContactController::class, 'index'])->name("public.contact");
+    Route::get('/branches', [BranchController::class, 'index'])->name("public.branch");
+    Route::get('/gallery', [GalleryController::class, 'index'])->name("public.gallery");
+    Route::get('/courses', [CourseController::class, 'index'])->name("public.courses");
+    Route::get('/blog', [BlogController::class, 'index'])->name("public.blog");
+    Route::get('/blog/common-traffic', [BlogController::class, 'commonTraffic'])->name("public.blog.common-traffic");
+    Route::get('/blog/driving-test', [BlogController::class, 'drivingTest'])->name("public.blog.driving-test");
+    Route::get('/blog/tips-for-beginner', [BlogController::class, 'tipsBeginner'])->name("public.blog.tips-for-beginner");
+    Route::get('/courses/mehranCourse', [CourseController::class, 'mehranCourse'])->name("public.courses.mehranCourse");
+    Route::get('/courses/altoCourse', [CourseController::class, 'altoCourse'])->name("public.courses.altoCourse");
+    Route::get('/courses/hondaCourse', [CourseController::class, 'hondaCourse'])->name("public.courses.hondaCourse");
+    Route::get('/courses/vitzCourse', [CourseController::class, 'vitzCourse'])->name("public.courses.vitzCourse");
+    Route::get('/courses/miraCourse', [CourseController::class, 'miraCourse'])->name("public.courses.miraCourse");
+    Route::get('/courses/cd70', [CourseController::class, 'cd70'])->name("public.courses.cd70");
 
 // Auth Routes
     Route::get('/signin', [SignInController::class, 'index'])->name('login');
@@ -120,14 +141,6 @@ Route::get('/admin/fix-expenses/', [ExpenseController::class, 'fix_expense_page'
     Route::put('/admin/cars/{id}', [CarController::class, 'update'])->name('admin.updateCar');
     Route::get('/admin/cars/delete/{id}', [CarController::class, 'destroy'])->name('admin.deleteCars');
 
-// Admin Expenses
-    // Route::get('/admin/expenses', [ExpenseController::class, 'allExpensePage'])->name('admin.allExpenses');
-    // Route::get('/admin/expenses/create', [ExpenseController::class, 'addExpenses'])->name('admin.addExpense');
-    // Route::post('/admin/expenses/add', [ExpenseController::class, 'storeExpenses'])->name('admin.expenses.store');
-    // Route::get('/admin/expenses/edit/{id}', [ExpenseController::class, 'editExpenses'])->name('admin.editExpense');
-    // Route::put('/admin/expenses/{id}', [ExpenseController::class, 'update'])->name('admin.updateExpenses');
-    // Route::get('/admin/expenses/delete/{id}', [ExpenseController::class, 'destroy'])->name('admin.deleteExpenses');
-
     // Fixed Expenses Routes
     Route::get('/admin/expense/fixed', [FixedExpenseController::class, 'index'])->name('admin.fixedExpenses');
     Route::get('/admin/expense/fixed/create', [FixedExpenseController::class, 'create'])->name('admin.fixedExpenses.create');
@@ -151,7 +164,6 @@ Route::get('/admin/fix-expenses/', [ExpenseController::class, 'fix_expense_page'
     Route::get('/admin/expense/daily/edit/{id}', [DailyExpenseController::class, 'edit'])->name('admin.dailyExpenses.edit');
     Route::put('/admin/expense/daily/update/{id}', [DailyExpenseController::class, 'update'])->name('admin.dailyExpenses.update');
     Route::get('/admin/expense/daily/delete/{id}', [DailyExpenseController::class, 'destroy'])->name('admin.dailyExpenses.delete');
-
 
 // Admin Leaves
     Route::get('/admin/leaves', [LeaveController::class, 'allLeavePage'])->name('admin.allLeaves');
@@ -178,78 +190,3 @@ Route::get('/admin/fix-expenses/', [ExpenseController::class, 'fix_expense_page'
     Route::get('/instructor/leaves/edit/{leave}', [LeaveController::class, 'editLeave'])->name('instructor.editLeave');
     Route::put('/instructor/leaves/{leave}', [LeaveController::class, 'updateLeave'])->name('instructor.updateLeave');
     Route::get('/instructor/leaves/delete/{leave}', [LeaveController::class, 'destroy'])->name('instructor.deleteLeave');
-
-
-//About Page
-Route::get('/about-us', function () {
-    return view('public.about-page');
-})->name('about');
-
-//Documents
-Route::get('/documents', function () {
-    return view('public.documents');
-})->name('documents');
-
-
-//Special Offer
-Route::get('/special-offer', function () {
-    return view('public.special-offer');
-})->name('specialoffer');
-
-
-//Terms of use
-Route::get('/terms-of-use', function () {
-    return view('public.term-of-use');
-})->name('terms');
-
-//privacy-policy
-Route::get('/privacy-policy', function () {
-    return view('public.privacy-policy');
-})->name('privacy');
-
-//faq
-Route::get('/faq', function () {
-    return view('public.faq');
-})->name('faq');
-
-//Request CakkBack
-Route::get('/Request-Callback', function () {
-    return view('public.request-callback');
-})->name('requestcallback');
-
-//findus
-Route::get('/findus', function () {
-    return view('public.findus');
-})->name('findus');
-
-
-//All Course
-//Alto Page
-Route::get('/alto page', function () {
-    return view('public.courses.alto');
-})->name('alto');
-
-//Honday City
-Route::get('/honda city', function () {
-    return view('public.courses.honda-city');
-})->name('hondacity');
-
-//Vitz Page
-Route::get('/vitz', function () {
-    return view('public.courses.vitz');
-})->name('vitz');
-
-//Motor Bike
-Route::get('/motor bike', function () {
-    return view('public.courses.motorbike');
-})->name('motorbike');
-
-//Mira page
-Route::get('/mira page', function () {
-    return view('public.courses.mira');
-})->name('mira');
-
-//Mehran page
-Route::get('/mehran page', function () {
-    return view('public.all courses.mehran');
-})->name('mehran');
