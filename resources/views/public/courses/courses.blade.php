@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Courses')
+@section('breadcrumb', 'Our Courses')
+
 @section('content')
     <!--Programs Section-->
     <section class="programs-three">

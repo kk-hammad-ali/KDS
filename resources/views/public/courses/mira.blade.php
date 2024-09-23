@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Mira')
+@section('breadcrumb', 'Mira (Auto)')
+
 @section('content')
     <!--Course Details Section-->
     <section class="course-details">
@@ -9,7 +12,7 @@
                     <img src="{{ asset('public/images/resource/image-14.jpg') }}" alt="Highway Driving Training"
                         title="Highway Driving Training">
                 </div>
-                <h2>Mira</h2>
+                <h2>Mira (Automatic)</h2>
                 <ul>
                     <li>Monday to Saturday: 8:00 am - 8:00 pm for gents & 9:00 am - 6:00 pm for ladies</li>
                     <li>Students can take 1 to 2 hours maximum daily or according to their selected package time.</li>
@@ -83,21 +86,20 @@
             </div>
             <h2>Pricing</h2>
             <div class="auto-container">
-
                 <div class="row clearfix">
                     <!--Block-->
                     <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
                         data-wow-delay="0ms">
-                        <div class="inner-box">
+                        <div class="inner-box border border-black">
                             <div class="upper-box">
                                 <div class="plan-title">10 Days</div>
                                 <div class="price">17,000</div>
-                                <div class="duration">30 Mins</div>
+                                <div class="duration">30 Minutes</div>
                             </div>
                             <div class="lower-box">
                                 <div class="features">
                                     <ul>
-                                        <li>Manual Transmission</li>
+                                        <li>Auto Transmission</li>
                                         <li>09 Days practical driving</li>
                                         <li>30 Minutes Daily</li>
                                         <li>01 Theory class</li>
@@ -110,16 +112,16 @@
                     <!--Block-->
                     <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
                         data-wow-delay="300ms">
-                        <div class="inner-box">
+                        <div class="inner-box border border-black">
                             <div class="upper-box">
                                 <div class="plan-title">10 Days</div>
                                 <div class="price">27,000</div>
-                                <div class="duration">60 Mins</div>
+                                <div class="duration">60 Minutes</div>
                             </div>
                             <div class="lower-box">
                                 <div class="features">
                                     <ul>
-                                        <li>Manual Transmission</li>
+                                        <li>Auto Transmission</li>
                                         <li>09 Days practical driving</li>
                                         <li>60 Minutes Daily</li>
                                         <li>01 Theory class</li>
@@ -132,16 +134,38 @@
                     <!--Block-->
                     <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
                         data-wow-delay="600ms">
-                        <div class="inner-box">
+                        <div class="inner-box border border-black">
                             <div class="upper-box">
                                 <div class="plan-title">15 Days</div>
-                                <div class="price">40,500</div>
-                                <div class="duration">60 Mins</div>
+                                <div class="price">25,500</div>
+                                <div class="duration">30 Minutes</div>
                             </div>
                             <div class="lower-box">
                                 <div class="features">
                                     <ul>
-                                        <li>Manual Transmission</li>
+                                        <li>Auto Transmission</li>
+                                        <li>14 Days practical driving</li>
+                                        <li>30 Minutes Daily</li>
+                                        <li>01 Theory class</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Block-->
+                    <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                        data-wow-delay="900ms">
+                        <div class="inner-box border border-black">
+                            <div class="upper-box">
+                                <div class="plan-title">15 Days</div>
+                                <div class="price">40,500</div>
+                                <div class="duration">60 Minutes</div>
+                            </div>
+                            <div class="lower-box">
+                                <div class="features">
+                                    <ul>
+                                        <li>Auto Transmission</li>
                                         <li>14 Days practical driving</li>
                                         <li>60 Minutes Daily</li>
                                         <li>01 Theory class</li>

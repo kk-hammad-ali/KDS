@@ -193,11 +193,11 @@
                 <div class="content-box">
                     <div class="bread-crumb">
                         <ul class="clearfix">
-                            <li><a href="index.html">Home</a></li>
-                            <li class="current">About Us</li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
+                            <li class="current">@yield('breadcrumb')</li>
                         </ul>
                     </div>
-                    <h1>About us</h1>
+                    <h1>@yield('title')</h1>
                 </div>
             </div>
         </section>

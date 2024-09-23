@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Gallery')
+@section('breadcrumb', 'Gallery')
+
 @section('content')
     <!-- Team -->
     <section class="team-section">

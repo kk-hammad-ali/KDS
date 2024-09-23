@@ -1,5 +1,9 @@
 @extends('layout.app')
 
+
+@section('title', 'Alto')
+@section('breadcrumb', 'Alto (Manual)')
+
 @section('content')
     <!--Course Details Section-->
     <section class="course-details">
@@ -83,12 +87,11 @@
             </div>
             <h2>Pricing</h2>
             <div class="auto-container">
-
                 <div class="row clearfix">
                     <!--Block-->
                     <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
                         data-wow-delay="0ms">
-                        <div class="inner-box">
+                        <div class="inner-box border border-black">
                             <div class="upper-box">
                                 <div class="plan-title">10 Days</div>
                                 <div class="price">17,000</div>
@@ -110,7 +113,7 @@
                     <!--Block-->
                     <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
                         data-wow-delay="300ms">
-                        <div class="inner-box">
+                        <div class="inner-box border border-black">
                             <div class="upper-box">
                                 <div class="plan-title">10 Days</div>
                                 <div class="price">27,000</div>
@@ -132,7 +135,7 @@
                     <!--Block-->
                     <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
                         data-wow-delay="600ms">
-                        <div class="inner-box">
+                        <div class="inner-box border border-black">
                             <div class="upper-box">
                                 <div class="plan-title">15 Days</div>
                                 <div class="price">40,500</div>

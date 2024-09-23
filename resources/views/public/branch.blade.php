@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Branches')
+@section('breadcrumb', 'Branches')
+
 @section('content')
     <!--Info Section-->
     <section class="info-section">

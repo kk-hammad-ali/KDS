@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'CD-70')
+@section('breadcrumb', 'CD-70')
+
 @section('content')
     <!--Course Details Section-->
     <section class="course-details">
@@ -88,10 +91,10 @@
                     <!--Block-->
                     <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
                         data-wow-delay="0ms">
-                        <div class="inner-box">
+                        <div class="inner-box border border-black">
                             <div class="upper-box">
                                 <div class="plan-title">10 Days</div>
-                                <div class="price">17,000</div>
+                                <div class="price">10,000</div>
                                 <div class="duration">30 Mins</div>
                             </div>
                             <div class="lower-box">
@@ -109,33 +112,11 @@
 
                     <!--Block-->
                     <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                        data-wow-delay="300ms">
-                        <div class="inner-box">
+                        data-wow-delay="600ms">
+                        <div class="inner-box border border-black">
                             <div class="upper-box">
                                 <div class="plan-title">10 Days</div>
-                                <div class="price">27,000</div>
-                                <div class="duration">60 Mins</div>
-                            </div>
-                            <div class="lower-box">
-                                <div class="features">
-                                    <ul>
-                                        <li>Manual Transmission</li>
-                                        <li>09 Days practical driving</li>
-                                        <li>60 Minutes Daily</li>
-                                        <li>01 Theory class</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--Block-->
-                    <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                        data-wow-delay="600ms">
-                        <div class="inner-box">
-                            <div class="upper-box">
-                                <div class="plan-title">15 Days</div>
-                                <div class="price">40,500</div>
+                                <div class="price">17,000</div>
                                 <div class="duration">60 Mins</div>
                             </div>
                             <div class="lower-box">

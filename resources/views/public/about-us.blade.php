@@ -1,8 +1,10 @@
 @extends('layout.app')
 
+@section('title', 'About Us')
+@section('breadcrumb', 'About Us')
 
 @section('content')
-    <!--Welcome Section-->
+
     <section class="welcome-three">
         <div class="auto-container">
             <div class="row clearfix">
@@ -20,10 +22,6 @@
                                 of driving from King Driving School Islamabad. We have highly skilled male and female
                                 instructors, and we have a proper workshop where we teach students about car parts, along
                                 with a classroom where students learn traffic signs.</div>
-                        </div>
-                        <div class="lower-links clearfix">
-                            <div class="link"><a href="about.html"
-                                    class="theme-btn btn-style-one semi-round"><span>DISCOVER MORE</span></a></div>
                         </div>
                     </div>
                 </div>

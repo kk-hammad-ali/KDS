@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Mehran')
+@section('breadcrumb', 'Mehran')
+
 @section('content')
     <!--Course Details Section-->
     <section class="course-details">
@@ -82,22 +85,67 @@
                 </ul>
             </div>
             <h2>Pricing</h2>
+            <!--Pricing Section-->
             <div class="auto-container">
-
                 <div class="row clearfix">
-                    <!--Block-->
+
+                    <!--Block 1 - 10 Days (60 Mins)-->
                     <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
                         data-wow-delay="0ms">
-                        <div class="inner-box">
+                        <div class="inner-box border border-black">
                             <div class="upper-box">
                                 <div class="plan-title">10 Days</div>
-                                <div class="price">17,000</div>
-                                <div class="duration">30 Mins</div>
+                                <div class="plan-title">Male Instructor: Rs 20,000</div>
+                                <div class="plan-title">Female Instructor: Rs 22,000</div>
+                                <div class="duration">60 Minutes</div>
                             </div>
                             <div class="lower-box">
                                 <div class="features">
                                     <ul>
-                                        <li>Manual Transmission</li>
+                                        <li>09 Days practical driving</li>
+                                        <li>60 Minutes Daily</li>
+                                        <li>01 Theory class</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Block 2 - 15 Days (60 Mins)-->
+                    <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                        data-wow-delay="300ms">
+                        <div class="inner-box border border-black">
+                            <div class="upper-box">
+                                <div class="plan-title">15 Days</div>
+                                <div class="plan-title">Male Instructor: Rs 30,000</div>
+                                <div class="plan-title">Female Instructor: Rs 33,000</div>
+                                <div class="duration">60 Minutes</div>
+                            </div>
+                            <div class="lower-box">
+                                <div class="features">
+                                    <ul>
+                                        <li>14 Days practical driving</li>
+                                        <li>60 Minutes Daily</li>
+                                        <li>01 Theory class</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Block 3 - 10 Days (30 Mins)-->
+                    <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                        data-wow-delay="600ms">
+                        <div class="inner-box border border-black">
+                            <div class="upper-box">
+                                <div class="plan-title">10 Days</div>
+                                <div class="plan-title">Male Instructor: Rs 10,000</div>
+                                <div class="plan-title">Female Instructor: Rs 15,000</div>
+                                <div class="duration">30 Minutes</div>
+                            </div>
+                            <div class="lower-box">
+                                <div class="features">
+                                    <ul>
                                         <li>09 Days practical driving</li>
                                         <li>30 Minutes Daily</li>
                                         <li>01 Theory class</li>
@@ -107,21 +155,21 @@
                         </div>
                     </div>
 
-                    <!--Block-->
+                    <!--Block 4 - 15 Days (30 Mins)-->
                     <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                        data-wow-delay="300ms">
-                        <div class="inner-box">
+                        data-wow-delay="900ms">
+                        <div class="inner-box border border-black">
                             <div class="upper-box">
-                                <div class="plan-title">10 Days</div>
-                                <div class="price">27,000</div>
-                                <div class="duration">60 Mins</div>
+                                <div class="plan-title">15 Days</div>
+                                <div class="plan-title">Male: 18,000</div>
+                                <div class="plan-title">Female: Rs 22,500</div>
+                                <div class="duration">30 Minutes</div>
                             </div>
                             <div class="lower-box">
                                 <div class="features">
                                     <ul>
-                                        <li>Manual Transmission</li>
-                                        <li>09 Days practical driving</li>
-                                        <li>60 Minutes Daily</li>
+                                        <li>14 Days practical driving</li>
+                                        <li>30 Minutes Daily</li>
                                         <li>01 Theory class</li>
                                     </ul>
                                 </div>
@@ -129,27 +177,6 @@
                         </div>
                     </div>
 
-                    <!--Block-->
-                    <div class="pricing-block col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                        data-wow-delay="600ms">
-                        <div class="inner-box">
-                            <div class="upper-box">
-                                <div class="plan-title">15 Days</div>
-                                <div class="price">40,500</div>
-                                <div class="duration">60 Mins</div>
-                            </div>
-                            <div class="lower-box">
-                                <div class="features">
-                                    <ul>
-                                        <li>Manual Transmission</li>
-                                        <li>14 Days practical driving</li>
-                                        <li>60 Minutes Daily</li>
-                                        <li>01 Theory class</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

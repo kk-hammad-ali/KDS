@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Contact Us')
+@section('breadcrumb', 'Contact Us')
+
 @section('content')
     <!--Info Section-->
     <section class="info-section">
