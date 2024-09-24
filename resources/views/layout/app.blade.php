@@ -100,25 +100,6 @@
                             </div>
 
                         </div>
-
-                        <!-- End Header Upper -->
-                        <div class="search-box">
-                            <div class="outer-container">
-                                <div class="inner-box">
-                                    <div class="form-box">
-                                        <div class="s-close-btn"><span class="icon far fa-times"></span></div>
-                                        <span class="s-icon fa fa-search"></span>
-                                        <form method="post" action="index.html">
-                                            <div class="form-group">
-                                                <input type="search" name="search" value=""
-                                                    placeholder="Search Here" required="">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -137,8 +118,9 @@
                             </path>
                         </svg></span></div>
                 <div class="nav-logo-box">
-                    <div class="logo"><a href="index.html" title="Driving School HTML Template"><img
-                                src="images/logo-2.svg" alt="" title="Driving School HTML Template"></a>
+                    <div class="logo"><a href="index.html" title="King Driving School"><img
+                                src="{{ asset('public/images/logo.png') }}" alt=""
+                                title="King Driving School"></a>
                     </div>
                 </div>
                 <!-- .Side-menu -->
@@ -146,37 +128,27 @@
                     <ul class="navigation clearfix">
                         <li><a href="{{ route('home') }}">Home</a></li>
                         <li><a href="{{ route('public.about') }}">About Us</a></li>
-                        <li class="dropdown"><a href="{{ route('public.courses') }}">Programs</a>
+                        <li class="dropdown"><a href="{{ route('public.courses') }}">Courses</a>
                             <ul>
-                                <li><a href="highway-driver-training.html">Highway Driving training</a></li>
-                                <li><a href="highway-driving-lesson.html">Highway Driving Lesson</a></li>
-                                <li><a href="pre-licensing-course.html">Pre-Licensing Course</a></li>
-                                <li><a href="highway-driver-training.html">Highway Driving training</a></li>
-                                <li><a href="highway-driving-lesson.html">Highway Driving Lesson</a></li>
+                                <li><a href="{{ route('public.courses.mehranCourse') }}">Suzuki
+                                        Mehran</a></li>
+                                <li><a href="{{ route('public.courses.altoCourse') }}">Suzuki Alto
+                                        (Manual)</a></li>
+                                <li><a href="{{ route('public.courses.vitzCourse') }}">Toyota Vitz
+                                        (Automatic)</a></li>
+                                <li><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira
+                                        (Automatic)</a></li>
+                                <li><a href="{{ route('public.courses.hondaCourse') }}">Honda City
+                                        (Automatic)</a></li>
+                                <li><a href="{{ route('public.courses.cd70') }}">Bike (CD-70)</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown"><a href="#">Pages</a>
-                            <ul>
-                                <li><a href="team.html">Our Team</a></li>
-                                <li><a href="pricing.html">Our Pricing</a></li>
-                                <li><a href="faqs.html">FAQs</a></li>
-                                <li><a href="not-found.html">404 Page</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="{{ route('public.gallery') }}">Gallery</a></li>
+                        <li><a href="{{ route('public.branch') }}">Branches</a></li>
                         <li><a href="{{ route('public.blog') }}">Blog</a></li>
                         <li><a href="{{ route('public.contact') }}">Contact</a></li>
                     </ul>
                 </div><!-- /.Side-menu -->
-
-                {{-- <div class="links-box clearfix">
-                    <div class="clearfix">
-                        <div class="link"><a href="about.html" class="theme-btn btn-style-one"><span>About
-                                    Us</span></a></div>
-                        <div class="link"><a href="contact.html" class="theme-btn btn-style-two"><span>Contact
-                                    Us</span></a></div>
-                    </div>
-                </div> --}}
-
             </div>
             <!-- / Hidden Bar Wrapper -->
         </section>

@@ -84,9 +84,11 @@ class ScheduleController extends Controller
     {
         // $instructor = auth()->user(); // Assuming the user is logged in as an instructor
 
+        $instructor = auth()->user()->instructor;
+
         // Fetch schedules for the logged-in instructor
         $schedules = Schedule::with(['student', 'instructor'])
-            ->where('instructor_id', 1)
+            ->where('instructor_id', $instructor->id)
             ->get();
 
         $events = [];

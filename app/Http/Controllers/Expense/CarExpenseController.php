@@ -13,8 +13,10 @@ class CarExpenseController extends Controller
     public function index()
     {
         $carExpenses = CarExpense::with('car')->get();
-        return view('expense.car.index', compact('carExpenses'));
+        $cars = Car::all();
+        return view('expense.car.index', compact('carExpenses', 'cars'));
     }
+
 
     // Show the form for creating a new car expense
     public function create()

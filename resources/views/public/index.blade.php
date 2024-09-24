@@ -20,7 +20,8 @@
                                         <h1><span>King Driving School - KDS</span></h1>
                                         <div class="text">High-Quality Driving Schools in Islambad</div>
                                         <div class="links-box clearfix">
-                                            <div class="link"><a href="#" class="theme-btn btn-style-one"><span>Read
+                                            <div class="link"><a href="{{ route('public.about') }}"
+                                                    class="theme-btn btn-style-one"><span>Read
                                                         More</span></a></div>
                                             <div class="link"><a href="#" class="theme-btn btn-style-two"><span>Book
                                                         Now</span></a></div>
@@ -60,7 +61,8 @@
                                         <h1><span>King Driving School - KDS</span></h1>
                                         <div class="text">High-Quality Driving Schools in Islambad</div>
                                         <div class="links-box clearfix">
-                                            <div class="link"><a href="#" class="theme-btn btn-style-one"><span>Read
+                                            <div class="link"><a href="{{ route('public.about') }}"
+                                                    class="theme-btn btn-style-one"><span>Read
                                                         More</span></a></div>
                                             <div class="link"><a href="#" class="theme-btn btn-style-two"><span>Book
                                                         Now</span></a></div>
@@ -101,7 +103,8 @@
                                         <h1><span>King Driving School - KDS</span></h1>
                                         <div class="text">High-Quality Driving Schools in Islambad</div>
                                         <div class="links-box clearfix">
-                                            <div class="link"><a href="#" class="theme-btn btn-style-one"><span>Read
+                                            <div class="link"><a href="{{ route('public.about') }}"
+                                                    class="theme-btn btn-style-one"><span>Read
                                                         More</span></a></div>
                                             <div class="link"><a href="#" class="theme-btn btn-style-two"><span>Book
                                                         Now</span></a></div>
@@ -188,7 +191,8 @@
                             </div>
                         </div>
                         <div class="lower-links clearfix">
-                            <div class="link"><a href="about.html" class="theme-btn btn-style-one"><span>DISCOVER
+                            <div class="link"><a href="{{ route('public.courses') }}"
+                                    class="theme-btn btn-style-one"><span>DISCOVER
                                         MORE</span></a></div>
                         </div>
                     </div>
@@ -327,7 +331,7 @@
                     data-wow-duration="1500ms" data-wow-delay="0ms">
                     <div class="inner-box">
                         <div class="image-box">
-                            <div class="image"><a href="highway-driving-lesson.html"><img
+                            <div class="image"><a href="{{ route('public.courses.mehranCourse') }}"><img
                                         src="{{ asset('public/images/resource/image-11.webp') }}" alt=""
                                         title=""></a>
                             </div>
@@ -335,9 +339,9 @@
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
-                            <h4><a href="highway-driving-lesson.html">Suzuki Mehran</a></h4>
+                            <h4><a href="{{ route('public.courses.mehranCourse') }}">Suzuki Mehran</a></h4>
                         </div>
-                        <div class="link-box"><a href="highway-driving-lesson.html">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.mehranCourse') }}">READ MORE <i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
@@ -347,7 +351,7 @@
                     data-wow-duration="1500ms" data-wow-delay="300ms">
                     <div class="inner-box">
                         <div class="image-box">
-                            <div class="image"><a href="highway-driving-lesson.html"><img
+                            <div class="image"><a href="{{ route('public.courses.altoCourse') }}"><img
                                         src="{{ asset('public/images/resource/image-12.webp') }}" alt=""
                                         title=""></a>
                             </div>
@@ -355,9 +359,9 @@
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
-                            <h4><a href="highway-driving-lesson.html">Suzuki Alto (Manual)</a></h4>
+                            <h4><a href="{{ route('public.courses.altoCourse') }}">Suzuki Alto (Manual)</a></h4>
                         </div>
-                        <div class="link-box"><a href="highway-driving-lesson.html">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.altoCourse') }}">READ MORE <i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
@@ -367,7 +371,7 @@
                     data-wow-duration="1500ms" data-wow-delay="600ms">
                     <div class="inner-box">
                         <div class="image-box">
-                            <div class="image"><a href="highway-driving-lesson.html"><img
+                            <div class="image"><a href="{{ route('public.courses.vitzCourse') }}"><img
                                         src="{{ asset('public/images/resource/image-13.webp') }}" alt=""
                                         title=""></a>
                             </div>
@@ -375,9 +379,9 @@
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
-                            <h4><a href="highway-driving-lesson.html">Toyota Vitz (Automatic)</a></h4>
+                            <h4><a href="{{ route('public.courses.vitzCourse') }}">Toyota Vitz (Automatic)</a></h4>
                         </div>
-                        <div class="link-box"><a href="highway-driving-lesson.html">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.vitzCourse') }}">READ MORE <i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
@@ -386,7 +390,7 @@
                     data-wow-duration="1500ms" data-wow-delay="600ms">
                     <div class="inner-box">
                         <div class="image-box">
-                            <div class="image"><a href="highway-driving-lesson.html"><img
+                            <div class="image"><a href="{{ route('public.courses.miraCourse') }}"><img
                                         src="{{ asset('public/images/resource/image-14.jpg') }}" alt=""
                                         title=""></a>
                             </div>
@@ -394,9 +398,9 @@
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
-                            <h4><a href="highway-driving-lesson.html">Daihatsu Mira (Automatic)</a></h4>
+                            <h4><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira (Automatic)</a></h4>
                         </div>
-                        <div class="link-box"><a href="highway-driving-lesson.html">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.miraCourse') }}">READ MORE <i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
@@ -405,7 +409,7 @@
                     data-wow-duration="1500ms" data-wow-delay="600ms">
                     <div class="inner-box">
                         <div class="image-box">
-                            <div class="image"><a href="highway-driving-lesson.html"><img
+                            <div class="image"><a href="{{ route('public.courses.hondaCourse') }}"><img
                                         src="{{ asset('public/images/resource/image-15.jpg') }}" alt=""
                                         title=""></a>
                             </div>
@@ -413,9 +417,9 @@
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
-                            <h4><a href="highway-driving-lesson.html">Honda City (Automatic)</a></h4>
+                            <h4><a href="{{ route('public.courses.hondaCourse') }}">Honda City (Automatic)</a></h4>
                         </div>
-                        <div class="link-box"><a href="highway-driving-lesson.html">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.hondaCourse') }}">READ MORE <i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
@@ -424,7 +428,7 @@
                     data-wow-duration="1500ms" data-wow-delay="600ms">
                     <div class="inner-box">
                         <div class="image-box">
-                            <div class="image"><a href="highway-driving-lesson.html"><img
+                            <div class="image"><a href="{{ route('public.courses.cd70') }}"><img
                                         src="{{ asset('public/images/resource/image-16.webp') }}" alt=""
                                         title=""></a>
                             </div>
@@ -432,9 +436,9 @@
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
-                            <h4><a href="highway-driving-lesson.html">Bike (CD-70)</a></h4>
+                            <h4><a href="'{{ route('public.courses.cd70') }}'">Bike (CD-70)</a></h4>
                         </div>
-                        <div class="link-box"><a href="highway-driving-lesson.html">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.cd70') }}">READ MORE <i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
@@ -546,7 +550,8 @@
                         </div>
 
                         <div class="lower-links clearfix">
-                            <div class="link"><a href="about.html" class="theme-btn btn-style-one"><span>DISCOVER
+                            <div class="link"><a href="{{ route('public.about') }}"
+                                    class="theme-btn btn-style-one"><span>DISCOVER
                                         MORE</span></a></div>
                         </div>
                     </div>

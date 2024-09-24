@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Hash;
 
 class InstructorController extends Controller
 {
+
+    public function index()
+    {
+        $instructors = Instructor::with('employee.user')->get();
+        return view('instructor.dashboard', compact('instructors'));
+    }
+
     public function adminAllInstructors()
     {
         $instructors = Instructor::with('employee.user')->get();
@@ -82,9 +89,6 @@ class InstructorController extends Controller
 
             return redirect()->route('admin.allInstructors')->with('success_instructor', 'Instructor added successfully.');
     }
-
-
-
 
     public function adminEditInstructor($id)
     {

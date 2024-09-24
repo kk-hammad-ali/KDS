@@ -48,7 +48,7 @@ use App\Http\Controllers\Main\LoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Main website
     Route::get('/', function () {
         return view('public.index');
     })->name('home');
