@@ -8,6 +8,7 @@ use App\Http\Controllers\Public\BranchController;
 use App\Http\Controllers\Public\GalleryController;
 use App\Http\Controllers\Public\CourseController;
 use App\Http\Controllers\Public\BlogController;
+use App\Http\Controllers\Public\AdmissionFormController;
 
 use App\Http\Controllers\Admin\DashboardController;
 
@@ -54,7 +55,12 @@ use App\Http\Controllers\Main\LoginController;
     })->name('home');
 
     Route::get('/about', [AboutController::class, 'index'])->name("public.about");
-    Route::get('/contact', [ContactController::class, 'index'])->name("public.contact");
+    Route::get('/contact', [ContactController::class, 'index'])->name('public.contact');
+    Route::post('/contact', [ContactController::class, 'store'])->name('public.contact.store');
+
+    Route::get('/admission', [AdmissionFormController::class, 'index'])->name('public.admission.form');
+    Route::post('/admission', [AdmissionFormController::class, 'store'])->name('public.admission.store');
+
     Route::get('/branches', [BranchController::class, 'index'])->name("public.branch");
     Route::get('/gallery', [GalleryController::class, 'index'])->name("public.gallery");
     Route::get('/courses', [CourseController::class, 'index'])->name("public.courses");
@@ -75,6 +81,11 @@ use App\Http\Controllers\Main\LoginController;
 
 // Admin
     Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // Contact
+    Route::get('admin/contact', [ContactController::class, 'adminallContact'])->name('admin.allContact');
+    Route::get('admin/admission-form', [AdmissionFormController::class, 'adminallAdmssionForm'])->name('admin.allAdmissionForm');
+    Route::post('/admin/student/update/{id}', [AdmissionFormController::class, 'adminUpdateFormStudent'])->name('admin.formstudents.update');
 
     // Admin-Student Routes
     Route::get('/admin/students/', [StudentController::class, 'adminAllStudent'])->name("admin.allStudents");
@@ -109,7 +120,7 @@ use App\Http\Controllers\Main\LoginController;
     Route::post('/admin/courses/{course}/update', [CoursesController::class, 'updateCourse'])->name('admin.updateCourse');
     Route::get('/admin/courses/delete/{id}', [CoursesController::class, 'deleteCourse'])->name('admin.deleteCourse');
 
-// Admin - Attendence Routes
+    // Admin - Attendence Routes
     // Student Attendance Routes
     Route::get('/student/attendance', [AttendanceController::class, 'showStudentAttendance'])->name('student.attendance.show');
     Route::get('/student/attendance/mark/{date}', [AttendanceController::class, 'markTodayStudentAttendance'])->name('student.attendance.mark');
@@ -120,9 +131,6 @@ use App\Http\Controllers\Main\LoginController;
     Route::get('/admin/instructors/attendance', [AttendanceController::class, 'showInstructorAttendance'])->name('instructor.attendance.show');
     Route::get('/admin/instructors/attendance/mark/{date}', [AttendanceController::class, 'markTodayAttendance'])->name('instructor.attendance.mark');
     Route::post('/admin/instructors/attendance/store', [AttendanceController::class, 'storeInstructorAttendance'])->name('instructor.attendance.store');
-
-//Admin Fix Expenses
-Route::get('/admin/fix-expenses/', [ExpenseController::class, 'fix_expense_page'])->name("admin.fixExpenses");
 
 
 // Admin Coupons Routes

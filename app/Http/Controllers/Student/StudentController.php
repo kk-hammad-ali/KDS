@@ -60,6 +60,7 @@ class StudentController extends Controller
             'course_duration' => 'required|integer',
             'class_start_time' => 'required',
             'class_duration' => 'required|integer',
+            'transmission' => 'required|in:automatic,manual',
         ]);
 
         // Calculate class end time
@@ -113,6 +114,8 @@ class StudentController extends Controller
             'class_end_time' => $class_end_time,
             'course_end_date' => $course_end_date,
             'class_duration' => $request->class_duration,
+            'form_type' => 'admin',
+            'transmission' => $validated['transmission'],
         ]);
 
         // Create schedule

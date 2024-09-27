@@ -74,6 +74,12 @@
                         <i class="fa fa-tachometer-alt me-2"></i>Dashboard
                     </a>
 
+                    <a href="{{ route('admin.allAdmissionForm') }}"
+                        class="nav-item nav-link {{ Request::is('admin/admission-form*') ? 'active' : '' }}">
+                        <i class="fa fa-file-alt me-2"></i>Admission
+                    </a>
+
+
                     <a href="{{ route('admin.allStudents') }}"
                         class="nav-item nav-link {{ Request::is('admin/students*') ? 'active' : '' }}">
                         <i class="fa fa-users me-2"></i>Student
@@ -149,6 +155,12 @@
                     <a href="{{ route('admin.allCoupons') }}"
                         class="nav-item nav-link {{ Request::is('admin/allCoupons') ? 'active' : '' }}"><i
                             class="fa fa-ticket-alt me-2"></i>Coupons</a>
+
+                    <a href="{{ route('admin.allContact') }}"
+                        class="nav-item nav-link {{ Request::is('admin/contact') ? 'active' : '' }}">
+                        <i class="fa fa-envelope me-2"></i>Inquiries
+                    </a>
+
                 </div>
             </nav>
         </div>

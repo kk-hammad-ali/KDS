@@ -33,7 +33,8 @@ class Student extends Model
         'class_start_time',
         'class_end_time',
         'class_duration',
-        'course_end_date'
+        'course_end_date',
+        'form_type'
     ];
 
     // Define relationship with User

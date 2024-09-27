@@ -23,7 +23,8 @@
                                             <div class="link"><a href="{{ route('public.about') }}"
                                                     class="theme-btn btn-style-one"><span>Read
                                                         More</span></a></div>
-                                            <div class="link"><a href="#" class="theme-btn btn-style-two"><span>Book
+                                            <div class="link"><a href="{{ route('public.admission.form') }}"
+                                                    class="theme-btn btn-style-two"><span>Book
                                                         Now</span></a></div>
                                         </div>
                                     </div>
@@ -39,8 +40,6 @@
                                 <div class="image">
                                     <img src="{{ asset('public/images/main-slider/slider-3.webp') }}" alt=""
                                         title="">
-                                    {{-- <a href="https://www.facebook.com/share/r/RnFt3N2rtaCiCBFE/"
-                                        class="theme-btn lightbox-image vid-btn"><span class="fa fa-play"></span></a> --}}
                                 </div>
                             </div>
                         </div>
@@ -64,7 +63,8 @@
                                             <div class="link"><a href="{{ route('public.about') }}"
                                                     class="theme-btn btn-style-one"><span>Read
                                                         More</span></a></div>
-                                            <div class="link"><a href="#" class="theme-btn btn-style-two"><span>Book
+                                            <div class="link"><a href="{{ route('public.admission.form') }}"
+                                                    class="theme-btn btn-style-two"><span>Book
                                                         Now</span></a></div>
                                         </div>
                                     </div>
@@ -80,8 +80,7 @@
                                 <div class="image">
                                     <img src="{{ asset('public/images/main-slider/slider-3.webp') }}" alt=""
                                         title="">
-                                    {{-- <a href="https://www.facebook.com/share/r/RnFt3N2rtaCiCBFE/"
-                                        class="theme-btn lightbox-image vid-btn"><span class="fa fa-play"></span></a> --}}
+
                                 </div>
                             </div>
                         </div>
@@ -106,7 +105,8 @@
                                             <div class="link"><a href="{{ route('public.about') }}"
                                                     class="theme-btn btn-style-one"><span>Read
                                                         More</span></a></div>
-                                            <div class="link"><a href="#" class="theme-btn btn-style-two"><span>Book
+                                            <div class="link"><a href="{{ route('public.admission.form') }}"
+                                                    class="theme-btn btn-style-two"><span>Book
                                                         Now</span></a></div>
                                         </div>
                                     </div>
@@ -122,8 +122,7 @@
                                 <div class="image">
                                     <img src="{{ asset('public/images/main-slider/slider-3.webp') }}" alt=""
                                         title="">
-                                    {{-- <a href="https://www.facebook.com/share/r/RnFt3N2rtaCiCBFE/"
-                                        class="theme-btn lightbox-image vid-btn"><span class="fa fa-play"></span></a> --}}
+
                                 </div>
                             </div>
                         </div>

@@ -28,13 +28,15 @@ return new class extends Migration
             $table->integer('theory_classes');
             $table->string('coupon_code')->nullable();
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
-            $table->foreignId('instructor_id')->constrained('instructors')->onDelete('cascade');
-            $table->foreignId('vehicle_id')->constrained('cars')->onDelete('cascade');
+            $table->foreignId('instructor_id')->nullable()->constrained('instructors')->onDelete('cascade');
+            $table->foreignId('vehicle_id')->nullable()->constrained('cars')->onDelete('cascade');
             $table->integer('course_duration');
-            $table->time('class_start_time');
-            $table->time('class_end_time');
-            $table->integer('class_duration');
-            $table->date('course_end_date');
+            $table->time('class_start_time')->nullable();;
+            $table->time('class_end_time')->nullable();;
+            $table->integer('class_duration')->nullable();;
+            $table->date('course_end_date')->nullable();;
+            $table->enum('form_type', ['admin', 'admission']);
+            $table->enum('transmission', ['automatic', 'manual']);
             $table->timestamps();
         });
     }
