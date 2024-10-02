@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>King Driving Scool - Instructor</title>
+    <title>King Driving Scool - Student</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -42,7 +42,7 @@
 
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
-                <a href="{{ route('instructor.dashboard') }}" class="navbar-brand mx-4 mb-3">
+                <a href="{{ route('student.dashboard') }}" class="navbar-brand mx-4 mb-3">
                     <h5 class="text-primary">King Driving School</h5>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
@@ -58,16 +58,15 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="{{ route('instructor.students') }}" class="nav-item nav-link"><i
-                            class="fa fa-users me-2"></i>Student</a>
+                    <a href="#" class="nav-item nav-link"><i class="fa fa-calendar me-2"></i>Class Schedule</a>
 
-                    <a href="{{ route('instructor.allLeaves') }}" class="nav-item nav-link"><i
-                            class="fa fa-calendar-alt me-2"></i>Apply for leave</a>
+                    <a href="{{ route('student.allLeaves') }}" class="nav-item nav-link"><i
+                            class="fa fa-calendar-alt me-2"></i>Apply for
+                        leave</a>
+                    <a href="{{ route('student.certificate') }}" class="nav-item nav-link"><i
+                            class="fa fa-certificate me-2"></i>View
+                        Certificates</a>
 
-                    <a href="{{ route('instructor.schedules') }}" class="nav-item nav-link"><i
-                            class="fa fa-calendar me-2"></i>Class Schedule</a>
-                    <a href="{{ route('instructor.student.attendance.show') }}" class="nav-item nav-link"><i
-                            class="fa fa-calendar me-2"></i>Student Attendence</a>
                 </div>
             </nav>
         </div>
@@ -98,7 +97,9 @@
                 </div>
             </nav>
 
+
             @yield('page_content')
+
 
             <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">
@@ -119,6 +120,7 @@
         <!-- Footer End -->
     </div>
 
+
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -131,11 +133,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a href="{{ route('instructor.logout') }}" class="btn btn-primary">Logout</a>
+                    <a href="{{ route('student.logout') }}" class="btn btn-primary">Logout</a>
                 </div>
             </div>
         </div>
     </div>
+
 
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>

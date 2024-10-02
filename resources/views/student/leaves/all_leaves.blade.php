@@ -1,4 +1,4 @@
-@extends('layout.instructor')
+@extends('layout.student')
 
 @section('page_content')
     <style>
@@ -12,7 +12,7 @@
                 <div class="bg-light rounded h-100 p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h4 class="mb-0">All Leaves</h4>
-                        <a href="{{ route('instructor.addLeaves') }}" class="btn btn-primary">
+                        <a href="{{ route('student.addLeaves') }}" class="btn btn-primary">
                             <i class="fas fa-plus me-2"></i> Apply Leave
                         </a>
                     </div>
@@ -51,10 +51,10 @@
                                         </td>
                                         <td>
                                             @if ($leave->status === 'pending')
-                                                <a href="{{ route('instructor.editLeave', $leave) }}"
+                                                <a href="{{ route('student.editLeave', $leave) }}"
                                                     class="btn btn-warning">Edit</a>
                                                 <button class="btn btn-danger"
-                                                    onclick="setDeleteRoute('{{ route('instructor.deleteLeave', $leave) }}')">Delete</button>
+                                                    onclick="setDeleteRoute('{{ route('student.deleteLeave', $leave) }}')">Delete</button>
                                             @endif
                                         </td>
                                     </tr>

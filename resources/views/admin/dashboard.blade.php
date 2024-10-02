@@ -4,39 +4,51 @@
     <!-- Sale & Revenue Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
-            <div class="col-sm-6 col-xl-3">
+            <div class="col-sm-6 col-xl-2">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-line fa-3x text-primary"></i>
                     <div class="ms-3">
                         <p class="mb-2">Today Sale</p>
-                        <h6 class="mb-0">$1234</h6>
+                        <h6 class="mb-0">$1234</h6> <!-- Replace with actual sales data -->
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-xl-3">
+            <div class="col-sm-6 col-xl-2">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-bar fa-3x text-primary"></i>
                     <div class="ms-3">
-                        <p class="mb-2">Total Sale</p>
-                        <h6 class="mb-0">$1234</h6>
+                        <p class="mb-2">Today Expense</p>
+                        <h6 class="mb-0">${{ number_format($todayExpense, 2) }}</h6>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-xl-3">
+            <div class="col-sm-6 col-xl-2">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-area fa-3x text-primary"></i>
                     <div class="ms-3">
-                        <p class="mb-2">Today Revenue</p>
-                        <h6 class="mb-0">$1234</h6>
+                        <p class="mb-2">Monthly Sale</p>
+                        <h6 class="mb-0">$12345</h6> <!-- Replace with actual monthly sales data -->
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-xl-3">
+            <div class="col-sm-6 col-xl-2">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-pie fa-3x text-primary"></i>
                     <div class="ms-3">
-                        <p class="mb-2">Total Revenue</p>
-                        <h6 class="mb-0">$1234</h6>
+                        <p class="mb-2">Monthy Expense</p>
+                        <h6 class="mb-0">${{ number_format($monthlyExpense, 2) }}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <div class="ms-3">
+                        <p class="mb-2">Year Sale</p>
+                        <h6 class="mb-0">$123456</h6> <!-- Replace with actual yearly sales data -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <div class="ms-3">
+                        <p class="mb-2">Year Expense</p>
+                        <h6 class="mb-0">${{ number_format($yearlyExpense, 2) }}</h6>
                     </div>
                 </div>
             </div>
@@ -44,7 +56,7 @@
     </div>
     <!-- Sale & Revenue End -->
 
-
+    {{--
     <!-- Sales Chart Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
@@ -68,81 +80,166 @@
             </div>
         </div>
     </div>
-    <!-- Sales Chart End -->
+    <!-- Sales Chart End --> --}}
 
-
-    <!-- Recent Sales Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <h6 class="mb-0">Recent Salse</h6>
-                <a href="">Show All</a>
+                <h6 class="mb-0">Schedule Availability for {{ \Carbon\Carbon::parse($class_date)->format('d M Y') }}</h6>
             </div>
+
             <div class="table-responsive">
                 <table class="table text-start align-middle table-bordered table-hover mb-0">
                     <thead>
                         <tr class="text-dark">
-                            <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Invoice</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Instructor</th>
+                            @for ($hour = 8; $hour <= 19; $hour++)
+                                <th scope="col">{{ \Carbon\Carbon::createFromTime($hour, 0)->format('h:i A') }}</th>
+                                <th scope="col">{{ \Carbon\Carbon::createFromTime($hour, 30)->format('h:i A') }}</th>
+                            @endfor
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
+                        @if (!empty($availableSlots))
+                            @foreach ($availableSlots as $instructorName => $slots)
+                                <tr>
+                                    <td>{{ $instructorName }}</td>
+                                    @foreach ($slots as $slot)
+                                        <td class="{{ $slot['status'] == 'Available' ? 'bg-success' : 'bg-danger' }}">
+                                            @if ($slot['status'] == 'Available')
+                                                {{ $slot['status'] }}
+                                            @else
+                                                <a class="btn btn-sm btn-danger booked-slot" href="#"
+                                                    data-start-time="{{ \Carbon\Carbon::parse($slot['start_time'])->format('h:i A') }}"
+                                                    data-end-time="{{ \Carbon\Carbon::parse($slot['end_time'])->format('h:i A') }}"
+                                                    data-class-date="{{ \Carbon\Carbon::parse($slot['class_date'])->format('d M Y') }}"
+                                                    data-course-end-date="{{ \Carbon\Carbon::parse($slot['course_end_date'])->format('d M Y') }}">
+                                                    {{ $slot['status'] }}
+                                                </a>
+                                            @endif
+                                        </td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="26" class="text-center">No availability data found for the selected date.
+                                </td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <!-- Recent Sales End -->
+
+    <!-- Modal for showing booked slot details -->
+    <div class="modal fade" id="bookedSlotModal" tabindex="-1" aria-labelledby="bookedSlotModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookedSlotModalLabel">Slot Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="slotDetails"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">Car Schedule Availability for {{ \Carbon\Carbon::now()->format('d M Y') }}</h6>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-dark">
+                            <th>Car</th>
+                            <th>Number</th>
+                            @for ($hour = 8; $hour <= 19; $hour++)
+                                <th>{{ \Carbon\Carbon::createFromTime($hour, 0)->format('h:i A') }}</th>
+                                <th>{{ \Carbon\Carbon::createFromTime($hour, 30)->format('h:i A') }}</th>
+                            @endfor
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($availableCarSlots as $carIdentifier => $slots)
+                            @php
+                                // Extracting car make, model, and registration number
+                                $carDetails = explode(' ', $carIdentifier, 3); // Assume identifier is formatted as "Make Model Registration"
+                                $carMakeModel = $carDetails[0] . ' ' . $carDetails[1];
+                                $registration = $carDetails[2];
+                            @endphp
+                            <tr>
+                                <td>{{ $carMakeModel }}</td>
+                                <td>{{ $registration }}</td>
+                                @foreach ($slots as $slot)
+                                    <td class="{{ $slot['status'] == 'Available' ? 'bg-success' : 'bg-danger' }}">
+                                        @if ($slot['status'] == 'Available')
+                                            {{ $slot['status'] }}
+                                        @else
+                                            <a class="btn btn-sm btn-danger booked-slot" href="#"
+                                                data-start-time="{{ \Carbon\Carbon::parse($slot['start_time'])->format('h:i A') }}"
+                                                data-end-time="{{ \Carbon\Carbon::parse($slot['end_time'])->format('h:i A') }}"
+                                                data-class-date="{{ \Carbon\Carbon::parse($slot['class_date'])->format('d M Y') }}"
+                                                data-course-end-date="{{ \Carbon\Carbon::parse($slot['course_end_date'])->format('d M Y') }}">
+                                                {{ $slot['status'] }}
+                                            </a>
+                                        @endif
+                                    </td>
+                                @endforeach
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for showing booked slot details -->
+    <div class="modal fade" id="bookedSlotModal" tabindex="-1" aria-labelledby="bookedSlotModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookedSlotModalLabel">Slot Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="slotDetails"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.booked-slot').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const startTime = this.getAttribute('data-start-time');
+                const endTime = this.getAttribute('data-end-time');
+                const classDate = this.getAttribute('data-class-date');
+                const courseEndDate = this.getAttribute('data-course-end-date');
+
+                const slotDetails =
+                    `This slot is booked from ${startTime} to ${endTime} on ${classDate}, booked until ${courseEndDate}.`;
+                document.getElementById('slotDetails').textContent = slotDetails;
+
+                const bookedSlotModal = new bootstrap.Modal(document.getElementById(
+                    'bookedSlotModal'));
+                bookedSlotModal.show();
+            });
+        });
+    </script>
 
 
     <!-- Widgets Start -->

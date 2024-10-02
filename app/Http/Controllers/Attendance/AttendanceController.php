@@ -10,6 +10,7 @@ use App\Models\Instructor;
 use App\Models\Schedule;
 use Carbon\Carbon;
 
+
 class AttendanceController extends Controller
 {
     /**
@@ -129,6 +130,66 @@ class AttendanceController extends Controller
         }
 
         return redirect()->route('instructor.attendance.show')->with('success', 'Instructor attendance marked successfully.');
+    }
+
+
+    public function showInstructorStudentAttendance()
+    {
+        $instructor = auth()->user()->instructor; // Fetch the logged-in instructor
+        $attendanceEvents = Attendance::whereHas('student', function ($query) use ($instructor) {
+            $query->where('instructor_id', $instructor->id);
+        })->get()->map(function ($attendance) {
+            return [
+                'title' => $attendance->student->user->name,
+                'start' => $attendance->attendance_date,
+                'attendance' => $attendance->student_present ? 'present' : 'absent',
+            ];
+        });
+
+        return view('attendance.instructor_student.student_attendance', compact('attendanceEvents'));
+    }
+
+    /**
+     * Show form for marking student attendance (For the logged-in instructor's students).
+     */
+    public function markTodayInstructorStudentAttendance($date)
+    {
+        $instructor = auth()->user()->instructor; // Fetch the logged-in instructor
+        $students = Student::where('instructor_id', $instructor->id)
+            ->where('admission_date', '<=', $date)
+            ->where('course_end_date', '>=', $date)
+            ->get();
+
+        return view('attendance.instructor_student.mark_student_attendance', compact('students', 'date'));
+    }
+
+    /**
+     * Store attendance records for instructor's students.
+     */
+    public function storeInstructorStudentAttendance(Request $request)
+    {
+        $validated = $request->validate([
+            'student_attendance' => 'nullable|array',
+        ]);
+
+        $currentDate = Carbon::now()->format('Y-m-d');
+
+        if (isset($validated['student_attendance'])) {
+            foreach ($validated['student_attendance'] as $student_id => $attendance) {
+                Attendance::updateOrCreate(
+                    [
+                        'student_id' => $student_id,
+                        'attendance_date' => $currentDate,
+                    ],
+                    [
+                        'student_present' => $attendance[$currentDate] ? 1 : 0,
+                    ]
+                );
+            }
+        }
+
+        return redirect()->route('instructor.student.attendance.show')
+            ->with('success', 'Attendance marked successfully.');
     }
 
 }

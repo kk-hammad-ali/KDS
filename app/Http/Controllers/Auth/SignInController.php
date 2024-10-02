@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\hash;
+use App\Models\User;
 
 class SignInController extends Controller
 {
@@ -43,10 +46,30 @@ class SignInController extends Controller
 
                 default:
                     // If the role is not recognized
-                    return redirect('/login')->withErrors(['role' => 'Unauthorized role.']);
+                    return redirect('/sign-in')->withErrors(['role' => 'Unauthorized role.']);
             }
         } else {
             return redirect('/sign-in')->withErrors(['old_password' => 'Wrong name or password.']);
         }
+    }
+
+
+    public function adminLogout(){
+        session()->forget('admin_id');
+        session()->forget('user');
+
+        return redirect('/');
+    }
+
+    public function instructorLogout(){
+        session()->forget('instructor_id');
+        session()->forget('user');
+        return redirect('/');
+    }
+
+    public function studentLogout(){
+        session()->forget('student_id');
+        session()->forget('user');
+        return redirect('/');
     }
 }

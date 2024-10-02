@@ -18,11 +18,12 @@ use Carbon\Carbon;
 
 class StudentController extends Controller
 {
-    /**
-     * Display all students.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index()
+    {
+        $instructors = Instructor::with('employee.user')->get();
+        return view('student.dashboard', compact('instructors'));
+    }
+
     public function adminAllStudent()
     {
         $students = Student::with('user')->get();

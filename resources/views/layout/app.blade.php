@@ -86,6 +86,7 @@
                                         <li><a href="{{ route('public.branch') }}">Branches</a></li>
                                         <li><a href="{{ route('public.blog') }}">Blog</a></li>
                                         <li><a href="{{ route('public.contact') }}">Contact</a></li>
+                                        <li><a href="{{ route('public.quiz') }}">Take a Quiz</a></li>
                                     </ul>
                                 </nav>
                                 <!-- Main Menu End -->
@@ -147,6 +148,7 @@
                         <li><a href="{{ route('public.branch') }}">Branches</a></li>
                         <li><a href="{{ route('public.blog') }}">Blog</a></li>
                         <li><a href="{{ route('public.contact') }}">Contact</a></li>
+                        <li><a href="{{ route('public.quiz') }}">Take a Quiz</a></li>
                     </ul>
                 </div><!-- /.Side-menu -->
             </div>

@@ -14,54 +14,60 @@
                         <h4 class="mb-0">All Submitted Forms</h4>
                     </div>
                     <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Father's/Husband's Name</th>
-                                    <th scope="col">CNIC</th>
-                                    <th scope="col">Address</th>
-                                    <th scope="col">Phone Number</th>
-                                    <th scope="col">Optional Phone</th>
-                                    <th scope="col">Admission Date</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($students as $student)
+                        @if ($students->isEmpty())
+                            <p>No admission forms have been submitted yet.</p>
+                        @else
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <th scope="row">{{ $loop->iteration }}</th>
-                                        <td>{{ $student->user->name }}</td>
-                                        <td>{{ $student->father_or_husband_name }}</td>
-                                        <td>{{ $student->cnic }}</td>
-                                        <td>{{ $student->address }}</td>
-                                        <td>{{ $student->phone }}</td>
-                                        <td>{{ $student->optional_phone }}</td>
-                                        <td>{{ $student->admission_date }}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#enrollModal" data-id="{{ $student->id }}"
-                                                data-name="{{ $student->user->name }}"
-                                                data-father-name="{{ $student->father_or_husband_name }}"
-                                                data-cnic="{{ $student->cnic }}" data-address="{{ $student->address }}"
-                                                data-phone="{{ $student->phone }}"
-                                                data-optional-phone="{{ $student->optional_phone }}"
-                                                data-admission-date="{{ $student->admission_date }}"
-                                                data-course-id="{{ $student->course_id }}"
-                                                data-course-name="{{ $student->course->duration_days }}"
-                                                data-fees="{{ $student->fees }}"
-                                                data-duration="{{ $student->course_duration }}"
-                                                data-practical-driving-hours="{{ $student->practical_driving_hours }}"
-                                                data-theory-classes="{{ $student->theory_classes }}"
-                                                onclick="populateModal(this)">
-                                                Enroll
-                                            </button>
-                                        </td>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Father's/Husband's Name</th>
+                                        <th scope="col">CNIC</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Phone Number</th>
+                                        <th scope="col">Optional Phone</th>
+                                        <th scope="col">Admission Date</th>
+                                        <th scope="col">Action</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($students as $student)
+                                        <tr>
+                                            <th scope="row">{{ $loop->iteration }}</th>
+                                            <td>{{ $student->user->name }}</td>
+                                            <td>{{ $student->father_or_husband_name }}</td>
+                                            <td>{{ $student->cnic }}</td>
+                                            <td>{{ $student->address }}</td>
+                                            <td>{{ $student->phone }}</td>
+                                            <td>{{ $student->optional_phone }}</td>
+                                            <td>{{ $student->admission_date }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#enrollModal" data-id="{{ $student->id }}"
+                                                    data-name="{{ $student->user->name }}"
+                                                    data-father-name="{{ $student->father_or_husband_name }}"
+                                                    data-cnic="{{ $student->cnic }}"
+                                                    data-address="{{ $student->address }}"
+                                                    data-phone="{{ $student->phone }}"
+                                                    data-optional-phone="{{ $student->optional_phone }}"
+                                                    data-admission-date="{{ $student->admission_date }}"
+                                                    data-course-id="{{ $student->course_id }}"
+                                                    data-course-name="{{ $student->course->duration_days }}"
+                                                    data-fees="{{ $student->fees }}"
+                                                    data-duration="{{ $student->course_duration }}"
+                                                    data-practical-driving-hours="{{ $student->practical_driving_hours }}"
+                                                    data-theory-classes="{{ $student->theory_classes }}"
+                                                    data-transmission="{{ $student->transmission }}"
+                                                    onclick="populateModal(this)">
+                                                    Enroll
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -77,17 +83,27 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="enrollForm" action="{{ route('admin.students.store') }}" method="POST">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form id="enrollForm" action="" method="POST">
                         @csrf
+                        @method('PUT')
                         <input type="hidden" name="id" id="studentId">
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name" required readonly>
                         </div>
                         <div class="mb-3">
-                            <label for="father_or_husband_name" class="form-label">Father's/Husband's Name</label>
-                            <input type="text" class="form-control" id="father_or_husband_name"
-                                name="father_or_husband_name" required readonly>
+                            <label for="father_husband_name" class="form-label">Father's/Husband's Name</label>
+                            <input type="text" class="form-control" id="father_husband_name" name="father_husband_name"
+                                required readonly>
                         </div>
                         <div class="mb-3">
                             <label for="cnic" class="form-label">CNIC</label>
@@ -141,6 +157,10 @@
                                 required readonly>
                         </div>
                         <div class="mb-3">
+                            <label for="transmission" class="form-label">Transmission Type</label>
+                            <input type="text" class="form-control" id="transmission" name="transmission" readonly>
+                        </div>
+                        <div class="mb-3">
                             <label for="instructor" class="form-label">Select Instructor</label>
                             <select class="form-select" id="instructor" name="instructor_id" required>
                                 <option value="" disabled selected>Select Instructor</option>
@@ -151,21 +171,14 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="transmission" class="form-label">Select Transmission Type</label>
-                            <select class="form-select" id="transmission" name="transmission" required>
-                                <option value="" disabled selected>Select Transmission</option>
-                                <option value="automatic">Automatic</option>
-                                <option value="manual">Manual</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
                             <label for="vehicle_id" class="form-label">Select Vehicle</label>
                             <select class="form-select" id="vehicle_id" name="vehicle_id" required>
                                 <option value="" disabled selected>Select Vehicle</option>
                                 @foreach ($cars as $vehicle)
                                     <option value="{{ $vehicle->id }}"
                                         data-transmission="{{ $vehicle->transmission }}">
-                                        {{ $vehicle->make }} {{ $vehicle->model }}</option>
+                                        {{ $vehicle->make }} {{ $vehicle->model }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -189,26 +202,45 @@
 
     <script>
         function populateModal(button) {
-            document.getElementById('studentId').value = button.getAttribute('data-id');
+            // Populate form fields with values from the button's data-* attributes
+            const studentId = button.getAttribute('data-id');
+            document.getElementById('enrollForm').action = `/admin/formstudents/update/${studentId}`;
+
+            document.getElementById('studentId').value = studentId;
             document.getElementById('name').value = button.getAttribute('data-name');
-            document.getElementById('father_or_husband_name').value = button.getAttribute('data-father-name');
+            document.getElementById('father_husband_name').value = button.getAttribute('data-father-name');
             document.getElementById('cnic').value = button.getAttribute('data-cnic');
             document.getElementById('address').value = button.getAttribute('data-address');
             document.getElementById('phone').value = button.getAttribute('data-phone');
             document.getElementById('optional_phone').value = button.getAttribute('data-optional-phone');
             document.getElementById('admission_date').value = button.getAttribute('data-admission-date');
 
-            const courseId = button.getAttribute('data-course-id');
+            // Populate read-only fields for course, fees, and duration
             document.getElementById('course_name').value = button.getAttribute('data-course-name');
-            const fees = button.getAttribute('data-fees');
-            const duration = button.getAttribute('data-duration');
-            document.getElementById('fees').value = fees;
-            document.getElementById('course_duration').value = duration;
+            document.getElementById('fees').value = button.getAttribute('data-fees');
+            document.getElementById('course_duration').value = button.getAttribute('data-duration');
 
-            const practicalDrivingHours = button.getAttribute('data-practical-driving-hours');
-            const theoryClasses = button.getAttribute('data-theory-classes');
-            document.getElementById('practical_driving_hours').value = practicalDrivingHours;
-            document.getElementById('theory_classes').value = theoryClasses;
+            // Set practical and theory class fields
+            document.getElementById('practical_driving_hours').value = button.getAttribute('data-practical-driving-hours');
+            document.getElementById('theory_classes').value = button.getAttribute('data-theory-classes');
+
+            // Set the transmission type
+            const transmissionType = button.getAttribute('data-transmission');
+            document.getElementById('transmission').value = transmissionType;
+
+            // Filter vehicles based on transmission type
+            var vehicleSelect = document.getElementById('vehicle_id');
+            var vehicleOptions = vehicleSelect.options;
+
+            for (var i = 0; i < vehicleOptions.length; i++) {
+                var option = vehicleOptions[i];
+                if (option.dataset.transmission === transmissionType || option.value === "") {
+                    option.style.display = '';
+                } else {
+                    option.style.display = 'none';
+                }
+            }
+            vehicleSelect.selectedIndex = 0; // Reset the selection
 
             // Trigger fetching booked times
             fetchBookedTimes();
@@ -217,7 +249,7 @@
         function fetchBookedTimes() {
             const selectedDate = document.getElementById('admission_date').value;
             const selectedInstructor = document.getElementById('instructor').value;
-            const selectedVehicle = document.getElementById('vehicle_id').value; // Updated ID
+            const selectedVehicle = document.getElementById('vehicle_id').value;
 
             const classStartTimeSelect = document.getElementById('class_start_time');
 
@@ -259,21 +291,8 @@
             return `${hours12}:${minutes} ${period}`;
         }
 
-        document.getElementById('transmission').addEventListener('change', function() {
-            var selectedTransmission = this.value;
-            var vehicleSelect = document.getElementById('vehicle_id');
-            var vehicleOptions = vehicleSelect.options;
-
-            for (var i = 0; i < vehicleOptions.length; i++) {
-                var option = vehicleOptions[i];
-
-                if (option.dataset.transmission === selectedTransmission || option.value === "") {
-                    option.style.display = '';
-                } else {
-                    option.style.display = 'none';
-                }
-            }
-            vehicleSelect.selectedIndex = 0; // Reset the selection
-        });
+        document.getElementById('admission_date').addEventListener('change', fetchBookedTimes);
+        document.getElementById('instructor').addEventListener('change', fetchBookedTimes);
+        document.getElementById('vehicle_id').addEventListener('change', fetchBookedTimes);
     </script>
 @endsection
