@@ -9,6 +9,7 @@ use App\Models\FixedExpense;
 use App\Models\CarExpense;
 use App\Models\Schedule;
 use App\Models\Instructor;
+use App\Models\Student;
 use App\Models\Car;
 use Carbon\Carbon;
 
@@ -25,6 +26,8 @@ class DashboardController extends Controller
         // Get schedules for cars
         $carSchedules = $this->getCarSchedules();
 
+        $currentCounts = $this->getCurrentCounts();
+
         return view('admin.dashboard', [
             'todayExpense' => $expenses['today'],
             'monthlyExpense' => $expenses['monthly'],
@@ -36,6 +39,11 @@ class DashboardController extends Controller
             'availableCarSlots' => $carSchedules['availableSlots'], // Car availability
             'bookedCarSchedules' => $carSchedules['bookedSchedules'], // Booked car schedules
             'cars' => $carSchedules['cars'], // Car list
+            'totalStudentsCount' => $currentCounts['totalStudents'],
+            'totalInstructorsCount' => $currentCounts['totalInstructors'],
+            'totalCarsCount' => $currentCounts['totalCars'],
+            'submittedFormsCount' => $currentCounts['submittedForms'],
+            'todaysClassesCount' => $currentCounts['todaysClasses'],
         ]);
     }
 
@@ -180,6 +188,17 @@ class DashboardController extends Controller
             'today' => $todayExpense,
             'monthly' => $monthlyExpense,
             'yearly' => $yearlyExpense,
+        ];
+    }
+
+    private function getCurrentCounts()
+    {
+        return [
+            'totalStudents' => Student::count(),
+            'totalInstructors' => Instructor::count(),
+            'totalCars' => Car::count(),
+            'submittedForms' => Student::where('form_type', 'admission')->count(),
+            'todaysClasses' => Schedule::where('class_date', Carbon::today()->format('Y-m-d'))->count(),
         ];
     }
 }

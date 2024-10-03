@@ -1,11 +1,60 @@
 @extends('layout.admin')
 
 @section('page_content')
-    <!-- Sale & Revenue Start -->
+
+
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <div class="col-sm-6 col-xl-2">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-2">
+                    <div class="ms-3">
+                        <p class="mb-2">Total Students</p>
+                        <h6 class="mb-0">{{ $totalStudentsCount }}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-2">
+                    <div class="ms-3">
+                        <p class="mb-2">Total Instructors</p>
+                        <h6 class="mb-0">{{ $totalInstructorsCount }}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-2">
+                    <div class="ms-3">
+                        <p class="mb-2">Total Cars</p>
+                        <h6 class="mb-0">{{ $totalCarsCount }}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-2">
+                    <div class="ms-3">
+                        <p class="mb-2">Submitted Form</p>
+                        <h6 class="mb-0">{{ $submittedFormsCount }}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-2">
+                    <div class="ms-3">
+                        <p class="mb-2">Today's Classes</p>
+                        <h6 class="mb-0">{{ $todaysClassesCount }}</h6> <!-- Today's classes count -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sale & Revenue Start -->
+
+    <div class="container-fluid pt-4 px-4">
+        {{-- <h5>Sale & Revenue</h5> --}}
+        <div class="row g-4">
+            <div class="col-sm-6 col-xl-2">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-2">
                     <div class="ms-3">
                         <p class="mb-2">Today Sale</p>
                         <h6 class="mb-0">$1234</h6> <!-- Replace with actual sales data -->
@@ -13,7 +62,7 @@
                 </div>
             </div>
             <div class="col-sm-6 col-xl-2">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-2">
                     <div class="ms-3">
                         <p class="mb-2">Today Expense</p>
                         <h6 class="mb-0">${{ number_format($todayExpense, 2) }}</h6>
@@ -21,7 +70,7 @@
                 </div>
             </div>
             <div class="col-sm-6 col-xl-2">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-2">
                     <div class="ms-3">
                         <p class="mb-2">Monthly Sale</p>
                         <h6 class="mb-0">$12345</h6> <!-- Replace with actual monthly sales data -->
@@ -29,7 +78,7 @@
                 </div>
             </div>
             <div class="col-sm-6 col-xl-2">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-2">
                     <div class="ms-3">
                         <p class="mb-2">Monthy Expense</p>
                         <h6 class="mb-0">${{ number_format($monthlyExpense, 2) }}</h6>
@@ -37,7 +86,7 @@
                 </div>
             </div>
             <div class="col-sm-6 col-xl-2">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-2">
                     <div class="ms-3">
                         <p class="mb-2">Year Sale</p>
                         <h6 class="mb-0">$123456</h6> <!-- Replace with actual yearly sales data -->
@@ -45,7 +94,7 @@
                 </div>
             </div>
             <div class="col-sm-6 col-xl-2">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-2">
                     <div class="ms-3">
                         <p class="mb-2">Year Expense</p>
                         <h6 class="mb-0">${{ number_format($yearlyExpense, 2) }}</h6>
@@ -205,7 +254,8 @@
     </div>
 
     <!-- Modal for showing booked slot details -->
-    <div class="modal fade" id="bookedSlotModal" tabindex="-1" aria-labelledby="bookedSlotModalLabel" aria-hidden="true">
+    <div class="modal fade" id="bookedSlotModal" tabindex="-1" aria-labelledby="bookedSlotModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

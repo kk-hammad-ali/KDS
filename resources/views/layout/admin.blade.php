@@ -95,6 +95,11 @@
                         <i class="fa fa-book me-2"></i>Courses
                     </a>
 
+                    <a href="{{ route('admin.allInvoices') }}"
+                        class="nav-item nav-link {{ Request::is('admin/invoices') ? 'active' : '' }}">
+                        <i class="fa fa-file-invoice me-2"></i>Invoices
+                    </a>
+
                     <div class="nav-item dropdown">
                         <a href="#"
                             class="nav-link dropdown-toggle {{ Request::is('admin/attendance*') ? 'active' : '' }}"

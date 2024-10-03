@@ -58,16 +58,28 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="{{ route('instructor.students') }}" class="nav-item nav-link"><i
-                            class="fa fa-users me-2"></i>Student</a>
+                    <a href="{{ route('instructor.students') }}"
+                        class="nav-item nav-link {{ Request::is('instructor/students') ? 'active' : '' }}">
+                        <i class="fa fa-users me-2"></i>Student
+                    </a>
 
-                    <a href="{{ route('instructor.allLeaves') }}" class="nav-item nav-link"><i
-                            class="fa fa-calendar-alt me-2"></i>Apply for leave</a>
+                    <a href="{{ route('instructor.allLeaves') }}"
+                        class="nav-item nav-link {{ Request::is('instructor/leaves') || Request::is('instructor/leaves/*') ? 'active' : '' }}">
+                        <i class="fa fa-calendar-alt me-2"></i>Apply for leave
+                    </a>
 
-                    <a href="{{ route('instructor.schedules') }}" class="nav-item nav-link"><i
-                            class="fa fa-calendar me-2"></i>Class Schedule</a>
-                    <a href="{{ route('instructor.student.attendance.show') }}" class="nav-item nav-link"><i
-                            class="fa fa-calendar me-2"></i>Student Attendence</a>
+
+                    <a href="{{ route('instructor.schedules') }}"
+                        class="nav-item nav-link {{ Request::is('instructor/schedules') ? 'active' : '' }}">
+                        <i class="fa fa-calendar me-2"></i>Class Schedule
+                    </a>
+
+                    <a href="{{ route('instructor.student.attendance.show') }}"
+                        class="nav-item nav-link {{ Request::is('instructor/student/attendance') ? 'active' : '' }}">
+                        <i class="fa fa-check-circle me-2"></i>Attendance
+                    </a>
+
+
                 </div>
             </nav>
         </div>

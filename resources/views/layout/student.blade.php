@@ -58,7 +58,8 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="#" class="nav-item nav-link"><i class="fa fa-calendar me-2"></i>Class Schedule</a>
+                    <a href="{{ route('student.schedules') }}" class="nav-item nav-link"><i
+                            class="fa fa-calendar me-2"></i>Class Schedule</a>
 
                     <a href="{{ route('student.allLeaves') }}" class="nav-item nav-link"><i
                             class="fa fa-calendar-alt me-2"></i>Apply for

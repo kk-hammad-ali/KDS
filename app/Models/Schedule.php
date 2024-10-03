@@ -31,4 +31,9 @@ class Schedule extends Model
     {
         return $this->belongsTo(Car::class);
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }

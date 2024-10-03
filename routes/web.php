@@ -23,6 +23,8 @@ use App\Http\Controllers\Coupon\CouponController;
 
 use App\Http\Controllers\Courses\CoursesController;
 
+use App\Http\Controllers\Invoice\InvoiceController;
+
 use App\Http\Controllers\Expense\FixedExpenseController;
 use App\Http\Controllers\Expense\CarExpenseController;
 use App\Http\Controllers\Expense\DailyExpenseController;
@@ -185,6 +187,12 @@ use App\Http\Controllers\Main\LoginController;
     Route::get('/admin/schedules', [ScheduleController::class, 'allSchedules'])->name('admin.allSchedules')->middleware('admin_guard');
     Route::get('/admin/schedules/booked-times', [ScheduleController::class, 'getBookedTimes'])->name('schedules.booked-times')->middleware('admin_guard');
 
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name("admin.allInvoices")->middleware('admin_guard');
+    // Route::get('/invoices/{id}/pdf', [InvoiceController::class, 'showPdf'])->name('invoice.pdf')->middleware('admin_guard');
+    Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show')->middleware('admin_guard');
+
+
+
 
 
 // Instructor Routes
@@ -211,6 +219,7 @@ use App\Http\Controllers\Main\LoginController;
 
   // Dashboard
     Route::get('/student/dashboard', [StudentController::class, 'index'])->name('student.dashboard')->middleware('student_guard');
+    Route::get('/student/schedules', [ScheduleController::class, 'studentSchedules'])->name('student.schedules')->middleware('student_guard');
     Route::get('/student/certificate', [CertificateController::class, 'index'])->name('student.certificate')->middleware('student_guard');
 
     // Student Leave Routes

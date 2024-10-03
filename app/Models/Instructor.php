@@ -38,4 +38,9 @@ class Instructor extends Model
     {
         return $this->hasMany(Attendance::class, 'instructor_id');
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }

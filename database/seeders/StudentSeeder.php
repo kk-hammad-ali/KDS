@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Course;
 use App\Models\Instructor;
 use App\Models\Car;
+use App\Models\Schedule;
+use Carbon\Carbon;
 
 class StudentSeeder extends Seeder
 {
@@ -23,24 +25,32 @@ class StudentSeeder extends Seeder
         $instructors = Instructor::all();
         $cars = Car::all();
 
-        // Create 3 Student users and corresponding student records
+        // Create 3 Student users and corresponding student and schedule records
         for ($i = 1; $i <= 3; $i++) {
             // Create a user for the student
             $user = User::create([
                 'name' => "Student $i",
                 'password' => bcrypt('password123'),
-                'role' => 2, // Assuming role 3 is Student
+                'role' => 2, // Assuming role 2 is Student
             ]);
 
+            // Set up random values for course and schedule
+            $admission_date = now()->subMonths($i);
+            $course_duration = rand(10, 30);  // Duration of the course in days
+            $class_duration = 60;  // Duration of class in minutes
+            $class_start_time = now()->format('H:i:s');  // Start time of class
+            $class_end_time = Carbon::parse($class_start_time)->addMinutes($class_duration)->format('H:i:s');
+            $course_end_date = Carbon::parse($admission_date)->addDays($course_duration)->format('Y-m-d');
+
             // Create the student record
-            Student::create([
+            $student = Student::create([
                 'user_id' => $user->id,
                 'father_or_husband_name' => "Father $i",
                 'cnic' => '12345-678901' . $i,
                 'address' => 'Address ' . $i,
                 'phone' => '0312345678' . $i,
                 'optional_phone' => '0321123456' . $i,
-                'admission_date' => now()->subMonths($i),
+                'admission_date' => $admission_date,
                 'driving_time_per_week' => rand(1, 10),
                 'fees' => rand(1000, 5000),
                 'practical_driving_hours' => rand(10, 30),
@@ -49,11 +59,24 @@ class StudentSeeder extends Seeder
                 'course_id' => $courses->random()->id,  // Assign a random course
                 'instructor_id' => $instructors->random()->id,  // Assign a random instructor
                 'vehicle_id' => $cars->random()->id,  // Assign a random car
-                'course_duration' => rand(5, 30),
-                'class_start_time' => now()->format('H:i:s'),
-                'class_end_time' => now()->addHours(1)->format('H:i:s'),
-                'class_duration' => 60, // Assume class duration is 60 minutes
-                'course_end_date' => now()->addDays(rand(10, 30))->format('Y-m-d'),
+                'course_duration' => $course_duration,
+                'class_start_time' => $class_start_time,
+                'class_end_time' => $class_end_time,
+                'course_end_date' => $course_end_date,
+                'class_duration' => $class_duration,
+                'form_type' => 'admin',
+                'transmission' => 'manual',  // Assign manual or automatic randomly if required
+            ]);
+
+            // Create schedule for the student
+            Schedule::create([
+                'student_id' => $student->id,
+                'instructor_id' => $student->instructor_id,
+                'vehicle_id' => $student->vehicle_id,
+                'class_date' => $admission_date,  // Start date
+                'class_end_date' => $course_end_date,      // End date
+                'start_time' => $class_start_time,
+                'end_time' => $class_end_time,
             ]);
         }
     }

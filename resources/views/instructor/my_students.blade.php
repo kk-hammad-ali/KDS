@@ -28,8 +28,8 @@
                                         <td>{{ $student->father_or_husband_name }}</td>
                                         <td>{{ $student->cnic }}</td>
                                         <td>{{ $student->phone }}</td>
-                                        <td>{{ $student->course->name }}</td>
-                                        <td>{{ $student->admission_date->format('d-m-Y') }}</td>
+                                        <td>{{ $student->course->duration_days }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($student->admission_date)->format('d-m-Y') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
