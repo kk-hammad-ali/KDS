@@ -35,8 +35,10 @@ class ScheduleController extends Controller
             }
         }
 
-        return view('admin.schedules.all_schedules', compact('events'));
+        // Pass both $events and $schedules to the view
+        return view('admin.schedules.all_schedules', compact('events', 'schedules'));
     }
+
 
 
     public function getBookedTimes(Request $request)
@@ -125,37 +127,14 @@ class ScheduleController extends Controller
         // Get the logged-in student's record
         $student = auth()->user()->student;
 
-        // Fetch schedules for the logged-in student
-        $schedules = Schedule::with(['student', 'instructor'])
+        // Fetch schedules for the logged-in student, eager load instructor and employee
+        $schedules = Schedule::with(['instructor.employee.user']) // Eager load related models
             ->where('student_id', $student->id)
             ->get();
 
-        $events = [];
-
-        foreach ($schedules as $schedule) {
-            // Loop through each day from class start date to course end date
-            $startDate = \Carbon\Carbon::parse($schedule->class_date);
-            $endDate = \Carbon\Carbon::parse($schedule->student->course_end_date);
-
-            // Loop through each day between start and end date and add event for each day
-            while ($startDate <= $endDate) {
-                $events[] = [
-                    'title' => 'S' . $schedule->student->id . ' - ' . $schedule->instructor->employee->name,
-                    'start' => $startDate->format('Y-m-d') . 'T' . $schedule->start_time,
-                    'end' => $startDate->format('Y-m-d') . 'T' . $schedule->end_time,
-                    'backgroundColor' => '#ff0000', // Red for booked slots
-                    'textColor' => 'white',
-                    'extendedProps' => [
-                        'course_end_date' => $schedule->student->course_end_date,
-                    ],
-                ];
-
-                // Move to the next day
-                $startDate->addDay();
-            }
-        }
-
-        // Return the view with events for the FullCalendar
-        return view('student.my_schedule', compact('events'));
+        return response()->json([
+            'schedules' => $schedules
+        ]);
     }
+
 }

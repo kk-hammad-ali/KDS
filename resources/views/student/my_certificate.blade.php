@@ -1,233 +1,99 @@
-{{-- @extends('layout.student')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('page_content')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate</title>
     <style>
-        body {
-            font-family: Roboto;
+        @page {
+            margin: 20px;
+            /* Reduce margins on all sides */
         }
 
-        .certificate-container {
-            padding: 50px;
-            width: 1024px;
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            /* Ensure content is centered */
         }
 
         .certificate {
-            border: 20px solid #FF8F1F;
-            padding: 25px;
-            height: 600px;
-            position: relative;
-        }
-
-        .certificate:after {
-            content: '';
-            top: 0px;
-            left: 0px;
-            bottom: 0px;
-            right: 0px;
-            position: absolute;
-            background-image: url(https://image.ibb.co/ckrVv7/water_mark_logo.png);
-            background-size: 100%;
-            z-index: -1;
-        }
-
-        .certificate-header>.logo {
-            width: 80px;
-            height: 80px;
-        }
-
-        .certificate-title {
+            border: 3px solid #FF8F1F;
+            /* Reduced border size */
+            padding: 15px;
+            /* Reduced padding */
+            width: 90%;
+            /* Occupy more horizontal space */
+            margin: 0 auto;
+            /* Center the certificate */
             text-align: center;
         }
 
-        .certificate-body {
+        .certificate-header {
             text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .certificate-header img {
+            width: 100px;
+            /* Adjust the image size */
+            height: auto;
         }
 
         h1 {
             font-weight: 400;
-            font-size: 48px;
+            font-size: 28px;
+            /* Reduced font size */
             color: #FF8F1F;
         }
 
         .student-name {
-            font-size: 24px;
+            font-size: 22px;
+            margin: 15px 0;
         }
 
         .certificate-content {
             margin: 0 auto;
-            width: 750px;
-        }
-
-        .about-certificate {
-            width: 380px;
-            margin: 0 auto;
+            width: 80%;
+            text-align: center;
         }
 
         .topic-description {
-            text-align: center;
+            font-size: 12px;
+            /* Reduced font size */
+            color: #666;
+        }
+
+        .certificate-footer {
+            margin-top: 20px;
         }
     </style>
-    <div class="certificate-container">
-        <div class="certificate">
-            <div class="water-mark-overlay"></div>
-            <div class="certificate-header">
-                <img src="{{ asset('public/images/logo.png') }}" class="logo" alt="King Driving School Logo">
-            </div>
-            <div class="certificate-body">
-                {{-- <p class="certificate-title"><strong>King Driving School</strong></p>
-<h1>Certificate of Completion</h1>
-<p class="student-name">Matthew Taylor</p>
-<div class="certificate-content">
-    <div class="about-certificate">
-        <p>
-            has completed [number of hours] hours of driving training on [Date of Completion].
-        </p>
-    </div>
-    <p class="topic-title">
-        The course consists of [number of hours] hours and includes the following topics:
-    </p>
-    <div class="text-center">
-        <p class="topic-description text-muted">Traffic Laws - Defensive Driving - Safe Driving Practices -
-            Road Signs - Vehicle Operation - Emergency Procedures</p>
-    </div>
-</div>
-<div class="certificate-footer text-muted">
-    <div class="row">
-        <div class="col-md-6">
-            <p>Instructor: ______________________</p>
+</head>
+
+<body>
+    <div class="certificate">
+        <div class="certificate-header">
+            <img src="{{ $base64 }}" alt="King Driving School Logo" />
         </div>
-        {{-- <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p>Accredited by</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>Endorsed by</p>
-                                </div>
-                            </div>
-                        </div>
-    </div>
-</div>
-</div>
-</div>
-</div>
-@endsection
- --}}
-
-
-
-
-@extends('layout.student')
-
-@section('page_content')
-    <style>
-        body {
-            font-family: Roboto;
-        }
-
-        .certificate-container {
-            padding: 50px;
-            width: 1024px;
-        }
-
-        .certificate {
-            border: 20px solid #FF8F1F;
-            padding: 25px;
-            height: 600px;
-            position: relative;
-        }
-
-        .certificate:after {
-            content: '';
-            top: 0px;
-            left: 0px;
-            bottom: 0px;
-            right: 0px;
-            position: absolute;
-            background-image: url(https://image.ibb.co/ckrVv7/water_mark_logo.png);
-            background-size: 100%;
-            z-index: -1;
-        }
-
-        .certificate-header>.logo {
-            width: 80px;
-            height: 80px;
-        }
-
-        .certificate-title {
-            text-align: center;
-        }
-
-        .certificate-body {
-            text-align: center;
-        }
-
-        h1 {
-            font-weight: 400;
-            font-size: 48px;
-            color: #FF8F1F;
-        }
-
-        .student-name {
-            font-size: 24px;
-        }
-
-        .certificate-content {
-            margin: 0 auto;
-            width: 750px;
-        }
-
-        .about-certificate {
-            width: 380px;
-            margin: 0 auto;
-        }
-
-        .topic-description {
-            text-align: center;
-        }
-    </style>
-    <div class="certificate-container">
-        @if (isset($certificateAvailable) && !$certificateAvailable)
-            <div class="alert alert-info">
-                Certificate is only available after course completion.
+        <div class="certificate-body">
+            <h1>Certificate of Completion</h1>
+            <p class="student-name">{{ $student->user->name }}</p>
+            <div class="certificate-content">
+                <p>has completed <strong>{{ $student->practical_driving_hours }}</strong> hours of driving training on
+                    <strong>{{ \Carbon\Carbon::parse($student->course_end_date)->format('F j, Y') }}</strong>.
+                </p>
+                <p>The course consists of {{ $student->practical_driving_hours }} hours and includes the following
+                    topics:</p>
+                <p class="topic-description">Traffic Laws - Defensive Driving - Safe Driving Practices - Road Signs -
+                    Vehicle Operation - Emergency Procedures</p>
             </div>
-        @else
-            <div class="certificate">
-                <div class="water-mark-overlay"></div>
-                <div class="certificate-header">
-                    <img src="{{ asset('public/images/logo.png') }}" class="logo" alt="King Driving School Logo">
-                </div>
-                <div class="certificate-body">
-                    <h1>Certificate of Completion</h1>
-                    <p class="student-name">{{ $student->user->name }}</p>
-                    <div class="certificate-content">
-                        <div class="about-certificate">
-                            <p>
-                                has completed {{ $student->practical_driving_hours }} hours of driving training on
-                                {{ \Carbon\Carbon::parse($student->course_end_date)->format('F j, Y') }}
-
-
-                            </p>
-                        </div>
-                        <p class="topic-title">
-                            The course consists of {{ $student->practical_driving_hours }} hours and includes the following
-                            topics:
-                        </p>
-                        <div class="text-center">
-                            <p class="topic-description text-muted">Traffic Laws - Defensive Driving - Safe Driving
-                                Practices -
-                                Road Signs - Vehicle Operation - Emergency Procedures</p>
-                        </div>
-                    </div>
-                    <div class="certificate-footer text-muted">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p>Instructor: {{ $student->instructor->employee->user->name }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="certificate-footer">
+                <p>Instructor: {{ $student->instructor->employee->user->name }}</p>
             </div>
-        @endif
+        </div>
     </div>
-@endsection
+</body>
+
+</html>

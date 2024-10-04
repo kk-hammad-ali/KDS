@@ -1,272 +1,187 @@
 @extends('layout.instructor')
 
 @section('page_content')
-    <!-- Sale & Revenue Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-line fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Today Sale</p>
-                        <h6 class="mb-0">$1234</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-bar fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Total Sale</p>
-                        <h6 class="mb-0">$1234</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-area fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Today Revenue</p>
-                        <h6 class="mb-0">$1234</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-pie fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Total Revenue</p>
-                        <h6 class="mb-0">$1234</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Sale & Revenue End -->
-
-
-    <!-- Sales Chart Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-light text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Worldwide Sales</h6>
-                        <a href="">Show All</a>
-                    </div>
-                    <canvas id="worldwide-sales"></canvas>
-                </div>
-            </div>
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-light text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Salse & Revenue</h6>
-                        <a href="">Show All</a>
-                    </div>
-                    <canvas id="salse-revenue"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Sales Chart End -->
-
-
-    <!-- Recent Sales Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <h6 class="mb-0">Recent Salse</h6>
-                <a href="">Show All</a>
+                <h6 class="mb-0">My Students</h6>
             </div>
             <div class="table-responsive">
                 <table class="table text-start align-middle table-bordered table-hover mb-0">
                     <thead>
                         <tr class="text-dark">
-                            <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Invoice</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Student Name</th>
+                            <th>Father's/Husband's Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th>CNIC</th>
+                            <th>Course</th>
+                            <th>Admission Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
+                        @foreach ($students as $index => $student)
+                            <tr>
+                                <td>{{ $student->user->name }}</td>
+                                <td>{{ $student->father_or_husband_name }}</td>
+                                <td>{{ $student->email }}</td>
+                                <td>{{ $student->phone }}</td>
+                                <td>{{ $student->cnic }}</td>
+                                <td>{{ $student->course->duration_days }}</td>
+                                <td>{{ \Carbon\Carbon::parse($student->admission_date)->format('d-m-Y') }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <!-- Recent Sales End -->
 
-
-    <!-- Widgets Start -->
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="h-100 bg-light rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <h6 class="mb-0">Messages</h6>
-                        <a href="">Show All</a>
+            <div class="col-12">
+                <div class="bg-light rounded h-100 p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0">My Class Schedule</h4>
                     </div>
-                    <div class="d-flex align-items-center border-bottom py-3">
-                        <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt=""
-                            style="width: 40px; height: 40px;">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Jhon Doe</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                            <span>Short message goes here...</span>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center border-bottom py-3">
-                        <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt=""
-                            style="width: 40px; height: 40px;">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Jhon Doe</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                            <span>Short message goes here...</span>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center border-bottom py-3">
-                        <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt=""
-                            style="width: 40px; height: 40px;">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Jhon Doe</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                            <span>Short message goes here...</span>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center pt-3">
-                        <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt=""
-                            style="width: 40px; height: 40px;">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-0">Jhon Doe</h6>
-                                <small>15 minutes ago</small>
-                            </div>
-                            <span>Short message goes here...</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="h-100 bg-light rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Calender</h6>
-                        <a href="">Show All</a>
-                    </div>
-                    <div id="calender"></div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6 col-xl-4">
-                <div class="h-100 bg-light rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">To Do List</h6>
-                        <a href="">Show All</a>
-                    </div>
-                    <div class="d-flex mb-2">
-                        <input class="form-control bg-transparent" type="text" placeholder="Enter task">
-                        <button type="button" class="btn btn-primary ms-2">Add</button>
-                    </div>
-                    <div class="d-flex align-items-center border-bottom py-2">
-                        <input class="form-check-input m-0" type="checkbox">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <span>Short task goes here...</span>
-                                <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center border-bottom py-2">
-                        <input class="form-check-input m-0" type="checkbox">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <span>Short task goes here...</span>
-                                <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center border-bottom py-2">
-                        <input class="form-check-input m-0" type="checkbox" checked>
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <span><del>Short task goes here...</del></span>
-                                <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center border-bottom py-2">
-                        <input class="form-check-input m-0" type="checkbox">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <span>Short task goes here...</span>
-                                <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center pt-2">
-                        <input class="form-check-input m-0" type="checkbox">
-                        <div class="w-100 ms-3">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <span>Short task goes here...</span>
-                                <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- FullCalendar -->
+                    <div id="calendar"></div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Widgets End -->
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+
+    <style>
+        /* General Calendar Styling */
+        .fc {
+            background-color: white;
+            /* Change overall background color to white */
+            border: none;
+            padding: 20px;
+        }
+
+        .fc-toolbar-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .fc-event {
+            border: none;
+            /* Remove border */
+            padding: 5px;
+            /* Add padding for a cleaner look */
+            border-radius: 5px;
+            /* Slightly round the edges */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Add subtle shadow for depth */
+        }
+
+        /* Add padding between the time slots for a less congested look */
+        .fc-timegrid-slot {
+            background-color: white !important;
+            /* Ensure slots have white background */
+            padding: 10px !important;
+            /* Add padding to the slots */
+        }
+
+        .fc-event-title {
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .fc-event-booked {
+            background-color: black !important;
+            color: white !important;
+        }
+
+        /* Remove underline from the day name */
+        .fc-col-header-cell a {
+            text-decoration: none;
+        }
+
+        /* Update header navigation button colors */
+        .fc-button-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            text-transform: capitalize;
+            /* Capitalize buttons */
+        }
+
+        .fc-button-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        /* Update calendar title styling */
+        .fc-toolbar-title {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        /* Ensure time is formatted correctly */
+        .fc-timegrid-axis-cushion {
+            font-weight: bold;
+            font-size: 12px;
+            text-align: center;
+            /* Center align times */
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridDay',
+                slotMinTime: '08:00:00',
+                slotMaxTime: '20:30:00',
+                slotDuration: '00:30:00',
+                slotLabelInterval: '00:30:00',
+                forceEventDuration: true,
+                defaultTimedEventDuration: '00:30:00',
+                slotLabelFormat: {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    meridiem: 'short',
+                    hour12: true
+                },
+                allDaySlot: false,
+                headerToolbar: {
+                    left: 'prev,next today',
+                    right: 'timeGridDay,timeGridWeek'
+                },
+                buttonText: {
+                    today: 'Today',
+                    day: 'Day',
+                    week: 'Week'
+                },
+                events: @json($events),
+                eventDidMount: function(info) {
+                    // Append the course_end_date to the title
+                    var tooltip = info.event.extendedProps.course_end_date;
+                    var element = info.el.querySelector('.fc-event-title');
+                    if (element && tooltip) {
+                        element.innerHTML = `${info.event.title} | End Date: ${tooltip}`;
+                    }
+
+                    // Apply specific class for booked events
+                    if (info.event.backgroundColor ===
+                        '#ff0000') { // Assuming booked events are red in the backend
+                        info.el.classList.add('fc-event-booked');
+                    }
+                },
+                viewDidMount: function(view) {
+                    // Show all-day slot only in week view
+                    if (view.view.type === 'timeGridWeek') {
+                        calendar.setOption('allDaySlot', true);
+                    } else {
+                        calendar.setOption('allDaySlot', false);
+                    }
+                }
+            });
+            calendar.render();
+        });
+    </script>
 @endsection

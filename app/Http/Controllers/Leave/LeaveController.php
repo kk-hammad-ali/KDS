@@ -13,7 +13,7 @@ class LeaveController extends Controller
     public function adminallLeaves()
     {
         $leaves = Leave::all(); // Fetch all leave requests for both students and instructors
-        return view('admin.leaves.Leaves', compact('leaves'));
+        return view('admin.leaves.leaves', compact('leaves'));
     }
 
     public function adminupdateLeaveStatus(Request $request)
@@ -133,7 +133,7 @@ class LeaveController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('student.allLeaves')->with('success_leave_stored', 'Leave application submitted successfully.');
+        return redirect()->route('student.dashboard')->with('success_leave_stored', 'Leave application submitted successfully.');
     }
 
     public function editLeaveStudent(Leave $leave)
@@ -164,7 +164,7 @@ class LeaveController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('student.allLeaves')->with('success_leave_updated', 'Leave application updated successfully.');
+        return redirect()->route('student.dashboard')->with('success_leave_updated', 'Leave application updated successfully.');
     }
 
     public function destroyStudentLeave(Leave $leave)
@@ -175,6 +175,6 @@ class LeaveController extends Controller
 
         $leave->delete();
 
-        return redirect()->route('student.allLeaves')->with('success_leave_deleted', 'Leave application deleted successfully.');
+        return redirect()->route('student.dashboard')->with('success_leave_deleted', 'Leave application deleted successfully.');
     }
 }

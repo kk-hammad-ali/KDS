@@ -56,6 +56,12 @@
                     center: 'title',
                     right: 'timeGridWeek,dayGridMonth'
                 },
+                buttonText: {
+                    today: 'Today',
+                    day: 'Day',
+                    week: 'Week',
+                    month: 'Month'
+                },
                 events: @json($attendanceEvents),
                 eventDidMount: function(info) {
                     var attendance = info.event.extendedProps.attendance;

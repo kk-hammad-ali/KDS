@@ -221,6 +221,7 @@ use App\Http\Controllers\Main\LoginController;
     Route::get('/student/dashboard', [StudentController::class, 'index'])->name('student.dashboard')->middleware('student_guard');
     Route::get('/student/schedules', [ScheduleController::class, 'studentSchedules'])->name('student.schedules')->middleware('student_guard');
     Route::get('/student/certificate', [CertificateController::class, 'index'])->name('student.certificate')->middleware('student_guard');
+    Route::get('/download-certificate', [CertificateController::class, 'downloadCertificate'])->name('download.certificate')->middleware('student_guard');
 
     // Student Leave Routes
     Route::get('/student/leaves', [LeaveController::class, 'all_leaves_student'])->name('student.allLeaves')->middleware('student_guard');

@@ -9,30 +9,54 @@ use App\Models\Employee;
 use App\Models\Schedule;
 use App\Models\Course;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Coupon;
 use App\Models\Instructor;
 use App\Models\User;
 use App\Models\Car;
+use App\Models\Leave;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\Schedule\ScheduleController;
+use App\Http\Controllers\Leave\LeaveController;
+
 use Carbon\Carbon;
 
 class StudentController extends Controller
 {
 
     protected $emailController;
+    protected $scheduleController;
+    protected $leaveController;
 
-    public function __construct(EmailController $emailController)
+    public function __construct(EmailController $emailController, ScheduleController $scheduleController, LeaveController $leaveController)
     {
         $this->emailController = $emailController;
+        $this->scheduleController = $scheduleController;
+        $this->leaveController = $leaveController;
     }
 
     public function index()
     {
-        $instructors = Instructor::with('employee.user')->get();
-        return view('student.dashboard', compact('instructors'));
+        // Fetch student schedules
+        $schedulesResponse = $this->scheduleController->studentSchedules(request());
+
+        // Access the 'schedules' property of the response object
+        $schedules = $schedulesResponse->getData()->schedules;
+
+        // Fetch the student and certificate availability from the CertificateController
+        $student = Student::where('user_id', Auth::id())->first();
+        $certificateAvailable = $student && $student->course_end_date <= now();
+
+        // Fetch all leaves for the logged-in student
+        $leaves = Leave::where('user_id', Auth::id())->get();
+
+        // Pass schedules, student data, leave data, and certificate availability to the dashboard view
+        return view('student.dashboard', compact('schedules', 'student', 'certificateAvailable', 'leaves'));
     }
+
+
 
     public function adminAllStudent()
     {
@@ -207,20 +231,21 @@ class StudentController extends Controller
         return redirect()->route('admin.allStudents')->with('success_deleted_student', 'Student deleted successfully.');
     }
 
-    /**
-     * Display students assigned to the instructor.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function instructorStudents()
     {
-        // Assuming the instructor is logged in
-        $instructor = auth()->user()->instructor; // Use the Employee model for instructors
 
-        $students = Student::with('user')
+        $instructor = auth()->user()->instructor;
+
+
+        $students = Student::with(['user', 'course'])
             ->where('instructor_id', $instructor->id)
             ->get();
 
-        return view('instructor.my_students', compact('students'));
+
+        return response()->json([
+            'students' => $students
+        ]);
     }
+
 }

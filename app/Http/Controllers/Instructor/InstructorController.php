@@ -8,15 +8,45 @@ use App\Models\Instructor;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\Schedule\ScheduleController;
 
 class InstructorController extends Controller
 {
 
+    protected $studentController;
+    protected $scheduleController;
+
+    public function __construct(StudentController $studentController, ScheduleController $scheduleController)
+    {
+        $this->studentController = $studentController;
+        $this->scheduleController = $scheduleController;
+    }
+
     public function index()
     {
+        // Assuming the instructor is logged in
+        $instructor = auth()->user()->instructor;
+
+        // Call the instructorStudents function from the StudentController
+        $studentsResponse = $this->studentController->instructorStudents();
+
+        // Get the 'students' data from the response
+        $students = $studentsResponse->getData()->students;
+
+        // Fetch instructors and pass data to the dashboard view
         $instructors = Instructor::with('employee.user')->get();
-        return view('instructor.dashboard', compact('instructors'));
+
+        // Call the instructorSchedules function from the ScheduleController
+        $schedulesResponse = $this->scheduleController->instructorSchedules(request());
+
+        // Get the 'events' data from the response (you can get it directly from the view)
+        $events = view('instructor.my_schedule', $schedulesResponse->getData())->getData()['events'];
+
+        // Pass instructors, students, and events to the dashboard view
+        return view('instructor.dashboard', compact('instructors', 'students', 'events'));
     }
+
 
     public function adminAllInstructors()
     {

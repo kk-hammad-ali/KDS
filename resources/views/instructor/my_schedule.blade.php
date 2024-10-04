@@ -101,28 +101,28 @@
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'timeGridDay', // Use time-based view (day view)
-                slotMinTime: '08:00:00', // Start time at 8 AM
-                slotMaxTime: '20:30:00', // End time at 8:30 PM, to ensure 8:00 PM slot is fully visible
-                slotDuration: '00:30:00', // Ensure each slot is 30 minutes
-                slotLabelInterval: '00:30:00', // Ensure time labels appear at 30-minute intervals
-                forceEventDuration: true, // Ensure events have a duration
-                defaultTimedEventDuration: '00:30:00', // Default duration if event has no end time
-                slotLabelFormat: { // Custom time formatting for slots
+                initialView: 'timeGridDay',
+                slotMinTime: '08:00:00',
+                slotMaxTime: '20:30:00',
+                slotDuration: '00:30:00',
+                slotLabelInterval: '00:30:00',
+                forceEventDuration: true,
+                defaultTimedEventDuration: '00:30:00',
+                slotLabelFormat: {
                     hour: 'numeric',
                     minute: '2-digit',
-                    meridiem: 'short', // AM/PM
+                    meridiem: 'short',
                     hour12: true
                 },
-                allDaySlot: false, // Disable all-day slot for day view by default
+                allDaySlot: false,
                 headerToolbar: {
                     left: 'prev,next today',
                     right: 'timeGridDay,timeGridWeek'
                 },
                 buttonText: {
-                    today: 'Today', // Capitalize 'today'
-                    day: 'Day', // Capitalize 'day'
-                    week: 'Week' // Capitalize 'week'
+                    today: 'Today',
+                    day: 'Day',
+                    week: 'Week'
                 },
                 events: @json($events),
                 eventDidMount: function(info) {
