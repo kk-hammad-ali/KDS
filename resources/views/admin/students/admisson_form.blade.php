@@ -59,7 +59,7 @@
                                                     data-practical-driving-hours="{{ $student->practical_driving_hours }}"
                                                     data-theory-classes="{{ $student->theory_classes }}"
                                                     data-transmission="{{ $student->transmission }}"
-                                                    onclick="populateModal(this)">
+                                                    data-email="{{ $student->email }}" onclick="populateModal(this)">
                                                     Enroll
                                                 </button>
                                             </td>
@@ -119,7 +119,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="optional_phone" class="form-label">Optional Phone</label>
-                            <input type="text" class="form-control" id="optional_phone" name="optional_phone" readonly>
+                            <input type="text" class="form-control" id="optional_phone" name="optional_phone"
+                                readonly>
                         </div>
                         <div class="mb-3">
                             <label for="admission_date" class="form-label">Admission Date</label>
@@ -127,10 +128,10 @@
                                 required>
                         </div>
                         <div class="mb-3">
-                            <label for="driving_time_per_week" class="form-label">Driving Time Per Week</label>
-                            <input type="number" class="form-control" id="driving_time_per_week"
-                                name="driving_time_per_week" required>
+                            <label for="email" class="form-label">Email (Optional)</label>
+                            <input type="email" class="form-control" id="email" name="email" readonly>
                         </div>
+
                         <div class="mb-3">
                             <label for="practical_driving_hours" class="form-label">Practical Driving (No. of
                                 Hours)</label>
@@ -202,10 +203,13 @@
 
     <script>
         function populateModal(button) {
-            // Populate form fields with values from the button's data-* attributes
+            // Get the student ID from the button's data attributes
             const studentId = button.getAttribute('data-id');
-            document.getElementById('enrollForm').action = `/admin/formstudents/update/${studentId}`;
 
+            // Update the form action to include the student ID
+            document.getElementById('enrollForm').action = `/admin/student/update/${studentId}`;
+
+            // Populate the form fields with the student's data
             document.getElementById('studentId').value = studentId;
             document.getElementById('name').value = button.getAttribute('data-name');
             document.getElementById('father_husband_name').value = button.getAttribute('data-father-name');
@@ -214,6 +218,7 @@
             document.getElementById('phone').value = button.getAttribute('data-phone');
             document.getElementById('optional_phone').value = button.getAttribute('data-optional-phone');
             document.getElementById('admission_date').value = button.getAttribute('data-admission-date');
+            document.getElementById('email').value = button.getAttribute('data-email') || '';
 
             // Populate read-only fields for course, fees, and duration
             document.getElementById('course_name').value = button.getAttribute('data-course-name');
@@ -245,6 +250,7 @@
             // Trigger fetching booked times
             fetchBookedTimes();
         }
+
 
         function fetchBookedTimes() {
             const selectedDate = document.getElementById('admission_date').value;

@@ -21,7 +21,7 @@ class Student extends Model
         'phone',
         'optional_phone',
         'admission_date',
-        'driving_time_per_week',
+        'email',
         'fees',
         'practical_driving_hours',
         'theory_classes',

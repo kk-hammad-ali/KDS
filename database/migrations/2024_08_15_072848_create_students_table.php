@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('optional_phone')->nullable();
             $table->date('admission_date');
-            $table->integer('driving_time_per_week');
+            $table->string('email')->nullable();
             $table->decimal('fees', 8, 2);
             $table->integer('practical_driving_hours');
             $table->integer('theory_classes');

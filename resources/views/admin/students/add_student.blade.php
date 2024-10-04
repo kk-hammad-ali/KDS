@@ -95,14 +95,12 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label for="drivingTime" class="form-label">Driving Time</label>
+                                        <label for="email" class="form-label">Email (Optional)</label>
                                         <div class="input-group mb-3">
-                                            <input type="number"
-                                                class="form-control @error('driving_time_per_week') is-invalid @enderror"
-                                                id="drivingTime" name="driving_time_per_week"
-                                                value="{{ old('driving_time_per_week') }}" placeholder="2" required>
-                                            <span class="input-group-text">hours per week</span>
-                                            @error('driving_time_per_week')
+                                            <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                                id="email" name="email" value="{{ old('email') }}"
+                                                placeholder="Enter email address">
+                                            @error('email')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -156,8 +154,7 @@
 
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label for="practicalDriving" class="form-label">Practical Driving (No. of
-                                            Hours)</label>
+                                        <label for="practicalDriving" class="form-label">Practical Driving Days</label>
                                         <input type="number"
                                             class="form-control @error('practical_driving_hours') is-invalid @enderror"
                                             id="practicalDriving" name="practical_driving_hours"
@@ -169,8 +166,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label for="theoryClasses" class="form-label">Theory Classes (No. of
-                                            Classes)</label>
+                                        <label for="theoryClasses" class="form-label">Theory Classes Days</label>
                                         <input type="number"
                                             class="form-control @error('theory_classes') is-invalid @enderror"
                                             id="theoryClasses" name="theory_classes" value="{{ old('theory_classes') }}"

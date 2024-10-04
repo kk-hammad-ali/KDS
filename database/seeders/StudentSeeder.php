@@ -51,7 +51,7 @@ class StudentSeeder extends Seeder
                 'phone' => '0312345678' . $i,
                 'optional_phone' => '0321123456' . $i,
                 'admission_date' => $admission_date,
-                'driving_time_per_week' => rand(1, 10),
+                'email' => "mail$i@gmail.com",
                 'fees' => rand(1000, 5000),
                 'practical_driving_hours' => rand(10, 30),
                 'theory_classes' => rand(5, 15),

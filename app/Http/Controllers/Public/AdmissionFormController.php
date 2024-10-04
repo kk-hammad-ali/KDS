@@ -37,8 +37,6 @@ class AdmissionFormController extends Controller
 
     public function store(Request $request)
     {
-        // Debugging output
-        // dd($request->all());
 
         // Validate the request data
         $validated = $request->validate([
@@ -52,11 +50,10 @@ class AdmissionFormController extends Controller
             'course_id' => 'required|exists:courses,id',
             'fees' => 'required|numeric',
             'course_duration' => 'required|integer',
+            'email' => 'nullable|email|max:255|unique:students,email',
         ]);
 
 
-        // Debugging output
-        // dd($validated);
 
         // Create user
         $user = User::create([
@@ -73,7 +70,7 @@ class AdmissionFormController extends Controller
             'phone' => $validated['phone'],
             'optional_phone' => $validated['secondary_phone'],
             'admission_date' => now(), // Set admission date to now
-            'driving_time_per_week' => 0, // Default or empty value
+            'email' => $validated['email'] ?? null,
             'fees' => $validated['fees'],
             'practical_driving_hours' => 0, // Default or empty value
             'theory_classes' => 0, // Default or empty value
@@ -109,7 +106,7 @@ class AdmissionFormController extends Controller
             'class_start_time' => 'required|date_format:H:i',
             'class_duration' => 'required|integer|min:30',
             'admission_date' => 'required|date',
-            'driving_time_per_week' => 'required|integer',
+            'email' => 'nullable|email|max:255',
             'practical_driving_hours' => 'required|integer',
             'theory_classes' => 'required|integer',
         ]);
@@ -156,7 +153,7 @@ class AdmissionFormController extends Controller
             'phone' => $validated['phone'],
             'optional_phone' => $validated['secondary_phone'] ?? null,
             'admission_date' => $validated['admission_date'],
-            'driving_time_per_week' => $validated['driving_time_per_week'],
+            'email' => $validated['email'] ?? null,
             'practical_driving_hours' => $validated['practical_driving_hours'],
             'theory_classes' => $validated['theory_classes'],
             'instructor_id' => $validated['instructor_id'],

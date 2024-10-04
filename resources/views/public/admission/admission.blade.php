@@ -59,6 +59,8 @@
                             </div>
                         </div>
 
+
+
                         <!-- Address -->
                         <div class="form-group col-lg-12 col-md-12 col-sm-12">
                             <div class="field-inner">
@@ -72,6 +74,14 @@
                             <div class="field-inner">
                                 <input type="text" name="secondary_phone" value="{{ old('secondary_phone') }}"
                                     placeholder="Secondary Phone">
+                            </div>
+                        </div>
+
+                        <!-- Email (Optional) -->
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <div class="field-inner">
+                                <input type="email" name="email" value="{{ old('email') }}"
+                                    placeholder="Your Email (Optional)">
                             </div>
                         </div>
 
@@ -89,7 +99,6 @@
                         <!-- Course Dropdown -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="field-inner">
-                                <label for="course" class="form-label">Course</label>
                                 <select class="form-select @error('course_id') is-invalid @enderror" id="course"
                                     name="course_id" required>
                                     <option value="" disabled selected>Select Course</option>
@@ -109,7 +118,6 @@
                         <!-- Fees -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="field-inner">
-                                <label for="fees" class="form-label">Fees</label>
                                 <input type="number" class="form-control @error('fees') is-invalid @enderror"
                                     id="fees" name="fees" value="{{ old('fees') }}" placeholder="5000" readonly
                                     required>
@@ -122,7 +130,6 @@
                         <!-- Course Duration -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="field-inner">
-                                <label for="course_duration" class="form-label">Course Duration (Days)</label>
                                 <input type="text" class="form-control @error('course_duration') is-invalid @enderror"
                                     id="course_duration" name="course_duration" value="{{ old('course_duration') }}"
                                     placeholder="10" readonly required>

@@ -84,6 +84,20 @@
                             </div>
                         </div>
 
+                        <!-- Email field added here -->
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email (Optional)</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        id="email" name="email" value="{{ old('email', $student->email) }}">
+                                    @error('email')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="text-center mt-3">
                             <button type="submit" class="btn btn-primary">Update</button>
                         </div>

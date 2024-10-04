@@ -22,16 +22,16 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Father's/Husband's Name</th>
-                                    <th scope="col">CNIC</th>
-                                    <th scope="col">Address</th>
+                                    {{-- <th scope="col">Father's/Husband's Name</th> --}}
+                                    {{-- <th scope="col">CNIC</th> --}}
+                                    {{-- <th scope="col">Address</th> --}}
                                     <th scope="col">Phone Number</th>
-                                    <th scope="col">Optional Phone</th>
+                                    {{-- <th scope="col">Optional Phone</th> --}}
                                     <th scope="col">Admission Date</th>
-                                    <th scope="col">Driving Time Per Week</th>
+                                    {{-- <th scope="col">Email</th>
                                     <th scope="col">Fees</th>
-                                    <th scope="col">Practical Driving Hours</th>
-                                    <th scope="col">Theory Classes</th>
+                                    <th scope="col">Practical Driving Days</th>
+                                    <th scope="col">Theory Classes Days</th> --}}
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -40,16 +40,16 @@
                                     <tr>
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td>{{ $student->user->name }}</td>
-                                        <td style="min-width: 220px">{{ $student->father_or_husband_name }}</td>
-                                        <td>{{ $student->cnic }}</td>
-                                        <td>{{ $student->address }}</td>
+                                        {{-- <td style="min-width: 220px">{{ $student->father_or_husband_name }}</td> --}}
+                                        {{-- <td>{{ $student->cnic }}</td> --}}
+                                        {{-- <td>{{ $student->address }}</td> --}}
                                         <td>{{ $student->phone }}</td>
-                                        <td>{{ $student->optional_phone }}</td>
+                                        {{-- <td>{{ $student->optional_phone }}</td> --}}
                                         <td>{{ $student->admission_date }}</td>
-                                        <td>{{ $student->driving_time_per_week }}</td>
+                                        {{-- <td>{{ $student->email }}</td>
                                         <td>{{ $student->fees }}</td>
                                         <td>{{ $student->practical_driving_hours }}</td>
-                                        <td>{{ $student->theory_classes }}</td>
+                                        <td>{{ $student->theory_classes }}</td> --}}
                                         <td style="min-width: 150px">
                                             <a href="{{ route('admin.editStudent', ['id' => $student->id]) }}"
                                                 class="btn btn-warning">Edit</a>

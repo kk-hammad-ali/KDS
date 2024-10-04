@@ -8,16 +8,26 @@ use App\Models\Student;
 use App\Models\Employee;
 use App\Models\Schedule;
 use App\Models\Course;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Coupon;
 use App\Models\Instructor;
 use App\Models\User;
 use App\Models\Car;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\EmailController;
 use Carbon\Carbon;
 
 class StudentController extends Controller
 {
+
+    protected $emailController;
+
+    public function __construct(EmailController $emailController)
+    {
+        $this->emailController = $emailController;
+    }
+
     public function index()
     {
         $instructors = Instructor::with('employee.user')->get();
@@ -50,7 +60,7 @@ class StudentController extends Controller
             'phone' => 'required|string|max:15',
             'optional_phone' => 'nullable|string|max:15',
             'admission_date' => 'required|date',
-            'driving_time_per_week' => 'required|numeric',
+            'email' => 'nullable|email',
             'course_id' => 'required|exists:courses,id',
             'fees' => 'required|numeric',
             'practical_driving_hours' => 'required|numeric',
@@ -102,7 +112,7 @@ class StudentController extends Controller
             'phone' => $validated['phone'],
             'optional_phone' => $validated['optional_phone'],
             'admission_date' => $validated['admission_date'],
-            'driving_time_per_week' => $validated['driving_time_per_week'],
+            'email' => $validated['email'] ?? null,
             'fees' => $validated['fees'],
             'practical_driving_hours' => $validated['practical_driving_hours'],
             'theory_classes' => $validated['theory_classes'],
@@ -120,7 +130,7 @@ class StudentController extends Controller
         ]);
 
         // Create schedule
-        Schedule::create([
+        $schedule = Schedule::create([
             'student_id' => $student->id,
             'instructor_id' => $request->instructor_id,
             'vehicle_id' => $request->vehicle_id,
@@ -129,6 +139,8 @@ class StudentController extends Controller
             'start_time' => $request->class_start_time,
             'end_time' => $class_end_time,
         ]);
+
+        $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
 
         return redirect()->route('admin.allStudents')->with('success_student', 'Student added successfully.');
     }
@@ -152,6 +164,7 @@ class StudentController extends Controller
             'address' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'optional_phone' => 'nullable|string|max:15',
+            'email' => 'nullable|email|max:255', // Add email validation
         ]);
 
         // Find student and user
@@ -170,10 +183,12 @@ class StudentController extends Controller
             'address' => $validated['address'],
             'phone' => $validated['phone'],
             'optional_phone' => $validated['optional_phone'],
+            'email' => $validated['email'] ?? null, // Add email field to the update
         ]);
 
         return redirect()->route('admin.allStudents')->with('success', 'Student updated successfully.');
     }
+
 
     /**
      * Remove the specified student from storage.

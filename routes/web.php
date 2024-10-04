@@ -230,3 +230,16 @@ use App\Http\Controllers\Main\LoginController;
     Route::put('/student/leaves/{leave}', [LeaveController::class, 'updateLeaveStudent'])->name('student.updateLeave')->middleware('student_guard');
     Route::get('/student/leaves/delete/{leave}', [LeaveController::class, 'destroyStudentLeave'])->name('student.deleteLeave')->middleware('student_guard');
 
+
+
+
+    // Route::get('/send-test-email', function () {
+    //     $details = [
+    //         'title' => 'Test Email from King Driving School',
+    //         'body' => 'This is a test email sent using Hostinger SMTP in Laravel.'
+    //     ];
+
+    //     \Mail::to('alaptop2022@gmail.com')->send(new \App\Mail\TestMail($details));
+
+    //     return 'Test email sent successfully!';
+    // });
