@@ -26,6 +26,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">User Name</th>
+                                    <th scope="col">Role</th>
                                     <th scope="col">Start Date</th>
                                     <th scope="col">End Date</th>
                                     <th scope="col">Reason</th>
@@ -37,6 +39,14 @@
                                 @foreach ($leaves as $leave)
                                     <tr>
                                         <th scope="row">{{ $loop->iteration }}</th>
+                                        <td>{{ $leave->user->name }}</td>
+                                        <td>
+                                            @if ($leave->user->role == 2)
+                                                Student
+                                            @else
+                                                Employee
+                                            @endif
+                                        </td>
                                         <td>{{ $leave->start_date }}</td>
                                         <td>{{ $leave->end_date }}</td>
                                         <td>{{ $leave->leave_reason }}</td>

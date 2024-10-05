@@ -146,6 +146,11 @@
                         <i class="fa fa-calendar me-2"></i>Class Schedule
                     </a>
 
+                    <a href="{{ route('admin.allLeaves') }}"
+                        class="nav-item nav-link {{ Request::is('admin/leaves*') ? 'active' : '' }}">
+                        <i class="fa fa-calendar-check me-2"></i>Leave
+                    </a>
+
                     <a href="{{ route('admin.allCars') }}"
                         class="nav-item nav-link {{ Request::is('admin/cars*') ? 'active' : '' }}">
                         <i class="fa fa-car me-2"></i>Cars

@@ -53,8 +53,6 @@ class AdmissionFormController extends Controller
             'email' => 'nullable|email|max:255|unique:students,email',
         ]);
 
-
-
         // Create user
         $user = User::create([
             'name' => $validated['name'],

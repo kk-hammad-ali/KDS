@@ -16,6 +16,10 @@ class Leave extends Model
     {
         return $this->belongsTo(Instructor::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
 
 
