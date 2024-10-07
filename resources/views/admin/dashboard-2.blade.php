@@ -3,152 +3,62 @@
 @section('content')
     <div class="dashboard-body">
         <div class="row gy-4">
-            <div class="row gy-4">
-                <div class="row g-4">
-                    <!-- Total Students Card -->
-                    <div class="col-xxl-3 col-sm-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-2">{{ $totalStudentsCount }}</h4>
-                                <span class="text-gray-600">Total Students</span>
-                                <div class="flex-between gap-8 mt-16">
-                                    <span
-                                        class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
-                                        <i class="ph-fill ph-users"></i>
-                                    </span>
-                                    <div id="students-count" class="remove-tooltip-title rounded-tooltip-value">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Total Instructors Card -->
-                    <div class="col-xxl-3 col-sm-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-2">{{ $totalInstructorsCount }}</h4>
-                                <span class="text-gray-600">Total Instructors</span>
-                                <div class="flex-between gap-8 mt-16">
-                                    <span
-                                        class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
-                                        <i class="ph-fill ph-chalkboard-teacher"></i>
-                                    </span>
-                                    <div id="instructors-count" class="remove-tooltip-title rounded-tooltip-value">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Total Cars Card -->
-                    <div class="col-xxl-3 col-sm-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-2">{{ $totalCarsCount }}</h4>
-                                <span class="text-gray-600">Total Cars</span>
-                                <div class="flex-between gap-8 mt-16">
-                                    <span
-                                        class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
-                                        <i class="ph-fill ph-car"></i>
-                                    </span>
-                                    <div id="cars-count" class="remove-tooltip-title rounded-tooltip-value">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Submitted Forms Card -->
-                    <div class="col-xxl-3 col-sm-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-2">{{ $submittedFormsCount }}</h4>
-                                <span class="text-gray-600">Submitted Forms</span>
-                                <div class="flex-between gap-8 mt-16">
-                                    <span
-                                        class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
-                                        <i class="ph-fill ph-file-text"></i>
-                                    </span>
-                                    <div id="submitted-forms-count" class="remove-tooltip-title rounded-tooltip-value">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Today's Classes Count -->
-                    <div class="col-xxl-3 col-sm-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-2">{{ $todaysClassesCount }}</h4>
-                                <span class="text-gray-600">Today's Classes</span>
-                                <div class="flex-between gap-8 mt-16">
-                                    <span
-                                        class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
-                                        <i class="ph-fill ph-calendar"></i>
-                                    </span>
-                                    <div id="todays-classes-count" class="remove-tooltip-title rounded-tooltip-value">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Today's Expense Card -->
-                    <div class="col-xxl-3 col-sm-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-2">{{ number_format($todayExpense, 2) }}</h4>
-                                <span class="text-gray-600">Today's Expense</span>
-                                <div class="flex-between gap-8 mt-16">
-                                    <span
-                                        class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
-                                        <i class="ph-fill ph-currency-dollar"></i>
-                                    </span>
-                                    <div id="today-expense" class="remove-tooltip-title rounded-tooltip-value">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Monthly Expense Card -->
-                    <div class="col-xxl-3 col-sm-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-2">{{ number_format($monthlyExpense, 2) }}</h4>
-                                <span class="text-gray-600">Monthly Expense</span>
-                                <div class="flex-between gap-8 mt-16">
-                                    <span
-                                        class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
-                                        <i class="ph-fill ph-currency-dollar"></i>
-                                    </span>
-                                    <div id="monthly-expense" class="remove-tooltip-title rounded-tooltip-value">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Yearly Expense Card -->
-                    <div class="col-xxl-3 col-sm-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-2">{{ number_format($yearlyExpense, 2) }}</h4>
-                                <span class="text-gray-600">Yearly Expense</span>
-                                <div class="flex-between gap-8 mt-16">
-                                    <span
-                                        class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
-                                        <i class="ph-fill ph-currency-dollar"></i>
-                                    </span>
-                                    <div id="yearly-expense" class="remove-tooltip-title rounded-tooltip-value">
-                                    </div>
+            <div class="row g-4">
+                <!-- Total Students Card -->
+                <div class="col-xxl-3 col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mb-2">{{ $totalStudentsCount }}</h4>
+                            <span class="text-gray-600">Total Students</span>
+                            <div class="flex-between gap-8 mt-16">
+                                <span
+                                    class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
+                                    <i class="ph-fill ph-users"></i>
+                                </span>
+                                <div id="students-count" class="remove-tooltip-title rounded-tooltip-value">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Today's Classes Count -->
+                <div class="col-xxl-3 col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mb-2">{{ $todaysClassesCount }}</h4>
+                            <span class="text-gray-600">Today's Classes</span>
+                            <div class="flex-between gap-8 mt-16">
+                                <span
+                                    class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
+                                    <i class="ph-fill ph-calendar"></i>
+                                </span>
+                                <div id="todays-classes-count" class="remove-tooltip-title rounded-tooltip-value">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Expense Card -->
+                <div class="col-xxl-3 col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mb-2">{{ number_format($todayExpense, 2) }}</h4>
+                            <span class="text-gray-600">Today's Expense</span>
+                            <div class="flex-between gap-8 mt-16">
+                                <span
+                                    class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
+                                    <i class="ph-fill ph-currency-dollar"></i>
+                                </span>
+                                <div id="today-expense" class="remove-tooltip-title rounded-tooltip-value">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Sales Card -->
                 <div class="col-xxl-3 col-sm-3">
                     <div class="card">
                         <div class="card-body">
@@ -164,46 +74,140 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-xxl-3 col-sm-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="mb-2">{{ number_format($monthlySales, 2) }}</h4>
-                            <span class="text-gray-600">Monthly Sales</span>
-                            <div class="flex-between gap-8 mt-16">
-                                <span
-                                    class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
-                                    <i class="ph-fill ph-currency-dollar-simple"></i>
-                                </span>
-                                <div id="monthly-sales" class="remove-tooltip-title rounded-tooltip-value"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xxl-3 col-sm-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="mb-2">{{ number_format($yearlySales, 2) }}</h4>
-                            <span class="text-gray-600">Yearly Sales</span>
-                            <div class="flex-between gap-8 mt-16">
-                                <span
-                                    class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-700 text-white text-2xl">
-                                    <i class="ph-fill ph-currency-dollar-simple"></i>
-                                </span>
-                                <div id="yearly-sales" class="remove-tooltip-title rounded-tooltip-value"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-            <!-- Widgets End -->
         </div>
+
+        <!-- Filtering Form -->
+        <div class="card mt-24">
+            <div class="card-body">
+                <form class="search-input-form">
+                    <!-- Cars Dropdown -->
+                    <select id="carSelect" class="form-control form-select h6 rounded-4 mb-0 py-6 px-8">
+                        <option value="" selected disabled>Cars</option>
+                        @foreach ($all_cars as $car)
+                            <option value="{{ $car->id }}" data-make="{{ $car->make }}"
+                                data-registration="{{ $car->registration_number }}">
+                                {{ $car->make }} {{ $car->registration_number }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <!-- Instructors Dropdown -->
+                    <select id="instructorSelect" class="form-control form-select h6 rounded-4 mb-0 py-6 px-8">
+                        <option value="" selected disabled>Instructor</option>
+                        @foreach ($instructors as $instructor)
+                            <option value="{{ $instructor->id }}" data-name="{{ $instructor->employee->user->name }}">
+                                {{ $instructor->employee->user->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <button type="button" class="btn btn-main rounded-pill py-9 w-100"
+                        onclick="filterData()">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Available Slots Table -->
+        <div class="card mt-24">
+            <div class="card-body">
+                <h4 class="mb-0">Available Slots</h4>
+                <div class="card overflow-hidden">
+                    <div class="card-body p-0 overflow-x-auto">
+                        <table id="slotsTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="h6 text-gray-300">Time Slot</th>
+                                    <th class="h6 text-gray-300">Instructor Name</th>
+                                    <th class="h6 text-gray-300">Car</th>
+                                    <th class="h6 text-gray-300">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="slotsBody">
+                                @foreach ($timeSlots as $slot)
+                                    @php
+                                        $isBooked = false;
+                                        $scheduleForSlot = null;
+
+                                        // Check if today's date is between class_date and class_end_date for each schedule
+foreach ($schedules as $schedule) {
+    // Use the fully qualified class name for Carbon
+    if (
+        \Carbon\Carbon::today()->between(
+            $schedule->class_date,
+            $schedule->class_end_date,
+        ) &&
+        \Carbon\Carbon::parse($schedule->start_time)->format('H:i') <=
+            $slot['value'] &&
+        \Carbon\Carbon::parse($schedule->end_time)->format('H:i') >
+            $slot['value']
+                                            ) {
+                                                $isBooked = true;
+                                                $scheduleForSlot = $schedule;
+                                                break; // No need to check further once booked
+                                            }
+                                        }
+                                    @endphp
+                                    <tr class="slot-row"
+                                        data-car="{{ $scheduleForSlot ? $scheduleForSlot->vehicle_id : '' }}"
+                                        data-instructor="{{ $scheduleForSlot ? $scheduleForSlot->instructor_id : '' }}"
+                                        data-timeslot="{{ $slot['value'] }}">
+
+                                        <!-- Time Slot Column -->
+                                        <td>
+                                            <div class="flex-align gap-8">
+                                                <span class="h6 mb-0 fw-medium text-gray-300">{{ $slot['display'] }}</span>
+                                            </div>
+                                        </td>
+
+                                        <!-- Instructor Name or N/A -->
+                                        <td>
+                                            <div class="flex-align gap-8">
+                                                @if ($isBooked && $scheduleForSlot)
+                                                    <span
+                                                        class="h6 mb-0 fw-medium text-gray-300">{{ $scheduleForSlot->instructor->employee->user->name }}</span>
+                                                @else
+                                                    <span class="h6 mb-0 fw-medium text-gray-300">N/A</span>
+                                                @endif
+                                            </div>
+                                        </td>
+
+                                        <!-- Car Model or N/A -->
+                                        <td>
+                                            <div class="flex-align gap-8">
+                                                @if ($isBooked && $scheduleForSlot)
+                                                    <span
+                                                        class="h6 mb-0 fw-medium text-gray-300">{{ $scheduleForSlot->vehicle->make }}
+                                                        {{ $scheduleForSlot->vehicle->registration_number }}</span>
+                                                @else
+                                                    <span class="h6 mb-0 fw-medium text-gray-300">N/A</span>
+                                                @endif
+                                            </div>
+                                        </td>
+
+                                        <!-- Status (Booked/Available) -->
+                                        <td>
+                                            <div class="flex-align gap-8">
+                                                @if ($isBooked)
+                                                    <span class="badge bg-danger">Booked</span>
+                                                @else
+                                                    <span class="badge bg-success">Available</span>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
         <div class="row gy-4">
             <div class="col-lg-9">
                 <!-- Top Course Start -->
-
                 <div class="card mt-24">
                     <div class="card-body">
                         <div class="mb-20 flex-between flex-wrap gap-8">
@@ -225,165 +229,128 @@
                         <div id="doubleLineChart" class="tooltip-style y-value-left"></div>
                     </div>
                 </div>
-
-                <!-- Top Course End -->
-
-                <!-- Top Course Start -->
-                <div class="card mt-24">
-                    <div class="card-body">
-                        <div class="mb-20 flex-between flex-wrap gap-8">
-                            <h4 class="mb-0">Top Courses Pick for You</h4>
-                            <a href="student-courses.html"
-                                class="text-13 fw-medium text-main-600 hover-text-decoration-underline">See All</a>
+                <div class="row gy-4">
+                    <div class="row g-4">
+                        <!-- Total Instructors Card -->
+                        <div class="col-xxl-3 col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mb-2">{{ $totalInstructorsCount }}</h4>
+                                    <span class="text-gray-600">Total Instructors</span>
+                                    <div class="flex-between gap-8 mt-16">
+                                        <span
+                                            class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
+                                            <i class="ph-fill ph-chalkboard-teacher"></i>
+                                        </span>
+                                        <div id="instructors-count" class="remove-tooltip-title rounded-tooltip-value">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="row g-20">
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="card border border-gray-100">
-                                    <div class="card-body p-8">
-                                        <a href="course-details.html"
-                                            class="bg-main-100 rounded-8 overflow-hidden text-center mb-8 h-164 flex-center p-8">
-                                            <img src="assets/images/thumbs/course-img1.png" alt="Course Image">
-                                        </a>
-                                        <div class="p-8">
-                                            <span
-                                                class="text-13 py-2 px-10 rounded-pill bg-success-50 text-success-600 mb-16">Development</span>
-                                            <h5 class="mb-0"><a href="course-details.html"
-                                                    class="hover-text-main-600">Full Stack Web Development</a></h5>
-
-                                            <div class="flex-align gap-8 flex-wrap mt-16">
-                                                <img src="assets/images/thumbs/user-img1.png"
-                                                    class="w-28 h-28 rounded-circle object-fit-cover" alt="User Image">
-                                                <div>
-                                                    <span class="text-gray-600 text-13">Created by <a href="profile.html"
-                                                            class="fw-semibold text-gray-700 hover-text-main-600 hover-text-decoration-underline">Albert
-                                                            James</a> </span>
-                                                </div>
-                                            </div>
-
-                                            <div class="flex-align gap-8 mt-12 pt-12 border-top border-gray-100">
-                                                <div class="flex-align gap-4">
-                                                    <span class="text-sm text-main-600 d-flex"><i
-                                                            class="ph ph-video-camera"></i></span>
-                                                    <span class="text-13 text-gray-600">24 Lesson</span>
-                                                </div>
-                                                <div class="flex-align gap-4">
-                                                    <span class="text-sm text-main-600 d-flex"><i
-                                                            class="ph ph-clock"></i></span>
-                                                    <span class="text-13 text-gray-600">40 Hours</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="flex-between gap-4 flex-wrap mt-24">
-                                                <div class="flex-align gap-4">
-                                                    <span class="text-15 fw-bold text-warning-600 d-flex"><i
-                                                            class="ph-fill ph-star"></i></span>
-                                                    <span class="text-13 fw-bold text-gray-600">4.9</span>
-                                                    <span class="text-13 fw-bold text-gray-600">(12k)</span>
-                                                </div>
-                                                <a href="course-details.html"
-                                                    class="btn btn-outline-main rounded-pill py-9">View Details</a>
-                                            </div>
+                        <!-- Total Cars Card -->
+                        <div class="col-xxl-3 col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mb-2">{{ $totalCarsCount }}</h4>
+                                    <span class="text-gray-600">Total Cars</span>
+                                    <div class="flex-between gap-8 mt-16">
+                                        <span
+                                            class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
+                                            <i class="ph-fill ph-car"></i>
+                                        </span>
+                                        <div id="cars-count" class="remove-tooltip-title rounded-tooltip-value">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="card border border-gray-100">
-                                    <div class="card-body p-8">
-                                        <a href="course-details.html"
-                                            class="bg-main-100 rounded-8 overflow-hidden text-center mb-8 h-164 flex-center p-8">
-                                            <img src="assets/images/thumbs/course-img5.png" alt="Course Image">
-                                        </a>
-                                        <div class="p-8">
-                                            <span
-                                                class="text-13 py-2 px-10 rounded-pill bg-warning-50 text-warning-600 mb-16">Design</span>
-                                            <h5 class="mb-0"><a href="course-details.html"
-                                                    class="hover-text-main-600">Design System</a></h5>
+                        </div>
 
-                                            <div class="flex-align gap-8 flex-wrap mt-16">
-                                                <img src="assets/images/thumbs/user-img5.png"
-                                                    class="w-28 h-28 rounded-circle object-fit-cover" alt="User Image">
-                                                <div>
-                                                    <span class="text-gray-600 text-13">Created by <a href="profile.html"
-                                                            class="fw-semibold text-gray-700 hover-text-main-600 hover-text-decoration-underline">Albert
-                                                            James</a> </span>
-                                                </div>
-                                            </div>
-
-                                            <div class="flex-align gap-8 mt-12 pt-12 border-top border-gray-100">
-                                                <div class="flex-align gap-4">
-                                                    <span class="text-sm text-main-600 d-flex"><i
-                                                            class="ph ph-video-camera"></i></span>
-                                                    <span class="text-13 text-gray-600">24 Lesson</span>
-                                                </div>
-                                                <div class="flex-align gap-4">
-                                                    <span class="text-sm text-main-600 d-flex"><i
-                                                            class="ph ph-clock"></i></span>
-                                                    <span class="text-13 text-gray-600">40 Hours</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="flex-between gap-4 flex-wrap mt-24">
-                                                <div class="flex-align gap-4">
-                                                    <span class="text-15 fw-bold text-warning-600 d-flex"><i
-                                                            class="ph-fill ph-star"></i></span>
-                                                    <span class="text-13 fw-bold text-gray-600">4.9</span>
-                                                    <span class="text-13 fw-bold text-gray-600">(12k)</span>
-                                                </div>
-                                                <a href="course-details.html"
-                                                    class="btn btn-outline-main rounded-pill py-9">View Details</a>
-                                            </div>
+                        <!-- Submitted Forms Card -->
+                        <div class="col-xxl-3 col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mb-2">{{ $submittedFormsCount }}</h4>
+                                    <span class="text-gray-600">Submitted Forms</span>
+                                    <div class="flex-between gap-8 mt-16">
+                                        <span
+                                            class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
+                                            <i class="ph-fill ph-file-text"></i>
+                                        </span>
+                                        <div id="submitted-forms-count"
+                                            class="remove-tooltip-title rounded-tooltip-value">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="card border border-gray-100">
-                                    <div class="card-body p-8">
-                                        <a href="course-details.html"
-                                            class="bg-main-100 rounded-8 overflow-hidden text-center mb-8 h-164 flex-center p-8">
-                                            <img src="assets/images/thumbs/course-img6.png" alt="Course Image">
-                                        </a>
-                                        <div class="p-8">
-                                            <span
-                                                class="text-13 py-2 px-10 rounded-pill bg-danger-50 text-danger-600 mb-16">Frontend</span>
-                                            <h5 class="mb-0"><a href="course-details.html"
-                                                    class="hover-text-main-600">React Native Courese</a></h5>
+                        </div>
 
-                                            <div class="flex-align gap-8 flex-wrap mt-16">
-                                                <img src="assets/images/thumbs/user-img6.png"
-                                                    class="w-28 h-28 rounded-circle object-fit-cover" alt="User Image">
-                                                <div>
-                                                    <span class="text-gray-600 text-13">Created by <a href="profile.html"
-                                                            class="fw-semibold text-gray-700 hover-text-main-600 hover-text-decoration-underline">Albert
-                                                            James</a> </span>
-                                                </div>
-                                            </div>
+                        <!-- Monthly Expense Card -->
+                        <div class="col-xxl-3 col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mb-2">{{ number_format($monthlyExpense, 2) }}</h4>
+                                    <span class="text-gray-600">Monthly Expense</span>
+                                    <div class="flex-between gap-8 mt-16">
+                                        <span
+                                            class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
+                                            <i class="ph-fill ph-currency-dollar"></i>
+                                        </span>
+                                        <div id="monthly-expense" class="remove-tooltip-title rounded-tooltip-value">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                            <div class="flex-align gap-8 mt-12 pt-12 border-top border-gray-100">
-                                                <div class="flex-align gap-4">
-                                                    <span class="text-sm text-main-600 d-flex"><i
-                                                            class="ph ph-video-camera"></i></span>
-                                                    <span class="text-13 text-gray-600">24 Lesson</span>
-                                                </div>
-                                                <div class="flex-align gap-4">
-                                                    <span class="text-sm text-main-600 d-flex"><i
-                                                            class="ph ph-clock"></i></span>
-                                                    <span class="text-13 text-gray-600">40 Hours</span>
-                                                </div>
-                                            </div>
+                        <!-- Yearly Expense Card -->
+                        <div class="col-xxl-3 col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mb-2">{{ number_format($yearlyExpense, 2) }}</h4>
+                                    <span class="text-gray-600">Yearly Expense</span>
+                                    <div class="flex-between gap-8 mt-16">
+                                        <span
+                                            class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
+                                            <i class="ph-fill ph-currency-dollar"></i>
+                                        </span>
+                                        <div id="yearly-expense" class="remove-tooltip-title rounded-tooltip-value">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Monthly Sales Card -->
+                        <div class="col-xxl-3 col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mb-2">{{ number_format($monthlySales, 2) }}</h4>
+                                    <span class="text-gray-600">Monthly Sales</span>
+                                    <div class="flex-between gap-8 mt-16">
+                                        <span
+                                            class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
+                                            <i class="ph-fill ph-currency-dollar-simple"></i>
+                                        </span>
+                                        <div id="monthly-sales" class="remove-tooltip-title rounded-tooltip-value">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                            <div class="flex-between gap-4 flex-wrap mt-24">
-                                                <div class="flex-align gap-4">
-                                                    <span class="text-15 fw-bold text-warning-600 d-flex"><i
-                                                            class="ph-fill ph-star"></i></span>
-                                                    <span class="text-13 fw-bold text-gray-600">4.9</span>
-                                                    <span class="text-13 fw-bold text-gray-600">(12k)</span>
-                                                </div>
-                                                <a href="course-details.html"
-                                                    class="btn btn-outline-main rounded-pill py-9">View Details</a>
-                                            </div>
+                        <!-- Yearly Sales Card -->
+                        <div class="col-xxl-3 col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mb-2">{{ number_format($yearlySales, 2) }}</h4>
+                                    <span class="text-gray-600">Yearly Sales</span>
+                                    <div class="flex-between gap-8 mt-16">
+                                        <span
+                                            class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-700 text-white text-2xl">
+                                            <i class="ph-fill ph-currency-dollar-simple"></i>
+                                        </span>
+                                        <div id="yearly-sales" class="remove-tooltip-title rounded-tooltip-value">
                                         </div>
                                     </div>
                                 </div>
@@ -391,7 +358,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Top Course End -->
+                <!-- Widgets End -->
             </div>
             <div class="col-lg-3">
                 <!-- Calendar Start -->
@@ -420,60 +387,6 @@
                     </div>
                 </div>
                 <!-- Calendar End -->
-
-                {{-- <!-- Assignment Start -->
-                <div class="card mt-24">
-                    <div class="card-body">
-                        <div class="mb-20 flex-between flex-wrap gap-8">
-                            <h4 class="mb-0">Assignments</h4>
-                            <a href="assignment.html"
-                                class="text-13 fw-medium text-main-600 hover-text-decoration-underline">See All</a>
-                        </div>
-                        <div
-                            class="p-xl-4 py-16 px-12 flex-between gap-8 rounded-8 border border-gray-100 hover-border-gray-200 transition-1 mb-16">
-                            <div class="flex-align flex-wrap gap-8">
-                                <span
-                                    class="text-main-600 bg-main-50 w-44 h-44 rounded-circle flex-center text-2xl flex-shrink-0"><i
-                                        class="ph-fill ph-graduation-cap"></i></span>
-                                <div>
-                                    <h6 class="mb-0">Do The Research</h6>
-                                    <span class="text-13 text-gray-400">Due in 9 days</span>
-                                </div>
-                            </div>
-                            <a href="assignment.html" class="text-gray-900 hover-text-main-600"><i
-                                    class="ph ph-caret-right"></i></a>
-                        </div>
-                        <div
-                            class="p-xl-4 py-16 px-12 flex-between gap-8 rounded-8 border border-gray-100 hover-border-gray-200 transition-1 mb-16">
-                            <div class="flex-align flex-wrap gap-8">
-                                <span
-                                    class="text-main-600 bg-main-50 w-44 h-44 rounded-circle flex-center text-2xl flex-shrink-0"><i
-                                        class="ph ph-code"></i></span>
-                                <div>
-                                    <h6 class="mb-0">PHP Dvelopment</h6>
-                                    <span class="text-13 text-gray-400">Due in 2 days</span>
-                                </div>
-                            </div>
-                            <a href="assignment.html" class="text-gray-900 hover-text-main-600"><i
-                                    class="ph ph-caret-right"></i></a>
-                        </div>
-                        <div
-                            class="p-xl-4 py-16 px-12 flex-between gap-8 rounded-8 border border-gray-100 hover-border-gray-200 transition-1">
-                            <div class="flex-align flex-wrap gap-8">
-                                <span
-                                    class="text-main-600 bg-main-50 w-44 h-44 rounded-circle flex-center text-2xl flex-shrink-0"><i
-                                        class="ph ph-bezier-curve"></i></span>
-                                <div>
-                                    <h6 class="mb-0">Graphic Design</h6>
-                                    <span class="text-13 text-gray-400">Due in 5 days</span>
-                                </div>
-                            </div>
-                            <a href="assignment.html" class="text-gray-900 hover-text-main-600"><i
-                                    class="ph ph-caret-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Assignment End --> --}}
 
                 <!-- Progress Bar Start -->
                 <div class="card mt-24">
@@ -508,12 +421,53 @@
                 </div>
                 <!-- Progress bar end -->
             </div>
-
         </div>
-    </div>
 
-    <script>
-        const monthlyExpenseData = @json($monthlyExpenseData);
-        const monthlySalesData = @json($monthlySalesData);
-    </script>
-@endsection
+        <br>
+
+        <!-- Script for Filtering Data -->
+        <script>
+            function filterData() {
+                let carSelect = document.getElementById('carSelect');
+                let instructorSelect = document.getElementById('instructorSelect');
+                let carId = carSelect.value;
+                let instructorId = instructorSelect.value;
+
+                let carOption = carSelect.options[carSelect.selectedIndex];
+                let instructorOption = instructorSelect.options[instructorSelect.selectedIndex];
+
+                let carMake = carOption ? carOption.getAttribute('data-make') : '';
+                let carReg = carOption ? carOption.getAttribute('data-registration') : '';
+                let instructorName = instructorOption ? instructorOption.getAttribute('data-name') : '';
+
+                let rows = document.querySelectorAll('.slot-row');
+
+                rows.forEach(row => {
+                    let rowCar = row.getAttribute('data-car');
+                    let rowInstructor = row.getAttribute('data-instructor');
+                    let carInfo = row.querySelector('.car-info');
+                    let instructorNameCell = row.querySelector('.instructor-name');
+
+                    // Always show all rows by default
+                    row.style.display = '';
+
+                    // If a car is selected, show the selected car details
+                    if (carId) {
+                        carInfo.innerHTML = `<span class="h6 mb-0 fw-medium text-gray-300">${carMake} ${carReg}</span>`;
+                        instructorNameCell.innerHTML = '<span class="h6 mb-0 fw-medium text-gray-300">N/A</span>';
+                    }
+
+                    // If an instructor is selected, show the selected instructor's name
+                    if (instructorId) {
+                        instructorNameCell.innerHTML =
+                            `<span class="h6 mb-0 fw-medium text-gray-300">${instructorName}</span>`;
+                        carInfo.innerHTML = '<span class="h6 mb-0 fw-medium text-gray-300">N/A</span>';
+                    }
+                });
+            }
+        </script>
+        <script>
+            const monthlyExpenseData = @json($monthlyExpenseData);
+            const monthlySalesData = @json($monthlySalesData);
+        </script>
+    @endsection

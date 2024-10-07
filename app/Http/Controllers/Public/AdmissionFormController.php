@@ -195,7 +195,7 @@ class AdmissionFormController extends Controller
         ]);
 
         // Send admission confirmation email
-        // $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
+        $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
 
         // Redirect with success message
         return redirect()->route('admin.allStudents')->with('success_student', 'Student updated successfully.');

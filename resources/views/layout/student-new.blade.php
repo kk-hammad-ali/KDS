@@ -8,7 +8,7 @@
     <!-- Title -->
     <title>King Driving School | Admin Panel</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('public/images/logo.png') }}" type="image/png">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <!-- File Upload -->
@@ -177,7 +177,7 @@
                 <p class="text-gray-300 text-13 fw-normal"> &copy; Copyright King Driving School 2024, All Right
                     Reserverd</p>
                 <div class="flex-align flex-wrap gap-16">
-                    <a href="#"
+                    <a href="https://www.goftechsolutions.com/" target="_blank"
                         class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">Developed
                         by GOFTECH</a>
                 </div>

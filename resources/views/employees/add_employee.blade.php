@@ -78,11 +78,11 @@
                         <div class="col-sm-6">
                             <label for="designation" class="h5 mb-8 fw-semibold font-heading">Designation</label>
                             <select class="form-select @error('designation') is-invalid @enderror" id="designation"
-                                name="designation">
+                                name="designation" onchange="toggleInstructorFields()">
                                 <option value="" disabled selected>Select designation</option>
-                                @foreach ($designations as $designation)
-                                    <option value="{{ $designation }}">{{ $designation }}</option>
-                                @endforeach
+                                <option value="Manager">Manager</option>
+                                <option value="Instructor">Instructor</option>
+                                <option value="Others">Others</option>
                             </select>
                             @error('designation')
                                 <div class="text-danger">{{ $message }}</div>
@@ -103,11 +103,68 @@
                             @enderror
                         </div>
 
+                        <!-- Instructor-specific Fields (hidden by default) -->
+                        <div id="instructorFields" class="row gy-20" style="display: none;">
+                            <!-- License City -->
+                            <div class="col-sm-6">
+                                <label for="license_city" class="h5 mb-8 fw-semibold font-heading">License City</label>
+                                <input type="text" class="form-control @error('license_city') is-invalid @enderror"
+                                    id="license_city" name="license_city">
+                                @error('license_city')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- License Start Date -->
+                            <div class="col-sm-6">
+                                <label for="license_start_date" class="h5 mb-8 fw-semibold font-heading">License Start
+                                    Date</label>
+                                <input type="date" class="form-control @error('license_start_date') is-invalid @enderror"
+                                    id="license_start_date" name="license_start_date">
+                                @error('license_start_date')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- License End Date -->
+                            <div class="col-sm-6">
+                                <label for="license_end_date" class="h5 mb-8 fw-semibold font-heading">License End
+                                    Date</label>
+                                <input type="date" class="form-control @error('license_end_date') is-invalid @enderror"
+                                    id="license_end_date" name="license_end_date">
+                                @error('license_end_date')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- License Number -->
+                            <div class="col-sm-6">
+                                <label for="license_number" class="h5 mb-8 fw-semibold font-heading">License
+                                    Number</label>
+                                <input type="text" class="form-control @error('license_number') is-invalid @enderror"
+                                    id="license_number" name="license_number">
+                                @error('license_number')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Experience -->
+                            <div class="col-sm-6">
+                                <label for="experience" class="h5 mb-8 fw-semibold font-heading">Experience</label>
+                                <input type="text" class="form-control @error('experience') is-invalid @enderror"
+                                    id="experience" name="experience" placeholder="Enter years of experience">
+                                @error('experience')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                        </div>
+
                         <!-- Profile Picture -->
                         <div class="col-sm-6">
                             <label for="picture" class="h5 mb-8 fw-semibold font-heading">Upload Picture</label>
-                            <input type="file" class="form-control @error('picture') is-invalid @enderror" id="picture"
-                                name="picture" required>
+                            <input type="file" class="form-control @error('picture') is-invalid @enderror"
+                                id="picture" name="picture" required>
                             @error('picture')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -145,4 +202,17 @@
         </div>
         <!-- Employee Form End -->
     </div>
+
+    <script>
+        function toggleInstructorFields() {
+            const designation = document.getElementById('designation').value;
+            const instructorFields = document.getElementById('instructorFields');
+
+            if (designation === 'Instructor') {
+                instructorFields.style.display = 'flex';
+            } else {
+                instructorFields.style.display = 'none';
+            }
+        }
+    </script>
 @endsection

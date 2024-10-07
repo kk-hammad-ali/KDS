@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use App\Models\Instructor;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -19,8 +20,7 @@ class EmployeeController extends Controller
 
     public function adminAddEmployee()
     {
-        $designations = ['Manager', 'Instructor', 'Others'];
-        return view('employees.add_employee', compact('designations'));
+        return view('employees.add_employee');
     }
 
     public function adminStoreEmployee(Request $request)
@@ -37,14 +37,23 @@ class EmployeeController extends Controller
             'gender' => 'required|in:male,female',
             'salary' => 'required|numeric|min:0',
             'designation' => 'nullable|string|max:255',
+            // Instructor-specific fields
+            'license_city' => 'required_if:designation,Instructor|string|max:255',
+            'license_start_date' => 'required_if:designation,Instructor|date',
+            'license_end_date' => 'required_if:designation,Instructor|date',
+            'license_number' => 'required_if:designation,Instructor|string|max:50',
+            'experience' => 'nullable|string|max:255',
         ]);
+
+
 
         // Create the user first
         $user = User::create([
             'name' => $request->name,
             'password' => Hash::make($request->password),
-            'role' => 1,
+            'role' => 1, // Assuming 1 is for employee role
         ]);
+
 
         // Handle the file upload if a picture is provided
         $picturePath = null;
@@ -54,8 +63,10 @@ class EmployeeController extends Controller
             $picturePath = str_replace('public', '', $picturePath);
         }
 
+
+
         // Create the employee
-        Employee::create([
+        $employee = Employee::create([
             'user_id' => $user->id,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -66,6 +77,22 @@ class EmployeeController extends Controller
             'designation' => $request->designation,
             'id_card_number' => $request->id_card_number,
         ]);
+
+
+
+        // If the designation is Instructor, create an instructor entry
+        if ($request->designation == 'Instructor') {
+            Instructor::create([
+                'employee_id' => $employee->id,
+                'license_city' => $request->license_city,
+                'license_start_date' => $request->license_start_date,
+                'license_end_date' => $request->license_end_date,
+                'license_number' => $request->license_number,
+                'experience' => $request->experience,
+            ]);
+        }
+
+
 
         return redirect()->route('admin.allEmployees')->with('success_employee', 'Employee added successfully.');
     }

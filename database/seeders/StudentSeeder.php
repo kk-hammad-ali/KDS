@@ -38,9 +38,23 @@ class StudentSeeder extends Seeder
             $admission_date = now()->subMonths($i);
             $course_duration = rand(10, 30);  // Duration of the course in days
             $class_duration = 60;  // Duration of class in minutes
-            $class_start_time = now()->format('H:i:s');  // Start time of class
+
+            // Define start and end time
+            $start_time = Carbon::createFromTime(8, 0, 0); // 08:00 AM
+            $end_time = Carbon::createFromTime(20, 0, 0); // 08:00 PM
+
+            // Generate all 30-minute slots
+            $slots = [];
+            while ($start_time->lessThanOrEqualTo($end_time)) {
+                $slots[] = $start_time->format('H:i:s');
+                $start_time->addMinutes(30);
+            }
+
+            // Randomly pick a start time from the available slots
+            $class_start_time = $slots[array_rand($slots)];
             $class_end_time = Carbon::parse($class_start_time)->addMinutes($class_duration)->format('H:i:s');
             $course_end_date = Carbon::parse($admission_date)->addDays($course_duration)->format('Y-m-d');
+
 
             // Create the student record
             $student = Student::create([

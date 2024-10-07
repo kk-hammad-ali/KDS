@@ -1,6 +1,6 @@
-@extends('layout.admin')
+@extends('layout.admin-new')
 
-@section('page_content')
+@section('content')
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <div class="col-12">
