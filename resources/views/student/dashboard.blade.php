@@ -1,89 +1,157 @@
-@extends('layout.student')
+@extends('layout.student-new')
 
-@section('page_content')
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-light text-center rounded p-4">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h6 class="mb-0">My Schedule</h6>
-                <a href="#">Show All</a>
+@section('content')
+    <div class="dashboard-body">
+        <div class="breadcrumb-with-buttons mb-24 flex-between flex-wrap gap-8">
+            <!-- Breadcrumb Start -->
+            <div class="breadcrumb mb-24">
+                <ul class="flex-align gap-4">
+
+                    <li><span class="text-main-600 fw-normal text-15">MY SCHEDULES</span></li>
+                </ul>
             </div>
-            <div class="table-responsive">
-                <table class="table text-start align-middle table-bordered table-hover mb-0">
+            <!-- Breadcrumb End -->
+        </div>
+
+        <!-- Calendar Section Start -->
+        <div class="card mt-24 bg-transparent">
+            <div class="card-body p-0">
+                <div id='wrap'>
+                    <div id='calendar' class="position-relative">
+                        {{-- <button type="button"
+                            class="add-event btn btn-main text-sm btn-sm px-24 rounded-pill py-12 d-flex align-items-center gap-2"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="ph ph-plus me-4"></i>
+                            Add Event
+                        </button> --}}
+                    </div>
+                    <div style='clear:both'></div>
+                </div>
+            </div>
+        </div>
+        <!-- Calendar Section End -->
+
+        {{-- <div class="card overflow-hidden">
+            <div class="card-body p-0 overflow-x-auto">
+                <table id="scheduleTable" class="table table-striped">
                     <thead>
-                        <tr class="text-dark">
-                            <th scope="col">Class Start Date</th>
-                            <th scope="col">Class End Date</th>
-                            <th scope="col">Start Time</th>
-                            <th scope="col">End Time</th>
-                            <th scope="col">Instructor</th>
+                        <tr>
+                            <th class="h6 text-gray-300">Class Start Date</th>
+                            <th class="h6 text-gray-300">Class End Date</th>
+                            <th class="h6 text-gray-300">Start Time</th>
+                            <th class="h6 text-gray-300">End Time</th>
+                            <th class="h6 text-gray-300">Instructor</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($schedules as $schedule)
+                        @foreach ($schedulesPaginated as $schedule)
                             <tr>
-                                <td>{{ $schedule->class_date }}</td>
-                                <td>{{ $schedule->class_end_date }}</td>
-                                <td>{{ $schedule->start_time }}</td>
-                                <td>{{ $schedule->end_time }}</td>
-                                <td>{{ $schedule->instructor->employee->user->name }}</td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->class_date }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->class_end_date }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->start_time }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->end_time }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->instructor->employee->user->name }}</span>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
+        </div> --}}
 
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-light text-center rounded p-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="mb-0">All Leaves</h4>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#leaveModal">
-                    <i class="fas fa-plus me-2"></i> Apply Leave
-                </button>
+        <br>
+
+        <div class="breadcrumb-with-buttons mb-24 flex-between flex-wrap gap-8 mt-5">
+            <!-- Breadcrumb Start -->
+            <div class="breadcrumb mb-24">
+                <ul class="flex-align gap-4">
+
+                    <li><span class="text-main-600 fw-normal text-15">MY LEAVES</span></li>
+                </ul>
             </div>
-            <div class="table-responsive">
-                <table class="table">
+            <!-- Breadcrumb End -->
+
+            <a href="#addLeaveModal" class="btn btn-main text-sm btn-sm px-24 py-12 d-flex align-items-center gap-8"
+                data-bs-toggle="modal" data-bs-target="#addLeaveModal">
+                <i class="ph ph-calendar-blank d-flex text-xl"></i>
+                Apply Leave
+            </a>
+
+
+        </div>
+
+        <div class="card overflow-hidden">
+            <div class="card-body p-0 overflow-x-auto">
+                <table id="leaveTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Start Date</th>
-                            <th scope="col">End Date</th>
-                            <th scope="col">Reason</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
+                            <th class="fixed-width">
+                                <div class="form-check">
+                                    <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
+                                        id="selectAll">
+                                </div>
+                            </th>
+                            <th class="h6 text-gray-300">Start Date</th>
+                            <th class="h6 text-gray-300">End Date</th>
+                            <th class="h6 text-gray-300">Reason</th>
+                            <th class="h6 text-gray-300">Status</th>
+                            <th class="h6 text-gray-300">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($leaves as $leave)
                             <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $leave->start_date }}</td>
-                                <td>{{ $leave->end_date }}</td>
-                                <td>{{ $leave->leave_reason }}</td>
+                                <td class="fixed-width">
+                                    <div class="form-check">
+                                        <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
+                                    </div>
+                                </td>
                                 <td>
-                                    @php
-                                        $statusClass = match ($leave->status) {
-                                            'pending' => 'btn-primary',
-                                            'approved' => 'btn-success',
-                                            'rejected' => 'btn-danger',
-                                            default => 'btn-secondary',
-                                        };
-                                    @endphp
-                                    <btn class="btn status-btn {{ $statusClass }}">
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $leave->start_date }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $leave->end_date }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $leave->leave_reason }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="text-13 py-2 px-8 bg-{{ $leave->status == 'approved' ? 'green' : ($leave->status == 'rejected' ? 'danger' : 'warning') }}-50 text-{{ $leave->status == 'approved' ? 'green' : ($leave->status == 'rejected' ? 'danger' : 'warning') }}-600 d-inline-flex align-items-center gap-8 rounded-pill">
+                                        <span
+                                            class="w-6 h-6 bg-{{ $leave->status == 'approved' ? 'green' : ($leave->status == 'rejected' ? 'danger' : 'warning') }}-600 rounded-circle flex-shrink-0"></span>
                                         {{ ucfirst($leave->status) }}
-                                    </btn>
+                                    </span>
                                 </td>
                                 <td>
                                     @if ($leave->status === 'pending')
                                         <!-- Edit Button triggers the modal and passes the leave ID -->
-                                        <button class="btn btn-warning"
-                                            onclick="editLeaveModal({{ $leave->id }}, '{{ $leave->start_date }}', '{{ $leave->end_date }}', '{{ $leave->leave_reason }}')">
+                                        <button
+                                            class="bg-warning text-white py-2 px-14 rounded-pill hover-bg-warning-600 hover-text-white"
+                                            data-bs-toggle="modal" data-bs-target="#editLeaveModal"
+                                            data-id="{{ $leave->id }}" data-start_date="{{ $leave->start_date }}"
+                                            data-end_date="{{ $leave->end_date }}"
+                                            data-leave_reason="{{ $leave->leave_reason }}">
                                             Edit
                                         </button>
-                                        <button class="btn btn-danger" onclick="triggerDeleteModal({{ $leave->id }})">
+                                        <button
+                                            class="bg-danger text-white py-2 px-14 rounded-pill hover-bg-danger-600 hover-text-white"
+                                            data-bs-toggle="modal" data-bs-target="#deleteLeaveModal"
+                                            data-leave-id="{{ $leave->id }}">
                                             Delete
                                         </button>
+                                    @else
+                                        <span class="text-muted">Status updated</span>
                                     @endif
                                 </td>
                             </tr>
@@ -91,55 +159,70 @@
                     </tbody>
                 </table>
             </div>
+            <div class="card-footer flex-between flex-wrap">
+                <span class="text-gray-900">
+                    Showing {{ $leaves->firstItem() }} to {{ $leaves->lastItem() }} of {{ $leaves->total() }} entries
+                </span>
+
+                <!-- Default pagination links -->
+                {{ $leaves->links() }}
+            </div>
         </div>
     </div>
 
-    <!-- Modal for Adding Leave -->
-    <div class="modal fade" id="leaveModal" tabindex="-1" aria-labelledby="leaveModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+
+    <!-- Add Leave Modal -->
+    <div class="modal fade" id="addLeaveModal" tabindex="-1" aria-labelledby="addLeaveModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="leaveModalLabel">Apply for Leave</h5>
+                    <h5 class="modal-title" id="addLeaveModalLabel">Apply for Leave</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <!-- Form for applying for leave -->
                     <form action="{{ route('student.leaves.store') }}" method="POST">
                         @csrf
-                        <div class="row mb-3">
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="start_date" class="form-label">Start Date</label>
-                                    <input type="date" class="form-control @error('start_date') is-invalid @enderror"
-                                        id="start_date" name="start_date" value="{{ old('start_date') }}" required>
-                                    @error('start_date')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                        <div class="row">
+                            <!-- Start Date -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="start_date" class="h5 mb-8 fw-semibold font-heading">Start Date <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="date" name="start_date"
+                                    class="form-control @error('start_date') is-invalid @enderror"
+                                    value="{{ old('start_date') }}" required>
+                                @error('start_date')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="end_date" class="form-label">End Date</label>
-                                    <input type="date" class="form-control @error('end_date') is-invalid @enderror"
-                                        id="end_date" name="end_date" value="{{ old('end_date') }}" required>
-                                    @error('end_date')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                            <!-- End Date -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="end_date" class="h5 mb-8 fw-semibold font-heading">End Date <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="date" name="end_date"
+                                    class="form-control @error('end_date') is-invalid @enderror"
+                                    value="{{ old('end_date') }}" required>
+                                @error('end_date')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Leave Reason -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="leave_reason" class="h5 mb-8 fw-semibold font-heading">Reason <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <textarea name="leave_reason" class="form-control @error('leave_reason') is-invalid @enderror" rows="3" required>{{ old('leave_reason') }}</textarea>
+                                @error('leave_reason')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="leave_reason" class="form-label">Reason</label>
-                            <textarea class="form-control @error('leave_reason') is-invalid @enderror" id="leave_reason" name="leave_reason"
-                                rows="3" placeholder="Enter the reason for leave" required>{{ old('leave_reason') }}</textarea>
-                            @error('leave_reason')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary w-75">Submit</button>
+                        <br>
+                        <!-- Submit Button -->
+                        <div class="flex-align justify-content-end gap-8 mt-4">
+                            <button type="submit" class="btn btn-main rounded-pill py-9">Apply Leave</button>
                         </div>
                     </form>
                 </div>
@@ -148,43 +231,48 @@
     </div>
 
 
-    <!-- Modal for Editing Leave -->
-    <div class="modal fade" id="editLeaveModal" tabindex="-1" aria-labelledby="editLeaveModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <!-- Edit Leave Modal -->
+    <div class="modal fade" id="editLeaveModal" tabindex="-1" aria-labelledby="editLeaveModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editLeaveModalLabel">Edit Leave</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editLeaveForm" action="" method="POST">
+                    <!-- Form for editing leave -->
+                    <form id="editLeaveForm" method="POST">
                         @csrf
                         @method('PUT')
-                        <div class="row mb-3">
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="edit_start_date" class="form-label">Start Date</label>
-                                    <input type="date" class="form-control" id="edit_start_date" name="start_date"
-                                        required>
-                                </div>
+                        <div class="row">
+                            <!-- Start Date -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="edit_start_date" class="h5 mb-8 fw-semibold font-heading">Start Date <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="date" name="start_date" id="edit_start_date" class="form-control"
+                                    required>
                             </div>
 
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="edit_end_date" class="form-label">End Date</label>
-                                    <input type="date" class="form-control" id="edit_end_date" name="end_date"
-                                        required>
-                                </div>
+                            <!-- End Date -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="edit_end_date" class="h5 mb-8 fw-semibold font-heading">End Date <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="date" name="end_date" id="edit_end_date" class="form-control" required>
+                            </div>
+
+                            <!-- Leave Reason -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="edit_leave_reason" class="h5 mb-8 fw-semibold font-heading">Reason <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <textarea name="leave_reason" id="edit_leave_reason" class="form-control" rows="3" required></textarea>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="edit_leave_reason" class="form-label">Reason</label>
-                            <textarea class="form-control" id="edit_leave_reason" name="leave_reason" rows="3" required></textarea>
-                        </div>
-
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary w-75">Save Changes</button>
+                        <br>
+                        <!-- Submit Button -->
+                        <div class="flex-align justify-content-end gap-8 mt-4">
+                            <button type="submit" class="btn btn-main rounded-pill py-9">Update Leave</button>
                         </div>
                     </form>
                 </div>
@@ -192,170 +280,63 @@
         </div>
     </div>
 
-    <!-- Modal for Deleting Leave -->
+
+    <!-- Delete Leave Modal -->
     <div class="modal fade" id="deleteLeaveModal" tabindex="-1" aria-labelledby="deleteLeaveModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteLeaveModalLabel">Confirm Delete</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete this leave?</p>
+                    Are you sure you want to delete this leave?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+                    <form id="deleteLeaveForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Hidden Form for Deleting Leave -->
-    <form id="deleteLeaveForm" action="" method="GET" style="display: none;">
-        @csrf
-    </form>
-
-
-
-
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-light text-center rounded p-4">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h6 class="mb-0">My Certificate</h6>
-                @if ($certificateAvailable)
-                    <a href="{{ route('download.certificate') }}" class="btn btn-primary">Download PDF</a>
-                @endif
-            </div>
-            <div class="certificate-container">
-                @if (!$certificateAvailable)
-                    <div class="alert alert-info">
-                        Certificate is only available after course completion.
-                    </div>
-                @else
-                    <div class="certificate">
-                        <div class="certificate-header">
-                            <img src="{{ asset('public/images/logo.png') }}" alt="King Driving School Logo" />
-                        </div>
-                        <div class="certificate-body">
-                            <h1>Certificate of Completion</h1>
-                            <p class="student-name">{{ $student->user->name }}</p>
-                            <div class="certificate-content">
-                                <p>has completed <strong>{{ $student->practical_driving_hours }}</strong> hours of driving
-                                    training on
-                                    <strong>{{ \Carbon\Carbon::parse($student->course_end_date)->format('F j, Y') }}</strong>.
-                                </p>
-                                <p>The course consists of {{ $student->practical_driving_hours }} hours and includes the
-                                    following
-                                    topics:</p>
-                                <p class="topic-description">Traffic Laws - Defensive Driving - Safe Driving Practices -
-                                    Road Signs -
-                                    Vehicle Operation - Emergency Procedures</p>
-                            </div>
-                            <div class="certificate-footer">
-                                <p>Instructor: {{ $student->instructor->employee->user->name }}</p>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
-    <style>
-        @page {
-            margin: 20px;
-            /* Reduce margins on all sides */
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            /* Ensure content is centered */
-        }
-
-        .certificate {
-            border: 15px solid #FF8F1F;
-            /* Reduced border size */
-            padding: 20px;
-            /* Reduced padding */
-            width: 90%;
-            /* Occupy more horizontal space */
-            margin: 0 auto;
-            /* Center the certificate */
-            text-align: center;
-        }
-
-        .certificate-header {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .certificate-header img {
-            width: 100px;
-            /* Adjust the image size */
-            height: auto;
-        }
-
-        h1 {
-            font-weight: 400;
-            font-size: 28px;
-            /* Reduced font size */
-            color: #FF8F1F;
-        }
-
-        .student-name {
-            font-size: 22px;
-            margin: 15px 0;
-        }
-
-        .certificate-content {
-            margin: 0 auto;
-            width: 80%;
-            text-align: center;
-        }
-
-        .topic-description {
-            font-size: 12px;
-            /* Reduced font size */
-            color: #666;
-        }
-
-        .certificate-footer {
-            margin-top: 20px;
-        }
-    </style>
-
     <script>
-        // This function is triggered when the "Edit" button is clicked for a leave
-        function editLeaveModal(id, startDate, endDate, reason) {
-            // Set the form action to the leave edit route
-            document.getElementById('editLeaveForm').action = '/student/leaves/' + id;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Edit Modal
+            const editLeaveModal = document.getElementById('editLeaveModal');
+            editLeaveModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget; // Button that triggered the modal
+                const id = button.getAttribute('data-id');
+                const startDate = button.getAttribute('data-start_date');
+                const endDate = button.getAttribute('data-end_date');
+                const reason = button.getAttribute('data-leave_reason');
 
-            // Populate the form fields with the leave data
-            document.getElementById('edit_start_date').value = startDate;
-            document.getElementById('edit_end_date').value = endDate;
-            document.getElementById('edit_leave_reason').value = reason;
+                // Update the form action and populate fields
+                const form = document.getElementById('editLeaveForm');
+                form.action = `/student/leaves/${id}`;
+                document.getElementById('edit_start_date').value = startDate;
+                document.getElementById('edit_end_date').value = endDate;
+                document.getElementById('edit_leave_reason').value = reason;
+            });
 
-            // Show the modal
-            var modal = new bootstrap.Modal(document.getElementById('editLeaveModal'));
-            modal.show();
-        }
+            // Delete Modal
+            const deleteLeaveModal = document.getElementById('deleteLeaveModal');
+            deleteLeaveModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget; // Button that triggered the modal
+                const leaveId = button.getAttribute('data-leave-id');
 
-        function triggerDeleteModal(leaveId) {
-            // Set the action of the hidden delete form to the appropriate route
-            document.getElementById('deleteLeaveForm').action = '/student/leaves/delete/' + leaveId;
+                const deleteForm = document.getElementById('deleteLeaveForm');
+                deleteForm.action = `/student/leaves/delete/${leaveId}`;
 
-            // Show the delete confirmation modal
-            var modal = new bootstrap.Modal(document.getElementById('deleteLeaveModal'));
-            modal.show();
-        }
-
-        function confirmDelete() {
-            // Submit the form to delete the leave
-            document.getElementById('deleteLeaveForm').submit();
-        }
+            });
+        });
+    </script>
+    <script>
+        var events = @json($events);
     </script>
 @endsection

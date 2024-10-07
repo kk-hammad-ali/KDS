@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade'); // References employees table
-
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
             $table->string('license_city');
             $table->date('license_start_date');
             $table->date('license_end_date');

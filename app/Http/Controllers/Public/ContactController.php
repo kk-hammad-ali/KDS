@@ -32,7 +32,7 @@ class ContactController extends Controller
 
     public function adminallContact()
     {
-        $contacts = Contact::all();
+        $contacts = Contact::paginate(10);
         return view('public.contact.admin_contact_all', compact('contacts'));
     }
 }

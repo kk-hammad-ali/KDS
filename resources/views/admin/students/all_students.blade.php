@@ -1,233 +1,127 @@
-@extends('layout.admin')
+@extends('layout.admin-new')
 
-@section('page_content')
-    <style>
-        td {
-            min-width: 140px;
-        }
-    </style>
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-12">
-                <div class="bg-light rounded h-100 p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0">All Students</h4>
-                        <a href="{{ route('admin.addStudent') }}" class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i> Add Student
-                        </a>
+@section('content')
+    <div class="dashboard-body">
+        <div class="breadcrumb-with-buttons mb-24 flex-between flex-wrap gap-8">
+            <!-- Breadcrumb Start -->
+            <div class="breadcrumb mb-24">
+                <ul class="flex-align gap-4">
+                    <li><a href="{{ route('admin.dashboard') }}"
+                            class="text-gray-200 fw-normal text-15 hover-text-main-600">Home</a></li>
+                    <li> <span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-right"></i></span> </li>
+                    <li><span class="text-main-600 fw-normal text-15">Students</span></li>
+                </ul>
+            </div>
+            <!-- Breadcrumb End -->
+
+            <!-- Breadcrumb Right Start -->
+            <div class="flex-align gap-8 flex-wrap">
+                <a href="{{ route('admin.addStudent') }}"
+                    class="btn btn-main text-sm btn-sm px-24 py-12 d-flex align-items-center gap-8">
+                    <i class="ph ph-user-plus d-flex text-xl"></i> <!-- Changed icon to a more relevant one -->
+                    Add Student
+                </a>
+            </div>
+
+        </div>
+
+        <div class="card overflow-hidden">
+            <div class="card-body p-0 overflow-x-auto">
+                <table id="studentTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="fixed-width">
+                                <div class="form-check">
+                                    <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
+                                        id="selectAll">
+                                </div>
+                            </th>
+                            <th class="h6 text-gray-300">#</th>
+                            <th class="h6 text-gray-300">Name</th>
+                            <th class="h6 text-gray-300">Phone Number</th>
+                            <th class="h6 text-gray-300">Admission</th>
+                            <th class="h6 text-gray-300">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($students as $student)
+                            <tr>
+                                <td class="fixed-width">
+                                    <div class="form-check">
+                                        <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex-align gap-8">
+                                        <span class="h6 mb-0 fw-medium text-gray-300">{{ $loop->iteration }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->user->name }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->phone }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->admission_date }}</span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.editStudent', ['id' => $student->id]) }}"
+                                        class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white">Edit</a>
+
+                                    <button type="button"
+                                        class="bg-danger text-white py-2 px-14 rounded-pill hover-bg-danger-600"
+                                        data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                        data-student-id="{{ $student->id }}">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer flex-between flex-wrap">
+                <span class="text-gray-900">
+                    Showing {{ $students->firstItem() }} to {{ $students->lastItem() }} of {{ $students->total() }} entries
+                </span>
+
+                <!-- Default pagination links -->
+                {{ $students->links() }}
+            </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    {{-- <th scope="col">Father's/Husband's Name</th> --}}
-                                    {{-- <th scope="col">CNIC</th> --}}
-                                    {{-- <th scope="col">Address</th> --}}
-                                    <th scope="col">Phone Number</th>
-                                    {{-- <th scope="col">Optional Phone</th> --}}
-                                    <th scope="col">Admission Date</th>
-                                    {{-- <th scope="col">Email</th>
-                                    <th scope="col">Fees</th>
-                                    <th scope="col">Practical Driving Days</th>
-                                    <th scope="col">Theory Classes Days</th> --}}
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($students as $student)
-                                    <tr>
-                                        <th scope="row">{{ $loop->iteration }}</th>
-                                        <td>{{ $student->user->name }}</td>
-                                        {{-- <td style="min-width: 220px">{{ $student->father_or_husband_name }}</td> --}}
-                                        {{-- <td>{{ $student->cnic }}</td> --}}
-                                        {{-- <td>{{ $student->address }}</td> --}}
-                                        <td>{{ $student->phone }}</td>
-                                        {{-- <td>{{ $student->optional_phone }}</td> --}}
-                                        <td>{{ $student->admission_date }}</td>
-                                        {{-- <td>{{ $student->email }}</td>
-                                        <td>{{ $student->fees }}</td>
-                                        <td>{{ $student->practical_driving_hours }}</td>
-                                        <td>{{ $student->theory_classes }}</td> --}}
-                                        <td style="min-width: 150px">
-                                            <a href="{{ route('admin.editStudent', ['id' => $student->id]) }}"
-                                                class="btn btn-warning">Edit</a>
-                                            {{--
-                                            <button class="btn btn-danger"
-                                            onclick="setDeleteRoute('{{ route('admin.deleteStudent', $student->id) }}')">Delete</button> --}}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <div class="modal-body">
+                        Are you sure you want to delete this student?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form id="deleteStudentForm" method="GET" action="">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-
-
-
-    <div class="modal fade" id="addedSucessfulyModal" tabindex="-1" role="dialog"
-        aria-labelledby="addedSucessfulyModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addedSucessfulyModalLabel">Added Student</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-                    @if (session('success_student'))
-                        <div class="alert alert-success">
-                            {{ session('success_student') }}
-                        </div>
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="editSucessfulyModal" tabindex="-1" role="dialog"
-        aria-labelledby="editSucessfulyModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editSucessfulyModalLabel">Updated Student</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-                    @if (session('success_updated_student'))
-                        <div class="alert alert-success">
-                            {{ session('success_updated_student') }}
-                        </div>
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Are you sure?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this item? This action cannot be undone.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a id="deleteConfirmButton" class="btn btn-danger" href="#">Delete</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="deletedSucessfulyModal" tabindex="-1" role="dialog"
-        aria-labelledby="deletedSucessfulyModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deletedSucessfulyModalLabel">Deleted Student</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-                    @if (session('success_deleted_student'))
-                        <div class="alert alert-danger">
-                            {{ session('success_deleted_student') }}
-                        </div>
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
-
-
-    <script>
-        function setDeleteRoute(route) {
-            const deleteButton = document.getElementById('deleteConfirmButton');
-            deleteButton.href = route;
-            $('#deleteModal').modal('show');
-        }
-    </script>
-
+    <!-- Script for passing student ID to delete form -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            @if (session('success_updated_student') || $errors->any() || session('error'))
-                var myModal = new bootstrap.Modal(document.getElementById('editSucessfulyModal'));
-                myModal.show();
-            @elseif (session('success_student') || $errors->any() || session('error'))
-                var myModal = new bootstrap.Modal(document.getElementById('addedSucessfulyModal'));
-                myModal.show();
-            @elseif (session('success_deleted_student') || $errors->any() || session('error'))
-                var myModal = new bootstrap.Modal(document.getElementById('deletedSucessfulyModal'));
-                myModal.show();
-            @endif
+            const deleteModal = document.getElementById('deleteModal');
+            deleteModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget; // Button that triggered the modal
+                const studentId = button.getAttribute('data-student-id'); // Extract student ID
+                const deleteForm = document.getElementById('deleteStudentForm');
+                deleteForm.action = `/admin/students/delete/${studentId}`; // Update form action URL
+            });
         });
     </script>
-
-
 @endsection

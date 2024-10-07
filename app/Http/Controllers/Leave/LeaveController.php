@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class LeaveController extends Controller
 {
-    // Admin Leave Functions (Handle both student and instructor leave requests)
+
     public function adminallLeaves()
     {
-        $leaves = Leave::all(); // Fetch all leave requests for both students and instructors
-        return view('admin.leaves.leaves', compact('leaves'));
+        $leaves = Leave::paginate(10);
+        return view('leaves.leaves', compact('leaves'));
     }
 
     public function adminupdateLeaveStatus(Request $request)
@@ -37,12 +37,12 @@ class LeaveController extends Controller
     // Instructor Leave Functions
     public function all_leaves_instructor()
     {
-        $leaves = Leave::where('user_id', Auth::id())->get();
-        return view('instructor.leaves.all_leaves', compact('leaves'));
+        $leaves = Leave::where('user_id', Auth::id())->paginate(10);
+        return view('leaves.instructor.all_leaves', compact('leaves'));
     }
 
     public function addLeavesInstructor(){
-        return view('instructor.leaves.apply_leave');
+        return view('leaves.instructor.apply_leave');
     }
 
     public function storeLeavesInstructor(Request $request)
@@ -70,7 +70,7 @@ class LeaveController extends Controller
             return redirect()->route('instructor.allLeaves')->with('error_leaves', 'Unauthorized access.');
         }
 
-        return view('instructor.leaves.edit_leaves', compact('leave'));
+        return view('leaves.instructor.edit_leaves', compact('leave'));
     }
 
     public function updateLeaveInstructor(Request $request, Leave $leave)

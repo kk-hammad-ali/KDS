@@ -13,7 +13,7 @@ class ScheduleController extends Controller
 
     public function allSchedules(Request $request)
     {
-        $schedules = Schedule::with(['student', 'instructor'])->get();
+        $schedules = Schedule::with(['student', 'instructor'])->paginate(10);
         $events = [];
 
         foreach ($schedules as $schedule) {
@@ -23,14 +23,11 @@ class ScheduleController extends Controller
             // Create events for each day between start and end date
             for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
                 $events[] = [
-                    'title' => 'S' . $schedule->student->id . ' - ' . $schedule->instructor->employee->user->name,
+                    'title' => 'S1 - ' . $schedule->instructor->employee->user->name,
                     'start' => $date->format('Y-m-d') . 'T' . $schedule->start_time,
                     'end' => $date->format('Y-m-d') . 'T' . $schedule->end_time,
-                    'backgroundColor' => '#ff0000', // Red for booked slots
+                    'backgroundColor' => '#ff0000',  // Red for booked slots
                     'textColor' => 'white',
-                    'extendedProps' => [
-                        'course_end_date' => $schedule->student->course_end_date,
-                    ],
                 ];
             }
         }
@@ -38,8 +35,6 @@ class ScheduleController extends Controller
         // Pass both $events and $schedules to the view
         return view('admin.schedules.all_schedules', compact('events', 'schedules'));
     }
-
-
 
     public function getBookedTimes(Request $request)
     {
@@ -95,54 +90,84 @@ class ScheduleController extends Controller
         // Get the logged-in instructor
         $instructor = auth()->user()->instructor;
 
+        $events = [];
+
         // Fetch schedules for the logged-in instructor
-        $schedules = Schedule::with(['student', 'instructor'])
+        $schedules = Schedule::with(['student', 'instructor.employee.user'])
             ->where('instructor_id', $instructor->id)
             ->get();
 
-        $events = [];
-
+        // Generate events similar to student schedules
         foreach ($schedules as $schedule) {
-            // Loop through each day from class start date to course end date
-            $startDate = \Carbon\Carbon::parse($schedule->class_date);
-            $endDate = \Carbon\Carbon::parse($schedule->student->course_end_date);
+            $startDate = Carbon::parse($schedule->class_date);
+            $endDate = Carbon::parse($schedule->student->course_end_date);
 
-            // Loop through each day between start and end date and add event for each day
-            while ($startDate <= $endDate) {
+            // Create events for each day between class start date and course end date
+            for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
                 $events[] = [
-                    'title' => 'S' . $schedule->student->id . ' - ' . $schedule->instructor->employee->name,
-                    'start' => $startDate->format('Y-m-d') . 'T' . $schedule->start_time,
-                    'end' => $startDate->format('Y-m-d') . 'T' . $schedule->end_time,
-                    'backgroundColor' => '#ff0000', // Red for booked slots
+                    'title' => 'Class with ' . $schedule->student->user->name,
+                    'start' => $date->format('Y-m-d') . 'T' . $schedule->start_time,
+                    'end' => $date->format('Y-m-d') . 'T' . $schedule->end_time,
+                    'backgroundColor' => '#ff0000',  // Red for instructor classes
                     'textColor' => 'white',
-                    'extendedProps' => [
-                        'course_end_date' => $schedule->student->course_end_date,
-                    ],
                 ];
-
-                // Move to the next day
-                $startDate->addDay();
             }
         }
 
-        // Return the view with events for the FullCalendar
-        return view('instructor.my_schedule', compact('events'));
+        // Return the events for the logged-in instructor
+        return response()->json([
+            'events' => $events
+        ]);
     }
+
+    // public function studentSchedules(Request $request)
+    // {
+    //     // Get the logged-in student's record
+    //     $student = auth()->user()->student;
+
+    //     // Fetch schedules for the logged-in student, eager load instructor and employee
+    //     $schedules = Schedule::with(['instructor.employee.user']) // Eager load related models
+    //         ->where('student_id', $student->id)
+    //         ->get();
+
+    //     return response()->json([
+    //         'schedules' => $schedules
+    //     ]);
+    // }
 
 
     public function studentSchedules(Request $request)
     {
-        // Get the logged-in student's record
         $student = auth()->user()->student;
 
-        // Fetch schedules for the logged-in student, eager load instructor and employee
-        $schedules = Schedule::with(['instructor.employee.user']) // Eager load related models
+        $events = [];
+
+        // Fetch schedules for the logged-in student
+        $schedules = Schedule::with(['instructor.employee.user'])
             ->where('student_id', $student->id)
             ->get();
 
+        // Generate events similar to `allSchedules`
+        foreach ($schedules as $schedule) {
+            $startDate = Carbon::parse($schedule->class_date);
+            $endDate = Carbon::parse($schedule->class_end_date);
+
+            for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
+                $events[] = [
+                    'title' => 'Class with ' . $schedule->instructor->employee->user->name,
+                    'start' => $date->format('Y-m-d') . 'T' . $schedule->start_time,
+                    'end' => $date->format('Y-m-d') . 'T' . $schedule->end_time,
+                    'backgroundColor' => '#28a745',  // Green for student classes
+                    'textColor' => 'white',
+                ];
+            }
+        }
+
+        // Return events for the logged-in student
         return response()->json([
-            'schedules' => $schedules
+            'events' => $events
         ]);
     }
+
 
 }

@@ -11,7 +11,7 @@ class DailyExpenseController extends Controller
     // Display a listing of the daily expenses
     public function index()
     {
-        $dailyExpenses = DailyExpense::all();
+        $dailyExpenses = DailyExpense::paginate(10);
         return view('expense.daily.index', compact('dailyExpenses'));
     }
 

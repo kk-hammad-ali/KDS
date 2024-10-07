@@ -12,39 +12,36 @@ class Invoice extends Model
     protected $table = 'invoices';
 
     protected $fillable = [
-        'student_id',
-        'instructor_id',
         'schedule_id',
-        'invoice_date',
-        'balance',
         'receipt_number',
-        'amount_received',
-        'advance_against',
-        'class_timing',
-        'days',
+        'invoice_date',
+        'paid_by',
+        'amount_in_english',
+        'balance',
         'branch',
-        'receiver_signature',
+        'amount_received',
+
     ];
 
-    /**
-     * Relationship to the Student model
-     */
-    public function student()
-    {
-        return $this->belongsTo(Student::class);
-    }
+    // /**
+    //  * Relationship to the Student model
+    //  */
+    // public function student()
+    // {
+    //     return $this->belongsTo(Student::class);
+    // }
 
-    /**
-     * Relationship to the Instructor model
-     */
-    public function instructor()
-    {
-        return $this->belongsTo(Instructor::class);
-    }
+    // /**
+    //  * Relationship to the Instructor model
+    //  */
+    // public function instructor()
+    // {
+    //     return $this->belongsTo(Instructor::class);
+    // }
 
-    /**
-     * Relationship to the Schedule model
-     */
+    // /**
+    //  * Relationship to the Schedule model
+    //  */
     public function schedule()
     {
         return $this->belongsTo(Schedule::class);

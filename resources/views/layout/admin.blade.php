@@ -139,8 +139,6 @@
                             </a>
                         </div>
                     </div>
-
-
                     <a href="{{ route('admin.allSchedules') }}"
                         class="nav-item nav-link {{ Request::is('admin/schedules*') ? 'active' : '' }}">
                         <i class="fa fa-calendar me-2"></i>Class Schedule
@@ -170,7 +168,6 @@
                         class="nav-item nav-link {{ Request::is('admin/contact') ? 'active' : '' }}">
                         <i class="fa fa-envelope me-2"></i>Inquiries
                     </a>
-
                 </div>
             </nav>
         </div>

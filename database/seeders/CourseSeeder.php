@@ -16,20 +16,20 @@ class CourseSeeder extends Seeder
     {
         // Seed 3 example courses
         Course::create([
-            'duration_days' => '15 Days',
-            'duration_minutes' => '30',
+            'duration_days' => 15,
+            'duration_minutes' => 30,
             'fees' => 15000.00,
         ]);
 
         Course::create([
-            'duration_days' => '10 Days',
-            'duration_minutes' => '60',
+            'duration_days' => 10,
+            'duration_minutes' => 60,
             'fees' => 20000.00,
         ]);
 
         Course::create([
-            'duration_days' => '5 Days',
-            'duration_minutes' => '90',
+            'duration_days' => 5,
+            'duration_minutes' => 90,
             'fees' => 30000.00,
         ]);
     }

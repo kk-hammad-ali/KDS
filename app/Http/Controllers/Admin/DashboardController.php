@@ -17,28 +17,33 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Get expenses
         $expenses = $this->getTotalExpenses();
+        $sales = $this->getTotalSales();
 
-        // Get schedules for instructors
+
+        $monthlyData = $this->getMonthlyExpensesAndSales();
+
         $instructorSchedules = $this->getInstructorSchedules();
-
-        // Get schedules for cars
         $carSchedules = $this->getCarSchedules();
 
         $currentCounts = $this->getCurrentCounts();
 
-        return view('admin.dashboard', [
+        return view('admin.dashboard-2', [
             'todayExpense' => $expenses['today'],
             'monthlyExpense' => $expenses['monthly'],
             'yearlyExpense' => $expenses['yearly'],
+            'todaySales' => $sales['today'],
+            'monthlySales' => $sales['monthly'],
+            'yearlySales' => $sales['yearly'],
+            'monthlyExpenseData' => $monthlyData['monthlyExpenses'],  // Array for chart
+            'monthlySalesData' => $monthlyData['monthlySales'],
             'availableSlots' => $instructorSchedules['availableSlots'],
             'bookedSchedules' => $instructorSchedules['bookedSchedules'],
             'class_date' => $instructorSchedules['class_date'],
             'instructors' => $instructorSchedules['instructors'],
-            'availableCarSlots' => $carSchedules['availableSlots'], // Car availability
-            'bookedCarSchedules' => $carSchedules['bookedSchedules'], // Booked car schedules
-            'cars' => $carSchedules['cars'], // Car list
+            'availableCarSlots' => $carSchedules['availableSlots'],
+            'bookedCarSchedules' => $carSchedules['bookedSchedules'],
+            'cars' => $carSchedules['cars'],
             'totalStudentsCount' => $currentCounts['totalStudents'],
             'totalInstructorsCount' => $currentCounts['totalInstructors'],
             'totalCarsCount' => $currentCounts['totalCars'],
@@ -46,6 +51,7 @@ class DashboardController extends Controller
             'todaysClassesCount' => $currentCounts['todaysClasses'],
         ]);
     }
+
 
     private function getCarSchedules()
     {
@@ -191,6 +197,26 @@ class DashboardController extends Controller
         ];
     }
 
+        // Refactored function to get total sales
+    private function getTotalSales()
+    {
+        // Calculate sales from students' fees for today
+        $todaySales = Student::whereDate('admission_date', Carbon::today())->sum('fees');
+
+        // Calculate sales from students' fees for this month
+        $monthlySales = Student::whereMonth('admission_date', Carbon::now()->month)->sum('fees');
+
+        // Calculate sales from students' fees for this year
+        $yearlySales = Student::whereYear('admission_date', Carbon::now()->year)->sum('fees');
+
+        return [
+            'today' => $todaySales,
+            'monthly' => $monthlySales,
+            'yearly' => $yearlySales,
+        ];
+    }
+
+
     private function getCurrentCounts()
     {
         return [
@@ -201,5 +227,37 @@ class DashboardController extends Controller
             'todaysClasses' => Schedule::where('class_date', Carbon::today()->format('Y-m-d'))->count(),
         ];
     }
+
+    // Function to get monthly expenses and sales data
+    private function getMonthlyExpensesAndSales()
+    {
+        $monthlyExpenses = [];
+        $monthlySales = [];
+
+        // Loop through each month (1-12) to gather monthly data
+        foreach (range(1, 12) as $month) {
+            // Get monthly expenses
+            $monthlyExpenses[] = DailyExpense::whereMonth('expense_date', $month)
+                ->whereYear('expense_date', Carbon::now()->year)
+                ->sum('amount')
+                + FixedExpense::whereMonth('expense_date', $month)
+                ->whereYear('expense_date', Carbon::now()->year)
+                ->sum('amount')
+                + CarExpense::whereMonth('expense_date', $month)
+                ->whereYear('expense_date', Carbon::now()->year)
+                ->sum('amount');
+
+            // Get monthly sales
+            $monthlySales[] = Student::whereMonth('admission_date', $month)
+                ->whereYear('admission_date', Carbon::now()->year)
+                ->sum('fees');
+        }
+
+        return [
+            'monthlyExpenses' => $monthlyExpenses,
+            'monthlySales' => $monthlySales,
+        ];
+    }
+
 }
 

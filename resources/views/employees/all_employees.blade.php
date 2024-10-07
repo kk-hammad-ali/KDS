@@ -1,94 +1,145 @@
-@extends('layout.admin')
+@extends('layout.admin-new')
 
-@section('page_content')
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-12">
-                <div class="bg-light rounded h-100 p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0">All Employees</h4>
-                        <a href="{{ route('admin.addEmployee') }}" class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i> Add Employee
-                        </a>
+@section('content')
+    <div class="dashboard-body">
+        <div class="breadcrumb-with-buttons mb-24 flex-between flex-wrap gap-8">
+            <!-- Breadcrumb Start -->
+            <div class="breadcrumb mb-24">
+                <ul class="flex-align gap-4">
+                    <li><a href="{{ route('admin.dashboard') }}"
+                            class="text-gray-200 fw-normal text-15 hover-text-main-600">Home</a></li>
+                    <li> <span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-right"></i></span> </li>
+                    <li><span class="text-main-600 fw-normal text-15">Employees</span></li>
+                </ul>
+            </div>
+            <!-- Breadcrumb End -->
+
+            <!-- Breadcrumb Right Start -->
+            <div class="flex-align gap-8 flex-wrap">
+                <a href="{{ route('admin.addEmployee') }}"
+                    class="btn btn-main text-sm btn-sm px-24 py-12 d-flex align-items-center gap-8">
+                    <i class="ph ph-user-plus d-flex text-xl"></i> <!-- Icon change for Add Employee -->
+                    Add Employee
+                </a>
+            </div>
+        </div>
+
+        <!-- Employee Table Start -->
+        <div class="card overflow-hidden">
+            <div class="card-body p-0 overflow-x-auto">
+                <table id="employeeTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="fixed-width">
+                                <div class="form-check">
+                                    <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
+                                        id="selectAll">
+                                </div>
+                            </th>
+                            <th class="h6 text-gray-300">#</th>
+                            <th class="h6 text-gray-300">Profile Picture</th>
+                            <th class="h6 text-gray-300">Name</th>
+                            <th class="h6 text-gray-300">Email</th>
+                            <th class="h6 text-gray-300">ID Card Number</th>
+                            <th class="h6 text-gray-300">Phone Number</th>
+                            <th class="h6 text-gray-300">Designation</th>
+                            <th class="h6 text-gray-300">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($employees as $employee)
+                            <tr>
+                                <td class="fixed-width">
+                                    <div class="form-check">
+                                        <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex-align gap-8">
+                                        <span class="h6 mb-0 fw-medium text-gray-300">{{ $loop->iteration }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <img src="{{ $employee->picture ? asset('storage/' . $employee->picture) : asset('storage/default-profile.png') }}"
+                                        class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $employee->user->name }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $employee->email }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $employee->id_card_number }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $employee->phone }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ $employee->designation ?? 'N/A' }}</span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.editEmployee', ['id' => $employee->id]) }}"
+                                        class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white">Edit</a>
+
+                                    <button type="button"
+                                        class="bg-danger text-white py-2 px-14 rounded-pill hover-bg-danger-600"
+                                        data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                        data-employee-id="{{ $employee->id }}">Delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer flex-between flex-wrap">
+                <span class="text-gray-900">
+                    Showing {{ $employees->firstItem() }} to {{ $employees->lastItem() }} of {{ $employees->total() }}
+                    entries
+                </span>
+
+                <!-- Default pagination links -->
+                {{ $employees->links() }}
+            </div>
+        </div>
+        <!-- Employee Table End -->
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Profile Picture</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">ID Card Number</th>
-                                    <th scope="col">Phone Number</th>
-                                    <th scope="col">Address</th>
-                                    <th scope="col">Gender</th>
-                                    <th scope="col">Salary</th>
-                                    <th scope="col">Designation</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($employees as $employee)
-                                    <tr>
-                                        <th scope="row">{{ $loop->iteration }}</th>
-                                        <td>
-                                            @if ($employee->picture)
-                                                <img src="{{ asset('storage/' . $employee->picture) }}"
-                                                    class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
-                                            @else
-                                                <img src="{{ asset('storage/default-profile.png') }}"
-                                                    class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
-                                            @endif
-                                        </td>
-                                        <td>{{ $employee->user->name }}</td>
-                                        <td>{{ $employee->email }}</td>
-                                        <td>{{ $employee->id_card_number }}</td>
-                                        <td>{{ $employee->phone }}</td>
-                                        <td>{{ $employee->address }}</td>
-                                        <td>{{ ucfirst($employee->gender) }}</td>
-                                        <td>{{ $employee->salary }}</td>
-                                        <td>{{ $employee->designation ?? 'N/A' }}</td>
-                                        <td>
-                                            <a href="{{ route('admin.editEmployee', $employee->id) }}"
-                                                class="btn btn-warning mb-2">Edit</a>
-                                            <button class="btn btn-danger"
-                                                onclick="setDeleteRoute('{{ route('admin.deleteEmployee', $employee->id) }}')">Delete</button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <div class="modal-body">
+                        Are you sure you want to delete this employee?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form id="deleteEmployeeForm" method="GET" action="">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- End Delete Modal -->
+
     </div>
 
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this employee? This action cannot be undone.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a id="deleteConfirmButton" class="btn btn-danger" href="#">Delete</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Script for passing employee ID to delete form -->
     <script>
-        function setDeleteRoute(route) {
-            const deleteButton = document.getElementById('deleteConfirmButton');
-            deleteButton.href = route;
-            $('#deleteModal').modal('show');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteModal = document.getElementById('deleteModal');
+            deleteModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                const employeeId = button.getAttribute('data-employee-id');
+                const deleteForm = document.getElementById('deleteEmployeeForm');
+                deleteForm.action = `/admin/employees/delete/${employeeId}`;
+            });
+        });
     </script>
 @endsection

@@ -11,7 +11,7 @@ class CouponController extends Controller
     public function allCouponsPage()
     {
         $coupons = Coupon::all();
-        return view('admin.coupons.all_coupons', compact('coupons'));
+        return view('coupons.all_coupons', compact('coupons'));
     }
 
     public function addCoupons()

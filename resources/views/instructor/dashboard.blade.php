@@ -1,187 +1,98 @@
-@extends('layout.instructor')
+@extends('layout.instructor-new')
 
-@section('page_content')
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-light text-center rounded p-4">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h6 class="mb-0">My Students</h6>
+@section('content')
+    <div class="dashboard-body">
+        <div class="breadcrumb-with-buttons mb-24 flex-between flex-wrap gap-8">
+            <!-- Breadcrumb Start -->
+            <div class="breadcrumb mb-24">
+                <ul class="flex-align gap-4">
+
+                    <li><span class="text-main-600 fw-normal text-15">MY STUDENTS</span></li>
+                </ul>
             </div>
-            <div class="table-responsive">
-                <table class="table text-start align-middle table-bordered table-hover mb-0">
+            <!-- Breadcrumb End -->
+        </div>
+
+        <div class="card overflow-hidden">
+            <div class="card-body p-0 overflow-x-auto">
+                <table id="scheduleTable" class="table table-striped">
                     <thead>
-                        <tr class="text-dark">
-                            <th scope="col">Student Name</th>
-                            <th>Father's/Husband's Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Phone</th>
-                            <th>CNIC</th>
-                            <th>Course</th>
-                            <th>Admission Date</th>
+                        <tr>
+                            <th class="h6 text-gray-300">Student Name</th>
+                            <th class="h6 text-gray-300">Father's/Husband's Name</th>
+                            <th class="h6 text-gray-300">Email</th>
+                            <th class="h6 text-gray-300">Phone</th>
+                            <th class="h6 text-gray-300">CNIC</th>
+                            <th class="h6 text-gray-300">Course</th>
+                            <th class="h6 text-gray-300">Admission Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($students as $index => $student)
                             <tr>
-                                <td>{{ $student->user->name }}</td>
-                                <td>{{ $student->father_or_husband_name }}</td>
-                                <td>{{ $student->email }}</td>
-                                <td>{{ $student->phone }}</td>
-                                <td>{{ $student->cnic }}</td>
-                                <td>{{ $student->course->duration_days }}</td>
-                                <td>{{ \Carbon\Carbon::parse($student->admission_date)->format('d-m-Y') }}</td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->user->name }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ $student->father_or_husband_name }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->email ?? 'N/A' }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->phone }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->cnic }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ $student->course->duration_days }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ \Carbon\Carbon::parse($student->admission_date)->format('d-m-Y') }}</span>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
+        <br>
 
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-12">
-                <div class="bg-light rounded h-100 p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0">My Class Schedule</h4>
+        <div class="breadcrumb-with-buttons mb-24 flex-between flex-wrap gap-8">
+            <!-- Breadcrumb Start -->
+            <div class="breadcrumb mb-24">
+                <ul class="flex-align gap-4">
+
+                    <li><span class="text-main-600 fw-normal text-15">MY SCHEDULES</span></li>
+                </ul>
+            </div>
+            <!-- Breadcrumb End -->
+        </div>
+
+        <!-- Calendar Section Start -->
+        <div class="card mt-24 bg-transparent">
+            <div class="card-body p-0">
+                <div id='wrap'>
+                    <div id='calendar' class="position-relative">
+                        {{-- <button type="button"
+                        class="add-event btn btn-main text-sm btn-sm px-24 rounded-pill py-12 d-flex align-items-center gap-2"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="ph ph-plus me-4"></i>
+                        Add Event
+                    </button> --}}
                     </div>
-                    <!-- FullCalendar -->
-                    <div id="calendar"></div>
+                    <div style='clear:both'></div>
                 </div>
             </div>
         </div>
+        <!-- Calendar Section End -->
     </div>
 
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
-
-    <style>
-        /* General Calendar Styling */
-        .fc {
-            background-color: white;
-            /* Change overall background color to white */
-            border: none;
-            padding: 20px;
-        }
-
-        .fc-toolbar-title {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .fc-event {
-            border: none;
-            /* Remove border */
-            padding: 5px;
-            /* Add padding for a cleaner look */
-            border-radius: 5px;
-            /* Slightly round the edges */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* Add subtle shadow for depth */
-        }
-
-        /* Add padding between the time slots for a less congested look */
-        .fc-timegrid-slot {
-            background-color: white !important;
-            /* Ensure slots have white background */
-            padding: 10px !important;
-            /* Add padding to the slots */
-        }
-
-        .fc-event-title {
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-        .fc-event-booked {
-            background-color: black !important;
-            color: white !important;
-        }
-
-        /* Remove underline from the day name */
-        .fc-col-header-cell a {
-            text-decoration: none;
-        }
-
-        /* Update header navigation button colors */
-        .fc-button-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            text-transform: capitalize;
-            /* Capitalize buttons */
-        }
-
-        .fc-button-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
-
-        /* Update calendar title styling */
-        .fc-toolbar-title {
-            font-size: 1.5rem;
-            color: #333;
-        }
-
-        /* Ensure time is formatted correctly */
-        .fc-timegrid-axis-cushion {
-            font-weight: bold;
-            font-size: 12px;
-            text-align: center;
-            /* Center align times */
-        }
-    </style>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'timeGridDay',
-                slotMinTime: '08:00:00',
-                slotMaxTime: '20:30:00',
-                slotDuration: '00:30:00',
-                slotLabelInterval: '00:30:00',
-                forceEventDuration: true,
-                defaultTimedEventDuration: '00:30:00',
-                slotLabelFormat: {
-                    hour: 'numeric',
-                    minute: '2-digit',
-                    meridiem: 'short',
-                    hour12: true
-                },
-                allDaySlot: false,
-                headerToolbar: {
-                    left: 'prev,next today',
-                    right: 'timeGridDay,timeGridWeek'
-                },
-                buttonText: {
-                    today: 'Today',
-                    day: 'Day',
-                    week: 'Week'
-                },
-                events: @json($events),
-                eventDidMount: function(info) {
-                    // Append the course_end_date to the title
-                    var tooltip = info.event.extendedProps.course_end_date;
-                    var element = info.el.querySelector('.fc-event-title');
-                    if (element && tooltip) {
-                        element.innerHTML = `${info.event.title} | End Date: ${tooltip}`;
-                    }
-
-                    // Apply specific class for booked events
-                    if (info.event.backgroundColor ===
-                        '#ff0000') { // Assuming booked events are red in the backend
-                        info.el.classList.add('fc-event-booked');
-                    }
-                },
-                viewDidMount: function(view) {
-                    // Show all-day slot only in week view
-                    if (view.view.type === 'timeGridWeek') {
-                        calendar.setOption('allDaySlot', true);
-                    } else {
-                        calendar.setOption('allDaySlot', false);
-                    }
-                }
-            });
-            calendar.render();
-        });
+        var events = @json($events);
     </script>
 @endsection

@@ -105,7 +105,7 @@
                                     @foreach ($courses as $course)
                                         <option value="{{ $course->id }}" data-fees="{{ $course->fees }}"
                                             data-duration="{{ $course->duration_days }}">
-                                            {{ $course->duration_days }}
+                                            {{ $course->duration_days }} Days
                                         </option>
                                     @endforeach
                                 </select>

@@ -13,9 +13,9 @@ class FixedExpenseController extends Controller
     public function index()
     {
         // Fetch all fixed expenses, related employees, and salaries
-        $fixedExpenses = FixedExpense::with('employee')->get();
+        $fixedExpenses = FixedExpense::with('employee')->paginate(10);
         $salaries = Salary::with('employee')->get();
-        $employees = Employee::all(); // Get all employees for selection in the form
+        $employees = Employee::all();
 
         return view('expense.fixed.index', compact('fixedExpenses', 'salaries', 'employees'));
     }

@@ -12,7 +12,7 @@ class CarExpenseController extends Controller
     // Display a listing of the car expenses
     public function index()
     {
-        $carExpenses = CarExpense::with('car')->get();
+        $carExpenses = CarExpense::with('car')->paginate(10);
         $cars = Car::all();
         return view('expense.car.index', compact('carExpenses', 'cars'));
     }

@@ -123,7 +123,7 @@ use App\Http\Controllers\Main\LoginController;
     Route::get('/admin/courses/add', [CoursesController::class, 'addCourses'])->name("admin.addCourses")->middleware('admin_guard');
     Route::post('/admin/courses/add', [CoursesController::class, 'storeCourse'])->name("admin.courses.store")->middleware('admin_guard');
     Route::get('/admin/courses/edit/{id}', [CoursesController::class, 'editCourse'])->name('admin.editCourse')->middleware('admin_guard');
-    Route::post('/admin/courses/{course}/update', [CoursesController::class, 'updateCourse'])->name('admin.updateCourse')->middleware('admin_guard');
+    Route::put('/admin/courses/{id}', [CoursesController::class, 'updateCourse'])->name('admin.updateCourse')->middleware('admin_guard');
     Route::get('/admin/courses/delete/{id}', [CoursesController::class, 'deleteCourse'])->name('admin.deleteCourse')->middleware('admin_guard');
 
     // Admin - Attendance Routes
@@ -228,19 +228,6 @@ use App\Http\Controllers\Main\LoginController;
     Route::get('/student/leaves/create', [LeaveController::class, 'addLeavesStudent'])->name('student.addLeaves')->middleware('student_guard');
     Route::post('/student/leaves/add', [LeaveController::class, 'storeLeavesStudent'])->name('student.leaves.store')->middleware('student_guard');
     Route::get('/student/leaves/edit/{leave}', [LeaveController::class, 'editLeaveStudent'])->name('student.editLeave')->middleware('student_guard');
-    Route::put('/student/leaves/{leave}', [LeaveController::class, 'updateLeaveStudent'])->name('student.updateLeave')->middleware('student_guard');
-    Route::get('/student/leaves/delete/{leave}', [LeaveController::class, 'destroyStudentLeave'])->name('student.deleteLeave')->middleware('student_guard');
+    Route::put('/student/leaves/{leave}', [LeaveController::class, 'updateLeaveStudent'])->name('student.updateLeave');
+    Route::delete('/student/leaves/delete/{leave}', [LeaveController::class, 'destroyStudentLeave'])->name('student.deleteLeave')->middleware('student_guard');
 
-
-
-
-    // Route::get('/send-test-email', function () {
-    //     $details = [
-    //         'title' => 'Test Email from King Driving School',
-    //         'body' => 'This is a test email sent using Hostinger SMTP in Laravel.'
-    //     ];
-
-    //     \Mail::to('alaptop2022@gmail.com')->send(new \App\Mail\TestMail($details));
-
-    //     return 'Test email sent successfully!';
-    // });

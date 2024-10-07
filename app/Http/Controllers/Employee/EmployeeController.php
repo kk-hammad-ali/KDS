@@ -13,7 +13,7 @@ class EmployeeController extends Controller
 {
     public function adminAllEmployees()
     {
-        $employees = Employee::with('user')->get();
+        $employees = Employee::with('user')->paginate(10);
         return view('employees.all_employees', compact('employees'));
     }
 

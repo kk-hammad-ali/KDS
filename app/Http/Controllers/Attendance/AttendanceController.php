@@ -34,18 +34,32 @@ class AttendanceController extends Controller
      */
     public function showStudentAttendance()
     {
-        $attendanceEvents = Attendance::whereHas('student') // Only student attendance
-            ->get()
-            ->map(function($attendance) {
-                return [
-                    'title' => $attendance->student->user->name,
-                    'start' => $attendance->attendance_date, // Date of attendance
-                    'attendance' => $attendance->student_present ? 'present' : 'absent', // Determine status
-                ];
-            });
+        $events = [];
 
-        return view('attendance.student.student_attendance', compact('attendanceEvents'));
+        // Fetch all attendance records with student relationships
+        $attendances = Attendance::with('student.user')->get();
+
+        foreach ($attendances as $attendance) {
+            // Check if the attendance has a student and if that student has a user
+            if ($attendance->student && $attendance->student->user) {
+                $attendanceDate = Carbon::parse($attendance->attendance_date);
+
+                $events[] = [
+                    'title' => $attendance->student->user->name, // Safe to access now
+                    'start' => $attendanceDate->format('Y-m-d'),
+                    'attendance' => $attendance->student_present ? 'present' : 'absent',
+                    'className' => 'attendance-event', // Add this line
+                    'backgroundColor' => $attendance->student_present ? '#28a745' : '#dc3545',
+                    'textColor' => 'white',
+                ];
+            }
+        }
+
+        // Pass the $events array to the view
+        return view('attendance.student.student_attendance', compact('events'));
     }
+
+
 
     public function markTodayStudentAttendance($date)
     {
@@ -85,17 +99,29 @@ class AttendanceController extends Controller
     // Instructor Attendance Functions (already implemented)
     public function showInstructorAttendance()
     {
-        $attendanceEvents = Attendance::whereHas('instructor') // Only instructor attendance
-            ->get()
-            ->map(function($attendance) {
-                return [
-                    'title' => $attendance->instructor->employee->user->name,
-                    'start' => $attendance->attendance_date, // Date of attendance
-                    'attendance' => $attendance->instructor_present ? 'present' : 'absent', // Determine status
-                ];
-            });
+        $events = [];
 
-        return view('attendance.instructor.insructor_attendance', compact('attendanceEvents'));
+        // Fetch all attendance records with instructor relationships
+        $attendances = Attendance::with('instructor.employee.user')->get();
+
+        foreach ($attendances as $attendance) {
+            // Check if the attendance has an instructor and if that instructor has a user
+            if ($attendance->instructor && $attendance->instructor->employee && $attendance->instructor->employee->user) {
+                $attendanceDate = Carbon::parse($attendance->attendance_date);
+
+                $events[] = [
+                    'title' => $attendance->instructor->employee->user->name, // Safe to access now
+                    'start' => $attendanceDate->format('Y-m-d'),
+                    'attendance' => $attendance->instructor_present ? 'present' : 'absent',
+                    'className' => 'attendance-event', // Add this line
+                    'backgroundColor' => $attendance->instructor_present ? '#28a745' : '#dc3545',
+                    'textColor' => 'white',
+                ];
+            }
+        }
+
+        // Pass the $events array to the view
+        return view('attendance.instructor.insructor_attendance', compact('events'));
     }
 
     public function markTodayAttendance($date)
@@ -133,21 +159,52 @@ class AttendanceController extends Controller
     }
 
 
+    // public function showInstructorStudentAttendance()
+    // {
+    //     $instructor = auth()->user()->instructor; // Fetch the logged-in instructor
+    //     $attendanceEvents = Attendance::whereHas('student', function ($query) use ($instructor) {
+    //         $query->where('instructor_id', $instructor->id);
+    //     })->get()->map(function ($attendance) {
+    //         return [
+    //             'title' => $attendance->student->user->name,
+    //             'start' => $attendance->attendance_date,
+    //             'attendance' => $attendance->student_present ? 'present' : 'absent',
+    //         ];
+    //     });
+
+    //     return view('attendance.instructor_student.student_attendance', compact('attendanceEvents'));
+    // }
+
     public function showInstructorStudentAttendance()
     {
+        $events = [];
         $instructor = auth()->user()->instructor; // Fetch the logged-in instructor
-        $attendanceEvents = Attendance::whereHas('student', function ($query) use ($instructor) {
-            $query->where('instructor_id', $instructor->id);
-        })->get()->map(function ($attendance) {
-            return [
-                'title' => $attendance->student->user->name,
-                'start' => $attendance->attendance_date,
-                'attendance' => $attendance->student_present ? 'present' : 'absent',
-            ];
-        });
 
-        return view('attendance.instructor_student.student_attendance', compact('attendanceEvents'));
+        // Fetch attendance records for students associated with the instructor
+        $attendances = Attendance::with('student.user')->whereHas('student', function ($query) use ($instructor) {
+            $query->where('instructor_id', $instructor->id);
+        })->get();
+
+        foreach ($attendances as $attendance) {
+            // Check if the attendance has a student and if that student has a user
+            if ($attendance->student && $attendance->student->user) {
+                $attendanceDate = Carbon::parse($attendance->attendance_date);
+
+                $events[] = [
+                    'title' => $attendance->student->user->name, // Safe to access now
+                    'start' => $attendanceDate->format('Y-m-d'),
+                    'attendance' => $attendance->student_present ? 'present' : 'absent',
+                    'className' => 'attendance-event', // Add this line for CSS styling
+                    'backgroundColor' => $attendance->student_present ? '#28a745' : '#dc3545',
+                    'textColor' => 'white',
+                ];
+            }
+        }
+
+        // Pass the $events array to the view
+        return view('attendance.instructor_student.student_attendance', compact('events'));
     }
+
 
     /**
      * Show form for marking student attendance (For the logged-in instructor's students).

@@ -1,203 +1,114 @@
-@extends('layout.admin')
+@extends('layout.admin-new')
 
-@section('page_content')
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-12">
-                <div class="bg-light rounded h-100 p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0">Class Schedule</h4>
+@section('content')
+    <div class="dashboard-body">
+        <div class="breadcrumb mb-24">
+            <ul class="flex-align gap-4">
+                <li><a href="{{ route('admin.dashboard') }}"
+                        class="text-gray-200 fw-normal text-15 hover-text-main-600">Home</a></li>
+                <li> <span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-right"></i></span> </li>
+                <li><span class="text-main-600 fw-normal text-15">Schedule</span></li>
+            </ul>
+        </div>
+
+        <!-- Calendar Section Start -->
+        <div class="card mt-24 bg-transparent">
+            <div class="card-body p-0">
+                <div id='wrap'>
+                    <div id='calendar' class="position-relative">
+                        {{-- <button type="button"
+                            class="add-event btn btn-main text-sm btn-sm px-24 rounded-pill py-12 d-flex align-items-center gap-2"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="ph ph-plus me-4"></i>
+                            Add Event
+                        </button> --}}
                     </div>
-
-                    <!-- FullCalendar -->
-                    <div id="calendar"></div>
+                    <div style='clear:both'></div>
                 </div>
             </div>
         </div>
-    </div>
+        <!-- Calendar Section End -->
 
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-12">
-                <div class="bg-light rounded h-100 p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0">All Schedules</h4>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Student Name</th>
-                                    <th scope="col">Instructor Name</th>
-                                    <th scope="col">Vehicle</th>
-                                    <th scope="col">Class Date</th>
-                                    <th scope="col">Start Time</th>
-                                    <th scope="col">End Time</th>
-                                    <th scope="col">Course End Date</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($schedules as $schedule)
-                                    <tr>
-                                        <th scope="row">{{ $loop->iteration }}</th>
-                                        <td>{{ $schedule->student->user->name }}</td>
-                                        <td>{{ $schedule->instructor->employee->user->name }}</td>
-                                        <td>{{ $schedule->vehicle->make }} {{ $schedule->vehicle->model }}</td>
-                                        <td>{{ $schedule->class_date }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($schedule->end_time)->format('h:i A') }}</td>
-                                        <td>{{ $schedule->student->course_end_date }}</td>
-                                        <td>
-                                            <a href="" class="btn btn-warning mb-2">Edit</a>
-                                            <button class="btn btn-danger" onclick="setDeleteRoute('')">Delete</button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <!-- Table Section Start -->
+        <div class="card overflow-hidden mt-5">
+            <div class="card-body p-0 overflow-x-auto">
+                <table id="scheduleTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="fixed-width">
+                                <div class="form-check">
+                                    <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
+                                        id="selectAll">
+                                </div>
+                            </th>
+                            <th class="h6 text-gray-300">#</th>
+                            <th class="h6 text-gray-300">Student Name</th>
+                            <th class="h6 text-gray-300">Instructor Name</th>
+                            <th class="h6 text-gray-300">Vehicle</th>
+                            <th class="h6 text-gray-300">Class Date</th>
+                            <th class="h6 text-gray-300">Start Time</th>
+                            <th class="h6 text-gray-300">End Time</th>
+                            <th class="h6 text-gray-300">Course End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($schedules as $schedule)
+                            <tr>
+                                <td class="fixed-width">
+                                    <div class="form-check">
+                                        <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex-align gap-8">
+                                        <span class="h6 mb-0 fw-medium text-gray-300">{{ $loop->iteration }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->student->user->name }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->instructor->employee->user->name }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->vehicle->make }}
+                                        {{ $schedule->vehicle->model }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->class_date }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ \Carbon\Carbon::parse($schedule->end_time)->format('h:i A') }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->student->course_end_date }}</span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer flex-between flex-wrap">
+                <span class="text-gray-900">
+                    Showing {{ $schedules->firstItem() }} to {{ $schedules->lastItem() }} of {{ $schedules->total() }}
+                    entries
+                </span>
+
+                <!-- Default pagination links -->
+                {{ $schedules->links() }}
             </div>
         </div>
+        <!-- Table Section End -->
     </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this schedule? This action cannot be undone.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a id="deleteConfirmButton" class="btn btn-danger" href="#">Delete</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        function setDeleteRoute(route) {
-            const deleteButton = document.getElementById('deleteConfirmButton');
-            deleteButton.href = route;
-            $('#deleteModal').modal('show');
-        }
-    </script>
-
-    <!-- FullCalendar CSS and JS -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/main.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.1.9/index.global.min.js"></script>
-
-    <style>
-        /* Responsive styling */
-        .fc {
-            background-color: white;
-            border: none;
-            padding: 10px;
-            max-width: 100%;
-        }
-
-        .fc-event {
-            border: none;
-            padding: 5px;
-            border-radius: 5px;
-            font-size: 0.85rem;
-        }
-
-        .fc-event-booked {
-            background-color: black !important;
-            color: white !important;
-        }
-
-        .fc-timegrid-slot {
-            background-color: white !important;
-            padding: 10px !important;
-        }
-
-        .fc-toolbar-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-
-        /* Smaller font size for mobile */
-        @media (max-width: 576px) {
-            .fc-toolbar-title {
-                font-size: 1rem;
-            }
-
-            .fc-event {
-                font-size: 0.75rem;
-            }
-
-            .fc-timegrid-axis-cushion {
-                font-size: 10px;
-            }
-        }
-    </style>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'timeGridDay',
-                slotMinTime: '08:00:00',
-                slotMaxTime: '20:30:00',
-                slotDuration: '00:30:00',
-                slotLabelInterval: '00:30:00',
-                forceEventDuration: true,
-                defaultTimedEventDuration: '00:30:00',
-                slotLabelFormat: {
-                    hour: 'numeric',
-                    minute: '2-digit',
-                    meridiem: 'short',
-                    hour12: true
-                },
-                allDaySlot: false,
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'timeGridDay,timeGridWeek'
-                },
-                titleFormat: {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                },
-                buttonText: {
-                    today: 'Today',
-                    day: 'Day',
-                    week: 'Week'
-                },
-                events: @json($events),
-                eventDidMount: function(info) {
-                    var tooltip = info.event.extendedProps.course_end_date;
-                    var element = info.el.querySelector('.fc-event-title');
-                    if (element && tooltip) {
-                        element.innerHTML = `${info.event.title} | End Date: ${tooltip}`;
-                    }
-
-                    if (info.event.backgroundColor === '#ff0000') {
-                        info.el.classList.add('fc-event-booked');
-                    }
-                },
-                viewDidMount: function(view) {
-                    if (view.view.type === 'timeGridWeek') {
-                        calendar.setOption('allDaySlot', true);
-                    } else {
-                        calendar.setOption('allDaySlot', false);
-                    }
-                }
-            });
-            calendar.render();
-        });
+        var events = @json($events);
     </script>
 @endsection

@@ -1,80 +1,104 @@
-@extends('layout.admin')
+@extends('layout.admin-new')
 
-@section('page_content')
-    <style>
-        td {
-            min-width: 140px;
-        }
-    </style>
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-12">
-                <div class="bg-light rounded h-100 p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0">All Submitted Forms</h4>
-                    </div>
-                    <div class="table-responsive">
-                        @if ($students->isEmpty())
-                            <p>No admission forms have been submitted yet.</p>
-                        @else
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Father's/Husband's Name</th>
-                                        <th scope="col">CNIC</th>
-                                        <th scope="col">Address</th>
-                                        <th scope="col">Phone Number</th>
-                                        <th scope="col">Optional Phone</th>
-                                        <th scope="col">Admission Date</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($students as $student)
-                                        <tr>
-                                            <th scope="row">{{ $loop->iteration }}</th>
-                                            <td>{{ $student->user->name }}</td>
-                                            <td>{{ $student->father_or_husband_name }}</td>
-                                            <td>{{ $student->cnic }}</td>
-                                            <td>{{ $student->address }}</td>
-                                            <td>{{ $student->phone }}</td>
-                                            <td>{{ $student->optional_phone }}</td>
-                                            <td>{{ $student->admission_date }}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#enrollModal" data-id="{{ $student->id }}"
-                                                    data-name="{{ $student->user->name }}"
-                                                    data-father-name="{{ $student->father_or_husband_name }}"
-                                                    data-cnic="{{ $student->cnic }}"
-                                                    data-address="{{ $student->address }}"
-                                                    data-phone="{{ $student->phone }}"
-                                                    data-optional-phone="{{ $student->optional_phone }}"
-                                                    data-admission-date="{{ $student->admission_date }}"
-                                                    data-course-id="{{ $student->course_id }}"
-                                                    data-course-name="{{ $student->course->duration_days }}"
-                                                    data-fees="{{ $student->fees }}"
-                                                    data-duration="{{ $student->course_duration }}"
-                                                    data-practical-driving-hours="{{ $student->practical_driving_hours }}"
-                                                    data-theory-classes="{{ $student->theory_classes }}"
-                                                    data-transmission="{{ $student->transmission }}"
-                                                    data-email="{{ $student->email }}" onclick="populateModal(this)">
-                                                    Enroll
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        @endif
-                    </div>
-                </div>
+@section('content')
+    <div class="dashboard-body">
+        <div class="breadcrumb mb-24">
+            <ul class="flex-align gap-4">
+                <li><a href="{{ route('admin.dashboard') }}"
+                        class="text-gray-200 fw-normal text-15 hover-text-main-600">Home</a>
+                </li>
+                <li> <span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-right"></i></span> </li>
+                <li><span class="text-main-600 fw-normal text-15">All Submitted Forms</span></li>
+            </ul>
+        </div>
+
+        <!-- Table Section Start -->
+        <div class="card overflow-hidden">
+            <div class="card-body p-0 overflow-x-auto">
+                <table id="studentTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="fixed-width">
+                                <div class="form-check">
+                                    <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
+                                        id="selectAll">
+                                </div>
+                            </th>
+                            <th class="h6 text-gray-300">#</th>
+                            <th class="h6 text-gray-300">Name</th>
+                            <th class="h6 text-gray-300">Father's/Husband's Name</th>
+                            <th class="h6 text-gray-300">CNIC</th>
+                            <th class="h6 text-gray-300">Address</th>
+                            <th class="h6 text-gray-300">Phone Number</th>
+                            <th class="h6 text-gray-300">Optional Phone</th>
+                            <th class="h6 text-gray-300">Admission Date</th>
+                            <th class="h6 text-gray-300">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($students as $student)
+                            <tr>
+                                <td class="fixed-width">
+                                    <div class="form-check">
+                                        <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex-align gap-8">
+                                        <span class="h6 mb-0 fw-medium text-gray-300">{{ $loop->iteration }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->user->name }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ $student->father_or_husband_name }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->cnic }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->address }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->phone }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->optional_phone }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->admission_date }}</span>
+                                </td>
+                                <td>
+                                    <button type="button"
+                                        class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white"
+                                        data-bs-toggle="modal" data-bs-target="#enrollModal" data-id="{{ $student->id }}"
+                                        data-admission-date="{{ $student->admission_date }}"
+                                        data-practical-driving-hours="{{ $student->practical_driving_hours }}"
+                                        data-theory-classes="{{ $student->theory_classes }}"
+                                        data-transmission="{{ $student->transmission }}" onclick="populateModal(this)">
+                                        Enroll
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer flex-between flex-wrap">
+                <span class="text-gray-900">
+                    Showing {{ $students->firstItem() }} to {{ $students->lastItem() }} of {{ $students->total() }}
+                    entries
+                </span>
+
+                <!-- Default pagination links -->
+                {{ $students->links() }}
             </div>
         </div>
+        <!-- Table Section End -->
     </div>
 
-    <!-- Enrollment Modal -->
     <div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="enrollModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -96,105 +120,185 @@
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" id="studentId">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="father_husband_name" class="form-label">Father's/Husband's Name</label>
-                            <input type="text" class="form-control" id="father_husband_name" name="father_husband_name"
-                                required readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cnic" class="form-label">CNIC</label>
-                            <input type="text" class="form-control" id="cnic" name="cnic" required readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control" id="address" name="address" required readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phone" name="phone" required readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="optional_phone" class="form-label">Optional Phone</label>
-                            <input type="text" class="form-control" id="optional_phone" name="optional_phone"
-                                readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="admission_date" class="form-label">Admission Date</label>
-                            <input type="date" class="form-control" id="admission_date" name="admission_date"
-                                required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email (Optional)</label>
-                            <input type="email" class="form-control" id="email" name="email" readonly>
-                        </div>
+                        <input type="hidden" name="transmission" id="transmission">
 
-                        <div class="mb-3">
-                            <label for="practical_driving_hours" class="form-label">Practical Driving (No. of
-                                Hours)</label>
-                            <input type="number" class="form-control" id="practical_driving_hours"
-                                name="practical_driving_hours" required>
+                        <div class="row"> <!-- Row for input grouping -->
+
+                            <!-- Admission Date -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="admission_date" class="h5 mb-8 fw-semibold font-heading">Admission Date <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="date" class="form-control @error('admission_date') is-invalid @enderror"
+                                    id="admission_date" name="admission_date" placeholder="Select Admission Date" required>
+                                @error('admission_date')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Practical Driving Hours -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="practicalDriving" class="h5 mb-8 fw-semibold font-heading">Practical Driving
+                                    Days</label>
+                                <input type="number"
+                                    class="form-control @error('practical_driving_hours') is-invalid @enderror"
+                                    id="practicalDriving" name="practical_driving_hours"
+                                    placeholder="Enter Practical Driving Days" required>
+                                @error('practical_driving_hours')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Theory Classes -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="theoryClasses" class="h5 mb-8 fw-semibold font-heading">Theory Classes
+                                    Days</label>
+                                <input type="number" class="form-control @error('theory_classes') is-invalid @enderror"
+                                    id="theoryClasses" name="theory_classes" placeholder="Enter Theory Classes Days"
+                                    required>
+                                @error('theory_classes')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Instructor Dropdown -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="instructor" class="h5 mb-8 fw-semibold font-heading">Select Instructor <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <select class="form-select @error('instructor_id') is-invalid @enderror" id="instructor"
+                                    name="instructor_id" required>
+                                    <option value="" disabled selected>Select Instructor</option>
+                                    @foreach ($instructors as $instructor)
+                                        <option value="{{ $instructor->id }}">{{ $instructor->employee->user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('instructor_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Vehicle Dropdown -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="vehicle_id" class="h5 mb-8 fw-semibold font-heading">Select Vehicle <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <select class="form-select @error('vehicle_id') is-invalid @enderror" id="vehicle_id"
+                                    name="vehicle_id" required>
+                                    <option value="" disabled selected>Select Vehicle</option>
+                                    @foreach ($cars as $vehicle)
+                                        <option value="{{ $vehicle->id }}"
+                                            data-transmission="{{ $vehicle->transmission }}">
+                                            {{ $vehicle->make }} {{ $vehicle->model }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('vehicle_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Class Start Time Dropdown -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="class_start_time" class="h5 mb-8 fw-semibold font-heading">Class Start Time
+                                    <span class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <select class="form-select @error('class_start_time') is-invalid @enderror"
+                                    id="class_start_time" name="class_start_time" required>
+                                    <!-- Time slots will be populated dynamically -->
+                                </select>
+                                @error('class_start_time')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Class Duration -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="class_duration" class="h5 mb-8 fw-semibold font-heading">Class Duration (in
+                                    minutes) <span class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="number" class="form-control @error('class_duration') is-invalid @enderror"
+                                    id="class_duration" name="class_duration" placeholder="Enter Class Duration"
+                                    required>
+                                @error('class_duration')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Invoice Date -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="invoice_date" class="h5 mb-8 fw-semibold font-heading">Invoice Date <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="date" class="form-control @error('invoice_date') is-invalid @enderror"
+                                    id="invoice_date" name="invoice_date" placeholder="Select Invoice Date" required>
+                                @error('invoice_date')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Amount Received -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="amount_received" class="h5 mb-8 fw-semibold font-heading">Total Amount
+                                    Received
+                                    <span class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="number" class="form-control @error('amount_received') is-invalid @enderror"
+                                    id="amount_received" name="amount_received" placeholder="Enter Amount Received"
+                                    required>
+                                @error('amount_received')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Balance -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="balance" class="h5 mb-8 fw-semibold font-heading">Advance <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="number" step="0.01"
+                                    class="form-control @error('balance') is-invalid @enderror" id="balance"
+                                    name="balance" placeholder="Advance Amount" required>
+                                @error('balance')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Branch -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="branch" class="h5 mb-8 fw-semibold font-heading">Branch <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="text" class="form-control @error('branch') is-invalid @enderror"
+                                    id="branch" name="branch" placeholder="Enter Branch Name" required>
+                                @error('branch')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Paid By -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="paid_by" class="h5 mb-8 fw-semibold font-heading">Paid By <span
+                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="text" class="form-control @error('paid_by') is-invalid @enderror"
+                                    id="paid_by" name="paid_by" placeholder="Enter Payee Name" required>
+                                @error('paid_by')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Amount in Words -->
+                            <div class="col-sm-12 mb-3">
+                                <label for="amount_in_english" class="h5 mb-8 fw-semibold font-heading">Amount in Words
+                                    (English) <span class="text-13 text-gray-400 fw-medium">(Required)</span></label>
+                                <input type="text"
+                                    class="form-control @error('amount_in_english') is-invalid @enderror"
+                                    id="amount_in_english" name="amount_in_english" placeholder="Enter Amount in Words"
+                                    required>
+                                @error('amount_in_english')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                        </div> <!-- End of row -->
+
+                        <br>
+                        <!-- Submit Button -->
+                        <div class="flex-align justify-content-end gap-8 mt-4">
+                            <button type="submit" class="btn btn-main rounded-pill py-9">Enroll</button>
                         </div>
-                        <div class="mb-3">
-                            <label for="theory_classes" class="form-label">Theory Classes (No. of Classes)</label>
-                            <input type="number" class="form-control" id="theory_classes" name="theory_classes"
-                                required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="course_name" class="form-label">Course</label>
-                            <input type="text" class="form-control" id="course_name" name="course_name" required
-                                readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="fees" class="form-label">Fees</label>
-                            <input type="number" class="form-control" id="fees" name="fees" required readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="course_duration" class="form-label">Course Duration (Days)</label>
-                            <input type="number" class="form-control" id="course_duration" name="course_duration"
-                                required readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="transmission" class="form-label">Transmission Type</label>
-                            <input type="text" class="form-control" id="transmission" name="transmission" readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="instructor" class="form-label">Select Instructor</label>
-                            <select class="form-select" id="instructor" name="instructor_id" required>
-                                <option value="" disabled selected>Select Instructor</option>
-                                @foreach ($instructors as $instructor)
-                                    <option value="{{ $instructor->id }}">{{ $instructor->employee->user->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="vehicle_id" class="form-label">Select Vehicle</label>
-                            <select class="form-select" id="vehicle_id" name="vehicle_id" required>
-                                <option value="" disabled selected>Select Vehicle</option>
-                                @foreach ($cars as $vehicle)
-                                    <option value="{{ $vehicle->id }}"
-                                        data-transmission="{{ $vehicle->transmission }}">
-                                        {{ $vehicle->make }} {{ $vehicle->model }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="class_start_time" class="form-label">Class Start Time</label>
-                            <select class="form-select" id="class_start_time" name="class_start_time" required>
-                                <!-- Time slots will be populated dynamically -->
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="class_duration" class="form-label">Class Duration (in minutes)</label>
-                            <input type="number" class="form-control" id="class_duration" name="class_duration"
-                                required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
@@ -209,43 +313,31 @@
             // Update the form action to include the student ID
             document.getElementById('enrollForm').action = `/admin/student/update/${studentId}`;
 
-            // Populate the form fields with the student's data
-            document.getElementById('studentId').value = studentId;
-            document.getElementById('name').value = button.getAttribute('data-name');
-            document.getElementById('father_husband_name').value = button.getAttribute('data-father-name');
-            document.getElementById('cnic').value = button.getAttribute('data-cnic');
-            document.getElementById('address').value = button.getAttribute('data-address');
-            document.getElementById('phone').value = button.getAttribute('data-phone');
-            document.getElementById('optional_phone').value = button.getAttribute('data-optional-phone');
+            // Set admission date
             document.getElementById('admission_date').value = button.getAttribute('data-admission-date');
-            document.getElementById('email').value = button.getAttribute('data-email') || '';
-
-            // Populate read-only fields for course, fees, and duration
-            document.getElementById('course_name').value = button.getAttribute('data-course-name');
-            document.getElementById('fees').value = button.getAttribute('data-fees');
-            document.getElementById('course_duration').value = button.getAttribute('data-duration');
-
-            // Set practical and theory class fields
-            document.getElementById('practical_driving_hours').value = button.getAttribute('data-practical-driving-hours');
-            document.getElementById('theory_classes').value = button.getAttribute('data-theory-classes');
 
             // Set the transmission type
             const transmissionType = button.getAttribute('data-transmission');
-            document.getElementById('transmission').value = transmissionType;
+            console.log('Transmission Type:', transmissionType); // Ensure we are capturing the transmission type properly
 
             // Filter vehicles based on transmission type
-            var vehicleSelect = document.getElementById('vehicle_id');
-            var vehicleOptions = vehicleSelect.options;
+            const vehicleSelect = document.getElementById('vehicle_id');
+            const vehicleOptions = vehicleSelect.options;
 
-            for (var i = 0; i < vehicleOptions.length; i++) {
-                var option = vehicleOptions[i];
+            // Loop through the vehicle options and show only the ones matching the selected transmission type
+            for (let i = 0; i < vehicleOptions.length; i++) {
+                const option = vehicleOptions[i];
+                console.log(`Checking option: ${option.text}, Transmission: ${option.dataset.transmission}`);
+
                 if (option.dataset.transmission === transmissionType || option.value === "") {
-                    option.style.display = '';
+                    option.style.display = ''; // Show the option if it matches the transmission
                 } else {
-                    option.style.display = 'none';
+                    option.style.display = 'none'; // Hide the option if it doesn't match the transmission
                 }
             }
-            vehicleSelect.selectedIndex = 0; // Reset the selection
+
+            // Reset the selected index of the vehicle dropdown
+            vehicleSelect.selectedIndex = 0;
 
             // Trigger fetching booked times
             fetchBookedTimes();

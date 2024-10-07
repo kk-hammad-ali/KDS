@@ -45,14 +45,15 @@ class SignInController extends Controller
                     return redirect('/student/dashboard');
 
                 default:
-                    // If the role is not recognized
                     return redirect('/sign-in')->withErrors(['role' => 'Unauthorized role.']);
             }
         } else {
-            return redirect('/sign-in')->withErrors(['old_password' => 'Wrong name or password.']);
+            // Return back to the sign-in page with an error
+            return back()->withErrors([
+                'login_error' => 'Invalid username or password. Please try again.',
+            ])->withInput();
         }
     }
-
 
     public function adminLogout(){
         session()->forget('admin_id');

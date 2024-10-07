@@ -37,11 +37,9 @@ class InstructorController extends Controller
         // Fetch instructors and pass data to the dashboard view
         $instructors = Instructor::with('employee.user')->get();
 
-        // Call the instructorSchedules function from the ScheduleController
+        // Fetch student schedules (events)
         $schedulesResponse = $this->scheduleController->instructorSchedules(request());
-
-        // Get the 'events' data from the response (you can get it directly from the view)
-        $events = view('instructor.my_schedule', $schedulesResponse->getData())->getData()['events'];
+        $events = $schedulesResponse->getData()->events;
 
         // Pass instructors, students, and events to the dashboard view
         return view('instructor.dashboard', compact('instructors', 'students', 'events'));
@@ -50,7 +48,7 @@ class InstructorController extends Controller
 
     public function adminAllInstructors()
     {
-        $instructors = Instructor::with('employee.user')->get();
+        $instructors = Instructor::with('employee.user')->paginate(10);
         return view('admin.instructors.all_instructors', compact('instructors'));
     }
 

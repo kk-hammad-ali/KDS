@@ -12,7 +12,7 @@ class InvoiceController extends Controller
     public function index()
     {
         // Fetch all invoices from the database
-        $invoices = Invoice::all();
+        $invoices = Invoice::paginate(10);
 
         // Pass invoices to the view
         return view('invoice.all_invoices', compact('invoices'));
@@ -38,5 +38,21 @@ class InvoiceController extends Controller
 
         // Return the Blade view to show the invoice in the browser
         return view('invoice.show_invoice', compact('invoice'));
+    }
+
+    public function generateReceiptNumber()
+    {
+        // Fetch the latest invoice
+        $latestInvoice = Invoice::latest()->first();
+
+        // Determine the next number (increment)
+        if ($latestInvoice) {
+            $lastReceiptNumber = (int)str_replace('KDS-', '', $latestInvoice->receipt_number);
+            $newReceiptNumber = 'KDS-' . str_pad($lastReceiptNumber + 1, 2, '0', STR_PAD_LEFT);
+        } else {
+            $newReceiptNumber = 'KDS-01'; // Start with KDS-01 if no invoices exist
+        }
+
+        return $newReceiptNumber;
     }
 }

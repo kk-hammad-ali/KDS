@@ -1,114 +1,139 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Login</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <style>
-        body,
-        html {
-            height: 100%;
-            margin: 0;
-            overflow: hidden;
-        }
-
-        .bg-img {
-            background-image: url('{{ asset('public/images/bg.JPG') }}');
-            min-height: 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            position: relative;
-            opacity: 0.8;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-        }
-
-        .card {
-            background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-body {
-            padding: 3rem;
-        }
-
-        .btn-dark {
-            background-color: #ff8f1f;
-            border-color: #ff8f1f;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title -->
+    <title>King Driving School | Admin Panel</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.png') }}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <!-- File Upload -->
+    <link rel="stylesheet" href="{{ asset('assets/css/file-upload.css') }}">
+    <!-- Plyr -->
+    <link rel="stylesheet" href="{{ asset('assets/css/plyr.css') }}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
+    <!-- Full Calendar -->
+    <link rel="stylesheet" href="{{ asset('assets/css/full-calendar.css') }}">
+    <!-- jQuery UI -->
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.css') }}">
+    <!-- Quill Editor -->
+    <link rel="stylesheet" href="{{ asset('assets/css/editor-quill.css') }}">
+    <!-- Apex Charts -->
+    <link rel="stylesheet" href="{{ asset('assets/css/apexcharts.css') }}">
+    <!-- Calendar -->
+    <link rel="stylesheet" href="{{ asset('assets/css/calendar.css') }}">
+    <!-- jVector Map -->
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-jvectormap-2.0.5.css') }}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
 </head>
 
 <body>
-    <div class="bg-img">
-        <div class="container py-5">
-            <div class="row d-flex justify-content-center align-items-center">
-                <div class="col col-xl-10">
-                    <div class="card" style="border-radius: 1rem;">
 
-                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                            <div class="card-body p-4 p-lg-5 text-black">
-                                <form method="POST" action="{{ route('login_user') }}">
-                                    @csrf
-                                    <div class="d-flex align-items-center mb-3 pb-1">
-                                        <img src="{{ asset('public/images/logo.png') }}"
-                                            style="height: 70px; object-fit:fill" alt="Logo">
-                                    </div>
-                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your
-                                        account</h5>
+    <!--==================== Preloader Start ====================-->
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+    <!--==================== Preloader End ====================-->
 
-                                    <div data-mdb-input-init class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example17">Name</label>
-                                        <input type="text" id="form2Example17" class="form-control form-control-lg"
-                                            name="name" value="{{ old('name') }}" />
+    <!--==================== Sidebar Overlay End ====================-->
+    <div class="side-overlay"></div>
+    <!--==================== Sidebar Overlay End ====================-->
 
-                                        @if ($errors->has('name'))
-                                            <span class="text-danger">{{ $errors->first('name') }}</span>
-                                        @endif
-                                    </div>
+    <section class="auth d-flex">
+        <div class="auth-left bg-main-50 flex-center p-24">
+            <img src="{{ asset('public/images/logo.png') }}" alt="">
+        </div>
+        <div class="auth-right py-40 px-24 flex-center flex-column">
+            <div class="auth-right__inner mx-auto w-100">
+                <a href="index.html" class="auth-right__logo">
+                    {{-- <img src="{{ asset('public/images/logo.png') }}" alt="" style="width: 50px;"> --}}
+                </a>
+                <h2 class="mb-8">Welcome to Back! &#128075;</h2>
+                <p class="text-gray-600 text-15 mb-32">Please sign in to your account and start the adventure</p>
 
-                                    <div data-mdb-input-init class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example27">Password</label>
-                                        <input type="password" id="form2Example27" class="form-control form-control-lg"
-                                            name="password" />
-
-                                        @if ($errors->has('password'))
-                                            <span class="text-danger">{{ $errors->first('password') }}</span>
-                                        @endif
-                                    </div>
-
-                                    <div class="pt-1 mb-4">
-                                        <button data-mdb-button-init data-mdb-ripple-init
-                                            class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
-                                    </div>
-                                </form>
-                            </div>
+                {{-- <div class="mb-32 flex-between flex-wrap gap-8">
+                        <div class="form-check mb-0 flex-shrink-0">
+                            <input class="form-check-input flex-shrink-0 rounded-4" type="checkbox" value=""
+                                id="remember">
+                            <label class="form-check-label text-15 flex-grow-1" for="remember">Remember Me </label>
                         </div>
+                        <a href="forgot-password.html"
+                            class="text-main-600 hover-text-decoration-underline text-15 fw-medium">Forgot
+                            Password?</a>
+                </div> --}}
+                <form method="POST" action="{{ route('login_user') }}">
+                    @csrf
+                    <div class="mb-24">
+                        <label for="fname" class="form-label mb-8 h6">Email or Username</label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control py-11 ps-40" id="fname" name="name"
+                                placeholder="Type your username" value="{{ old('name') }}">
+                            <span class="position-absolute top-50 translate-middle-y ms-16 text-gray-600 d-flex">
+                                <i class="ph ph-user"></i>
+                            </span>
+                        </div>
+                        @if ($errors->has('login_error'))
+                            <div class="text-danger">{{ $errors->first('login_error') }}</div>
+                        @endif
                     </div>
-                </div>
+
+                    <div class="mb-24">
+                        <label for="current-password" class="form-label mb-8 h6">Current Password</label>
+                        <div class="position-relative">
+                            <input type="password" class="form-control py-11 ps-40" id="current-password"
+                                name="password" placeholder="Enter Current Password">
+                            <span
+                                class="toggle-password position-absolute top-50 inset-inline-end-0 me-16 translate-middle-y ph ph-eye-slash"
+                                id="#current-password"></span>
+                            <span class="position-absolute top-50 translate-middle-y ms-16 text-gray-600 d-flex"><i
+                                    class="ph ph-lock"></i></span>
+                        </div>
+                        @if ($errors->has('login_error'))
+                            <div class="text-danger">{{ $errors->first('login_error') }}</div>
+                        @endif
+                    </div>
+
+                    <button type="submit" class="btn btn-main rounded-pill w-100">Sign In</button>
+                </form>
+
             </div>
         </div>
-    </div>
+    </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-    </script>
+    <!-- jQuery JS -->
+    <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+    <!-- Bootstrap Bundle JS -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Phosphor JS -->
+    <script src="{{ asset('assets/js/phosphor-icon.js') }}"></script>
+    <!-- File Upload -->
+    <script src="{{ asset('assets/js/file-upload.js') }}"></script>
+    <!-- Plyr -->
+    <script src="{{ asset('assets/js/plyr.js') }}"></script>
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <!-- Full Calendar -->
+    <script src="{{ asset('assets/js/full-calendar.js') }}"></script>
+    <!-- jQuery UI -->
+    <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
+    <!-- Quill Editor -->
+    <script src="{{ asset('assets/js/editor-quill.js') }}"></script>
+    <!-- Apex Charts -->
+    <script src="{{ asset('assets/js/apexcharts.min.js') }}"></script>
+    <!-- Calendar JS -->
+    <script src="{{ asset('assets/js/calendar.js') }}"></script>
+    <!-- jVector Map -->
+    <script src="{{ asset('assets/js/jquery-jvectormap-2.0.5.min.js') }}"></script>
+    <!-- jVector Map World JS -->
+    <script src="{{ asset('assets/js/jquery-jvectormap-world-mill-en.js') }}"></script>
+    <!-- Main JS -->
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 </body>
 
 </html>

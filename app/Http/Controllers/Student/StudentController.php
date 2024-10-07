@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Coupon;
 use App\Models\Instructor;
+use App\Models\Invoice;
 use App\Models\User;
 use App\Models\Car;
 use App\Models\Leave;
@@ -19,7 +20,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\Schedule\ScheduleController;
-use App\Http\Controllers\Leave\LeaveController;
+use App\Http\Controllers\Invoice\InvoiceController;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 
 use Carbon\Carbon;
 
@@ -28,39 +31,68 @@ class StudentController extends Controller
 
     protected $emailController;
     protected $scheduleController;
-    protected $leaveController;
+    protected $invoiceController;
 
-    public function __construct(EmailController $emailController, ScheduleController $scheduleController, LeaveController $leaveController)
+    public function __construct(InvoiceController $invoiceController, EmailController $emailController, ScheduleController $scheduleController)
     {
         $this->emailController = $emailController;
         $this->scheduleController = $scheduleController;
-        $this->leaveController = $leaveController;
+        $this->invoiceController = $invoiceController;
     }
+
+    // public function index()
+    // {
+    //     // Fetch student schedules
+    //     $schedulesResponse = $this->scheduleController->studentSchedules(request());
+
+    //     // Convert schedules to a collection if it's an array
+    //     $schedules = collect($schedulesResponse->getData()->schedules); // Ensure it's a collection
+
+    //     // Convert the schedules collection to paginated data
+    //     $perPage = 10; // Set the number of items per page
+    //     $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    //     $schedulesPaginated = new LengthAwarePaginator(
+    //         $schedules->forPage($currentPage, $perPage), // Items for the current page
+    //         $schedules->count(), // Total number of items
+    //         $perPage, // Items per page
+    //         $currentPage, // Current page
+    //         ['path' => request()->url(), 'query' => request()->query()] // Maintain query parameters in the pagination links
+    //     );
+
+    //     // Fetch the student and certificate availability from the CertificateController
+    //     $student = Student::where('user_id', Auth::id())->first();
+    //     $certificateAvailable = $student && $student->course_end_date <= now();
+
+    //     // Fetch all leaves for the logged-in student
+    //     $leaves = Leave::where('user_id', Auth::id())->paginate(10);
+
+    //     // Pass schedules, student data, leave data, and certificate availability to the dashboard view
+    //     return view('student.dashboard', compact('schedulesPaginated', 'student', 'certificateAvailable', 'leaves'));
+    // }
+
 
     public function index()
     {
-        // Fetch student schedules
+        // Fetch student schedules (events)
         $schedulesResponse = $this->scheduleController->studentSchedules(request());
+        $events = $schedulesResponse->getData()->events;
 
-        // Access the 'schedules' property of the response object
-        $schedules = $schedulesResponse->getData()->schedules;
-
-        // Fetch the student and certificate availability from the CertificateController
+        // Fetch student and certificate availability
         $student = Student::where('user_id', Auth::id())->first();
         $certificateAvailable = $student && $student->course_end_date <= now();
 
         // Fetch all leaves for the logged-in student
-        $leaves = Leave::where('user_id', Auth::id())->get();
+        $leaves = Leave::where('user_id', Auth::id())->paginate(10);
 
-        // Pass schedules, student data, leave data, and certificate availability to the dashboard view
-        return view('student.dashboard', compact('schedules', 'student', 'certificateAvailable', 'leaves'));
+        // Pass events, student data, leave data, and certificate availability to the dashboard view
+        return view('student.dashboard', compact('events', 'student', 'certificateAvailable', 'leaves'));
     }
 
 
 
     public function adminAllStudent()
     {
-        $students = Student::with('user')->get();
+        $students = Student::with('user')->paginate(10);
 
         return view('admin.students.all_students', compact('students'));
     }
@@ -76,6 +108,7 @@ class StudentController extends Controller
 
     public function adminStoreStudent(Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'father_or_husband_name' => 'required|string|max:255',
@@ -96,7 +129,15 @@ class StudentController extends Controller
             'class_start_time' => 'required',
             'class_duration' => 'required|integer',
             'transmission' => 'required|in:automatic,manual',
+            'invoice_date' => 'required|date',
+            'amount_received' => 'required|numeric',
+            'balance' => 'required|numeric',
+            'branch' => 'required|string|max:255',
+            'paid_by' => 'required|string|max:255',
+            'amount_in_english' => 'required|string|max:255',
         ]);
+
+        // dd($request->all());
 
         // Calculate class end time
         $class_end_time = Carbon::parse($request->class_start_time)
@@ -164,7 +205,22 @@ class StudentController extends Controller
             'end_time' => $class_end_time,
         ]);
 
+        $receiptNumber = $this->invoiceController->generateReceiptNumber();
+
+
+        $invoice = Invoice::create([
+            'schedule_id' => $schedule->id,
+            'receipt_number' => $receiptNumber,
+            'invoice_date' => $request->invoice_date,
+            'amount_received' => $request->amount_received,
+            'balance' => $request->balance,
+            'branch' => $request->branch,
+            'paid_by' => $request->paid_by,
+            'amount_in_english' => $request->amount_in_english,
+        ]);
+
         $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
+
 
         return redirect()->route('admin.allStudents')->with('success_student', 'Student added successfully.');
     }

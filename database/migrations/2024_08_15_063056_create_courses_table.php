@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string('duration_days');
-            $table->string('duration_minutes');
+            $table->integer('duration_days');
+            $table->integer('duration_minutes');
             $table->decimal('fees', 8, 2);
             $table->timestamps();
         });
