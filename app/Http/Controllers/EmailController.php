@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AdmissionConfirmationMail;
 
-
 class EmailController extends Controller
 {
     public function sendAdmissionConfirmation($student, $schedule, $instructor, $car)
@@ -16,6 +15,7 @@ class EmailController extends Controller
             'schedule' => $schedule,
             'instructor' => $instructor,
             'car' => $car,
+            'background_image' => asset('public/images/mail-bg.jpg') // Pass the full URL
         ];
 
         if (!empty($student->email)) {

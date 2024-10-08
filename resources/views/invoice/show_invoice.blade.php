@@ -1,103 +1,206 @@
-@extends('layout.admin-new')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-12">
-                <div class="bg-light rounded h-100 p-4 shadow-sm">
-                    <div class="receipt-main">
-                        <div class="row d-flex justify-content-between">
-                            <div class="col-xs-6 col-sm-6 col-md-6">
-                                <div class="receipt-left">
-                                    <h3>INVOICE # {{ $invoice->receipt_number }}</h3>
-                                </div>
-                            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Invoice - King Driving School</title>
+    <!-- Google Fonts (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f7f7;
+        }
 
-                            <div class="col-xs-4 col-sm-4 col-md-4 text-right">
-                                <div class="receipt-right">
-                                    <img class="img-responsive mb-2" alt="Company Logo"
-                                        src="{{ asset('public/images/logo.png') }}" style="width: 71px;">
-                                    <h5 class="mb-2">King Driving School </h5>
-                                    <p class="mb-1">051-4445444 <i class="fa fa-phone"></i></p>
-                                    <p class="mb-1">info@kingdrivingschool.com <i class="fa fa-envelope-o"></i></p>
-                                    <p class="mb-1">Branch I-10 <i class="fa fa-envelope-o"></i></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-5">
-                            <div class="col-md-8">
-                                <!-- Student Details -->
-                                <div class="receipt-right">
-                                    <h5>{{ $invoice->student->user->name ?? 'Customer Name' }}</h5>
-                                    <p><b>Mobile:</b> {{ $invoice->student->phone ?? '+1 12345-4569' }}</p>
-                                    <p><b>CNIC:</b> {{ $invoice->student->cnic ?? '12345-6789012-3' }}</p>
-                                    <p><b>Address:</b> {{ $invoice->student->address ?? 'New York, USA' }}</p>
-                                </div>
-                            </div>
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            line-height: 24px;
+            color: #555;
+            position: relative;
+        }
 
-                            <div class="col-md-4">
-                                <!-- Instructor Details -->
-                                <div class="receipt-right">
-                                    <h5>{{ $invoice->instructor->employee->user->name ?? 'Instructor Name' }}</h5>
-                                    <p><b>Mobile:</b> {{ $invoice->instructor->employee->phone ?? '+1 98765-43210' }}</p>
-                                    <p><b>License Number:</b> {{ $invoice->instructor->license_number ?? '123456789' }}</p>
-                                    <p><b>Experience:</b> {{ $invoice->instructor->experience ?? '5 Years' }}</p>
-                                </div>
-                            </div>
-                        </div>
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+        }
 
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+        }
 
-                        <div>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Description</th>
-                                        <th>Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Advance Against: {{ $invoice->advance_against ?? 'N/A' }}</td>
-                                        <td>${{ number_format($invoice->amount_received, 2) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Class Timing: {{ $invoice->class_timing ?? 'N/A' }}</td>
-                                        <td>{{ $invoice->days ?? 'N/A' }} Days</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-right">
-                                            <p><strong>Total Amount:</strong></p>
-                                            <p><strong>Balance:</strong></p>
-                                        </td>
-                                        <td>
-                                            <p><strong>${{ number_format($invoice->amount_received, 2) }}</strong></p>
-                                            <p><strong>${{ number_format($invoice->balance, 2) }}</strong></p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
+        }
 
-                        <div class="row">
-                            <div class="receipt-header receipt-header-mid receipt-footer">
-                                <div class="col-xs-8 col-sm-8 col-md-8 text-left">
-                                    <div class="receipt-right">
-                                        <p><b>Date:</b>
-                                            {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M Y') }}</p>
-                                        <h5 style="color: rgb(140, 140, 140);">Thank you for your business!</h5>
-                                    </div>
-                                </div>
-                                {{-- <div class="col-xs-4 col-sm-4 col-md-4">
-                                    <div class="receipt-left">
-                                        <h1>Stamp</h1>
-                                    </div>
-                                </div> --}}
-                            </div>
-                        </div>
-                    </div>
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
 
-                </div>
-            </div>
+        .invoice-box table tr.information table td {
+            padding-bottom: 40px;
+        }
+
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+        }
+
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+
+        .invoice-box .logo {
+            max-width: 150px;
+        }
+
+        .buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Ensure page breaks when generating PDFs */
+        @media print {
+
+            body,
+            .invoice-box {
+                margin: 0;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="invoice-box">
+        <div class="buttons">
+            <button class="btn btn-primary" onclick="window.print();">Print Invoice</button>
+            <button class="btn btn-secondary" onclick="downloadPDF();">Download Invoice</button>
         </div>
+        <br>
+
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                <img src="{{ asset('public/images/logo.png') }}" class="logo"
+                                    alt="King Driving School Logo">
+                            </td>
+                            <td>
+                                <strong>Invoice #: {{ $invoice->receipt_number }}</strong><br>
+                                <strong>Invoice Date:</strong>
+                                {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M Y') }}<br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                King Driving School<br>
+                                Shoukat Plaza Near Allied Bank, I-10 Markaz Islamabad
+                            </td>
+                            <td>
+                                <strong>Paid By:</strong> {{ $invoice->paid_by ?? 'N/A' }}<br>
+                                <strong>Branch:</strong> {{ $invoice->branch ?? 'N/A' }}<br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="heading">
+                <td>Description</td>
+                <td>Amount</td>
+            </tr>
+
+            <tr class="item">
+                <td>{{ $invoice->description ?? 'Driving Lesson Package' }}</td>
+                <td>${{ number_format($invoice->amount_received, 2) }}</td>
+            </tr>
+
+            <tr class="total">
+                <td></td>
+                <td>Total: ${{ number_format($invoice->amount_received, 2) }}</td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                Amount Received: {{ $invoice->amount_in_words }}<br>
+                                Date: {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M Y') }}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <footer class="text-center mt-5">
+            <p>Thank you for your business!</p>
+        </footer>
     </div>
-@endsection
+
+    <!-- JavaScript for PDF Download -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script>
+        function downloadPDF() {
+            var element = document.querySelector('.invoice-box');
+            var opt = {
+                margin: 0,
+                filename: 'invoice_{{ $invoice->id }}.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 0.98
+                },
+                html2canvas: {
+                    scale: 2
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+            html2pdf().from(element).set(opt).save();
+        }
+    </script>
+
+</body>
+
+</html>

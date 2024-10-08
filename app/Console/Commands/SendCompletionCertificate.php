@@ -24,8 +24,8 @@ class SendCompletionCertificate extends Command
         $students = Student::whereDate('course_end_date', today())->get();
 
         foreach ($students as $student) {
-            // Generate PDF from the certificate Blade view
-            $pdf = PDF::loadView('student.my_certificate_pdf', compact('student'))->setPaper('a4', 'portrait');
+            // // Generate PDF from the certificate Blade view
+            // $pdf = PDF::loadView('mail.my_certificate', compact('student'))->setPaper('a4', 'portrait');
 
             // Prepare email details and send the email
             $details = [
