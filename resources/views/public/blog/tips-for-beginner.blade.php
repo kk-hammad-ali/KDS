@@ -13,7 +13,7 @@
                 <div class="content-side col-lg-8 col-md-12 col-sm-12">
                     <div class="content-inner">
                         <div class="blog-details">
-                            <div class="image-box"><img src="{{ asset('public/images/resource/new-3.webp') }}" alt="">
+                            <div class="image-box"><img src="{{ asset('main/images/resource/new-3.webp') }}" alt="">
                             </div>
                             <div class="lower">
                                 <h4>Top Tips for Beginner Drivers | King Driving School Islamabad</h4>

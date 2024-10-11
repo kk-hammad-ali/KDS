@@ -9,9 +9,9 @@
                 <!-- Slide Item -->
                 <div class="slide-item">
                     <div class="image-layer"
-                        style="background-image: url('{{ asset('public/images/main-slider/slider-2.jpg') }}');"></div>
+                        style="background-image: url('{{ asset('main/images/main-slider/slider-2.jpg') }}');"></div>
                     <div class="curve-layer"
-                        style="background-image: url('{{ asset('public/images/main-slider/banner-curve-1.png') }}');"></div>
+                        style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');"></div>
                     <div class="auto-container">
                         <div class="content-box">
                             <div class="content">
@@ -31,14 +31,12 @@
                                 </div>
                             </div>
                             <div class="image-box">
-                                <div class="icon icon-1"><img
-                                        src="{{ asset('public/images/main-slider/banner-icon-2.svg') }}" alt=""
-                                        title=""></div>
-                                <div class="icon icon-2"><img
-                                        src="{{ asset('public/images/main-slider/banner-icon-3.svg') }}" alt=""
-                                        title=""></div>
+                                <div class="icon icon-1"><img src="{{ asset('main/images/main-slider/banner-icon-2.svg') }}"
+                                        alt="" title=""></div>
+                                <div class="icon icon-2"><img src="{{ asset('main/images/main-slider/banner-icon-3.svg') }}"
+                                        alt="" title=""></div>
                                 <div class="image">
-                                    <img src="{{ asset('public/images/main-slider/slider-3.webp') }}" alt=""
+                                    <img src="{{ asset('main/images/main-slider/slider-3.webp') }}" alt=""
                                         title="">
                                 </div>
                             </div>
@@ -49,9 +47,9 @@
                 <!-- Slide Item -->
                 <div class="slide-item">
                     <div class="image-layer"
-                        style="background-image: url('{{ asset('public/images/main-slider/slider-2.jpg') }}');"></div>
+                        style="background-image: url('{{ asset('main/images/main-slider/slider-2.jpg') }}');"></div>
                     <div class="curve-layer"
-                        style="background-image: url('{{ asset('public/images/main-slider/banner-curve-1.png') }}');"></div>
+                        style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');"></div>
                     <div class="auto-container">
                         <div class="content-box">
                             <div class="content">
@@ -72,13 +70,13 @@
                             </div>
                             <div class="image-box">
                                 <div class="icon icon-1"><img
-                                        src="{{ asset('public/images/main-slider/banner-icon-2.svg') }}" alt=""
+                                        src="{{ asset('main/images/main-slider/banner-icon-2.svg') }}" alt=""
                                         title=""></div>
                                 <div class="icon icon-2"><img
-                                        src="{{ asset('public/images/main-slider/banner-icon-3.svg') }}" alt=""
+                                        src="{{ asset('main/images/main-slider/banner-icon-3.svg') }}" alt=""
                                         title=""></div>
                                 <div class="image">
-                                    <img src="{{ asset('public/images/main-slider/slider-3.webp') }}" alt=""
+                                    <img src="{{ asset('main/images/main-slider/slider-3.webp') }}" alt=""
                                         title="">
 
                                 </div>
@@ -90,9 +88,9 @@
                 <!-- Slide Item -->
                 <div class="slide-item">
                     <div class="image-layer"
-                        style="background-image: url('{{ asset('public/images/main-slider/slider-2.jpg') }}');"></div>
+                        style="background-image: url('{{ asset('main/images/main-slider/slider-2.jpg') }}');"></div>
                     <div class="curve-layer"
-                        style="background-image: url('{{ asset('public/images/main-slider/banner-curve-1.png') }}');">
+                        style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');">
                     </div>
                     <div class="auto-container">
                         <div class="content-box">
@@ -114,13 +112,13 @@
                             </div>
                             <div class="image-box">
                                 <div class="icon icon-1"><img
-                                        src="{{ asset('public/images/main-slider/banner-icon-2.svg') }}" alt=""
+                                        src="{{ asset('main/images/main-slider/banner-icon-2.svg') }}" alt=""
                                         title=""></div>
                                 <div class="icon icon-2"><img
-                                        src="{{ asset('public/images/main-slider/banner-icon-3.svg') }}" alt=""
+                                        src="{{ asset('main/images/main-slider/banner-icon-3.svg') }}" alt=""
                                         title=""></div>
                                 <div class="image">
-                                    <img src="{{ asset('public/images/main-slider/slider-3.webp') }}" alt=""
+                                    <img src="{{ asset('main/images/main-slider/slider-3.webp') }}" alt=""
                                         title="">
 
                                 </div>
@@ -136,7 +134,7 @@
 
     <!--Welcome Section-->
     <section class="welcome-two">
-        <div class="right-image"><img src="{{ asset('public/images/resource/welcome-2.webp') }}" alt=""
+        <div class="right-image"><img src="{{ asset('main/images/resource/welcome-2.webp') }}" alt=""
                 title=""></div>
         <div class="auto-container">
             <div class="row clearfix">
@@ -144,7 +142,7 @@
                 <div class="text-col col-xl-6 col-lg-12 col-md-12 col-sm-12">
                     <div class="inner wow fadeInRight" data-wow-duration="1500ms" data-wow-delay="0ms">
                         <div class="title-box style-two">
-                            <div class="dots"><img src="{{ asset('public/images/resource/title-pattern-2.svg') }}"
+                            <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}"
                                     alt=""></div>
                             <h2><span>Welcome To King <br>Driving School</span></h2>
                         </div>
@@ -200,7 +198,7 @@
                 <div class="image-col col-xl-6 col-lg-12 col-md-12 col-sm-12">
                     <div class="inner wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="0ms">
                         <div class="images">
-                            <div class="image"><img src="{{ asset('public/images/resource/welcome-1.jpg') }}"
+                            <div class="image"><img src="{{ asset('main/images/resource/welcome-1.jpg') }}"
                                     alt="" title=""></div>
                             <div class="w-box">
                                 <div class="inner-box">
@@ -220,7 +218,7 @@
     <section class="why-us-two">
         <div class="auto-container">
             <div class="title-box centered style-two">
-                <div class="dots"><img src="{{ asset('public/images/resource/title-pattern-2.svg') }}" alt="">
+                <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}" alt="">
                 </div>
                 <h2><span>Our <br>Facilities</span></h2>
             </div>
@@ -320,7 +318,7 @@
     <section class="programs-two">
         <div class="auto-container">
             <div class="title-box centered style-two">
-                <div class="dots"><img src="{{ asset('public/images/resource/title-pattern-2.svg') }}" alt="">
+                <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}" alt="">
                 </div>
                 <h2><span>Check Our Latest <br>Courses</span></h2>
             </div>
@@ -331,10 +329,10 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.mehranCourse') }}"><img
-                                        src="{{ asset('public/images/resource/image-11.webp') }}" alt=""
+                                        src="{{ asset('main/images/resource/image-11.webp') }}" alt=""
                                         title=""></a>
                             </div>
-                            <div class="icon-box"><img src="{{ asset('public/images/resource/steering-icon.svg') }}"
+                            <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
@@ -351,10 +349,10 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.altoCourse') }}"><img
-                                        src="{{ asset('public/images/resource/image-12.webp') }}" alt=""
+                                        src="{{ asset('main/images/resource/image-12.webp') }}" alt=""
                                         title=""></a>
                             </div>
-                            <div class="icon-box"><img src="{{ asset('public/images/resource/steering-icon.svg') }}"
+                            <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
@@ -371,10 +369,10 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.vitzCourse') }}"><img
-                                        src="{{ asset('public/images/resource/image-13.webp') }}" alt=""
+                                        src="{{ asset('main/images/resource/image-13.webp') }}" alt=""
                                         title=""></a>
                             </div>
-                            <div class="icon-box"><img src="{{ asset('public/images/resource/steering-icon.svg') }}"
+                            <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
@@ -390,10 +388,10 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.miraCourse') }}"><img
-                                        src="{{ asset('public/images/resource/image-14.jpg') }}" alt=""
+                                        src="{{ asset('main/images/resource/image-14.jpg') }}" alt=""
                                         title=""></a>
                             </div>
-                            <div class="icon-box"><img src="{{ asset('public/images/resource/steering-icon.svg') }}"
+                            <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
@@ -409,10 +407,10 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.hondaCourse') }}"><img
-                                        src="{{ asset('public/images/resource/image-15.jpg') }}" alt=""
+                                        src="{{ asset('main/images/resource/image-15.jpg') }}" alt=""
                                         title=""></a>
                             </div>
-                            <div class="icon-box"><img src="{{ asset('public/images/resource/steering-icon.svg') }}"
+                            <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
@@ -428,10 +426,10 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.cd70') }}"><img
-                                        src="{{ asset('public/images/resource/image-16.webp') }}" alt=""
+                                        src="{{ asset('main/images/resource/image-16.webp') }}" alt=""
                                         title=""></a>
                             </div>
-                            <div class="icon-box"><img src="{{ asset('public/images/resource/steering-icon.svg') }}"
+                            <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
                                     alt="" title=""></div>
                         </div>
                         <div class="mid-box">
@@ -451,7 +449,7 @@
     <section class="testimonial-two">
         <div class="auto-container">
             <div class="title-box centered style-two">
-                <div class="dots"><img src="{{ asset('public/images/resource/title-pattern-2.svg') }}" alt="">
+                <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}" alt="">
                 </div>
                 <h2><span>Clients Feedback</span></h2>
             </div>
@@ -461,7 +459,7 @@
                     <div class="testi-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <div class="image"><img src="{{ asset('public/images/resource/testi-6.png') }}"
+                                <div class="image"><img src="{{ asset('main/images/resource/testi-6.png') }}"
                                         alt="" title=""></div>
                                 <i class="quotes fa fa-quote-right"></i>
                             </div>
@@ -480,7 +478,7 @@
                     <div class="testi-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <div class="image"><img src="{{ asset('public/images/resource/testi-6.png') }}"
+                                <div class="image"><img src="{{ asset('main/images/resource/testi-6.png') }}"
                                         alt="" title=""></div>
                                 <i class="quotes fa fa-quote-right"></i>
                             </div>
@@ -498,7 +496,7 @@
                     <div class="testi-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <div class="image"><img src="{{ asset('public/images/resource/testi-6.png') }}"
+                                <div class="image"><img src="{{ asset('main/images/resource/testi-6.png') }}"
                                         alt="" title=""></div>
                                 <i class="quotes fa fa-quote-right"></i>
                             </div>
@@ -527,7 +525,7 @@
                 <div class="text-col col-xl-7 col-lg-6 col-md-12 col-sm-12">
                     <div class="inner wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="0ms">
                         <div class="title-box style-two">
-                            <div class="dots"><img src="{{ asset('public/images/resource/title-pattern-2.svg') }}"
+                            <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}"
                                     alt="">
                             </div>
                             <h2><span>We’re an Experienced <br>Driving School</span></h2>
@@ -594,7 +592,7 @@
     <section class="news-section no-padd-top">
         <div class="auto-container">
             <div class="title-box centered style-two">
-                <div class="dots"><img src="{{ asset('public/images/resource/title-pattern-2.svg') }}" alt="">
+                <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}" alt="">
                 </div>
                 <h2><span>Latest news <br>updates</span></h2>
             </div>
@@ -605,7 +603,7 @@
                         <div class="inner-box wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="0ms">
                             <div class="image-box">
                                 <div class="image"><a href="blog-single.html"><img
-                                            src="{{ asset('public/images/resource/news-1.jpg') }}" alt=""
+                                            src="{{ asset('main/images/resource/news-1.jpg') }}" alt=""
                                             title=""></a></div>
                             </div>
                             <div class="lower-box">
@@ -621,7 +619,7 @@
                         <div class="inner-box wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="300ms">
                             <div class="image-box">
                                 <div class="image"><a href="blog-single.html"><img
-                                            src="{{ asset('public/images/resource/news-2.jpg') }}" alt=""
+                                            src="{{ asset('main/images/resource/news-2.jpg') }}" alt=""
                                             title=""></a></div>
                             </div>
                             <div class="lower-box">
@@ -637,7 +635,7 @@
                         <div class="inner-box wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="600ms">
                             <div class="image-box">
                                 <div class="image"><a href="blog-single.html"><img
-                                            src="{{ asset('public/images/resource/news-3.jpg') }}" alt=""
+                                            src="{{ asset('main/images/resource/news-3.jpg') }}" alt=""
                                             title=""></a></div>
                             </div>
                             <div class="lower-box">

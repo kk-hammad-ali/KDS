@@ -36,6 +36,7 @@
                                 </div>
                             </th>
                             <th class="h6 text-gray-300">#</th>
+                            <th class="h6 text-gray-300">Car Details</th> <!-- Combined Column -->
                             <th class="h6 text-gray-300">Duration (Days)</th>
                             <th class="h6 text-gray-300">Duration (Minutes)</th>
                             <th class="h6 text-gray-300">Fees</th>
@@ -55,10 +56,19 @@
                                         <span class="h6 mb-0 fw-medium text-gray-300">{{ $loop->iteration }}</span>
                                     </div>
                                 </td>
-                                <td><span class="h6 mb-0 fw-medium text-gray-300">{{ $course->duration_days }}</span></td>
-                                <td><span class="h6 mb-0 fw-medium text-gray-300">{{ $course->duration_minutes }}</span>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">
+                                        {{ $course->car ? $course->car->make . ' - ' . $course->car->registration_number : 'N/A' }}
+                                    </span>
                                 </td>
-                                <td><span
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $course->duration_days }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $course->duration_minutes }}</span>
+                                </td>
+                                <td>
+                                    <span
                                         class="h6 mb-0 fw-medium text-gray-300">{{ number_format($course->fees, 2) }}</span>
                                 </td>
                                 <td>
@@ -83,120 +93,144 @@
                     </tbody>
                 </table>
             </div>
-            <div class="card-footer flex-between flex-wrap">
-                <span class="text-gray-900">Showing {{ $courses->firstItem() }} to {{ $courses->lastItem() }} of
-                    {{ $courses->total() }} entries</span>
-                {{ $courses->links() }}
-            </div>
         </div>
-        <!-- Courses Table End -->
+        <div class="card-footer flex-between flex-wrap">
+            <span class="text-gray-900">Showing {{ $courses->firstItem() }} to {{ $courses->lastItem() }} of
+                {{ $courses->total() }} entries</span>
+            {{ $courses->links() }}
+        </div>
+    </div>
+    <!-- Courses Table End -->
 
-        <!-- Add Course Modal -->
-        <div class="modal fade" id="addCourseModal" tabindex="-1" aria-labelledby="addCourseModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addCourseModalLabel">Add New Course</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('admin.courses.store') }}" method="POST">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="duration_days" class="form-label">Duration (Days)</label>
-                                <input type="number" class="form-control" id="duration_days" name="duration_days" required>
-                            </div>
+    <!-- Add Course Modal -->
+    <div class="modal fade" id="addCourseModal" tabindex="-1" aria-labelledby="addCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCourseModalLabel">Add New Course</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('admin.courses.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="car_id" class="form-label">Select Car</label>
+                            <select class="form-select" id="car_id" name="car_id" required>
+                                <option value="">Choose a Car</option>
+                                @foreach ($cars as $car)
+                                    <option value="{{ $car->id }}">{{ $car->registration_number }}
+                                        ({{ $car->make }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="duration_days" class="form-label">Duration (Days)</label>
+                            <input type="number" class="form-control" id="duration_days" name="duration_days" required>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="duration_minutes" class="form-label">Duration (Minutes)</label>
-                                <input type="number" class="form-control" id="duration_minutes" name="duration_minutes"
-                                    required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="duration_minutes" class="form-label">Duration (Minutes)</label>
+                            <input type="number" class="form-control" id="duration_minutes" name="duration_minutes"
+                                required>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="fees" class="form-label">Fees</label>
-                                <input type="number" class="form-control" id="fees" name="fees" step="0.01"
-                                    required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="fees" class="form-label">Fees</label>
+                            <input type="number" class="form-control" id="fees" name="fees" step="0.01"
+                                required>
+                        </div>
 
-                            <br>
-                            <!-- Submit Button -->
-                            <div class="flex-align justify-content-end gap-8 mt-4">
-                                <button type="submit" class="btn btn-main rounded-pill py-9">Add Course</button>
-                            </div>
-                        </form>
-                    </div>
+                        <br>
+                        <!-- Submit Button -->
+                        <div class="flex-align justify-content-end gap-8 mt-4">
+                            <button type="submit" class="btn btn-main rounded-pill py-9">Add Course</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- End Add Course Modal -->
+    </div>
+    <!-- End Add Course Modal -->
 
-        <!-- Edit Course Modal -->
-        <div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editCourseModalLabel">Edit Course</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="editCourseForm" method="POST">
-                            @csrf
-                            @method('PUT')
+    <!-- Edit Course Modal -->
+    <div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCourseModalLabel">Edit Course</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editCourseForm" method="POST">
+                        @csrf
+                        @method('PUT')
 
-                            <div class="mb-3">
-                                <label for="edit_duration_days" class="form-label">Duration (Days)</label>
-                                <input type="number" class="form-control" id="edit_duration_days" name="duration_days"
-                                    required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="car_id" class="form-label">Select Car</label>
+                            <select class="form-select" id="edit_car_id" name="car_id" required>
+                                @foreach ($cars as $car)
+                                    <option value="{{ $car->id }}">{{ $car->registration_number }}
+                                        ({{ $car->make }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="edit_duration_minutes" class="form-label">Duration (Minutes)</label>
-                                <input type="number" class="form-control" id="edit_duration_minutes"
-                                    name="duration_minutes" required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="edit_duration_days" class="form-label">Duration (Days)</label>
+                            <input type="number" class="form-control" id="edit_duration_days" name="duration_days"
+                                required>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="edit_fees" class="form-label">Fees</label>
-                                <input type="number" class="form-control" id="edit_fees" name="fees" step="0.01"
-                                    required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="edit_duration_minutes" class="form-label">Duration (Minutes)</label>
+                            <input type="number" class="form-control" id="edit_duration_minutes"
+                                name="duration_minutes" required>
+                        </div>
 
-                            <br>
-                            <!-- Submit Button -->
-                            <div class="flex-align justify-content-end gap-8 mt-4">
-                                <button type="submit" class="btn btn-main rounded-pill py-9">Update Course</button>
-                            </div>
-                        </form>
-                    </div>
+                        <div class="mb-3">
+                            <label for="edit_fees" class="form-label">Fees</label>
+                            <input type="number" class="form-control" id="edit_fees" name="fees" step="0.01"
+                                required>
+                        </div>
+
+                        <br>
+                        <!-- Submit Button -->
+                        <div class="flex-align justify-content-end gap-8 mt-4">
+                            <button type="submit" class="btn btn-main rounded-pill py-9">Update Course</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- End Edit Course Modal -->
+    </div>
+    <!-- End Edit Course Modal -->
 
-        <!-- Delete Confirmation Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to delete this course?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <form id="deleteCourseForm" method="GET" action="">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this course?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteCourseForm" method="GET" action="">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- End Delete Confirmation Modal -->
+    </div>
+    <!-- End Delete Confirmation Modal -->
 
     </div>
 

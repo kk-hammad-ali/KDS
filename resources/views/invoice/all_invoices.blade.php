@@ -12,17 +12,27 @@
                     <li><span class="text-main-600 fw-normal text-15">Invoices</span></li>
                 </ul>
             </div>
-            <!-- Breadcrumb End -->
-
-            {{-- <!-- Breadcrumb Right Start -->
-            <div class="flex-align gap-8 flex-wrap">
-                <a href="{{ route('invoice.create') }}"
-                    class="btn btn-main text-sm btn-sm px-24 py-12 d-flex align-items-center gap-8">
-                    <i class="ph ph-file-plus d-flex text-xl"></i>
-                    Add Invoice
-                </a>
-            </div> --}}
         </div>
+
+        <!-- Filtering Form -->
+        <div class="card mt-24">
+            <div class="card-body">
+                <form class="search-input-form">
+                    <!-- Student Name Input -->
+                    <input type="text" id="studentName" class="form-control h6 rounded-4 mb-0 py-6 px-8"
+                        placeholder="Enter Student Name">
+
+                    <!-- Date Picker for Invoice Date -->
+                    <input type="date" id="invoiceDate" class="form-control h6 rounded-4 mb-0 py-6 px-8 mt-3"
+                        placeholder="Select Invoice Date">
+
+                    <button type="button" class="btn btn-main rounded-pill py-9 w-100 mt-3"
+                        onclick="filterByDate()">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <br>
 
         <div class="card overflow-hidden">
             <div class="card-body p-0 overflow-x-auto">
@@ -46,7 +56,7 @@
                             <th class="h6 text-gray-300">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="invoiceTableBody">
                         @foreach ($invoices as $invoice)
                             <tr>
                                 <td class="fixed-width">
@@ -86,59 +96,50 @@
                                 <td>
                                     <a href="{{ route('invoice.show', $invoice->id) }}"
                                         class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white">View</a>
-                                    {{-- <button type="button"
-                                        class="bg-danger text-white py-2 px-14 rounded-pill hover-bg-danger-600"
-                                        data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                        data-invoice-id="{{ $invoice->id }}">Delete</button> --}}
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-            <div class="card-footer flex-between flex-wrap">
-                <span class="text-gray-900">
-                    Showing {{ $invoices->firstItem() }} to {{ $invoices->lastItem() }} of {{ $invoices->total() }}
-                    entries
-                </span>
-                {{ $invoices->links() }}
-            </div>
-        </div>
-
-        <!-- Delete Confirmation Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to delete this invoice?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <form id="deleteInvoiceForm" method="GET" action="">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>
 
-    <!-- Script for passing invoice ID to delete form -->
+    <!-- Script to filter the table with live search on Student Name and Date filter -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const deleteModal = document.getElementById('deleteModal');
-            deleteModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget;
-                const invoiceId = button.getAttribute('data-invoice-id');
-                const deleteForm = document.getElementById('deleteInvoiceForm');
-                deleteForm.action = `/admin/invoices/delete/${invoiceId}`;
+        // Add event listener for live filtering by student name
+        document.getElementById('studentName').addEventListener('input', function() {
+            const studentNameInput = this.value.toLowerCase();
+            const tableRows = document.querySelectorAll('#invoiceTable tbody tr');
+
+            tableRows.forEach(function(row) {
+                const studentName = row.cells[2].innerText.toLowerCase();
+
+                // Show or hide the row based on the student name input
+                if (studentName.includes(studentNameInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
             });
         });
+
+        // Filter by invoice date on button click
+        function filterByDate() {
+            const invoiceDateInput = document.getElementById('invoiceDate').value;
+            const tableRows = document.querySelectorAll('#invoiceTable tbody tr');
+
+            tableRows.forEach(function(row) {
+                const invoiceDate = row.cells[5].innerText;
+
+                // Show or hide the row based on the date filter
+                if (invoiceDateInput && invoiceDate !== invoiceDateInput) {
+                    row.style.display = 'none';
+                } else if (!invoiceDateInput || invoiceDate === invoiceDateInput) {
+                    row.style.display = '';
+                }
+            });
+        }
     </script>
 @endsection

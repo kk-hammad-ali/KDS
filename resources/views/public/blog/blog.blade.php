@@ -14,7 +14,7 @@
                         <div class="inner-box wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="0ms">
                             <div class="image-box">
                                 <div class="image"><a href="{{ route('public.blog.common-traffic') }}"><img
-                                            src="{{ asset('public/images/resource/new-1.png') }}" alt=""
+                                            src="{{ asset('main/images/resource/new-1.png') }}" alt=""
                                             title=""></a></div>
                             </div>
                             <div class="lower-box">
@@ -32,7 +32,7 @@
                         <div class="inner-box wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="300ms">
                             <div class="image-box">
                                 <div class="image"><a href="{{ route('public.blog.driving-test') }}"><img
-                                            src="{{ asset('public/images/resource/new-2.webp') }}" alt=""
+                                            src="{{ asset('main/images/resource/new-2.webp') }}" alt=""
                                             title=""></a></div>
                             </div>
                             <div class="lower-box">
@@ -50,7 +50,7 @@
                         <div class="inner-box wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="600ms">
                             <div class="image-box">
                                 <div class="image"><a href="{{ route('public.blog.tips-for-beginner') }}"><img
-                                            src="{{ asset('public/images/resource/new-3.webp') }}" alt=""
+                                            src="{{ asset('main/images/resource/new-3.webp') }}" alt=""
                                             title=""></a></div>
                             </div>
                             <div class="lower-box">

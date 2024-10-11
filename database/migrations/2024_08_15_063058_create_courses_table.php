@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('car_id')->constrained('cars')->onDelete('cascade'); // Adding car_id foreign key
             $table->integer('duration_days');
             $table->integer('duration_minutes');
             $table->decimal('fees', 8, 2);

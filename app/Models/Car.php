@@ -25,4 +25,9 @@ class Car extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }

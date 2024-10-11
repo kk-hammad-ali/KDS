@@ -28,14 +28,13 @@
                 <!--Image Col-->
                 <div class="image-col col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <div class="inner wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="0ms">
-                        <div class="pattern"><img src="{{ asset('public/images/resource/wel-pattern.png') }}" alt=""
+                        <div class="pattern"><img src="{{ asset('main/images/resource/wel-pattern.png') }}" alt=""
                                 title=""></div>
                         <div class="images clearfix">
-                            <div class="image"><img src="{{ asset('public/images/resource/welcome-3.jpg') }}"
-                                    alt="" title=""></div>
+                            <div class="image"><img src="{{ asset('main/images/resource/welcome-3.jpg') }}" alt=""
+                                    title=""></div>
                             <div class="image-box">
-                                <img src="{{ asset('public/images/resource/welcome-4.jpg') }}" alt=""
-                                    title="">
+                                <img src="{{ asset('main/images/resource/welcome-4.jpg') }}" alt="" title="">
                             </div>
                         </div>
                     </div>
@@ -175,7 +174,7 @@
                     <div class="testi-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <div class="image"><img src="{{ asset('public/images/resource/testi-7.png') }}"
+                                <div class="image"><img src="{{ asset('main/images/resource/testi-7.png') }}"
                                         alt="" title=""></div>
                             </div>
                             <div class="text-content">
@@ -193,7 +192,7 @@
                     <div class="testi-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <div class="image"><img src="{{ asset('public/images/resource/testi-8.png') }}"
+                                <div class="image"><img src="{{ asset('main/images/resource/testi-8.png') }}"
                                         alt="" title=""></div>
                             </div>
                             <div class="text-content">
@@ -210,7 +209,7 @@
                     <div class="testi-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <div class="image"><img src="{{ asset('public/images/resource/testi-9.png') }}"
+                                <div class="image"><img src="{{ asset('main/images/resource/testi-9.png') }}"
                                         alt="" title=""></div>
                             </div>
                             <div class="text-content">
@@ -227,7 +226,7 @@
                     <div class="testi-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <div class="image"><img src="{{ asset('public/images/resource/testi-7.png') }}"
+                                <div class="image"><img src="{{ asset('main/images/resource/testi-7.png') }}"
                                         alt="" title=""></div>
                             </div>
                             <div class="text-content">
@@ -244,7 +243,7 @@
                     <div class="testi-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <div class="image"><img src="{{ asset('public/images/resource/testi-8.png') }}"
+                                <div class="image"><img src="{{ asset('main/images/resource/testi-8.png') }}"
                                         alt="" title=""></div>
                             </div>
                             <div class="text-content">

@@ -77,6 +77,163 @@
             </div>
         </div>
 
+
+        <div class="row gy-4">
+            <div class="col-lg-9">
+                <!-- Today's Classes Table -->
+                <div class="card overflow-hidden mt-24 p-20">
+                    <div class="card-body p-0 overflow-x-auto">
+                        <h5 class="mb-20">Today's Classes</h5>
+                        <table id="todaysClassesTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="h6 text-gray-300">#</th>
+                                    <th class="h6 text-gray-300">Student</th>
+                                    <th class="h6 text-gray-300">Instructor</th>
+                                    <th class="h6 text-gray-300">Car</th>
+                                    <th class="h6 text-gray-300">Pickup Address</th>
+                                    <th class="h6 text-gray-300">Start Time</th>
+                                    <th class="h6 text-gray-300">End Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($todaysClasses as $class)
+                                    <tr>
+                                        <td>
+                                            <span class="h6 mb-0 fw-medium text-gray-300">{{ $loop->iteration }}</span>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="h6 mb-0 fw-medium text-gray-300">{{ $class->student->user->name }}</span>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="h6 mb-0 fw-medium text-gray-300">{{ $class->instructor->employee->user->name }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="h6 mb-0 fw-medium text-gray-300">{{ $class->vehicle->make }}
+                                                {{ $class->vehicle->model }}</span>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="h6 mb-0 fw-medium text-gray-300">{{ $class->student->address }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="h6 mb-0 fw-medium text-gray-300">{{ $class->start_time }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="h6 mb-0 fw-medium text-gray-300">{{ $class->end_time }}</span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <!-- Calendar Start -->
+                <div class="card mt-24">
+                    <div class="card-body">
+                        <div class="calendar">
+                            <div class="calendar__header">
+                                <button type="button" class="calendar__arrow left"><i
+                                        class="ph ph-caret-left"></i></button>
+                                <p class="display h6 mb-0">""</p>
+                                <button type="button" class="calendar__arrow right"><i
+                                        class="ph ph-caret-right"></i></button>
+                            </div>
+
+                            <div class="calendar__week week">
+                                <div class="calendar__week-text">Su</div>
+                                <div class="calendar__week-text">Mo</div>
+                                <div class="calendar__week-text">Tu</div>
+                                <div class="calendar__week-text">We</div>
+                                <div class="calendar__week-text">Th</div>
+                                <div class="calendar__week-text">Fr</div>
+                                <div class="calendar__week-text">Sa</div>
+                            </div>
+                            <div class="days"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Calendar End -->
+            </div>
+        </div>
+
+        <div class="row gy-4 ">
+            <div class="col-lg-12">
+                <div class="card overflow-hidden mt-24 p-20">
+                    <div class="card-body p-0 overflow-x-auto">
+                        <h5 class="mb-20">Car Schedules for {{ $today }}</h5>
+                        <div style="max-height: 500px; overflow-y: auto; overflow-x: scroll;">
+                            <table id="carSchedulesTable" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="h6 text-gray-300">Car</th>
+                                        @for ($i = 8; $i < 20; $i++)
+                                            <th class="h6 text-gray-300">{{ $i }}:00</th>
+                                            <th class="h6 text-gray-300">{{ $i }}:30</th>
+                                        @endfor
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($carSchedules as $carSchedule)
+                                        <tr>
+                                            <td class="h6 text-gray-300">{{ $carSchedule['car'] }}</td>
+                                            @foreach ($carSchedule['timeSlots'] as $slot)
+                                                @if ($slot['status'] == 'booked')
+                                                    <td data-student-name="{{ $slot['student_name'] }}"
+                                                        data-instructor-name="{{ $slot['instructor_name'] }}"
+                                                        data-class-date="{{ $slot['class_date'] }}"
+                                                        data-end-date="{{ $slot['end_date'] }}"
+                                                        data-pickup-address="{{ $slot['address'] }}"
+                                                        style="cursor: pointer;">
+                                                        <!-- Add pointer cursor -->
+                                                        <span
+                                                            style="background-color: var(--bs-warning); border-radius:10px; padding: 4px;"
+                                                            class="h6 text-dark">B</span>
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        <span class="h6 text-dark">A</span>
+                                                    </td>
+                                                @endif
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal to show booking details -->
+        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailsModalLabel">Booking Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Student Name:</strong> <span id="modal-student-name"></span></p>
+                        <p><strong>Instructor Name:</strong> <span id="modal-instructor-name"></span></p>
+                        <p><strong>Class Date:</strong> <span id="modal-class-date"></span></p>
+                        <p><strong>End Date:</strong> <span id="modal-end-date"></span></p>
+                        <p><strong>Pickup Address:</strong> <span id="modal-pickup-address"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <!-- Filtering Form -->
         <div class="card mt-24">
             <div class="card-body">
@@ -156,7 +313,8 @@ foreach ($schedules as $schedule) {
                                         <!-- Time Slot Column -->
                                         <td>
                                             <div class="flex-align gap-8">
-                                                <span class="h6 mb-0 fw-medium text-gray-300">{{ $slot['display'] }}</span>
+                                                <span
+                                                    class="h6 mb-0 fw-medium text-gray-300">{{ $slot['display'] }}</span>
                                             </div>
                                         </td>
 
@@ -361,33 +519,6 @@ foreach ($schedules as $schedule) {
                 <!-- Widgets End -->
             </div>
             <div class="col-lg-3">
-                <!-- Calendar Start -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="calendar">
-                            <div class="calendar__header">
-                                <button type="button" class="calendar__arrow left"><i
-                                        class="ph ph-caret-left"></i></button>
-                                <p class="display h6 mb-0">""</p>
-                                <button type="button" class="calendar__arrow right"><i
-                                        class="ph ph-caret-right"></i></button>
-                            </div>
-
-                            <div class="calendar__week week">
-                                <div class="calendar__week-text">Su</div>
-                                <div class="calendar__week-text">Mo</div>
-                                <div class="calendar__week-text">Tu</div>
-                                <div class="calendar__week-text">We</div>
-                                <div class="calendar__week-text">Th</div>
-                                <div class="calendar__week-text">Fr</div>
-                                <div class="calendar__week-text">Sa</div>
-                            </div>
-                            <div class="days"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Calendar End -->
-
                 <!-- Progress Bar Start -->
                 <div class="card mt-24">
                     <div class="card-header border-bottom border-gray-100">
@@ -465,6 +596,29 @@ foreach ($schedules as $schedule) {
                     }
                 });
             }
+        </script>
+        <script>
+            // Listen for click events on booked time slots
+            document.querySelectorAll('td[data-student-name]').forEach(td => {
+                td.addEventListener('click', function() {
+                    const studentName = this.getAttribute('data-student-name');
+                    const instructorName = this.getAttribute('data-instructor-name');
+                    const classDate = this.getAttribute('data-class-date');
+                    const endDate = this.getAttribute('data-end-date');
+                    const pickupAddress = this.getAttribute('data-pickup-address');
+
+                    // Set the modal content with student, instructor names, class date, and end date
+                    document.getElementById('modal-student-name').textContent = studentName;
+                    document.getElementById('modal-instructor-name').textContent = instructorName;
+                    document.getElementById('modal-class-date').textContent = classDate;
+                    document.getElementById('modal-end-date').textContent = endDate;
+                    document.getElementById('modal-pickup-address').textContent = pickupAddress;
+
+                    // Show the modal
+                    var detailsModal = new bootstrap.Modal(document.getElementById('detailsModal'));
+                    detailsModal.show();
+                });
+            });
         </script>
         <script>
             const monthlyExpenseData = @json($monthlyExpenseData);

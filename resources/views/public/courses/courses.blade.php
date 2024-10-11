@@ -14,7 +14,7 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.mehranCourse') }}"><img
-                                        src="{{ asset('public/images/resource/image-11.webp') }}" alt="Suzuki Mehran"
+                                        src="{{ asset('main/images/resource/image-11.webp') }}" alt="Suzuki Mehran"
                                         title="Suzuki Mehran"></a></div>
                         </div>
                         <div class="lower-box">
@@ -34,7 +34,7 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.altoCourse') }}"><img
-                                        src="{{ asset('public/images/resource/image-12.webp') }}" alt="Suzuki Alto"
+                                        src="{{ asset('main/images/resource/image-12.webp') }}" alt="Suzuki Alto"
                                         title="Suzuki Alto"></a></div>
                         </div>
                         <div class="lower-box">
@@ -54,7 +54,7 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.vitzCourse') }}"><img
-                                        src="{{ asset('public/images/resource/image-13.webp') }}"
+                                        src="{{ asset('main/images/resource/image-13.webp') }}"
                                         alt="Toyota Vitz (Automatic)" title="Toyota Vitz (Automatic)"></a></div>
                         </div>
                         <div class="lower-box">
@@ -74,7 +74,7 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.miraCourse') }}"><img
-                                        src="{{ asset('public/images/resource/image-14.jpg') }}"
+                                        src="{{ asset('main/images/resource/image-14.jpg') }}"
                                         alt="Daihatsu Mira (Automatic)" title="Daihatsu Mira (Automatic)"></a></div>
                         </div>
                         <div class="lower-box">
@@ -94,7 +94,7 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.hondaCourse') }}"><img
-                                        src="{{ asset('public/images/resource/image-15.jpg') }}" alt="Honda City"
+                                        src="{{ asset('main/images/resource/image-15.jpg') }}" alt="Honda City"
                                         title="Honda City"></a></div>
                         </div>
                         <div class="lower-box">
@@ -114,7 +114,7 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.cd70') }}"><img
-                                        src="{{ asset('public/images/resource/image-16.webp') }}" alt="CD70 Bike"
+                                        src="{{ asset('main/images/resource/image-16.webp') }}" alt="CD70 Bike"
                                         title="CD70 Bike"></a></div>
                         </div>
                         <div class="lower-box">

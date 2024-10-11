@@ -13,7 +13,7 @@
                 <div class="content-side col-lg-8 col-md-12 col-sm-12">
                     <div class="content-inner">
                         <div class="blog-details">
-                            <div class="image-box"><img src="{{ asset('public/images/resource/new-1.png') }}" alt="">
+                            <div class="image-box"><img src="{{ asset('main/images/resource/new-1.png') }}" alt="">
                             </div>
                             <div class="lower">
                                 <h2>Different Categories of Traffic Signs</h2>

@@ -62,7 +62,7 @@
                         </a>
                     </li>
                     <li class="sidebar-menu__item">
-                        <a href="#" class="sidebar-menu__link">
+                        <a href="{{ route('download.certificate') }}" class="sidebar-menu__link">
                             <span class="icon"><i class="ph ph-book"></i></span>
                             <span class="text">Certificate</span>
                         </a>

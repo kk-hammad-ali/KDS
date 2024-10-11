@@ -64,8 +64,8 @@
                         <!-- Address -->
                         <div class="form-group col-lg-12 col-md-12 col-sm-12">
                             <div class="field-inner">
-                                <input type="text" name="address" value="{{ old('address') }}" placeholder="Your Address"
-                                    required>
+                                <input type="text" name="address" value="{{ old('address') }}"
+                                    placeholder="Your Pickup Address (I-10)" required>
                             </div>
                         </div>
 

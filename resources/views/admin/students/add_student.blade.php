@@ -82,10 +82,9 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <label for="address" class="h5 mb-8 fw-semibold font-heading">Address</label>
+                                <label for="address" class="h5 mb-8 fw-semibold font-heading">Pickup Address</label>
                                 <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                    id="address" name="address" value="{{ old('address') }}"
-                                    placeholder="123 Elm Street, Springfield" required>
+                                    id="address" name="address" value="{{ old('address') }}" placeholder="I-8" required>
                                 @error('address')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

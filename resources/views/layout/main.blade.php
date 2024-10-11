@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <title>Best Driving School in Islamabad King Driving School</title>
     <!-- Stylesheets -->
-    <link href="{{ asset('public/css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
-    <link rel="shortcut icon" href="{{ asset('public/images/logo.png') }}" type="image/x-icon">
-    <link rel="icon" href="{{ asset('public/images/logo.png') }}" type="image/x-icon">
+    <link href="{{ asset('main/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('main/css/style.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ asset('main/images/logo.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('main/images/logo.png') }}" type="image/x-icon">
     <!-- Responsive -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link href="{{ asset('public/css/responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('main/css/responsive.css') }}" rel="stylesheet">
     <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
 
 </head>
@@ -56,7 +56,7 @@
                         <!-- Logo -->
                         <div class="logo-box">
                             <div class="logo"><a href="{{ route('home') }}" title="King Driving School"><img
-                                        src="{{ asset('public/images/logo.png') }}" alt=""
+                                        src="{{ asset('main/images/logo.png') }}" alt=""
                                         title="King Driving School"></a></div>
                         </div>
 
@@ -96,7 +96,7 @@
                             <!-- Hidden Nav Toggler -->
                             <div class="nav-toggler">
                                 <button class="hidden-bar-opener"><span class="icon"><img
-                                            src="{{ asset('public/images/icons/menu-icon.png') }}"
+                                            src="{{ asset('main/images/icons/menu-icon.png') }}"
                                             alt=""></span></button>
                             </div>
 
@@ -120,7 +120,7 @@
                         </svg></span></div>
                 <div class="nav-logo-box">
                     <div class="logo"><a href="index.html" title="King Driving School"><img
-                                src="{{ asset('public/images/logo.png') }}" alt=""
+                                src="{{ asset('main/images/logo.png') }}" alt=""
                                 title="King Driving School"></a>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                                     <div class="about">
                                         <div class="footer-logo"><a href="index.html"
                                                 title="King Driving School"><img
-                                                    src="{{ asset('public/images/logo.png') }}" alt=""
+                                                    src="{{ asset('main/images/logo.png') }}" alt=""
                                                     title="King Driving School"></a></div>
                                         <div class="text">Don't just learn to drive, experience the joy of the ride.
                                             Contact us and let's start your driving lessons together!</div>
@@ -226,65 +226,65 @@
                                         <div class="inner clearfix">
                                             <div class="image-block">
                                                 <div class="image"><a
-                                                        href="{{ asset('public/images/resource/image-1.jpg') }}"
+                                                        href="{{ asset('main/images/resource/image-1.jpg') }}"
                                                         class="lightbox-image" data-fancybox="gallery"><img
-                                                            src="{{ asset('public/images/resource/g-thumb-1.webp') }}"
+                                                            src="{{ asset('main/images/resource/g-thumb-1.webp') }}"
                                                             alt=""></a></div>
                                             </div>
                                             <div class="image-block">
                                                 <div class="image"><a
-                                                        href="{{ asset('public/images/resource/image-2.jpg') }}"
+                                                        href="{{ asset('main/images/resource/image-2.jpg') }}"
                                                         class="lightbox-image" data-fancybox="gallery"><img
-                                                            src="{{ asset('public/images/resource/g-thumb-2.webp') }}"
+                                                            src="{{ asset('main/images/resource/g-thumb-2.webp') }}"
                                                             alt=""></a></div>
                                             </div>
                                             <div class="image-block">
                                                 <div class="image"><a
-                                                        href="{{ asset('public/images/resource/image-3.jpg') }}"
+                                                        href="{{ asset('main/images/resource/image-3.jpg') }}"
                                                         class="lightbox-image" data-fancybox="gallery"><img
-                                                            src="{{ asset('public/images/resource/g-thumb-3.webp') }}"
+                                                            src="{{ asset('main/images/resource/g-thumb-3.webp') }}"
                                                             alt=""></a></div>
                                             </div>
                                             <div class="image-block">
                                                 <div class="image"><a
-                                                        href="{{ asset('public/images/resource/image-1.jpg') }}"
+                                                        href="{{ asset('main/images/resource/image-1.jpg') }}"
                                                         class="lightbox-image" data-fancybox="gallery"><img
-                                                            src="{{ asset('public/images/resource/g-thumb-4.webp') }}"
+                                                            src="{{ asset('main/images/resource/g-thumb-4.webp') }}"
                                                             alt=""></a></div>
                                             </div>
                                             <div class="image-block">
                                                 <div class="image"><a
-                                                        href="{{ asset('public/images/resource/image-2.jpg') }}"
+                                                        href="{{ asset('main/images/resource/image-2.jpg') }}"
                                                         class="lightbox-image" data-fancybox="gallery"><img
-                                                            src="{{ asset('public/images/resource/g-thumb-5.webp') }}"
+                                                            src="{{ asset('main/images/resource/g-thumb-5.webp') }}"
                                                             alt=""></a></div>
                                             </div>
                                             <div class="image-block">
                                                 <div class="image"><a
-                                                        href="{{ asset('public/images/resource/image-3.jpg') }}"
+                                                        href="{{ asset('main/images/resource/image-3.jpg') }}"
                                                         class="lightbox-image" data-fancybox="gallery"><img
-                                                            src="{{ asset('public/images/resource/g-thumb-6.webp') }}"
+                                                            src="{{ asset('main/images/resource/g-thumb-6.webp') }}"
                                                             alt=""></a></div>
                                             </div>
                                             <div class="image-block">
                                                 <div class="image"><a
-                                                        href="{{ asset('public/images/resource/image-1.jpg') }}"
+                                                        href="{{ asset('main/images/resource/image-1.jpg') }}"
                                                         class="lightbox-image" data-fancybox="gallery"><img
-                                                            src="{{ asset('public/images/resource/g-thumb-7.webp') }}"
+                                                            src="{{ asset('main/images/resource/g-thumb-7.webp') }}"
                                                             alt=""></a></div>
                                             </div>
                                             <div class="image-block">
                                                 <div class="image"><a
-                                                        href="{{ asset('public/images/resource/image-2.jpg') }}"
+                                                        href="{{ asset('main/images/resource/image-2.jpg') }}"
                                                         class="lightbox-image" data-fancybox="gallery"><img
-                                                            src="{{ asset('public/images/resource/g-thumb-8.webp') }}"
+                                                            src="{{ asset('main/images/resource/g-thumb-8.webp') }}"
                                                             alt=""></a></div>
                                             </div>
                                             <div class="image-block">
                                                 <div class="image"><a
-                                                        href="{{ asset('public/images/resource/image-3.jpg') }}"
+                                                        href="{{ asset('main/images/resource/image-3.jpg') }}"
                                                         class="lightbox-image" data-fancybox="gallery"><img
-                                                            src="{{ asset('public/images/resource/g-thumb-9.webp') }}"
+                                                            src="{{ asset('main/images/resource/g-thumb-9.webp') }}"
                                                             alt=""></a></div>
                                             </div>
                                         </div>
@@ -321,18 +321,18 @@
     <!-- Scroll to top -->
     <div class="scroll-to-top scroll-to-target" data-target="html">
         <span class="icon">
-            <img src="{{ asset('public/images/icons/arrow-up.svg') }}" alt="" title="Go To Top">
+            <img src="{{ asset('main/images/icons/arrow-up.svg') }}" alt="" title="Go To Top">
         </span>
     </div>
 
-    <script src="{{ asset('public/js/jquery.js') }}"></script>
-    <script src="{{ asset('public/js/popper.min.js') }}"></script>
-    <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('public/js/jquery-ui.js') }}"></script>
-    <script src="{{ asset('public/js/jquery.fancybox.js') }}"></script>
-    <script src="{{ asset('public/js/owl.js') }}"></script>
-    <script src="{{ asset('public/js/wow.js') }}"></script>
-    <script src="{{ asset('public/js/custom-script.js') }}"></script>
+    <script src="{{ asset('main/js/jquery.js') }}"></script>
+    <script src="{{ asset('main/js/popper.min.js') }}"></script>
+    <script src="{{ asset('main/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('main/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('main/js/jquery.fancybox.js') }}"></script>
+    <script src="{{ asset('main/js/owl.js') }}"></script>
+    <script src="{{ asset('main/js/wow.js') }}"></script>
+    <script src="{{ asset('main/js/custom-script.js') }}"></script>
 
 </body>
 

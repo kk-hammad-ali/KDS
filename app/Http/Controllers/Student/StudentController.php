@@ -280,13 +280,14 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($id);
 
-        // Delete associated user and student
-        $student->user()->delete();
-        $student->delete();
+        // Delete associated schedules, attendances, and user
+        $student->schedules()->delete(); // Delete schedules
+        $student->attendances()->delete(); // Delete attendances
+        $student->user()->delete(); // Delete associated user
+        $student->delete(); // Delete the student
 
         return redirect()->route('admin.allStudents')->with('success_deleted_student', 'Student deleted successfully.');
     }
-
 
     public function instructorStudents()
     {

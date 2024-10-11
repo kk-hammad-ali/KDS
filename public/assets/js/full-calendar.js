@@ -49,7 +49,6 @@ $(document).ready(function () {
         },
         allDaySlot: false, //cambie a true
         selectHelper: true,
-
         events: events,
     });
 });

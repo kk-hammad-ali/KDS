@@ -9,7 +9,7 @@
         <div class="auto-container">
             <div class="content-box">
                 <div class="image big-image">
-                    <img src="{{ asset('public/images/resource/image-14.jpg') }}" alt="Highway Driving Training"
+                    <img src="{{ asset('main/images/resource/image-14.jpg') }}" alt="Highway Driving Training"
                         title="Highway Driving Training">
                 </div>
                 <h2>Mira (Automatic)</h2>

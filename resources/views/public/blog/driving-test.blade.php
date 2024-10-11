@@ -13,7 +13,7 @@
                 <div class="content-side col-lg-8 col-md-12 col-sm-12">
                     <div class="content-inner">
                         <div class="blog-details">
-                            <div class="image-box"><img src="{{ asset('public/images/resource/new-2.webp') }}" alt="">
+                            <div class="image-box"><img src="{{ asset('main/images/resource/new-2.webp') }}" alt="">
                             </div>
                             <div class="lower">
                                 <h4>How to Prepare for Your Driving Test | Expert Tips from King Driving School</h4>
@@ -66,7 +66,7 @@
                                         parallel parking, three-point turns, and other maneuvers to perfection, ensuring you
                                         execute them confidently during the test.</p>
                                 </div>
-                                <div class="image-box"><img src="{{ asset('public/images/resource/blog2.jpg') }}"
+                                <div class="image-box"><img src="{{ asset('main/images/resource/blog2.jpg') }}"
                                         alt=""></div>
 
                                 <h4>Focus on Defensive Driving:</h4>
