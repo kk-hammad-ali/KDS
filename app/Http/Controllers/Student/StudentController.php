@@ -40,37 +40,6 @@ class StudentController extends Controller
         $this->invoiceController = $invoiceController;
     }
 
-    // public function index()
-    // {
-    //     // Fetch student schedules
-    //     $schedulesResponse = $this->scheduleController->studentSchedules(request());
-
-    //     // Convert schedules to a collection if it's an array
-    //     $schedules = collect($schedulesResponse->getData()->schedules); // Ensure it's a collection
-
-    //     // Convert the schedules collection to paginated data
-    //     $perPage = 10; // Set the number of items per page
-    //     $currentPage = LengthAwarePaginator::resolveCurrentPage();
-    //     $schedulesPaginated = new LengthAwarePaginator(
-    //         $schedules->forPage($currentPage, $perPage), // Items for the current page
-    //         $schedules->count(), // Total number of items
-    //         $perPage, // Items per page
-    //         $currentPage, // Current page
-    //         ['path' => request()->url(), 'query' => request()->query()] // Maintain query parameters in the pagination links
-    //     );
-
-    //     // Fetch the student and certificate availability from the CertificateController
-    //     $student = Student::where('user_id', Auth::id())->first();
-    //     $certificateAvailable = $student && $student->course_end_date <= now();
-
-    //     // Fetch all leaves for the logged-in student
-    //     $leaves = Leave::where('user_id', Auth::id())->paginate(10);
-
-    //     // Pass schedules, student data, leave data, and certificate availability to the dashboard view
-    //     return view('student.dashboard', compact('schedulesPaginated', 'student', 'certificateAvailable', 'leaves'));
-    // }
-
-
     public function index()
     {
         // Fetch student schedules (events)
@@ -124,11 +93,9 @@ class StudentController extends Controller
             'theory_classes' => 'required|numeric',
             'coupon_code' => 'nullable|string|max:50',
             'instructor_id' => 'required|exists:employees,id',
-            'vehicle_id' => 'required|exists:cars,id',
             'course_duration' => 'required|integer',
             'class_start_time' => 'required',
             'class_duration' => 'required|integer',
-            'transmission' => 'required|in:automatic,manual',
             'invoice_date' => 'required|date',
             'amount_received' => 'required|numeric',
             'balance' => 'required|numeric',
@@ -184,21 +151,22 @@ class StudentController extends Controller
             'coupon_code' => $validated['coupon_code'],
             'course_id' => $validated['course_id'],
             'instructor_id' => $request->instructor_id,
-            'vehicle_id' => $request->vehicle_id,
             'course_duration' => $request->course_duration,
             'class_start_time' => $request->class_start_time,
             'class_end_time' => $class_end_time,
             'course_end_date' => $course_end_date,
             'class_duration' => $request->class_duration,
             'form_type' => 'admin',
-            'transmission' => $validated['transmission'],
         ]);
+
+        // dd($student->course->car_id);
+
 
         // Create schedule
         $schedule = Schedule::create([
             'student_id' => $student->id,
             'instructor_id' => $request->instructor_id,
-            'vehicle_id' => $request->vehicle_id,
+            'vehicle_id' => $student->course->car_id,
             'class_date' => $request->admission_date,  // Start date
             'class_end_date' => $course_end_date,      // End date
             'start_time' => $request->class_start_time,
@@ -280,11 +248,11 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($id);
 
-        // Delete associated schedules, attendances, and user
-        $student->schedules()->delete(); // Delete schedules
-        $student->attendances()->delete(); // Delete attendances
-        $student->user()->delete(); // Delete associated user
-        $student->delete(); // Delete the student
+
+        $student->schedules()->delete();
+        $student->attendances()->delete();
+        $student->user()->delete();
+        $student->delete();
 
         return redirect()->route('admin.allStudents')->with('success_deleted_student', 'Student deleted successfully.');
     }

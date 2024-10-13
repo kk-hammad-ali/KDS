@@ -25,6 +25,7 @@
                             <th class="h6 text-gray-300">CNIC</th>
                             <th class="h6 text-gray-300">Course</th>
                             <th class="h6 text-gray-300">Admission Date</th>
+                            <th class="h6 text-gray-300">Course Enrolled</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,6 +54,13 @@
                                 <td>
                                     <span
                                         class="h6 mb-0 fw-medium text-gray-300">{{ \Carbon\Carbon::parse($student->admission_date)->format('d-m-Y') }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300"> {{ $student->course->car->make }}
+                                        {{ $student->course->car->model }} -
+                                        {{ $student->course->car->registration_number }} -
+                                        ({{ $student->course->duration_days }} Days)
+                                    </span>
                                 </td>
                             </tr>
                         @endforeach

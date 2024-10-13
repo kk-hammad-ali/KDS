@@ -28,7 +28,6 @@ class Student extends Model
         'coupon_code',
         'course_id',
         'instructor_id',
-        'vehicle_id',
         'course_duration',
         'class_start_time',
         'class_end_time',

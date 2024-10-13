@@ -52,6 +52,7 @@ $(document).ready(function () {
         events: events,
     });
 });
+
 /*!
  * FullCalendar v1.6.4
  * Docs & License: http://arshaw.com/fullcalendar/

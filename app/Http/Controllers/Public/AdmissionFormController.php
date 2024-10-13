@@ -59,7 +59,6 @@ class AdmissionFormController extends Controller
             'phone' => 'required|string|max:15',
             'address' => 'required|string|max:255',
             'secondary_phone' => 'nullable|string|max:15',
-            'transmission_type' => 'required|string|in:Manual,Automatic',
             'course_id' => 'required|exists:courses,id',
             'fees' => 'required|numeric',
             'course_duration' => 'required|integer',
@@ -88,13 +87,11 @@ class AdmissionFormController extends Controller
             'coupon_code' => null, // Default or empty value
             'course_id' => $validated['course_id'],
             'instructor_id' => null, // Default or empty value
-            'vehicle_id' => null, // Default or empty value
             'course_duration' => $validated['course_duration'],
             'class_start_time' => null, // Default or empty value
             'class_end_time' => null, // Default or empty value
             'class_duration' => 0, // Default or empty value
             'course_end_date' => now()->addDays($validated['course_duration']),
-            'transmission' => $validated['transmission_type'],
             'form_type' => 'admission',
         ]);
 
@@ -107,7 +104,6 @@ class AdmissionFormController extends Controller
         // Validate the request data
         $validated = $request->validate([
             'instructor_id' => 'required|exists:instructors,id',
-            'vehicle_id' => 'required|exists:cars,id',
             'class_start_time' => 'required|date_format:H:i',
             'class_duration' => 'required|integer|min:30',
             'admission_date' => 'required|date',
@@ -133,7 +129,7 @@ class AdmissionFormController extends Controller
 
         // Calculate course end date based on course duration
         $course_end_date = Carbon::parse($request->admission_date)
-            ->addDays((int)$request->course_duration)
+            ->addDays((int) $student->course->duration_days)
             ->format('Y-m-d');
 
         // Check for overlapping schedule
@@ -149,18 +145,16 @@ class AdmissionFormController extends Controller
             return redirect()->back()->withErrors(['error' => 'The selected time slot or car is already booked.'])->withInput();
         }
 
+        // dd($student->course->car_id);
+
         // Update student
         $student->update([
             'instructor_id' => $request->instructor_id,
-            'vehicle_id' => $request->vehicle_id,
             'class_start_time' => $request->class_start_time,
             'class_duration' => $request->class_duration,
             'admission_date' => $request->admission_date,
-            // 'admission_date' => $validated['admission_date'],
             'practical_driving_hours' => $request->practical_driving_hours,
-            // 'practical_driving_hours' => $validated['practical_driving_hours'],
             'theory_classes' => $request->theory_classes,
-            // 'theory_classes' => $validated['theory_classes'],
             'class_end_time' => $class_end_time,
             'course_end_date' => $course_end_date,
             'form_type' => 'admin',
@@ -173,7 +167,7 @@ class AdmissionFormController extends Controller
         $schedule = Schedule::create([
             'student_id' => $student->id,
             'instructor_id' => $request->instructor_id,
-            'vehicle_id' => $request->vehicle_id,
+            'vehicle_id' =>  $student->course->car_id,
             'class_date' => $request->admission_date,  // Start date
             'class_end_date' => $course_end_date,      // End date
             'start_time' => $request->class_start_time,
@@ -200,100 +194,5 @@ class AdmissionFormController extends Controller
         // Redirect with success message
         return redirect()->route('admin.allStudents')->with('success_student', 'Student updated successfully.');
     }
-
-    // public function adminUpdateFormStudent(Request $request, $id)
-    // {
-    //     // Validate the request data
-    //     $validated = $request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'father_husband_name' => 'required|string|max:255',
-    //         'phone' => 'required|string|max:15',
-    //         'address' => 'required|string|max:255',
-    //         'secondary_phone' => 'nullable|string|max:15',
-    //         'instructor_id' => 'required|exists:instructors,id',
-    //         'vehicle_id' => 'required|exists:cars,id',
-    //         'class_start_time' => 'required|date_format:H:i',
-    //         'class_duration' => 'required|integer|min:30',
-    //         'admission_date' => 'required|date',
-    //         'email' => 'nullable|email|max:255',
-    //         'practical_driving_hours' => 'required|integer',
-    //         'theory_classes' => 'required|integer',
-    //     ]);
-
-    //     // Find the student by ID
-    //     $student = Student::findOrFail($id);
-
-    //     // Calculate class end time
-    //     $class_end_time = Carbon::parse($request->class_start_time)
-    //         ->addMinutes((int)$request->class_duration)
-    //         ->format('H:i:s');
-
-    //     // Calculate course end date
-    //     $course_end_date = Carbon::parse($request->admission_date)
-    //         ->addDays((int)$student->course_duration);
-
-    //     // Check for overlapping schedule
-    //     $overlappingSchedule = Schedule::where('instructor_id', $request->instructor_id)
-    //         ->where('vehicle_id', $request->vehicle_id)
-    //         ->where(function ($query) use ($request, $class_end_time) {
-    //             $query->where('class_date', $request->admission_date)
-    //                 ->whereTime('start_time', '<', $class_end_time)
-    //                 ->whereTime('end_time', '>', $request->class_start_time);
-    //         })->exists();
-
-    //     if ($overlappingSchedule) {
-    //         return redirect()->back()->withErrors(['error' => 'The selected time slot or car is already booked.'])->withInput();
-    //     }
-
-    //     // Update the user name if present
-    //     if ($student->user) {
-    //         $student->user->update([
-    //             'name' => $validated['name'],
-    //         ]);
-    //     } else {
-    //         // Handle the case where the user is not found
-    //         return redirect()->back()->withErrors('User associated with the student could not be found.');
-    //     }
-
-    //     // Update student entry
-    //     $student->update([
-    //         'father_or_husband_name' => $validated['father_husband_name'],
-    //         'address' => $validated['address'],
-    //         'phone' => $validated['phone'],
-    //         'optional_phone' => $validated['secondary_phone'] ?? null,
-    //         'admission_date' => $validated['admission_date'],
-    //         'email' => $validated['email'] ?? null,
-    //         'practical_driving_hours' => $validated['practical_driving_hours'],
-    //         'theory_classes' => $validated['theory_classes'],
-    //         'instructor_id' => $validated['instructor_id'],
-    //         'vehicle_id' => $validated['vehicle_id'],
-    //         'course_duration' => $student->course_duration,  // course_duration is not editable
-    //         'class_start_time' => $validated['class_start_time'],
-    //         'class_end_time' => $class_end_time,
-    //         'class_duration' => $validated['class_duration'],
-    //         'course_end_date' => $course_end_date,
-    //         'form_type' => 'admin',
-    //     ]);
-
-    //     // Delete existing schedules if they need to be replaced
-    //     Schedule::where('student_id', $student->id)->delete();
-
-    //     // dd($request->class_start_time);
-    //     // dd($class_end_time);
-
-    //     // Create updated schedule
-    //     Schedule::create([
-    //         'student_id' => $student->id,
-    //         'instructor_id' => $request->instructor_id,
-    //         'vehicle_id' => $request->vehicle_id,
-    //         'class_date' => $request->admission_date,  // Start date
-    //         'class_end_date' => $course_end_date,      // End date
-    //         'start_time' => $request->class_start_time,
-    //         'end_time' => $class_end_time,
-    //     ]);
-
-    //     // Redirect back with success message
-    //     return redirect()->route('admin.allStudents')->with('success', 'Student and schedule updated successfully.');
-    // }
 
 }

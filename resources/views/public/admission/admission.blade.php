@@ -80,19 +80,7 @@
                         <!-- Email (Optional) -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="field-inner">
-                                <input type="email" name="email" value="{{ old('email') }}"
-                                    placeholder="Your Email (Optional)">
-                            </div>
-                        </div>
-
-                        <!-- Transmission Type Dropdown -->
-                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                            <div class="field-inner">
-                                <select name="transmission_type" class="form-select" required>
-                                    <option value="" disabled selected>Select Transmission Type</option>
-                                    <option value="Manual">Manual</option>
-                                    <option value="Automatic">Automatic</option>
-                                </select>
+                                <input type="email" name="email" value="{{ old('email') }}" placeholder="Your Email">
                             </div>
                         </div>
 
@@ -105,7 +93,9 @@
                                     @foreach ($courses as $course)
                                         <option value="{{ $course->id }}" data-fees="{{ $course->fees }}"
                                             data-duration="{{ $course->duration_days }}">
-                                            {{ $course->duration_days }} Days
+                                            {{ $course->car->make }} - {{ $course->car->model }} -
+                                            {{ $course->car->registration_number }}
+                                            ({{ $course->duration_days }} Days, {{ $course->car->transmission }})
                                         </option>
                                     @endforeach
                                 </select>
@@ -115,12 +105,13 @@
                             </div>
                         </div>
 
+
                         <!-- Fees -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="field-inner">
                                 <input type="number" class="form-control @error('fees') is-invalid @enderror"
-                                    id="fees" name="fees" value="{{ old('fees') }}" placeholder="5000" readonly
-                                    required>
+                                    id="fees" name="fees" value="{{ old('fees') }}" placeholder="Course Fee"
+                                    readonly required>
                                 @error('fees')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -132,7 +123,7 @@
                             <div class="field-inner">
                                 <input type="text" class="form-control @error('course_duration') is-invalid @enderror"
                                     id="course_duration" name="course_duration" value="{{ old('course_duration') }}"
-                                    placeholder="10" readonly required>
+                                    placeholder="Course Duration" readonly required>
                                 @error('course_duration')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

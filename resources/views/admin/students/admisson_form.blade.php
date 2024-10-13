@@ -28,10 +28,10 @@
                             <th class="h6 text-gray-300">Name</th>
                             <th class="h6 text-gray-300">Father's/Husband's Name</th>
                             <th class="h6 text-gray-300">CNIC</th>
-                            <th class="h6 text-gray-300">Address</th>
+                            <th class="h6 text-gray-300">Pickup Address</th>
                             <th class="h6 text-gray-300">Phone Number</th>
-                            <th class="h6 text-gray-300">Optional Phone</th>
                             <th class="h6 text-gray-300">Admission Date</th>
+                            <th class="h6 text-gray-300">Course Enrolled</th>
                             <th class="h6 text-gray-300">Actions</th>
                         </tr>
                     </thead>
@@ -65,10 +65,14 @@
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->phone }}</span>
                                 </td>
                                 <td>
-                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->optional_phone }}</span>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->admission_date }}</span>
                                 </td>
                                 <td>
-                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->admission_date }}</span>
+                                    <span class="h6 mb-0 fw-medium text-gray-300"> {{ $student->course->car->make }}
+                                        {{ $student->course->car->model }} -
+                                        {{ $student->course->car->registration_number }} -
+                                        ({{ $student->course->duration_days }} Days)
+                                    </span>
                                 </td>
                                 <td>
                                     <button type="button"
@@ -77,7 +81,7 @@
                                         data-admission-date="{{ $student->admission_date }}"
                                         data-practical-driving-hours="{{ $student->practical_driving_hours }}"
                                         data-theory-classes="{{ $student->theory_classes }}"
-                                        data-transmission="{{ $student->transmission }}" onclick="populateModal(this)">
+                                        data-car-id="{{ $student->course->vehicle_id }}" onclick="populateModal(this)">
                                         Enroll
                                     </button>
                                 </td>
@@ -120,7 +124,7 @@
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" id="studentId">
-                        <input type="hidden" name="transmission" id="transmission">
+                        <input type="hidden" name="vehicle_id" id="vehicle_id">
 
                         <div class="row"> <!-- Row for input grouping -->
 
@@ -177,25 +181,6 @@
                                 @enderror
                             </div>
 
-                            <!-- Vehicle Dropdown -->
-                            <div class="col-sm-12 mb-3">
-                                <label for="vehicle_id" class="h5 mb-8 fw-semibold font-heading">Select Vehicle <span
-                                        class="text-13 text-gray-400 fw-medium">(Required)</span></label>
-                                <select class="form-select @error('vehicle_id') is-invalid @enderror" id="vehicle_id"
-                                    name="vehicle_id" required>
-                                    <option value="" disabled selected>Select Vehicle</option>
-                                    @foreach ($cars as $vehicle)
-                                        <option value="{{ $vehicle->id }}"
-                                            data-transmission="{{ $vehicle->transmission }}">
-                                            {{ $vehicle->make }} {{ $vehicle->model }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('vehicle_id')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                             <!-- Class Start Time Dropdown -->
                             <div class="col-sm-12 mb-3">
                                 <label for="class_start_time" class="h5 mb-8 fw-semibold font-heading">Class Start Time
@@ -235,7 +220,6 @@
                             <!-- Amount Received -->
                             <div class="col-sm-12 mb-3">
                                 <label for="amount_received" class="h5 mb-8 fw-semibold font-heading">Total Amount
-                                    Received
                                     <span class="text-13 text-gray-400 fw-medium">(Required)</span></label>
                                 <input type="number" class="form-control @error('amount_received') is-invalid @enderror"
                                     id="amount_received" name="amount_received" placeholder="Enter Amount Received"
@@ -309,40 +293,23 @@
         function populateModal(button) {
             // Get the student ID from the button's data attributes
             const studentId = button.getAttribute('data-id');
+            const vehicleId = button.getAttribute('data-car-id'); // Get the associated car ID
 
             // Update the form action to include the student ID
             document.getElementById('enrollForm').action = `/admin/student/update/${studentId}`;
 
+            // Set the hidden field for vehicle_id
+            document.getElementById('vehicle_id').value = vehicleId;
+
             // Set admission date
             document.getElementById('admission_date').value = button.getAttribute('data-admission-date');
 
-            // Set the transmission type
-            const transmissionType = button.getAttribute('data-transmission');
-            console.log('Transmission Type:', transmissionType); // Ensure we are capturing the transmission type properly
-
-            // Filter vehicles based on transmission type
-            const vehicleSelect = document.getElementById('vehicle_id');
-            const vehicleOptions = vehicleSelect.options;
-
-            // Loop through the vehicle options and show only the ones matching the selected transmission type
-            for (let i = 0; i < vehicleOptions.length; i++) {
-                const option = vehicleOptions[i];
-                console.log(`Checking option: ${option.text}, Transmission: ${option.dataset.transmission}`);
-
-                if (option.dataset.transmission === transmissionType || option.value === "") {
-                    option.style.display = ''; // Show the option if it matches the transmission
-                } else {
-                    option.style.display = 'none'; // Hide the option if it doesn't match the transmission
-                }
-            }
-
-            // Reset the selected index of the vehicle dropdown
-            vehicleSelect.selectedIndex = 0;
+            // Reset the selected index of the instructor dropdown
+            document.getElementById('instructor').selectedIndex = 0;
 
             // Trigger fetching booked times
             fetchBookedTimes();
         }
-
 
         function fetchBookedTimes() {
             const selectedDate = document.getElementById('admission_date').value;
@@ -391,6 +358,5 @@
 
         document.getElementById('admission_date').addEventListener('change', fetchBookedTimes);
         document.getElementById('instructor').addEventListener('change', fetchBookedTimes);
-        document.getElementById('vehicle_id').addEventListener('change', fetchBookedTimes);
     </script>
 @endsection

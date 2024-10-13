@@ -72,21 +72,19 @@ class StudentSeeder extends Seeder
                 'coupon_code' => null,
                 'course_id' => $courses->random()->id,  // Assign a random course
                 'instructor_id' => $instructors->random()->id,  // Assign a random instructor
-                'vehicle_id' => $cars->random()->id,  // Assign a random car
                 'course_duration' => $course_duration,
                 'class_start_time' => $class_start_time,
                 'class_end_time' => $class_end_time,
                 'course_end_date' => $course_end_date,
                 'class_duration' => $class_duration,
                 'form_type' => 'admin',
-                'transmission' => 'manual',  // Assign manual or automatic randomly if required
             ]);
 
             // Create schedule for the student
             Schedule::create([
                 'student_id' => $student->id,
                 'instructor_id' => $student->instructor_id,
-                'vehicle_id' => $student->vehicle_id,
+                'vehicle_id' => $cars->random()->id,
                 'class_date' => $admission_date,  // Start date
                 'class_end_date' => $course_end_date,      // End date
                 'start_time' => $class_start_time,

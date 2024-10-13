@@ -112,7 +112,7 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <label for="email" class="h5 mb-8 fw-semibold font-heading">Email (Optional)</label>
+                                <label for="email" class="h5 mb-8 fw-semibold font-heading">Email</label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" name="email" value="{{ old('email') }}"
                                     placeholder="Enter email address">
@@ -127,6 +127,7 @@
                     <div class="step-content" id="step-2" style="display: none;">
                         <h5>Admission Details</h5>
                         <div class="row gy-20">
+
                             <div class="col-sm-6">
                                 <label for="course" class="h5 mb-8 fw-semibold font-heading">Course</label>
                                 <select class="form-select @error('course_id') is-invalid @enderror" id="course"
@@ -135,6 +136,8 @@
                                     @foreach ($courses as $course)
                                         <option value="{{ $course->id }}" data-fees="{{ $course->fees }}"
                                             data-duration="{{ $course->duration_days }}">
+                                            {{ $course->car->make }} {{ $course->car->model }}
+                                            {{ $course->car->registration_number }} -
                                             {{ $course->duration_days }} Days
                                         </option>
                                     @endforeach
@@ -143,7 +146,6 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
                             <div class="col-sm-6">
                                 <label for="fees" class="h5 mb-8 fw-semibold font-heading">Fees</label>
                                 <input type="number" class="form-control @error('fees') is-invalid @enderror"
@@ -232,39 +234,6 @@
                                 @enderror
                             </div>
 
-                            <div class="col-sm-6">
-                                <label for="transmission" class="h5 mb-8 fw-semibold font-heading">Select Transmission
-                                    Type</label>
-                                <select class="form-select @error('transmission') is-invalid @enderror" id="transmission"
-                                    name="transmission" required>
-                                    <option value="" disabled selected>Select Transmission Type</option>
-                                    <option value="automatic" {{ old('transmission') == 'automatic' ? 'selected' : '' }}>
-                                        Automatic</option>
-                                    <option value="manual" {{ old('transmission') == 'manual' ? 'selected' : '' }}>Manual
-                                    </option>
-                                </select>
-                                @error('transmission')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="car" class="h5 mb-8 fw-semibold font-heading">Select Car</label>
-                                <select class="form-select @error('vehicle_id') is-invalid @enderror" id="car"
-                                    name="vehicle_id" required>
-                                    <option value="" disabled selected>Select Car</option>
-                                    @foreach ($cars as $car)
-                                        <option value="{{ $car->id }}"
-                                            data-transmission="{{ $car->transmission }}">
-                                            {{ $car->make }} {{ $car->model }} - {{ $car->registration_number }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('vehicle_id')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                             <div class="col-md-6">
                                 <label for="class_start_time" class="h5 mb-2 fw-semibold font-heading">Class Start
                                     Time:</label>
@@ -299,7 +268,7 @@
                         </div>
                     </div>
 
-                    <!-- Step 4: Invoice Generation (New) -->
+                    <!-- Step 4: Invoice Generation -->
                     <div class="step-content" id="step-4" style="display: none;">
                         <h5>Invoice Details</h5>
                         <div class="row gy-20">
@@ -458,26 +427,12 @@
                 admissionDateInput.addEventListener('input', calculateEndDate);
                 durationInput.addEventListener('input', calculateEndDate);
 
-                // Transmission-based car filtering
-                document.getElementById('transmission').addEventListener('change', function() {
-                    const selectedTransmission = this.value;
-                    const carSelect = document.getElementById('car');
-                    const carOptions = carSelect.options;
-
-                    for (let i = 0; i < carOptions.length; i++) {
-                        const option = carOptions[i];
-                        option.style.display = option.dataset.transmission === selectedTransmission || option
-                            .value === "" ? '' : 'none';
-                    }
-                    carSelect.selectedIndex = 0;
-                });
             });
         </script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const admissionDateInput = document.getElementById('admission_date');
                 const instructorSelect = document.getElementById('instructor');
-                const vehicleSelect = document.getElementById('car'); // New car/vehicle select input
                 const classStartTimeSelect = document.getElementById('class_start_time');
 
                 function formatTime(time24) {
@@ -490,14 +445,15 @@
                 function fetchBookedTimes() {
                     const selectedDate = admissionDateInput.value;
                     const selectedInstructor = instructorSelect.value;
-                    const selectedVehicle = vehicleSelect.value;
+                    const courseSelect = document.getElementById('course');
+                    const selectedCourseId = courseSelect.value;
 
-                    if (selectedDate || selectedInstructor || selectedVehicle) {
+                    if (selectedDate || selectedInstructor || selectedCourseId) {
                         let url = `/admin/schedules/booked-times?`;
 
                         if (selectedDate) url += `date=${selectedDate}&`;
                         if (selectedInstructor) url += `instructor=${selectedInstructor}&`;
-                        if (selectedVehicle) url += `vehicle=${selectedVehicle}`;
+                        if (selectedCourseId) url += `course=${selectedCourseId}`;
 
                         fetch(url)
                             .then(response => response.json())
@@ -526,7 +482,7 @@
 
                 admissionDateInput.addEventListener('change', fetchBookedTimes);
                 instructorSelect.addEventListener('change', fetchBookedTimes);
-                vehicleSelect.addEventListener('change', fetchBookedTimes);
+                document.getElementById('course').addEventListener('change', fetchBookedTimes);
             });
         </script>
         <script>

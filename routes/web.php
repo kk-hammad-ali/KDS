@@ -193,9 +193,6 @@ use App\Http\Controllers\Main\LoginController;
     Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show')->middleware('admin_guard');
 
 
-
-
-
 // Instructor Routes
 
     // Dashboard
@@ -234,43 +231,85 @@ use App\Http\Controllers\Main\LoginController;
 
 
 
-    Route::get('/send-whatsapp', function () {
-        $phoneNumberId = '467611526431527'; // Your Phone Number ID
-        $recipientPhoneNumber = '+923165507654'; // The phone number to send the message to
-        $accessToken = 'EAAXhcL58v6MBO6Ox0Y9p8CtkvF2JUo5sEoYBaXvGTCrucJSKP7ZADtPnzlECFpdWFrdTz1vgZBOIRrtkD1nHTE1diWkQL4ZCnc00xbbJw651jAnt6XpSZAbHsiR9ksntGENihQOPBoYt6Sv0JIjKF06h9fkh1ih1U9hNkvVJ51tYokA5K2E1e4kKVc3kRdWibHHlVnM0reL1ZC7zzZB3iMeAcABtm0yzB375tmiQyTUZAgZD'; // Replace with your valid access token
-        $message = 'Hello KK';
+    // Route::get('/send-whatsapp', function () {
+    //     $phoneNumberId = '467611526431527'; // Your Phone Number ID
+    //     $recipientPhoneNumber = '+923165507654'; // The phone number to send the message to
+    //     $accessToken = 'EAAXhcL58v6MBO6Ox0Y9p8CtkvF2JUo5sEoYBaXvGTCrucJSKP7ZADtPnzlECFpdWFrdTz1vgZBOIRrtkD1nHTE1diWkQL4ZCnc00xbbJw651jAnt6XpSZAbHsiR9ksntGENihQOPBoYt6Sv0JIjKF06h9fkh1ih1U9hNkvVJ51tYokA5K2E1e4kKVc3kRdWibHHlVnM0reL1ZC7zzZB3iMeAcABtm0yzB375tmiQyTUZAgZD'; // Replace with your valid access token
+    //     $message = 'Hello KK';
 
-        // Create a Guzzle HTTP client instance
-        $client = new Client();
+    //     // Create a Guzzle HTTP client instance
+    //     $client = new Client();
 
-        try {
-            // Send the message to the recipient
-            $response = $client->post("https://graph.facebook.com/v16.0/{$phoneNumberId}/messages", [
-                'headers' => [
-                    'Authorization' => "Bearer {$accessToken}",
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => [
-                    'messaging_product' => 'whatsapp',
-                    'to' => $recipientPhoneNumber,
-                    'type' => 'text',
-                    'text' => [
-                        'body' => $message,
-                    ],
-                ],
-            ]);
+    //     try {
+    //         // Send the message to the recipient
+    //         $response = $client->post("https://graph.facebook.com/v16.0/{$phoneNumberId}/messages", [
+    //             'headers' => [
+    //                 'Authorization' => "Bearer {$accessToken}",
+    //                 'Content-Type' => 'application/json',
+    //             ],
+    //             'json' => [
+    //                 'messaging_product' => 'whatsapp',
+    //                 'to' => $recipientPhoneNumber,
+    //                 'type' => 'text',
+    //                 'text' => [
+    //                     'body' => $message,
+    //                 ],
+    //             ],
+    //         ]);
 
-            // Return success response
-            return response()->json([
-                'status' => 'success',
-                'message' => "Message sent successfully to {$recipientPhoneNumber}.",
-                'response' => json_decode($response->getBody(), true),
-            ]);
-        } catch (\Exception $e) {
-            // Return error response
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ]);
-        }
-    });
+    //         // Return success response
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'message' => "Message sent successfully to {$recipientPhoneNumber}.",
+    //             'response' => json_decode($response->getBody(), true),
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         // Return error response
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => $e->getMessage(),
+    //         ]);
+    //     }
+    // });
+
+
+    // Route::get('/send-whatsapp', function () {
+    //     $phoneNumberId = '467611526431527'; // Your Phone Number ID
+    //     $recipientPhoneNumber = '+923165507654'; // The phone number to send the message to
+    //     $accessToken = 'EAAXhcL58v6MBO6Ox0Y9p8CtkvF2JUo5sEoYBaXvGTCrucJSKP7ZADtPnzlECFpdWFrdTz1vgZBOIRrtkD1nHTE1diWkQL4ZCnc00xbbJw651jAnt6XpSZAbHsiR9ksntGENihQOPBoYt6Sv0JIjKF06h9fkh1ih1U9hNkvVJ51tYokA5K2E1e4kKVc3kRdWibHHlVnM0reL1ZC7zzZB3iMeAcABtm0yzB375tmiQyTUZAgZD'; // Replace with your valid access token
+    //     $message = 'Hello KK';
+
+    //     // Create a Guzzle HTTP client instance
+    //     $client = new Client();
+
+    //     try {
+    //         // Send the message to the recipient
+    //         $response = $client->post("https://graph.facebook.com/v16.0/{$phoneNumberId}/messages", [
+    //             'headers' => [
+    //                 'Authorization' => "Bearer {$accessToken}",
+    //                 'Content-Type' => 'application/json',
+    //             ],
+    //             'json' => [
+    //                 'messaging_product' => 'whatsapp',
+    //                 'to' => $recipientPhoneNumber,
+    //                 'type' => 'text',
+    //                 'text' => [
+    //                     'body' => $message,
+    //                 ],
+    //             ],
+    //         ]);
+
+    //         // Return success response
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'message' => "Message sent successfully to {$recipientPhoneNumber}.",
+    //             'response' => json_decode($response->getBody(), true),
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         // Return error response
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => $e->getMessage(),
+    //         ]);
+    //     }
+    // });

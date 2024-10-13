@@ -16,12 +16,6 @@
             <div class="card-body p-0">
                 <div id='wrap'>
                     <div id='calendar' class="position-relative">
-                        {{-- <button type="button"
-                            class="add-event btn btn-main text-sm btn-sm px-24 rounded-pill py-12 d-flex align-items-center gap-2"
-                            data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="ph ph-plus me-4"></i>
-                            Add Event
-                        </button> --}}
                     </div>
                     <div style='clear:both'></div>
                 </div>
@@ -110,5 +104,6 @@
     </div>
     <script>
         var events = @json($events);
+        console.log(events);
     </script>
 @endsection

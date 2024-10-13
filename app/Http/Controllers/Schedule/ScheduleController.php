@@ -11,30 +11,36 @@ use Carbon\Carbon;
 class ScheduleController extends Controller
 {
 
-    public function allSchedules(Request $request)
-    {
-        $schedules = Schedule::with(['student', 'instructor'])->paginate(10);
-        $events = [];
+    public function allSchedules()
+{
+    $schedules = Schedule::with(['student', 'instructor', 'vehicle'])->paginate(10);
+    $events = [];
 
-        foreach ($schedules as $schedule) {
-            $startDate = Carbon::parse($schedule->class_date);
-            $endDate = Carbon::parse($schedule->class_end_date);
+    foreach ($schedules as $schedule) {
+        // Ensure class_date and class_end_date are parsed correctly
+        $startDate = Carbon::parse($schedule->class_date);
+        $endDate = Carbon::parse($schedule->class_end_date);
 
-            // Create events for each day between start and end date
-            for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
-                $events[] = [
-                    'title' => 'S1 - ' . $schedule->instructor->employee->user->name,
-                    'start' => $date->format('Y-m-d') . 'T' . $schedule->start_time,
-                    'end' => $date->format('Y-m-d') . 'T' . $schedule->end_time,
-                    'backgroundColor' => '#ff0000',  // Red for booked slots
-                    'textColor' => 'white',
-                ];
-            }
+        // Create events for each day between start and end date
+        for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
+            $events[] = [
+                'title' => $schedule->student->user->name . ' - ' . $schedule->instructor->employee->user->name .
+                          ' (' . \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') . ' to ' .
+                          \Carbon\Carbon::parse($schedule->end_time)->format('h:i A') . ')',
+                'start' => $date->format('Y-m-d') . 'T' . $schedule->start_time,
+                'end' => $date->format('Y-m-d') . 'T' . $schedule->end_time,
+                'backgroundColor' => '#ff0000', // Red for booked slots
+                'textColor' => 'white',
+                'extendedProps' => [
+                    'course_end_date' => $schedule->student->course_end_date,
+                ],
+            ];
         }
-
-        // Pass both $events and $schedules to the view
-        return view('admin.schedules.all_schedules', compact('events', 'schedules'));
     }
+
+    // Pass both $events and $schedules to the view
+    return view('admin.schedules.all_schedules', compact('events', 'schedules'));
+}
 
     public function getBookedTimes(Request $request)
     {

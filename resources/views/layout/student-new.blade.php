@@ -8,7 +8,7 @@
     <!-- Title -->
     <title>King Driving School | Admin Panel</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('public/images/logo.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('main/images/logo.png') }}" type="image/png">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <!-- File Upload -->
@@ -49,7 +49,7 @@
         <!-- Logo -->
         <a href="index.html"
             class="sidebar__logo text-center p-20 position-sticky inset-block-start-0 bg-white w-100 z-1 pb-10">
-            <img src="{{ asset('public/images/logo.png') }}" alt="Logo" style="width: 50px;">
+            <img src="{{ asset('main/images/logo.png') }}" alt="Logo" style="width: 50px;">
         </a>
 
         <div class="sidebar-menu-wrapper overflow-y-auto scroll-sm">
