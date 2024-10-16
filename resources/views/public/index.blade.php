@@ -56,7 +56,7 @@
                                 <div class="clearfix">
                                     <div class="inner">
                                         <h1><span>King Driving School - KDS</span></h1>
-                                        <div class="text">High-Quality Driving Schools in Islambad</div>
+                                        <div class="text">High-Quality Driving Schools in Islamabad</div>
                                         <div class="links-box clearfix">
                                             <div class="link"><a href="{{ route('public.about') }}"
                                                     class="theme-btn btn-style-one"><span>Read
@@ -97,8 +97,8 @@
                             <div class="content">
                                 <div class="clearfix">
                                     <div class="inner">
-                                        <h1><span>King Driving School - KDS</span></h1>
-                                        <div class="text">High-Quality Driving Schools in Islambad</div>
+                                        <h1><span>King Driving School - kds</span></h1>
+                                        <div class="text">High-Quality Driving Schools in Islamabad</div>
                                         <div class="links-box clearfix">
                                             <div class="link"><a href="{{ route('public.about') }}"
                                                     class="theme-btn btn-style-one"><span>Read
