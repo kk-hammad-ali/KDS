@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\FixedExpense;
 use App\Models\Employee;
 use App\Models\Salary;
+use Carbon\Carbon;
 
 class FixedExpenseController extends Controller
 {
@@ -14,6 +15,10 @@ class FixedExpenseController extends Controller
     {
         // Fetch all fixed expenses, related employees, and salaries
         $fixedExpenses = FixedExpense::with('employee')->paginate(10);
+        // Convert `expense_date` into Carbon instances for formatting
+        foreach ($fixedExpenses as $expense) {
+            $expense->expense_date = Carbon::parse($expense->expense_date)->format('Y-m-d');
+        }
         $salaries = Salary::with('employee')->get();
         $employees = Employee::all();
 
@@ -33,7 +38,6 @@ class FixedExpenseController extends Controller
             'expense_type' => 'required|string',
             'amount' => 'required|numeric',
             'employee_id' => 'nullable|exists:employees,id', // Only for salary
-            'status' => 'required|in:paid,unpaid',
             'expense_date' => 'required|date',
         ]);
 
@@ -46,7 +50,6 @@ class FixedExpenseController extends Controller
                 'employee_id' => $request->employee_id,
                 'amount' => $request->amount,
                 'payment_date' => $request->expense_date,
-                'payment_status' => $request->status,
             ]);
         }
 
@@ -57,11 +60,12 @@ class FixedExpenseController extends Controller
     {
         // Find the fixed expense by ID, or return 404 if not found
         $fixedExpense = FixedExpense::findOrFail($id);
-        // Get all employees for the form dropdown
+        $fixedExpense->expense_date = $fixedExpense->expense_date->format('Y-m-d'); // Ensure the date is in 'YYYY-MM-DD' format
         $employees = Employee::all();
 
         return view('expense.fixed.edit', compact('fixedExpense', 'employees'));
     }
+
 
     public function update(Request $request, $id)
     {
@@ -72,7 +76,6 @@ class FixedExpenseController extends Controller
             'expense_type' => 'required|string',
             'amount' => 'required|numeric',
             'employee_id' => 'nullable|exists:employees,id', // Only for salary
-            'status' => 'required|in:paid,unpaid',
             'expense_date' => 'required|date',
         ]);
 
@@ -89,7 +92,6 @@ class FixedExpenseController extends Controller
                 // Update existing salary record
                 $salary->update([
                     'amount' => $request->amount,
-                    'payment_status' => $request->status,
                 ]);
             } else {
                 // Create a new salary record
@@ -97,7 +99,6 @@ class FixedExpenseController extends Controller
                     'employee_id' => $request->employee_id,
                     'amount' => $request->amount,
                     'payment_date' => $request->expense_date,
-                    'payment_status' => $request->status,
                 ]);
             }
         }

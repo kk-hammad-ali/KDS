@@ -14,6 +14,7 @@ class Course extends Model
         'fees',
     ];
 
+
     public function car()
     {
         return $this->belongsTo(Car::class);

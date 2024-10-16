@@ -1,4 +1,4 @@
-@extends('layout.instructor-new')
+@extends('layout.layout')
 
 @section('content')
     <div class="dashboard-body">
@@ -117,7 +117,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <form id="deleteLeaveForm" method="POST" action="">
+                        <form id="deleteLeaveForm" method="POST"
+                            action="{{ route('instructor.deleteLeave', $leave->id) }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>

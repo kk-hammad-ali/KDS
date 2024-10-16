@@ -22,8 +22,9 @@ class InstructorSeeder extends Seeder
             $user = User::create([
                 'name' => "Instructor $i",
                 'password' => Hash::make('password123'),  // Default password
-                'role' => 1,  // Role 1 for Instructor
             ]);
+            // Assign Instructor role
+            $user->assignRole('instructor');
 
             // Create the employee record and link it to the user
             $employee = Employee::create([

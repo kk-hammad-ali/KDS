@@ -21,7 +21,6 @@ class EmployeeSeeder extends Seeder
             $user = User::create([
                 'name' => "Employee $i",
                 'password' => Hash::make('password123'),  // Default password
-                'role' => 0,  // Assuming 0 is for employees without system access (or adjust based on your system)
             ]);
 
             // Create employees with user ID

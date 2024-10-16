@@ -6,7 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Title -->
-    <title>King Driving School | Admin Panel</title>
+    <title>King Driving School |
+        @if (auth()->user()->hasRole('admin'))
+            Admin Panel
+        @elseif (auth()->user()->hasRole('instructor'))
+            Instructor Panel
+        @elseif (auth()->user()->hasRole('student'))
+            Student Panel
+        @else
+            Dashboard
+        @endif
+    </title>
+
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('main/images/logo.png') }}" type="image/png">
     <!-- Bootstrap -->
@@ -31,30 +42,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-jvectormap-2.0.5.css') }}">
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
-
-    <!-- Custom CSS for Mobile View -->
-    <style>
-        /* Hide the navbar links on small screens (max-width: 767px) */
-        @media (max-width: 767px) {
-            .top-navbar .sidebar-menu__link {
-                display: none;
-            }
-        }
-
-        /* Show the links in the sidebar on mobile */
-        @media (max-width: 767px) {
-            .sidebar-menu__item.d-lg-none {
-                display: block;
-            }
-        }
-
-        /* Hide the sidebar links on larger screens to avoid duplication */
-        @media (min-width: 768px) {
-            .sidebar-menu__item.d-lg-none {
-                display: none;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -77,7 +64,7 @@
             <i class="ph ph-x"></i></button>
 
         <!-- Logo -->
-        <a href="index.html"
+        <a href="{{ auth()->user()->hasRole('admin') ? route('admin.dashboard') : (auth()->user()->hasRole('instructor') ? route('instructor.dashboard') : route('student.dashboard')) }}"
             class="sidebar__logo text-center p-20 position-sticky inset-block-start-0 bg-white w-100 z-1 pb-10">
             <img src="{{ asset('main/images/logo.png') }}" alt="Logo" style="width: 50px;">
         </a>
@@ -85,119 +72,155 @@
         <div class="sidebar-menu-wrapper overflow-y-auto scroll-sm">
             <div class="p-20 pt-10">
                 <ul class="sidebar-menu">
-                    <li class="sidebar-menu__item">
-                        <a href="{{ route('admin.dashboard') }}" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-squares-four"></i></span>
-                            <span class="text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu__item">
-                        <a href="{{ route('admin.allStudents') }}" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-users-three"></i></span>
-                            <span class="text">Students</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu__item">
-                        <a href="{{ route('admin.allInstructors') }}" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-users"></i></span>
-                            <span class="text">Instructors</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu__item">
-                        <a href="{{ route('admin.allCourses') }}" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-book"></i></span>
-                            <span class="text">Courses</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu__item has-dropdown">
-                        <a href="javascript:void(0)" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-calendar-check"></i></span>
-                            <span class="text">Attendance</span>
-                        </a>
-                        <ul class="sidebar-submenu">
-                            <li class="sidebar-submenu__item">
-                                <a href="{{ route('student.attendance.show') }}" class="sidebar-submenu__link">Student
-                                    Attendance</a>
-                            </li>
-                            <li class="sidebar-submenu__item">
-                                <a href="{{ route('instructor.attendance.show') }}"
-                                    class="sidebar-submenu__link">Instructor Attendance</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-menu__item has-dropdown">
-                        <a href="javascript:void(0)" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-coins"></i></span>
-                            <span class="text">Expenses</span>
-                        </a>
-                        <ul class="sidebar-submenu">
-                            <li class="sidebar-submenu__item">
-                                <a href="{{ route('admin.fixedExpenses') }}" class="sidebar-submenu__link">Fixed
-                                    Expenses</a>
-                            </li>
-                            <li class="sidebar-submenu__item">
-                                <a href="{{ route('admin.carExpenses') }}" class="sidebar-submenu__link">Car
-                                    Expenses</a>
-                            </li>
-                            <li class="sidebar-submenu__item">
-                                <a href="{{ route('admin.dailyExpenses') }}" class="sidebar-submenu__link">Daily
-                                    Expenses</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-menu__item">
-                        <a href="{{ route('admin.allSchedules') }}" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-calendar"></i></span>
-                            <span class="text">Class Schedule</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu__item">
-                        <a href="{{ route('admin.allLeaves') }}" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-calendar-plus"></i></span>
-                            <span class="text">Leaves</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu__item">
-                        <a href="{{ route('admin.allCars') }}" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-car"></i></span>
-                            <span class="text">Cars</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu__item">
-                        <a href="{{ route('admin.allEmployees') }}" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-user"></i></span>
-                            <span class="text">Employees</span>
-                        </a>
-                    </li>
 
-                    <!-- Sidebar links for mobile view -->
-                    <li class="sidebar-menu__item d-lg-none">
-                        <a href="{{ route('admin.allAdmissionForm') }}" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-file-text"></i></span>
-                            <span class="text">Admission</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu__item d-lg-none">
-                        <a href="{{ route('admin.allInvoices') }}" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-receipt"></i></span>
-                            <span class="text">Invoices</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu__item d-lg-none">
-                        <a href="{{ route('admin.allContact') }}" class="sidebar-menu__link">
-                            <span class="icon"><i class="ph ph-envelope"></i></span>
-                            <span class="text">Inquiries</span>
-                        </a>
-                    </li>
-
-                    <a href="{{ route('admin.allCoupons') }}" class="sidebar-menu__link">
-                        <span class="icon"><i class="ph ph-ticket"></i></span>
-                        <span class="text">Coupons</span>
-                    </a>
+                    @if (auth()->user()->hasRole('admin'))
+                        <!-- Admin Menu -->
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.dashboard') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-squares-four"></i></span>
+                                <span class="text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allAdmissionForms') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-file-text"></i></span>
+                                <span class="text">Admission</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allStudents') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-users-three"></i></span>
+                                <span class="text">Students</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allInstructors') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-users"></i></span>
+                                <span class="text">Instructors</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allInvoices') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-receipt"></i></span>
+                                <span class="text">Invoices</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allCourses') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-book"></i></span>
+                                <span class="text">Courses</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item has-dropdown">
+                            <a href="javascript:void(0)" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-calendar-check"></i></span>
+                                <span class="text">Attendance</span>
+                            </a>
+                            <ul class="sidebar-submenu">
+                                <li class="sidebar-submenu__item">
+                                    <a href="{{ route('student.attendance.show') }}"
+                                        class="sidebar-submenu__link">Student Attendance</a>
+                                </li>
+                                <li class="sidebar-submenu__item">
+                                    <a href="{{ route('instructor.attendance.show') }}"
+                                        class="sidebar-submenu__link">Instructor Attendance</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-menu__item has-dropdown">
+                            <a href="javascript:void(0)" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-coins"></i></span>
+                                <span class="text">Expenses</span>
+                            </a>
+                            <ul class="sidebar-submenu">
+                                <li class="sidebar-submenu__item">
+                                    <a href="{{ route('admin.fixedExpenses') }}" class="sidebar-submenu__link">Fixed
+                                        Expenses</a>
+                                </li>
+                                <li class="sidebar-submenu__item">
+                                    <a href="{{ route('admin.carExpenses') }}" class="sidebar-submenu__link">Car
+                                        Expenses</a>
+                                </li>
+                                <li class="sidebar-submenu__item">
+                                    <a href="{{ route('admin.dailyExpenses') }}" class="sidebar-submenu__link">Daily
+                                        Expenses</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allSchedules') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-calendar"></i></span>
+                                <span class="text">Class Schedule</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allLeaves') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-calendar-plus"></i></span>
+                                <span class="text">Leaves</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allCars') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-car"></i></span>
+                                <span class="text">Cars</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allEmployees') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-user"></i></span>
+                                <span class="text">Employees</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allCoupons') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-ticket"></i></span>
+                                <span class="text">Coupons</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allContact') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-envelope"></i></span>
+                                <span class="text">Inquiries</span>
+                            </a>
+                        </li>
+                    @elseif(auth()->user()->hasRole('instructor'))
+                        <!-- Instructor Menu -->
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('instructor.dashboard') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-squares-four"></i></span>
+                                <span class="text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('instructor.allLeaves') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-paper-plane"></i></span>
+                                <span class="text">Apply Leave</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('instructor.student.attendance.show') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-calendar-check"></i></span>
+                                <span class="text">Attendance</span>
+                            </a>
+                        </li>
+                    @elseif(auth()->user()->hasRole('student'))
+                        <!-- Student Menu -->
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('student.dashboard') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-squares-four"></i></span>
+                                <span class="text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('download.certificate') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-book"></i></span>
+                                <span class="text">Certificate</span>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>
-
     </aside>
     <!-- ============================ Sidebar End  ============================ -->
 
@@ -208,25 +231,17 @@
                 <button type="button" class="toggle-btn d-xl-none d-flex text-26 text-gray-500"><i
                         class="ph ph-list"></i></button>
                 <!-- Toggle Button End -->
-
-                <!-- Links in Navbar for Desktop View -->
-                <a href="{{ route('admin.allAdmissionForm') }}" class="sidebar-menu__link">
-                    <span class="icon"><i class="ph ph-file-text"></i></span>
-                    <span class="text">Admission</span>
-                </a>
-                <a href="{{ route('admin.allInvoices') }}" class="sidebar-menu__link">
-                    <span class="icon"><i class="ph ph-receipt"></i></span>
-                    <span class="text">Invoices</span>
-                </a>
-                <a href="{{ route('admin.allContact') }}" class="sidebar-menu__link">
-                    <span class="icon"><i class="ph ph-envelope"></i></span>
-                    <span class="text">Inquiries</span>
-                </a>
             </div>
+
+            <h6 class="text-gray-600">
+                {{ \Carbon\Carbon::now()->setTimezone('Asia/Karachi')->format('l, F j, Y') }} -
+                {{ \Carbon\Carbon::now()->setTimezone('Asia/Karachi')->format('g:i A') }}
+            </h6>
+
 
             <div class="flex-align gap-16">
                 <div class="flex-align gap-8">
-                    <!-- Notification Start -->
+                    <!-- Notification Dropdown -->
                     <div class="dropdown">
                         <button
                             class="dropdown-btn shaking-animation text-gray-500 w-40 h-40 bg-main-50 hover-bg-main-100 transition-2 rounded-circle text-xl flex-center"
@@ -244,8 +259,7 @@
                                             <h5 class="text-xl fw-semibold text-white mb-0">Notifications</h5>
                                             <div class="flex-align gap-12">
                                                 <button type="button"
-                                                    class="bg-white rounded-6 text-sm px-8 py-2 hover-text-primary-600">
-                                                    New </button>
+                                                    class="bg-white rounded-6 text-sm px-8 py-2 hover-text-primary-600">New</button>
                                                 <button type="button"
                                                     class="close-dropdown hover-scale-1 text-xl text-white"><i
                                                         class="ph ph-x"></i></button>
@@ -253,26 +267,26 @@
                                         </div>
                                     </div>
                                     <div class="p-24 max-h-270 overflow-y-auto scroll-sm">
-                                        <div class="d-flex align-items-start gap-12">
-                                            <img src="{{ asset('assets/images/thumbs/notification-img2.png') }}"
-                                                alt="" class="w-48 h-48 rounded-circle object-fit-cover">
-                                            <div class="">
-                                                <a href="#"
-                                                    class="fw-medium text-15 mb-0 text-gray-300 hover-text-main-600 text-line-2">Patrick
-                                                    added a comment on Design Assets - Smart Tags file:</a>
-                                                <span class="text-gray-200 text-13">2 mins ago</span>
+                                        @foreach ($notifications as $notification)
+                                            <div class="d-flex align-items-start gap-12">
+                                                <img src="{{ asset('assets/images/thumbs/notification-img2.png') }}"
+                                                    alt="" class="w-48 h-48 rounded-circle object-fit-cover">
+                                                <div class="">
+                                                    <a href="#"
+                                                        class="fw-medium text-15 mb-0 text-gray-300 hover-text-main-600 text-line-2">{{ $notification->data['message'] }}</a>
+                                                    <span
+                                                        class="text-gray-200 text-13">{{ $notification->created_at->diffForHumans() }}</span>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endforeach
                                     </div>
-                                    <a href="#"
-                                        class="py-13 px-24 fw-bold text-center d-block text-primary-600 border-top border-gray-100 hover-text-decoration-underline">
-                                        View All </a>
-
+                                    <a href="{{ route('notifications.all_notifications') }}"
+                                        class="py-13 px-24 fw-bold text-center d-block text-primary-600 border-top border-gray-100 hover-text-decoration-underline">View
+                                        All</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Notification Start -->
                 </div>
 
                 <!-- User Profile Start -->
@@ -295,7 +309,9 @@
                                         class="w-54 h-54 rounded-circle">
                                     <div class="">
                                         <h4 class="mb-0">{{ auth()->user()->name }}</h4>
-                                        <p class="fw-medium text-13 text-gray-200">Admin</p>
+                                        <p class="fw-medium text-13 text-gray-200">
+                                            {{ strtoupper(auth()->user()->getRoleNames()->first()) }}
+                                        </p>
                                     </div>
                                 </div>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal"
@@ -316,7 +332,7 @@
         <div class="dashboard-footer">
             <div class="flex-between flex-wrap gap-16">
                 <p class="text-gray-300 text-13 fw-normal"> &copy; Copyright King Driving School 2024, All Right
-                    Reserverd</p>
+                    Reserved</p>
                 <div class="flex-align flex-wrap gap-16">
                     <a href="https://www.goftechsolutions.com/" target="_blank"
                         class="text-gray-300 text-13 fw-normal hover-text-main-600 hover-text-decoration-underline">Developed
@@ -345,7 +361,7 @@
                         </div>
                         <!-- Logout Link -->
                         <div class="flex-align justify-content-end gap-8 mt-4">
-                            <a href="{{ route('admin.logout') }}" class="btn btn-main rounded-pill py-9">Logout</a>
+                            <a href="{{ route('logout') }}" class="btn btn-main rounded-pill py-9">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -510,6 +526,7 @@
         createChart('daily-sales', '#FF5733');
         createChart('monthly-sales', '#33FF57');
         createChart('yearly-sales', '#3357FF');
+        createChart('montly-fuel-expense', '#FA902F');
 
         // =========================== Single Line Chart End ===============================
 
@@ -732,7 +749,6 @@
         }
         // ========================== Export Js End ==============================
     </script>
-
 </body>
 
 </html>

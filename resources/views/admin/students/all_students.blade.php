@@ -1,4 +1,4 @@
-@extends('layout.admin-new')
+@extends('layout.layout')
 
 @section('content')
     <div class="dashboard-body">
@@ -69,7 +69,6 @@
                                     <span class="h6 mb-0 fw-medium text-gray-300"> {{ $student->course->car->make }}
                                         {{ $student->course->car->model }} -
                                         {{ $student->course->car->registration_number }} -
-                                        {{ $student->instructor->employee->user->name }}
                                         ({{ $student->course->duration_days }} Days)
                                     </span>
                                 </td>
@@ -116,8 +115,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <form id="deleteStudentForm" method="GET" action="">
+                        <form id="deleteStudentForm" method="POST" action="">
                             @csrf
+                            @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
@@ -143,9 +143,21 @@
 
     </div>
 
-    <!-- Script for passing student data to view modal -->
+    <!-- Script for passing student data to delete and view modals -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Delete modal
+            const deleteModal = document.getElementById('deleteModal');
+            deleteModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget; // Button that triggered the modal
+                const studentId = button.getAttribute('data-student-id'); // Get the student ID
+
+                // Set the form action URL
+                const form = document.getElementById('deleteStudentForm');
+                form.action = `/admin/students/delete/${studentId}`;
+            });
+
+            // View student modal
             const viewStudentModal = document.getElementById('viewStudentModal');
             viewStudentModal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget; // Button that triggered the modal

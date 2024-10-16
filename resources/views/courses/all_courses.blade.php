@@ -1,4 +1,4 @@
-@extends('layout.admin-new')
+@extends('layout.layout')
 
 @section('content')
     <div class="dashboard-body">
@@ -118,8 +118,8 @@
                             <select class="form-select" id="car_id" name="car_id" required>
                                 <option value="">Choose a Car</option>
                                 @foreach ($cars as $car)
-                                    <option value="{{ $car->id }}">{{ $car->registration_number }}
-                                        ({{ $car->make }})
+                                    <option value="{{ $car->id }}">{{ $car->make }} {{ $car->model }}
+                                        ({{ $car->registration_number }})
                                     </option>
                                 @endforeach
                             </select>

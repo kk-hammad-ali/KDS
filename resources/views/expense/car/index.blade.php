@@ -1,4 +1,4 @@
-@extends('layout.admin-new')
+@extends('layout.layout')
 
 @section('content')
     <div class="dashboard-body">
@@ -39,10 +39,11 @@
                     <tbody>
                         @foreach ($carExpenses as $expense)
                             <tr>
-                                <td>{{ $expense->car->make }} {{ $expense->car->model }}</td>
-                                <td>{{ ucfirst($expense->expense_type) }}</td>
-                                <td>{{ number_format($expense->amount, 2) }}</td>
-                                <td>{{ $expense->expense_date }}</td>
+                                <td class="h6 mb-0 fw-medium text-gray-300">{{ $expense->car->make }}
+                                    {{ $expense->car->model }}</td>
+                                <td class="h6 mb-0 fw-medium text-gray-300">{{ ucfirst($expense->expense_type) }}</td>
+                                <td class="h6 mb-0 fw-medium text-gray-300">{{ number_format($expense->amount, 2) }}</td>
+                                <td class="h6 mb-0 fw-medium text-gray-300">{{ $expense->expense_date }}</td>
                                 <td>
                                     <!-- Edit and Delete buttons -->
                                     <button type="button"
@@ -111,6 +112,7 @@
                                         <option value="" disabled selected>Select a car</option>
                                         @foreach ($cars as $car)
                                             <option value="{{ $car->id }}">{{ $car->make }} {{ $car->model }}
+                                                ({{ $car->registration_number }})
                                             </option>
                                         @endforeach
                                     </select>

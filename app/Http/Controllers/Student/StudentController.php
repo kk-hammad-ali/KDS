@@ -22,13 +22,14 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\Schedule\ScheduleController;
 use App\Http\Controllers\Invoice\InvoiceController;
 use Illuminate\Pagination\LengthAwarePaginator;
-
-
 use Carbon\Carbon;
+use App\Notifications\WelcomeNotification;
+use App\Notifications\NewStudentAssignedNotification;
+
+
 
 class StudentController extends Controller
 {
-
     protected $emailController;
     protected $scheduleController;
     protected $invoiceController;
@@ -57,17 +58,24 @@ class StudentController extends Controller
         return view('student.dashboard', compact('events', 'student', 'certificateAvailable', 'leaves'));
     }
 
-
-
     public function adminAllStudent()
     {
-        $students = Student::with('user')->paginate(10);
+        // Ensure only admin can access this function
+        if (!Auth::user()->hasRole('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
 
+        $students = Student::with('user') ->where('form_type', 'admin')->paginate(10);
         return view('admin.students.all_students', compact('students'));
     }
 
     public function adminAddStudent()
     {
+        // Ensure only admin can access this function
+        if (!Auth::user()->hasRole('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $instructors = Instructor::with('employee.user')->get();
         $courses = Course::all();
         $cars = Car::all();
@@ -77,7 +85,7 @@ class StudentController extends Controller
 
     public function adminStoreStudent(Request $request)
     {
-        // dd($request->all());
+        // Validate the incoming request
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'father_or_husband_name' => 'required|string|max:255',
@@ -103,8 +111,6 @@ class StudentController extends Controller
             'paid_by' => 'required|string|max:255',
             'amount_in_english' => 'required|string|max:255',
         ]);
-
-        // dd($request->all());
 
         // Calculate class end time
         $class_end_time = Carbon::parse($request->class_start_time)
@@ -132,8 +138,10 @@ class StudentController extends Controller
         // Create user
         $user = User::create([
             'name' => $validated['name'],
-            'password' => Hash::make("12345678"),
+            'password' => Hash::make("password"),
         ]);
+
+        $user->assignRole('student');
 
         // Create student
         $student = Student::create([
@@ -159,22 +167,24 @@ class StudentController extends Controller
             'form_type' => 'admin',
         ]);
 
-        // dd($student->course->car_id);
+        $user->notify(new WelcomeNotification($user));
 
+        $instructor = Instructor::find($request->instructor_id);
+        $instructor->employee->user->notify(new NewStudentAssignedNotification($student));
 
         // Create schedule
         $schedule = Schedule::create([
             'student_id' => $student->id,
             'instructor_id' => $request->instructor_id,
             'vehicle_id' => $student->course->car_id,
-            'class_date' => $request->admission_date,  // Start date
-            'class_end_date' => $course_end_date,      // End date
+            'class_date' => $request->admission_date,
+            'class_end_date' => $course_end_date,
             'start_time' => $request->class_start_time,
             'end_time' => $class_end_time,
         ]);
 
+        // Generate receipt number and create invoice
         $receiptNumber = $this->invoiceController->generateReceiptNumber();
-
 
         $invoice = Invoice::create([
             'schedule_id' => $schedule->id,
@@ -187,14 +197,19 @@ class StudentController extends Controller
             'amount_in_english' => $request->amount_in_english,
         ]);
 
+        // Send admission confirmation email
         $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
-
 
         return redirect()->route('admin.allStudents')->with('success_student', 'Student added successfully.');
     }
 
     public function adminEditStudent($id)
     {
+        // Ensure only admin can access this function
+        if (!Auth::user()->hasRole('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $student = Student::with('user')->findOrFail($id);
         $instructors = Employee::where('designation', 'instructor')->get();
         $cars = Car::all();
@@ -205,6 +220,7 @@ class StudentController extends Controller
 
     public function adminUpdateStudent(Request $request, $id)
     {
+        // Validate the incoming request
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'father_or_husband_name' => 'required|string|max:255',
@@ -212,7 +228,7 @@ class StudentController extends Controller
             'address' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'optional_phone' => 'nullable|string|max:15',
-            'email' => 'nullable|email|max:255', // Add email validation
+            'email' => 'nullable|email|max:255',
         ]);
 
         // Find student and user
@@ -231,24 +247,22 @@ class StudentController extends Controller
             'address' => $validated['address'],
             'phone' => $validated['phone'],
             'optional_phone' => $validated['optional_phone'],
-            'email' => $validated['email'] ?? null, // Add email field to the update
+            'email' => $validated['email'] ?? null,
         ]);
 
         return redirect()->route('admin.allStudents')->with('success', 'Student updated successfully.');
     }
 
-
-    /**
-     * Remove the specified student from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function adminDestroyStudent($id)
     {
+        // Ensure only admin can access this function
+        if (!Auth::user()->hasRole('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $student = Student::findOrFail($id);
 
-
+        // Delete related records
         $student->schedules()->delete();
         $student->attendances()->delete();
         $student->user()->delete();
@@ -259,14 +273,17 @@ class StudentController extends Controller
 
     public function instructorStudents()
     {
+        // Ensure only instructor can access this function
+        if (!Auth::user()->hasRole('instructor')) {
+            abort(403, 'Unauthorized action.');
+        }
 
         $instructor = auth()->user()->instructor;
 
-
-        $students = Student::with(['user', 'course'])
+        // Eager load course and car
+        $students = Student::with(['user', 'course.car'])
             ->where('instructor_id', $instructor->id)
             ->get();
-
 
         return response()->json([
             'students' => $students

@@ -12,10 +12,18 @@ use App\Models\Instructor;
 use App\Models\Student;
 use App\Models\Car;
 use Carbon\Carbon;
+use App\Http\Controllers\Schedule\ScheduleController;
 
 
 class DashboardController extends Controller
 {
+
+    protected $scheduleController;
+
+    public function __construct(ScheduleController $scheduleController)
+    {
+        $this->scheduleController = $scheduleController;
+    }
 
     public function index()
     {
@@ -27,12 +35,15 @@ class DashboardController extends Controller
         $data = $this->getInstructorsCarsAndTimeSlots();
         $currentCounts = $this->getCurrentCounts();
         $todaysClasses = $this->getTodaysClasses();
-        $carSchedules = $this->getAllCarSchedules();
+        $carSchedules = $this->scheduleController->getAllCarSchedules();
+        $instructorSchedules = $this->scheduleController->getAllInstructorSchedules();
 
-        return view('admin.dashboard-2', [
+
+        return view('admin.dashboard', [
             'todayExpense' => $expenses['today'],
             'monthlyExpense' => $expenses['monthly'],
             'yearlyExpense' => $expenses['yearly'],
+            'monthlyFuelExpense' => $expenses['monthly_fuel'],
             'todaySales' => $sales['today'],
             'monthlySales' => $sales['monthly'],
             'yearlySales' => $sales['yearly'],
@@ -49,6 +60,7 @@ class DashboardController extends Controller
             'timeSlots' => $data['timeSlots'],
             'todaysClasses' => $todaysClasses,
             'carSchedules' => $carSchedules['schedules'],
+            'instructorSchedules' => $instructorSchedules['schedules'],
             'today' => $carSchedules['today'],
         ]);
     }
@@ -69,10 +81,15 @@ class DashboardController extends Controller
             + FixedExpense::whereYear('expense_date', Carbon::now()->year)->sum('amount')
             + CarExpense::whereYear('expense_date', Carbon::now()->year)->sum('amount');
 
+        $monthlyFuelExpense = CarExpense::where('expense_type', 'fuel')
+        ->whereMonth('expense_date', Carbon::now()->month)
+        ->sum('amount');
+
         return [
             'today' => $todayExpense,
             'monthly' => $monthlyExpense,
             'yearly' => $yearlyExpense,
+            'monthly_fuel' =>$monthlyFuelExpense,
         ];
     }
 
@@ -179,82 +196,5 @@ class DashboardController extends Controller
 
        return $todaysClasses;
    }
-
-   private function getAllCarSchedules()
-   {
-       // Fetch all cars
-       $cars = Car::all();
-
-       // Initialize an array to hold car schedules
-       $carSchedules = [];
-
-       // Get today's date
-       $today = Carbon::today();
-
-       // Loop through each car
-       foreach ($cars as $car) {
-           // Fetch schedules with related student and instructor models for today
-           $schedules = Schedule::with(['student.user', 'instructor.employee.user'])
-               ->where('vehicle_id', $car->id)
-               ->where('class_date', '<=', $today) // Class starts before or on today
-               ->where('class_end_date', '>=', $today) // Class ends after or on today
-               ->get(['start_time', 'end_time', 'student_id', 'instructor_id', 'class_date', 'class_end_date']);
-
-           // Create time slots from 8 AM to 8 PM (30 minutes each)
-           $timeSlots = [];
-           $startTime = Carbon::createFromTime(8, 0); // 8:00 AM
-           $endTime = Carbon::createFromTime(20, 0); // 8:00 PM
-
-           while ($startTime < $endTime) {
-               $timeSlot = [
-                   'time' => $startTime->format('H:i'),
-                   'status' => 'available', // Default status is 'available'
-                   'student_name' => null,
-                   'instructor_name' => null,
-                   'class_date' => null,
-                   'end_date' => null,
-                   'address' => null, // Initialize address
-               ];
-
-               // Check if this time slot is booked
-               foreach ($schedules as $schedule) {
-                   $scheduleStart = Carbon::parse($schedule->start_time);
-                   $scheduleEnd = Carbon::parse($schedule->end_time);
-                   $classStartDate = Carbon::parse($schedule->class_date);
-                   $classEndDate = Carbon::parse($schedule->class_end_date);
-
-                   // Check if the current time slot falls within the schedule period
-                   if ($startTime >= $scheduleStart && $startTime < $scheduleEnd &&
-                       Carbon::now()->between($classStartDate, $classEndDate)) {
-                       $timeSlot['status'] = 'booked';
-                       $timeSlot['student_name'] = $schedule->student->user->name; // Fetch student name
-                       $timeSlot['instructor_name'] = $schedule->instructor->employee->user->name; // Fetch instructor name
-                       $timeSlot['class_date'] = $classStartDate->format('Y-m-d'); // Class start date
-                       $timeSlot['end_date'] = $classEndDate->format('Y-m-d'); // Class end date
-                       $timeSlot['address'] = $schedule->student->address; // Fetch pickup address
-                       break;
-                   }
-               }
-
-               $timeSlots[] = $timeSlot;
-               $startTime->addMinutes(30); // Move to the next 30-minute interval
-           }
-
-           // Add car schedule to the array
-           $carSchedules[] = [
-               'car' => $car->make . ' - ' . $car->registration_number,
-               'timeSlots' => $timeSlots,
-           ];
-       }
-
-       // Return the car schedules and today's date
-       return [
-           'schedules' => $carSchedules,
-           'today' => $today->format('l, F j, Y'), // Format today's date for display
-       ];
-   }
-
-
-
 }
 

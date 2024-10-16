@@ -23,6 +23,17 @@
                 </div>
             @endif
 
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+
             <div class="form-box contact-form">
                 <form method="post" action="{{ route('public.admission.store') }}" id="contact-form">
                     @csrf

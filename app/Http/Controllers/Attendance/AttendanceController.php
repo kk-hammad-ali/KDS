@@ -21,19 +21,18 @@ class AttendanceController extends Controller
      * Show form to mark attendance for students and instructors.
      */
 
-    public function markAttendanceForm()
-    {
-        $students = Student::all();
-        $instructors = Instructor::all();
-
-        return view('attendance.mark', compact('students', 'instructors'));
-    }
-
     /**
      * Store student attendance records.
      */
     public function showStudentAttendance()
     {
+
+        $date = Carbon::now()->format('Y-m-d');
+
+        // Fetch all students who are currently enrolled and have a non-null instructor_id
+        $students = Student::where('admission_date', '<=', $date)->where('course_end_date', '>=', $date)->whereNotNull('instructor_id')->get();
+        $instructors = Instructor::all();
+
         $events = [];
 
         // Fetch all attendance records with student relationships
@@ -56,7 +55,7 @@ class AttendanceController extends Controller
         }
 
         // Pass the $events array to the view
-        return view('attendance.student.student_attendance', compact('events'));
+        return view('attendance.student.student_attendance', compact('events','students', 'instructors','date'));
     }
 
 
@@ -101,6 +100,10 @@ class AttendanceController extends Controller
     {
         $events = [];
 
+        $instructors = Instructor::all();
+
+        $date = Carbon::now()->format('Y-m-d');
+
         // Fetch all attendance records with instructor relationships
         $attendances = Attendance::with('instructor.employee.user')->get();
 
@@ -121,7 +124,7 @@ class AttendanceController extends Controller
         }
 
         // Pass the $events array to the view
-        return view('attendance.instructor.insructor_attendance', compact('events'));
+        return view('attendance.instructor.insructor_attendance', compact('events','date','instructors'));
     }
 
     public function markTodayAttendance($date)
@@ -157,23 +160,6 @@ class AttendanceController extends Controller
 
         return redirect()->route('instructor.attendance.show')->with('success', 'Instructor attendance marked successfully.');
     }
-
-
-    // public function showInstructorStudentAttendance()
-    // {
-    //     $instructor = auth()->user()->instructor; // Fetch the logged-in instructor
-    //     $attendanceEvents = Attendance::whereHas('student', function ($query) use ($instructor) {
-    //         $query->where('instructor_id', $instructor->id);
-    //     })->get()->map(function ($attendance) {
-    //         return [
-    //             'title' => $attendance->student->user->name,
-    //             'start' => $attendance->attendance_date,
-    //             'attendance' => $attendance->student_present ? 'present' : 'absent',
-    //         ];
-    //     });
-
-    //     return view('attendance.instructor_student.student_attendance', compact('attendanceEvents'));
-    // }
 
     public function showInstructorStudentAttendance()
     {

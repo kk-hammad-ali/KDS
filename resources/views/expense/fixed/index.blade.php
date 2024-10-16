@@ -1,4 +1,4 @@
-@extends('layout.admin-new')
+@extends('layout.layout')
 
 @section('content')
     <div class="dashboard-body">
@@ -12,7 +12,7 @@
                     <li><span class="text-main-600 fw-normal text-15">Fixed Expenses</span></li>
                 </ul>
             </div>
-            <!-- Breadcrumb End -->
+
             <!-- Breadcrumb Right Start -->
             <div class="flex-align gap-8 flex-wrap">
                 <button type="button" class="btn btn-main text-sm btn-sm px-24 py-12 d-flex align-items-center gap-8"
@@ -20,6 +20,7 @@
                     <i class="ph ph-plus-circle text-xl"></i> Add Fixed Expense
                 </button>
             </div>
+            <!-- Breadcrumb End -->
         </div>
 
         <!-- Card with table -->
@@ -31,7 +32,6 @@
                             <th class="h6 text-gray-300">Type</th>
                             <th class="h6 text-gray-300">Amount</th>
                             <th class="h6 text-gray-300">Employee (Optional)</th>
-                            <th class="h6 text-gray-300">Status</th>
                             <th class="h6 text-gray-300">Date</th>
                             <th class="h6 text-gray-300">Actions</th>
                         </tr>
@@ -39,11 +39,11 @@
                     <tbody>
                         @foreach ($fixedExpenses as $expense)
                             <tr>
-                                <td>{{ $expense->expense_type }}</td>
-                                <td>{{ number_format($expense->amount, 2) }}</td>
-                                <td>{{ $expense->employee ? $expense->employee->user->name : 'N/A' }}</td>
-                                <td>{{ ucfirst($expense->status) }}</td>
-                                <td>{{ $expense->expense_date }}</td>
+                                <td class="h6 mb-0 fw-medium text-gray-300">{{ $expense->expense_type }}</td>
+                                <td class="h6 mb-0 fw-medium text-gray-300">{{ number_format($expense->amount, 2) }}</td>
+                                <td class="h6 mb-0 fw-medium text-gray-300">
+                                    {{ $expense->employee ? $expense->employee->user->name : 'N/A' }}</td>
+                                <td class="h6 mb-0 fw-medium text-gray-300">{{ $expense->expense_date }}</td>
                                 <td>
                                     <button type="button"
                                         class="bg-warning text-white py-2 px-14 rounded-pill hover-bg-warning-600"
@@ -119,20 +119,6 @@
                                     <input type="number" class="form-control @error('amount') is-invalid @enderror"
                                         id="amount" name="amount" required>
                                     @error('amount')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <!-- Status -->
-                                <div class="col-sm-12 mb-3">
-                                    <label for="status" class="h5 mb-8 fw-semibold font-heading">Status <span
-                                            class="text-13 text-gray-400 fw-medium">(Required)</span></label>
-                                    <select class="form-select @error('status') is-invalid @enderror" id="status"
-                                        name="status" required>
-                                        <option value="paid">Paid</option>
-                                        <option value="unpaid">Unpaid</option>
-                                    </select>
-                                    @error('status')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -218,20 +204,6 @@
                                     @enderror
                                 </div>
 
-                                <!-- Status -->
-                                <div class="col-sm-12 mb-3">
-                                    <label for="status_edit" class="h5 mb-8 fw-semibold font-heading">Status <span
-                                            class="text-13 text-gray-400 fw-medium">(Required)</span></label>
-                                    <select class="form-select @error('status') is-invalid @enderror" id="status_edit"
-                                        name="status" required>
-                                        <option value="paid">Paid</option>
-                                        <option value="unpaid">Unpaid</option>
-                                    </select>
-                                    @error('status')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
                                 <!-- Expense Date -->
                                 <div class="col-sm-12 mb-3">
                                     <label for="expense_date_edit" class="h5 mb-8 fw-semibold font-heading">Expense Date
@@ -242,6 +214,7 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
                             </div>
 
                             <br>
@@ -284,6 +257,7 @@
                 var expenseTypeField = document.getElementById('expense_type');
                 var employeeField = document.getElementById('employee_field');
 
+                // Show or hide the employee field based on the selected expense type for creating
                 expenseTypeField.addEventListener('change', function() {
                     if (expenseTypeField.value === 'Salary') {
                         employeeField.style.display = 'block';
@@ -295,6 +269,7 @@
                 var editExpenseTypeField = document.getElementById('expense_type_edit');
                 var employeeFieldEdit = document.getElementById('employee_field_edit');
 
+                // Show or hide the employee field based on the selected expense type for editing
                 editExpenseTypeField.addEventListener('change', function() {
                     if (editExpenseTypeField.value === 'Salary') {
                         employeeFieldEdit.style.display = 'block';
@@ -310,8 +285,8 @@
                     var id = button.getAttribute('data-id');
                     var expense_type = button.getAttribute('data-expense_type');
                     var amount = button.getAttribute('data-amount');
-                    var status = button.getAttribute('data-status');
-                    var expense_date = button.getAttribute('data-expense_date');
+                    var expense_date = button.getAttribute(
+                        'data-expense_date'); // Get the already formatted date
                     var employee_id = button.getAttribute('data-employee_id');
 
                     var form = document.getElementById('editFixedExpenseForm');
@@ -319,14 +294,15 @@
 
                     document.getElementById('expense_type_edit').value = expense_type;
                     document.getElementById('amount_edit').value = amount;
-                    document.getElementById('status_edit').value = status;
+
+                    // Set the date in the modal
                     document.getElementById('expense_date_edit').value = expense_date;
 
                     if (expense_type === 'Salary') {
-                        employeeFieldEdit.style.display = 'block';
+                        document.getElementById('employee_field_edit').style.display = 'block';
                         document.getElementById('employee_id_edit').value = employee_id;
                     } else {
-                        employeeFieldEdit.style.display = 'none';
+                        document.getElementById('employee_field_edit').style.display = 'none';
                     }
                 });
 

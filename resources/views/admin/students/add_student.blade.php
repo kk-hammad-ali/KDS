@@ -1,4 +1,4 @@
-@extends('layout.admin-new')
+@extends('layout.layout')
 
 @section('content')
     <div class="dashboard-body">
@@ -307,8 +307,7 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <label for="amount_received" class="h5 mb-8 fw-semibold font-heading">Total Amount
-                                    Received</label>
+                                <label for="amount_received" class="h5 mb-8 fw-semibold font-heading">Total Amount</label>
                                 <input type="number" class="form-control @error('amount_received') is-invalid @enderror"
                                     id="amount_received" name="amount_received" value="{{ old('amount_received') }}"
                                     placeholder="Total Amount" required>

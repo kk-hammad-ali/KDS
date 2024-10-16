@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Leave;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Leave;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\LeaveSubmittedNotification;
+use App\Notifications\LeaveStatusUpdatedNotification;
 
 class LeaveController extends Controller
 {
@@ -25,6 +28,9 @@ class LeaveController extends Controller
 
         $leave = Leave::findOrFail($request->leave_id);
         $leave->update(['status' => $request->status]);
+
+         // Notify the user about the leave status update
+        $leave->user->notify(new LeaveStatusUpdatedNotification($leave));
 
         // Set the success message based on the status
         $messageKey = $request->status == 'approved'
@@ -53,13 +59,22 @@ class LeaveController extends Controller
             'leave_reason' => 'required|string|max:255',
         ]);
 
-        Leave::create([
+        $leave = Leave::create([
             'user_id' => Auth::id(),
             'start_date' => $validated['start_date'],
             'end_date' => $validated['end_date'],
             'leave_reason' => $validated['leave_reason'],
             'status' => 'pending',
         ]);
+
+        // Notify the admin
+        $adminUser = User::whereHas('roles', function($query) {
+            $query->where('name', 'admin');
+        })->first();
+
+        if ($adminUser) {
+            $adminUser->notify(new LeaveSubmittedNotification($leave));
+        }
 
         return redirect()->route('instructor.allLeaves')->with('success_leave_stored', 'Leave application submitted successfully.');
     }
@@ -125,13 +140,21 @@ class LeaveController extends Controller
             'leave_reason' => 'required|string|max:255',
         ]);
 
-        Leave::create([
+        $leave = Leave::create([
             'user_id' => Auth::id(),
             'start_date' => $validated['start_date'],
             'end_date' => $validated['end_date'],
             'leave_reason' => $validated['leave_reason'],
             'status' => 'pending',
         ]);
+
+        $adminUser = User::whereHas('roles', function($query) {
+            $query->where('name', 'admin');
+        })->first();
+
+        if ($adminUser) {
+            $adminUser->notify(new LeaveSubmittedNotification($leave));
+        }
 
         return redirect()->route('student.dashboard')->with('success_leave_stored', 'Leave application submitted successfully.');
     }

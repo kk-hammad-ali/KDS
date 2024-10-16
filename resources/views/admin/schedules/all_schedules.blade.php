@@ -1,4 +1,4 @@
-@extends('layout.admin-new')
+@extends('layout.layout')
 
 @section('content')
     <div class="dashboard-body">
@@ -23,84 +23,76 @@
         </div>
         <!-- Calendar Section End -->
 
-        <!-- Table Section Start -->
-        <div class="card overflow-hidden mt-5">
-            <div class="card-body p-0 overflow-x-auto">
-                <table id="scheduleTable" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th class="fixed-width">
-                                <div class="form-check">
-                                    <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
-                                        id="selectAll">
-                                </div>
-                            </th>
-                            <th class="h6 text-gray-300">#</th>
-                            <th class="h6 text-gray-300">Student Name</th>
-                            <th class="h6 text-gray-300">Instructor Name</th>
-                            <th class="h6 text-gray-300">Vehicle</th>
-                            <th class="h6 text-gray-300">Class Date</th>
-                            <th class="h6 text-gray-300">Start Time</th>
-                            <th class="h6 text-gray-300">End Time</th>
-                            <th class="h6 text-gray-300">Course End Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($schedules as $schedule)
-                            <tr>
-                                <td class="fixed-width">
-                                    <div class="form-check">
-                                        <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="flex-align gap-8">
-                                        <span class="h6 mb-0 fw-medium text-gray-300">{{ $loop->iteration }}</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span
-                                        class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->student->user->name }}</span>
-                                </td>
-                                <td>
-                                    <span
-                                        class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->instructor->employee->user->name }}</span>
-                                </td>
-                                <td>
-                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->vehicle->make }}
-                                        {{ $schedule->vehicle->model }}</span>
-                                </td>
-                                <td>
-                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->class_date }}</span>
-                                </td>
-                                <td>
-                                    <span
-                                        class="h6 mb-0 fw-medium text-gray-300">{{ \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') }}</span>
-                                </td>
-                                <td>
-                                    <span
-                                        class="h6 mb-0 fw-medium text-gray-300">{{ \Carbon\Carbon::parse($schedule->end_time)->format('h:i A') }}</span>
-                                </td>
-                                <td>
-                                    <span
-                                        class="h6 mb-0 fw-medium text-gray-300">{{ $schedule->student->course_end_date }}</span>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer flex-between flex-wrap">
-                <span class="text-gray-900">
-                    Showing {{ $schedules->firstItem() }} to {{ $schedules->lastItem() }} of {{ $schedules->total() }}
-                    entries
-                </span>
-
-                <!-- Default pagination links -->
-                {{ $schedules->links() }}
+        <div class="row gy-4 ">
+            <div class="col-lg-12">
+                <div class="card overflow-hidden mt-24 p-20">
+                    <div class="card-body p-0 overflow-x-auto">
+                        <h5 class="mb-20">Car Schedules for {{ $today }}</h5>
+                        <div style="max-height: 500px; overflow-y: auto; overflow-x: scroll;">
+                            <table id="carSchedulesTable" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="h6 text-gray-300">Car</th>
+                                        @for ($i = 8; $i < 20; $i++)
+                                            <th class="h6 text-gray-300">{{ $i }}:00</th>
+                                            <th class="h6 text-gray-300">{{ $i }}:30</th>
+                                        @endfor
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($carSchedules as $carSchedule)
+                                        <tr>
+                                            <td class="h6 text-gray-300">{{ $carSchedule['car'] }}</td>
+                                            @foreach ($carSchedule['timeSlots'] as $slot)
+                                                @if ($slot['status'] == 'booked')
+                                                    <td data-student-name="{{ $slot['student_name'] }}"
+                                                        data-instructor-name="{{ $slot['instructor_name'] }}"
+                                                        data-class-date="{{ $slot['class_date'] }}"
+                                                        data-end-date="{{ $slot['end_date'] }}"
+                                                        data-pickup-address="{{ $slot['address'] }}"
+                                                        style="cursor: pointer;">
+                                                        <!-- Add pointer cursor -->
+                                                        <span
+                                                            style="background-color: var(--bs-warning); border-radius:10px; padding: 4px;"
+                                                            class="h6 text-dark">B</span>
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        <span class="h6 text-dark">A</span>
+                                                    </td>
+                                                @endif
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- Table Section End -->
+
+        <!-- Modal to show booking details -->
+        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailsModalLabel">Booking Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Student Name:</strong> <span id="modal-student-name"></span></p>
+                        <p><strong>Instructor Name:</strong> <span id="modal-instructor-name"></span></p>
+                        <p><strong>Class Date:</strong> <span id="modal-class-date"></span></p>
+                        <p><strong>End Date:</strong> <span id="modal-end-date"></span></p>
+                        <p><strong>Pickup Address:</strong> <span id="modal-pickup-address"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         var events = @json($events);

@@ -83,8 +83,9 @@ class InstructorController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'password' => Hash::make($request->password),
-                'role' => 1, // Assuming 1 is for Instructor
             ]);
+
+            $user->assignRole('instructor');
 
             // Handle Picture Upload
             $picturePath = null;

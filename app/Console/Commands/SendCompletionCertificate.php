@@ -5,7 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Student;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\CompletionMail; // New Mailable for completion
+use App\Mail\CompletionMail;
+use App\Notifications\CourseCompletedNotification;
 use PDF;
 
 class SendCompletionCertificate extends Command
@@ -24,7 +25,7 @@ class SendCompletionCertificate extends Command
         $students = Student::whereDate('course_end_date', today())->get();
 
         foreach ($students as $student) {
-            // // Generate PDF from the certificate Blade view
+            // Generate PDF from the certificate Blade view
             // $pdf = PDF::loadView('mail.my_certificate', compact('student'))->setPaper('a4', 'portrait');
 
             // Prepare email details and send the email
@@ -35,9 +36,13 @@ class SendCompletionCertificate extends Command
             // Send the email with PDF attached
             Mail::to($student->email)->send(new CompletionMail($details));
 
-            $this->info("Completion certificate sent to: " . $student->email);
+            // Notify the student about course completion
+            $student->user->notify(new CourseCompletedNotification($student));
+
+            $this->info("Completion certificate and notification sent to: " . $student->email);
         }
 
         return Command::SUCCESS;
     }
+
 }

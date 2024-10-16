@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Instructor;
 use App\Models\Course;
-use App\Models\Car;
+// use App\Models\Car;
 
 class Student extends Model
 {
@@ -54,11 +54,11 @@ class Student extends Model
         return $this->belongsTo(Course::class);
     }
 
-    // Define relationship with Vehicle (Car)
-    public function vehicle()
-    {
-        return $this->belongsTo(Car::class);
-    }
+    // // Define relationship with Vehicle (Car)
+    // public function vehicle()
+    // {
+    //     return $this->belongsTo(Car::class);
+    // }
 
     // Define relationship with Schedule
     public function schedules()

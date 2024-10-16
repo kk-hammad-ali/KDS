@@ -51,7 +51,6 @@ class EmployeeController extends Controller
         $user = User::create([
             'name' => $request->name,
             'password' => Hash::make($request->password),
-            'role' => 1, // Assuming 1 is for employee role
         ]);
 
 
@@ -82,6 +81,7 @@ class EmployeeController extends Controller
 
         // If the designation is Instructor, create an instructor entry
         if ($request->designation == 'Instructor') {
+            $user->assignRole('instructor');
             Instructor::create([
                 'employee_id' => $employee->id,
                 'license_city' => $request->license_city,

@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Student;
-use App\Models\Employee;
 use App\Models\Schedule;
 use App\Models\Course;
 use App\Models\Coupon;
-use Illuminate\Validation\Rule;
 use App\Models\Instructor;
 use App\Models\Invoice;
 use App\Models\User;
@@ -19,10 +17,14 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Invoice\InvoiceController;
 use App\Http\Controllers\EmailController;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\NewAdmissionForm;
+use App\Notifications\WelcomeNotification;
+use App\Notifications\NewStudentAssignedNotification;
+
 
 class AdmissionFormController extends Controller
 {
-
     protected $emailController;
     protected $invoiceController;
 
@@ -39,18 +41,18 @@ class AdmissionFormController extends Controller
         return view('public.admission.admission', compact('courses', 'cars'));
     }
 
-    public function adminallAdmssionForm()
+    public function adminAllAdmissionForm()
     {
-        $students = Student::where('form_type', 'admission')->paginate(10);;
+        $students = Student::where('form_type', 'admission')->paginate(10);
         $instructors = Instructor::with('employee.user')->get();
         $courses = Course::all();
         $cars = Car::all();
-        return view('admin.students.admisson_form', compact('students', 'courses', 'cars', 'instructors'));
+        return view('admin.students.admission_form', compact('students', 'courses', 'cars', 'instructors'));
     }
 
     public function store(Request $request)
     {
-
+        // dd('Notification NOT reached!');
         // Validate the request data
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -59,20 +61,27 @@ class AdmissionFormController extends Controller
             'phone' => 'required|string|max:15',
             'address' => 'required|string|max:255',
             'secondary_phone' => 'nullable|string|max:15',
+            'email' => 'nullable|email|max:255|unique:students,email',
             'course_id' => 'required|exists:courses,id',
             'fees' => 'required|numeric',
             'course_duration' => 'required|integer',
-            'email' => 'nullable|email|max:255|unique:students,email',
         ]);
+
+
 
         // Create user
         $user = User::create([
             'name' => $validated['name'],
-            'password' => Hash::make("12345678"), // Default password
+            'password' => Hash::make("password"), // Default password
         ]);
 
+        // Assign role to user as student
+        $user->assignRole('student');
+
+
+
         // Create student entry
-        Student::create([
+        $student = Student::create([
             'user_id' => $user->id,
             'father_or_husband_name' => $validated['father_husband_name'],
             'cnic' => $validated['cnic'],
@@ -94,6 +103,19 @@ class AdmissionFormController extends Controller
             'course_end_date' => now()->addDays($validated['course_duration']),
             'form_type' => 'admission',
         ]);
+
+
+
+        // Notify the admin
+        $adminUser = User::whereHas('roles', function($query) {
+            $query->where('name', 'admin');
+        })->first();
+
+        if ($adminUser) {
+            $adminUser->notify(new NewAdmissionForm($student));
+        }
+
+        // dd('Notification block reached!');
 
         // Redirect back with success message
         return redirect()->route('public.admission.form')->with('success', 'Application submitted successfully.');
@@ -117,8 +139,6 @@ class AdmissionFormController extends Controller
             'amount_in_english' => 'required|string|max:255',
         ]);
 
-        // dd($request->all());
-
         // Find the student by ID
         $student = Student::findOrFail($id);
 
@@ -129,7 +149,7 @@ class AdmissionFormController extends Controller
 
         // Calculate course end date based on course duration
         $course_end_date = Carbon::parse($request->admission_date)
-            ->addDays((int) $student->course->duration_days)
+            ->addDays((int)$student->course->duration_days)
             ->format('Y-m-d');
 
         // Check for overlapping schedule
@@ -144,8 +164,6 @@ class AdmissionFormController extends Controller
         if ($overlappingSchedule) {
             return redirect()->back()->withErrors(['error' => 'The selected time slot or car is already booked.'])->withInput();
         }
-
-        // dd($student->course->car_id);
 
         // Update student
         $student->update([
@@ -167,7 +185,7 @@ class AdmissionFormController extends Controller
         $schedule = Schedule::create([
             'student_id' => $student->id,
             'instructor_id' => $request->instructor_id,
-            'vehicle_id' =>  $student->course->car_id,
+            'vehicle_id' => $student->course->car_id,
             'class_date' => $request->admission_date,  // Start date
             'class_end_date' => $course_end_date,      // End date
             'start_time' => $request->class_start_time,
@@ -175,7 +193,6 @@ class AdmissionFormController extends Controller
         ]);
 
         $receiptNumber = $this->invoiceController->generateReceiptNumber();
-
 
         $invoice = Invoice::create([
             'schedule_id' => $schedule->id,
@@ -191,8 +208,11 @@ class AdmissionFormController extends Controller
         // Send admission confirmation email
         $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
 
+        $student->user->notify(new WelcomeNotification($student));
+        $instructor = Instructor::find($request->instructor_id);
+        $instructor->employee->user->notify(new NewStudentAssignedNotification($student));
+
         // Redirect with success message
         return redirect()->route('admin.allStudents')->with('success_student', 'Student updated successfully.');
     }
-
 }

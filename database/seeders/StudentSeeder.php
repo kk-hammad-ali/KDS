@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -10,6 +11,9 @@ use App\Models\Instructor;
 use App\Models\Car;
 use App\Models\Schedule;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use App\Notifications\WelcomeNotification; // Import WelcomeNotification
+use App\Notifications\NewStudentAssignedNotification; // Import NewStudentAssignedNotification
 
 class StudentSeeder extends Seeder
 {
@@ -30,9 +34,10 @@ class StudentSeeder extends Seeder
             // Create a user for the student
             $user = User::create([
                 'name' => "Student $i",
-                'password' => bcrypt('password123'),
-                'role' => 2, // Assuming role 2 is Student
+                'password' => Hash::make('password123'),
             ]);
+            // Assign Student role
+            $user->assignRole('student');
 
             // Set up random values for course and schedule
             $admission_date = now()->subMonths($i);
@@ -54,7 +59,6 @@ class StudentSeeder extends Seeder
             $class_start_time = $slots[array_rand($slots)];
             $class_end_time = Carbon::parse($class_start_time)->addMinutes($class_duration)->format('H:i:s');
             $course_end_date = Carbon::parse($admission_date)->addDays($course_duration)->format('Y-m-d');
-
 
             // Create the student record
             $student = Student::create([
@@ -90,6 +94,15 @@ class StudentSeeder extends Seeder
                 'start_time' => $class_start_time,
                 'end_time' => $class_end_time,
             ]);
+
+            // Notify the student with a welcome notification
+            $user->notify(new WelcomeNotification($student));
+
+            // Notify the assigned instructor about the new student
+            $instructor = $student->instructor; // Get the assigned instructor
+            if ($instructor) {
+                $instructor->employee->user->notify(new NewStudentAssignedNotification($student));
+            }
         }
     }
 }

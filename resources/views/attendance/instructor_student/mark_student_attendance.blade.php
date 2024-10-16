@@ -1,4 +1,4 @@
-@extends('layout.instructor-new')
+@extends('layout.layout')
 
 @section('content')
     <div class="dashboard-body">

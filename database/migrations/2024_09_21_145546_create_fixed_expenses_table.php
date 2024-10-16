@@ -12,7 +12,6 @@ return new class extends Migration {
             $table->string('expense_type'); // Rent, Salary, Utilities, etc.
             $table->decimal('amount', 10, 2);
             $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('cascade'); // Optional for salary
-            $table->enum('status', ['paid', 'unpaid'])->default('unpaid');
             $table->date('expense_date');
             $table->timestamps();
         });

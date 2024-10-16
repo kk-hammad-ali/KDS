@@ -92,6 +92,16 @@
                 margin: 0;
                 box-shadow: none;
             }
+
+            /* Hide the buttons when printing */
+            .buttons {
+                display: none;
+            }
+        }
+
+        /* Hide the buttons for PDF generation */
+        .no-print {
+            display: none;
         }
     </style>
 </head>
@@ -100,8 +110,8 @@
 
     <div class="invoice-box">
         <div class="buttons">
-            <button class="btn btn-primary" onclick="window.print();">Print Invoice</button>
-            <button class="btn btn-secondary" onclick="downloadPDF();">Download Invoice</button>
+            <button class="btn btn-primary no-print" onclick="window.print();">Print Invoice</button>
+            <button class="btn btn-secondary no-print" onclick="downloadPDF();">Download Invoice</button>
         </div>
         <br>
 
@@ -111,7 +121,7 @@
                     <table>
                         <tr>
                             <td>
-                                <img src="{{ asset('public/images/logo.png') }}" class="logo"
+                                <img src="{{ asset('main/images/logo.png') }}" class="logo"
                                     alt="King Driving School Logo">
                             </td>
                             <td>
@@ -197,7 +207,9 @@
                     orientation: 'portrait'
                 }
             };
-            html2pdf().from(element).set(opt).save();
+            html2pdf().from(element).set(opt).toPdf().get('pdf').then(function(pdf) {
+                pdf.internal.pageSize.height = pdf.internal.pageSize.height + 10; // Adjust for page size
+            }).save();
         }
     </script>
 
