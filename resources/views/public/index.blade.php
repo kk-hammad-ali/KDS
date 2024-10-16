@@ -97,7 +97,7 @@
                             <div class="content">
                                 <div class="clearfix">
                                     <div class="inner">
-                                        <h1><span>King Driving School - kds</span></h1>
+                                        <h1><span>King Driving School - KDS</span></h1>
                                         <div class="text">High-Quality Driving Schools in Islamabad</div>
                                         <div class="links-box clearfix">
                                             <div class="link"><a href="{{ route('public.about') }}"
@@ -144,7 +144,7 @@
                         <div class="title-box style-two">
                             <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}"
                                     alt=""></div>
-                            <h2><span>Welcome To King <br>Driving School</span></h2>
+                            <h2><span>Welcome To King <br>Driving School (KDS)</span></h2>
                         </div>
                         <div class="row clearfix">
                             <!-- Block -->
