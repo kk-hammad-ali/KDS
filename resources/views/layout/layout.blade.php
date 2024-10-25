@@ -63,6 +63,14 @@
             class="sidebar-close-btn text-gray-500 hover-text-white hover-bg-main-600 text-md w-24 h-24 border border-gray-100 hover-border-main-600 d-xl-none d-flex flex-center rounded-circle position-absolute">
             <i class="ph ph-x"></i></button>
 
+        <!-- Date and Time for Mobile -->
+        <div class="text-center mt-3 d-xl-none m-5">
+            <h6 class="text-gray-600">
+                {{ \Carbon\Carbon::now()->setTimezone('Asia/Karachi')->format('l, F j, Y') }} -
+                {{ \Carbon\Carbon::now()->setTimezone('Asia/Karachi')->format('g:i A') }}
+            </h6>
+        </div>
+
         <!-- Logo -->
         <a href="{{ auth()->user()->hasRole('admin') ? route('admin.dashboard') : (auth()->user()->hasRole('instructor') ? route('instructor.dashboard') : route('student.dashboard')) }}"
             class="sidebar__logo text-center p-20 position-sticky inset-block-start-0 bg-white w-100 z-1 pb-10">
@@ -72,7 +80,6 @@
         <div class="sidebar-menu-wrapper overflow-y-auto scroll-sm">
             <div class="p-20 pt-10">
                 <ul class="sidebar-menu">
-
                     @if (auth()->user()->hasRole('admin'))
                         <!-- Admin Menu -->
                         <li class="sidebar-menu__item">
@@ -183,6 +190,50 @@
                                 <span class="text">Inquiries</span>
                             </a>
                         </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allBranches') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-building"></i></span>
+                                <span class="text">Branches</span>
+                            </a>
+                        </li>
+                    @elseif(auth()->user()->hasRole('manager'))
+                        <!-- Manager Menu -->
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.dashboard') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-squares-four"></i></span>
+                                <span class="text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allStudents') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-users-three"></i></span>
+                                <span class="text">Students</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allInstructors') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-users"></i></span>
+                                <span class="text">Instructors</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item">
+                            <a href="{{ route('admin.allCourses') }}" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-book"></i></span>
+                                <span class="text">Courses</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item has-dropdown">
+                            <a href="javascript:void(0)" class="sidebar-menu__link">
+                                <span class="icon"><i class="ph ph-coins"></i></span>
+                                <span class="text">Expenses</span>
+                            </a>
+                            <ul class="sidebar-submenu">
+                                <li class="sidebar-submenu__item">
+                                    <a href="{{ route('admin.dailyExpenses') }}" class="sidebar-submenu__link">Daily
+                                        Expenses</a>
+                                </li>
+                            </ul>
+                        </li>
                     @elseif(auth()->user()->hasRole('instructor'))
                         <!-- Instructor Menu -->
                         <li class="sidebar-menu__item">
@@ -233,7 +284,8 @@
                 <!-- Toggle Button End -->
             </div>
 
-            <h6 class="text-gray-600">
+            <!-- Date and Time for Desktop -->
+            <h6 class="text-gray-600 d-none d-xl-block">
                 {{ \Carbon\Carbon::now()->setTimezone('Asia/Karachi')->format('l, F j, Y') }} -
                 {{ \Carbon\Carbon::now()->setTimezone('Asia/Karachi')->format('g:i A') }}
             </h6>
@@ -290,6 +342,7 @@
                 </div>
 
                 <!-- User Profile Start -->
+                <!-- User Profile Start -->
                 <div class="dropdown">
                     <button
                         class="users arrow-down-icon border border-gray-200 rounded-pill p-4 d-inline-block pe-40 position-relative"
@@ -314,6 +367,23 @@
                                         </p>
                                     </div>
                                 </div>
+
+                                <!-- Branch Switcher for Admin -->
+                                @if (auth()->user()->hasRole('admin'))
+                                    <form action="{{ route('branch.switch') }}" method="POST">
+                                        @csrf
+                                        <select name="branch_id" onchange="this.form.submit()" class="form-select">
+                                            @foreach ($branches as $branch)
+                                                <option value="{{ $branch->id }}"
+                                                    {{ auth()->user()->current_branch_id == $branch->id ? 'selected' : '' }}>
+                                                    {{ $branch->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                @endif
+
+
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal"
                                     class="py-12 text-15 px-20 hover-bg-danger-50 text-gray-300 hover-text-danger-600 rounded-8 flex-align gap-8 fw-medium text-15">
                                     <span class="text-2xl text-danger-600 d-flex"><i

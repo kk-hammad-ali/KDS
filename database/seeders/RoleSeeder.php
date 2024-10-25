@@ -9,9 +9,9 @@ class RoleSeeder extends Seeder
 {
     public function run()
     {
-        // Create roles only if they don't exist
         Role::firstOrCreate(['name' => 'admin']);
         Role::firstOrCreate(['name' => 'instructor']);
         Role::firstOrCreate(['name' => 'student']);
+        Role::firstOrCreate(['name' => 'manager']);
     }
 }

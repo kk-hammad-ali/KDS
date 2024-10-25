@@ -103,6 +103,21 @@
                             @enderror
                         </div>
 
+                        <div class="col-sm-6">
+                            <label for="branch_id" class="h5 mb-8 fw-semibold font-heading">Assign Branch</label>
+                            <select class="form-select @error('branch_id') is-invalid @enderror" id="branch_id"
+                                name="branch_id">
+                                <option value="" disabled selected>Select branch</option>
+                                @foreach ($branches as $branch)
+                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('branch_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
                         <!-- Instructor-specific Fields (hidden by default) -->
                         <div id="instructorFields" class="row gy-20" style="display: none;">
                             <!-- License City -->
@@ -119,7 +134,8 @@
                             <div class="col-sm-6">
                                 <label for="license_start_date" class="h5 mb-8 fw-semibold font-heading">License Start
                                     Date</label>
-                                <input type="date" class="form-control @error('license_start_date') is-invalid @enderror"
+                                <input type="date"
+                                    class="form-control @error('license_start_date') is-invalid @enderror"
                                     id="license_start_date" name="license_start_date">
                                 @error('license_start_date')
                                     <div class="text-danger">{{ $message }}</div>
@@ -130,7 +146,8 @@
                             <div class="col-sm-6">
                                 <label for="license_end_date" class="h5 mb-8 fw-semibold font-heading">License End
                                     Date</label>
-                                <input type="date" class="form-control @error('license_end_date') is-invalid @enderror"
+                                <input type="date"
+                                    class="form-control @error('license_end_date') is-invalid @enderror"
                                     id="license_end_date" name="license_end_date">
                                 @error('license_end_date')
                                     <div class="text-danger">{{ $message }}</div>
@@ -157,7 +174,6 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
                         </div>
 
                         <!-- Profile Picture -->

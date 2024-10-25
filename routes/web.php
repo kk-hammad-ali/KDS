@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Public\AboutController;
 use App\Http\Controllers\Public\ContactController;
-use App\Http\Controllers\Public\BranchController;
+use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\Public\GalleryController;
 use App\Http\Controllers\Public\CourseController;
 use App\Http\Controllers\Public\BlogController;
@@ -26,6 +26,7 @@ use App\Http\Controllers\Leave\LeaveController;
 use App\Http\Controllers\Schedule\ScheduleController;
 use App\Http\Controllers\Attendance\AttendanceController;
 use App\Http\Controllers\Notification\NotificationController;
+use App\Http\Controllers\Manager\ManagerController;
 
 // Main website
 Route::get('/', function () {
@@ -63,6 +64,9 @@ Route::middleware(['auth'])->group(function () {
 
 // Admin Routes
 Route::middleware(['role:admin'])->group(function () {
+
+    Route::post('/switch-branch', [BranchController::class, 'switchBranch'])->name('branch.switch');
+
     Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('admin/contact', [ContactController::class, 'adminallContact'])->name('admin.allContact');
     Route::get('/admin/admission-forms', [AdmissionFormController::class, 'adminAllAdmissionForm'])->name('admin.allAdmissionForms');
@@ -164,7 +168,12 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/invoices', [InvoiceController::class, 'index'])->name("admin.allInvoices");
     Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
 
-
+    // Branch Routes
+    Route::get('/admin/branch', [BranchController::class, 'adminindex'])->name('admin.allBranches');
+    Route::post('/admin/branch/store', [BranchController::class, 'store'])->name('admin.branches.store');
+    Route::get('/admin/branch/edit/{id}', [BranchController::class, 'edit'])->name('admin.branches.edit');
+    Route::put('/admin/branch/update/{id}', [BranchController::class, 'update'])->name('admin.branches.update');
+    Route::delete('/admin/branch/delete/{id}', [BranchController::class, 'destroy'])->name('admin.branches.delete');
 });
 
 // Instructor Routes
@@ -201,6 +210,12 @@ Route::middleware(['role:student'])->group(function () {
     Route::put('/student/leaves/{leave}', [LeaveController::class, 'updateLeaveStudent'])->name('student.updateLeave');
     Route::delete('/student/leaves/delete/{leave}', [LeaveController::class, 'destroyStudentLeave'])->name('student.deleteLeave');
 });
+
+// Manager Routes
+Route::middleware(['role:manager'])->group(function () {
+    Route::get('/manager/dashboard', [ManagerController::class, 'index'])->name('manager.dashboard');
+});
+
 
 
     // Route::get('/send-whatsapp', function () {

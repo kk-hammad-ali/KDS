@@ -3,6 +3,14 @@
 @section('content')
     <div class="dashboard-body">
         <div class="row gy-4">
+
+            <!-- Dummy Text to Test Branch Switch -->
+            <div class="alert alert-info mt-3">
+                @if (auth()->user()->current_branch_id && auth()->user()->currentBranch)
+                    <strong>Current Branch:</strong> {{ auth()->user()->currentBranch->name }}
+                @endif
+            </div>
+
             <div class="row g-4">
                 <!-- Total Students Card -->
                 <div class="col-xxl-3 col-sm-3">

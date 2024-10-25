@@ -30,6 +30,8 @@ class SignInController extends Controller
                 return redirect()->route('instructor.dashboard');
             } elseif ($user->hasRole('student')) {
                 return redirect()->route('student.dashboard');
+            } elseif ($user->hasRole('manager')) {
+                return redirect()->route('manager.dashboard');
             } else {
                 return redirect('/signin')->withErrors(['role' => 'Unauthorized role.']);
             }
