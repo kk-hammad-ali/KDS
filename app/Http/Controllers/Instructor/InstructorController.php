@@ -10,17 +10,20 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Schedule\ScheduleController;
+use App\Http\Controllers\EmailController;
 
 class InstructorController extends Controller
 {
 
     protected $studentController;
     protected $scheduleController;
+    protected $emailController;
 
-    public function __construct(StudentController $studentController, ScheduleController $scheduleController)
+    public function __construct(StudentController $studentController, ScheduleController $scheduleController, EmailController $emailController)
     {
         $this->studentController = $studentController;
         $this->scheduleController = $scheduleController;
+        $this->emailController = $emailController;
     }
 
     public function index()
@@ -59,6 +62,7 @@ class InstructorController extends Controller
 
     public function adminStoreInstructor(Request $request)
     {
+            // dd($request->all());
             // Enhanced validation with custom error messages
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
@@ -107,7 +111,7 @@ class InstructorController extends Controller
             ]);
 
             // Create Instructor
-            Instructor::create([
+            $instructor = Instructor::create([
                 'employee_id' => $employee->id,
                 'license_city' => $request->license_city,
                 'license_start_date' => $request->license_start_date,
@@ -115,6 +119,8 @@ class InstructorController extends Controller
                 'experience' => $request->experience,
                 'license_number' => $request->license_number,
             ]);
+
+            $this->emailController->sendInstructorWelcome($instructor, $user->name, $request->password);
 
             return redirect()->route('admin.allInstructors')->with('success_instructor', 'Instructor added successfully.');
     }

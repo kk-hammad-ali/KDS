@@ -5,9 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
-    <meta name="x-apple-disable-message-reformatting"> <!-- Disable auto-scale in iOS 10 Mail entirely -->
-    <title>Admission Confirmation - King Driving School</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="x-apple-disable-message-reformatting">
+    <title>Welcome to King Driving School - Instructor</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,500" rel="stylesheet">
     <style>
         html,
@@ -21,10 +21,6 @@
         * {
             -ms-text-size-adjust: 100%;
             -webkit-text-size-adjust: 100%;
-        }
-
-        div[style*="margin: 16px 0"] {
-            margin: 0 !important;
         }
 
         table,
@@ -73,84 +69,28 @@
                 min-width: 375px !important;
             }
         }
-    </style>
-    <style>
-        .button-td,
-        .button-a {
-            transition: all 100ms ease-in;
-        }
 
-        .button-td:hover,
-        .button-a:hover {
-            background: #555555 !important;
-            border-color: #555555 !important;
-        }
-
-        @media screen and (max-width: 480px) {
-            .fluid {
-                width: 100% !important;
-                max-width: 100% !important;
-                height: auto !important;
-                margin-left: auto !important;
-                margin-right: auto !important;
-            }
-
-            .stack-column,
-            .stack-column-center {
-                display: block !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                direction: ltr !important;
-            }
-
-            .stack-column-center {
-                text-align: center !important;
-            }
-
-            .center-on-narrow {
-                text-align: center !important;
-                display: block !important;
-                margin-left: auto !important;
-                margin-right: auto !important;
-                float: none !important;
-            }
-
-            table.center-on-narrow {
-                display: inline-block !important;
-            }
-
-            .email-container p {
-                font-size: 17px !important;
-                line-height: 22px !important;
-            }
-        }
-
-        /* Updated styles for better visibility */
         .details-table {
             width: 100%;
             margin-top: 20px;
             color: #333333;
-            /* Darker text for visibility */
             font-family: 'Montserrat', sans-serif;
         }
 
         .details-table td {
             padding: 10px;
             font-size: 18px;
-            /* Increase font size */
         }
 
         .details-table td.label {
             font-weight: bold;
             color: #0f3462;
-            /* Deep navy color for labels */
         }
 
         .details-table td.value {
             font-weight: normal;
         }
 
-        /* Button Styling */
         .button-td {
             border-radius: 50px;
             background: #26a4d3;
@@ -162,7 +102,6 @@
             border: 15px solid #26a4d3;
             font-family: 'Montserrat', sans-serif;
             font-size: 16px;
-            /* Increased font size for button */
             text-align: center;
             text-decoration: none;
             display: block;
@@ -181,7 +120,7 @@
     <center style="width: 100%; background: #F7B888; text-align: left;">
         <div
             style="display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;font-family: sans-serif;">
-            Your admission at King Driving School is confirmed! Check out the details inside.
+            Welcome to King Driving School! Your instructor account has been created.
         </div>
         <div style="max-width: 680px; margin: auto;" class="email-container">
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%"
@@ -203,14 +142,14 @@
                                                     style="text-align: center; padding: 60px 0 10px 20px;">
                                                     <h1
                                                         style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 30px; line-height: 36px; color: #0f3462; font-weight: bold;">
-                                                        Welcome {{ $details['student']->user->name }},</h1>
+                                                        Welcome, {{ $details['username'] }}!</h1>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td valign="top"
                                                     style="text-align: center; padding: 10px 20px 15px 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color:#0f3462;">
-                                                    <p style="margin: 0;">Your admission has been confirmed at King
-                                                        Driving School. Below are your details:</p>
+                                                    <p style="margin: 0;">We’re excited to welcome you as an instructor
+                                                        at King Driving School. Here are your login details:</p>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -219,35 +158,11 @@
                                                         cellpadding="0" border="0" class="details-table">
                                                         <tr>
                                                             <td class="label">Username:</td>
-                                                            <td class="value">
-                                                                {{ $details['username'] ?? 'N/A' }}
-                                                            </td>
+                                                            <td class="value">{{ $details['username'] }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="label">Password:</td>
-                                                            <td class="value">
-                                                                {{ $details['password'] ?? 'N/A' }}
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="label">Instructor:</td>
-                                                            <td class="value">
-                                                                {{ $details['instructor']->employee->user->name ?? 'N/A' }}
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="label">Car:</td>
-                                                            <td class="value">{{ $details['car']->make ?? 'Car Make' }}
-                                                                ({{ $details['car']->model ?? 'Model' }})</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="label">Schedule:</td>
-                                                            <td class="value">From
-                                                                {{ $details['schedule']->start_time ?? '00:00' }} to
-                                                                {{ $details['schedule']->end_time ?? '00:00' }} on
-                                                                {{ $details['schedule']->class_date ?? 'Date' }} until
-                                                                {{ $details['schedule']->class_end_date ?? 'End Date' }}
-                                                            </td>
+                                                            <td class="value">{{ $details['password'] }}</td>
                                                         </tr>
                                                     </table>
                                                 </td>
@@ -259,8 +174,8 @@
                                                         style="background: #26a4d3; border: 15px solid #26a4d3; font-family: 'Montserrat', sans-serif; font-size: 14px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 50px; font-weight: bold;"
                                                         class="button-a"> <span style="color:#ffffff;"
                                                             class="button-link">
-                                                            &nbsp;&nbsp;&nbsp;&nbsp;VIEW
-                                                            DETAILS&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;LOGIN TO YOUR
+                                                            ACCOUNT&nbsp;&nbsp;&nbsp;&nbsp;
                                                         </span>
                                                     </a>
                                                 </td>
@@ -281,8 +196,8 @@
                             <tr>
                                 <td align="center"
                                     style="font-family: 'Montserrat', sans-serif; font-size: 14px; padding: 20px;">
-                                    <p style="margin: 0;">Thanks for choosing King Driving School. We look forward to
-                                        helping you learn safe driving.</p>
+                                    <p style="margin: 0;">Thank you for joining King Driving School. We look forward to
+                                        working together to promote safe driving.</p>
                                 </td>
                             </tr>
                             <tr>
@@ -303,7 +218,7 @@
                                     style="font-family: 'Montserrat', sans-serif; font-size: 12px; color: #666666;">
                                     <p style="margin: 0;">Visit us: <a href="https://kingdrivingschool.com"
                                             style="color: #26a4d3;">kingdrivingschool.com</a></p>
-                                    <p style="margin: 0;">This email was sent to you from info@kingdrivingschool.com
+                                    <p style="margin: 0;">This email was sent from info@kingdrivingschool.com
                                     </p>
                                 </td>
                             </tr>

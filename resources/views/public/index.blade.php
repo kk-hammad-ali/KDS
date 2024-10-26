@@ -17,12 +17,12 @@
                             <div class="content">
                                 <div class="clearfix">
                                     <div class="inner">
-                                        <h1><span>King Driving School - KDS</span></h1>
+                                        <h1><span>King Driving School</span></h1>
                                         <div class="text">High-Quality Driving Schools in Islamabad</div>
                                         <div class="links-box clearfix">
-                                            <div class="link"><a href="{{ route('public.about') }}"
-                                                    class="theme-btn btn-style-one"><span>Read
-                                                        More</span></a></div>
+                                            <div class="link"><a href="{{ route('public.quiz') }}"
+                                                    class="theme-btn btn-style-one"><span>Theory
+                                                        Test</span></a></div>
                                             <div class="link"><a href="{{ route('public.admission.form') }}"
                                                     class="theme-btn btn-style-two"><span>Book
                                                         Now</span></a></div>
@@ -55,12 +55,12 @@
                             <div class="content">
                                 <div class="clearfix">
                                     <div class="inner">
-                                        <h1><span>King Driving School - KDS</span></h1>
+                                        <h1><span>King Driving School</span></h1>
                                         <div class="text">High-Quality Driving Schools in Islamabad</div>
                                         <div class="links-box clearfix">
-                                            <div class="link"><a href="{{ route('public.about') }}"
-                                                    class="theme-btn btn-style-one"><span>Read
-                                                        More</span></a></div>
+                                            <div class="link"><a href="{{ route('public.quiz') }}"
+                                                    class="theme-btn btn-style-one"><span>Theory
+                                                        Test</span></a></div>
                                             <div class="link"><a href="{{ route('public.admission.form') }}"
                                                     class="theme-btn btn-style-two"><span>Book
                                                         Now</span></a></div>
@@ -97,12 +97,12 @@
                             <div class="content">
                                 <div class="clearfix">
                                     <div class="inner">
-                                        <h1><span>King Driving School - KDS</span></h1>
+                                        <h1><span>King Driving School</span></h1>
                                         <div class="text">High-Quality Driving Schools in Islamabad</div>
                                         <div class="links-box clearfix">
-                                            <div class="link"><a href="{{ route('public.about') }}"
-                                                    class="theme-btn btn-style-one"><span>Read
-                                                        More</span></a></div>
+                                            <div class="link"><a href="{{ route('public.quiz') }}"
+                                                    class="theme-btn btn-style-one"><span>Theory
+                                                        Test</span></a></div>
                                             <div class="link"><a href="{{ route('public.admission.form') }}"
                                                     class="theme-btn btn-style-two"><span>Book
                                                         Now</span></a></div>
@@ -144,7 +144,7 @@
                         <div class="title-box style-two">
                             <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}"
                                     alt=""></div>
-                            <h2><span>Welcome To King <br>Driving School (KDS)</span></h2>
+                            <h2><span>Welcome To King <br>Driving School</span></h2>
                         </div>
                         <div class="row clearfix">
                             <!-- Block -->
@@ -213,94 +213,6 @@
         </div>
     </section>
 
-
-    <!-- Why Us Section -->
-    <section class="why-us-two">
-        <div class="auto-container">
-            <div class="title-box centered style-two">
-                <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}" alt="">
-                </div>
-                <h2><span>Our <br>Facilities</span></h2>
-            </div>
-            <div class="row clearfix">
-                <!-- Block -->
-                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                    data-wow-delay="0ms">
-                    <div class="inner-box">
-                        <div class="icon-box"><span class="fal fa-phone-alt"></span></div>
-                        <h4>Phone Call</h4>
-                        <div class="text">You can also get admission on phone call.</div>
-                    </div>
-                </div>
-                <!-- Block -->
-                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                    data-wow-delay="300ms">
-                    <div class="inner-box">
-                        <div class="icon-box"><span class="fal fa-female"></span></div>
-                        <h4>Female Instructor</h4>
-                        <div class="text">We have ladies instructors for ladies.</div>
-                    </div>
-                </div>
-                <!-- Block -->
-                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                    data-wow-delay="600ms">
-                    <div class="inner-box">
-                        <div class="icon-box"><span class="fal fa-check-circle"></span></div>
-                        <h4>License Test</h4>
-                        <div class="text">We can also prepare you for license test.</div>
-                    </div>
-                </div>
-                <!-- Block -->
-                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                    data-wow-delay="0ms">
-                    <div class="inner-box">
-                        <div class="icon-box"><span class="fal fa-car"></span></div>
-                        <h4>Automatic Cars</h4>
-                        <div class="text">We have all types of manual and automatic cars.</div>
-                    </div>
-                </div>
-                <!-- Block -->
-                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                    data-wow-delay="300ms">
-                    <div class="inner-box">
-                        <div class="icon-box"><span class="fal fa-book-open"></span></div>
-                        <h4>Theory Lecture</h4>
-                        <div class="text">KDS also gives theory lectures in which students learn different traffic signs
-                            and rules.</div>
-                    </div>
-                </div>
-                <!-- Block -->
-                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                    data-wow-delay="600ms">
-                    <div class="inner-box">
-                        <div class="icon-box"><span class="fal fa-shield-alt"></span></div>
-                        <h4>Defensive Driving</h4>
-                        <div class="text">KDS also gives you training in defensive driving.</div>
-                    </div>
-                </div>
-                <!-- Block -->
-                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                    data-wow-delay="600ms">
-                    <div class="inner-box">
-                        <div class="icon-box"><span class="fal fa-certificate"></span></div>
-                        <h4>Certificate Facility</h4>
-                        <div class="text">If you need a certificate, King Driving School can provide one on demand.</div>
-                    </div>
-                </div>
-                <!-- Block -->
-                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                    data-wow-delay="600ms">
-                    <div class="inner-box">
-                        <div class="icon-box"><span class="fal fa-bus"></span></div>
-                        <h4>Pick & Drop</h4>
-                        <div class="text">We can provide pick and drop services for students who need them.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
     {{-- <!--Video Lesson Class-->
     <section class="video-lessons">
         <div class="image-layer" style="background-image: url(images/background/bg-image-2.jpg);"></div>
@@ -308,7 +220,7 @@
             <div class="title">
                 <h2>Give us a call when you want <br>to schedule driving <br>lessons</h2>
             </div>
-            <div class="video-link"><a href="https://www.youtube.com/watch?v=0xhr0j877bI"
+            <div class="video-link"><a href="https://youtube.com/shorts/m9zSjT4K1Rw?si=osVjEY4SP-NQzzG8"
                     class="theme-btn lightbox-image vid-btn"><span class="icon fa fa-play"></span></a></div>
         </div>
         </div>
@@ -444,6 +356,92 @@
         </div>
     </section>
 
+
+    <!-- Why Us Section -->
+    <section class="why-us-two">
+        <div class="auto-container">
+            <div class="title-box centered style-two">
+                <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}" alt="">
+                </div>
+                <h2><span>Our <br>Facilities</span></h2>
+            </div>
+            <div class="row clearfix">
+                <!-- Block -->
+                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="0ms">
+                    <div class="inner-box">
+                        <div class="icon-box"><span class="fal fa-phone-alt"></span></div>
+                        <h4>Phone Call</h4>
+                        <div class="text">You can also get admission on phone call.</div>
+                    </div>
+                </div>
+                <!-- Block -->
+                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="300ms">
+                    <div class="inner-box">
+                        <div class="icon-box"><span class="fal fa-female"></span></div>
+                        <h4>Female Instructor</h4>
+                        <div class="text">We have ladies instructors for ladies.</div>
+                    </div>
+                </div>
+                <!-- Block -->
+                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="600ms">
+                    <div class="inner-box">
+                        <div class="icon-box"><span class="fal fa-check-circle"></span></div>
+                        <h4>License Test</h4>
+                        <div class="text">We can also prepare you for license test.</div>
+                    </div>
+                </div>
+                <!-- Block -->
+                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="0ms">
+                    <div class="inner-box">
+                        <div class="icon-box"><span class="fal fa-car"></span></div>
+                        <h4>Automatic Cars</h4>
+                        <div class="text">We have all types of manual and automatic cars.</div>
+                    </div>
+                </div>
+                <!-- Block -->
+                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="300ms">
+                    <div class="inner-box">
+                        <div class="icon-box"><span class="fal fa-book-open"></span></div>
+                        <h4>Theory Lecture</h4>
+                        <div class="text">KDS also gives theory lectures in which students learn different traffic signs
+                            and rules.</div>
+                    </div>
+                </div>
+                <!-- Block -->
+                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="600ms">
+                    <div class="inner-box">
+                        <div class="icon-box"><span class="fal fa-shield-alt"></span></div>
+                        <h4>Defensive Driving</h4>
+                        <div class="text">KDS also gives you training in defensive driving.</div>
+                    </div>
+                </div>
+                <!-- Block -->
+                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="600ms">
+                    <div class="inner-box">
+                        <div class="icon-box"><span class="fal fa-certificate"></span></div>
+                        <h4>Certificate Facility</h4>
+                        <div class="text">If you need a certificate, King Driving School can provide one on demand.</div>
+                    </div>
+                </div>
+                <!-- Block -->
+                <div class="why-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="600ms">
+                    <div class="inner-box">
+                        <div class="icon-box"><span class="fal fa-bus"></span></div>
+                        <h4>Pick & Drop</h4>
+                        <div class="text">We can provide pick and drop services for students who need them.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!--Testimonials Section-->
     <section class="testimonial-two">

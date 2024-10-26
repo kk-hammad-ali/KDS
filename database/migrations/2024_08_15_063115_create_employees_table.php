@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('id_card_number');
             $table->decimal('salary', 8, 2);
-            $table->enum('salary_status', ['paid', 'unpaid'])->default('unpaid');
             $table->enum('employee_status', ['employed', 'unemployed'])->default('employed');
             $table->enum('gender', ['male', 'female']);
             $table->string('designation')->nullable();

@@ -35,6 +35,8 @@ return new class extends Migration
             $table->integer('class_duration')->nullable();
             $table->date('course_end_date')->nullable();
             $table->enum('form_type', ['admin', 'admission']);
+            $table->string('pickup_sector')->nullable();
+            $table->text('timing_preference')->nullable();
             $table->timestamps();
         });
     }

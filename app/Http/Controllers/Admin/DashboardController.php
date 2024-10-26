@@ -13,16 +13,19 @@ use App\Models\Student;
 use App\Models\Car;
 use Carbon\Carbon;
 use App\Http\Controllers\Schedule\ScheduleController;
+use App\Http\Controllers\Student\StudentController;
 
 
 class DashboardController extends Controller
 {
 
     protected $scheduleController;
+    protected $studentController;
 
-    public function __construct(ScheduleController $scheduleController)
+    public function __construct(ScheduleController $scheduleController, StudentController $studentController)
     {
         $this->scheduleController = $scheduleController;
+        $this->studentController = $studentController;
     }
 
     public function index()
@@ -37,7 +40,8 @@ class DashboardController extends Controller
         $todaysClasses = $this->getTodaysClasses();
         $carSchedules = $this->scheduleController->getAllCarSchedules();
         $instructorSchedules = $this->scheduleController->getAllInstructorSchedules();
-
+        $todayAdmissions = $this->studentController->getTodayAdmissionsData();
+        $todayCreatedStudents = $this->studentController->getTodayCreatedStudents();
 
         return view('admin.dashboard', [
             'todayExpense' => $expenses['today'],
@@ -62,9 +66,10 @@ class DashboardController extends Controller
             'carSchedules' => $carSchedules['schedules'],
             'instructorSchedules' => $instructorSchedules['schedules'],
             'today' => $carSchedules['today'],
+            'todayAdmissions' => $todayAdmissions,
+            'todayCreatedStudents' => $todayCreatedStudents,
         ]);
     }
-
 
     // Refactored function to get total expenses
     private function getTotalExpenses()

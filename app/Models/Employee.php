@@ -17,7 +17,6 @@ class Employee extends Model
         'id_card_number',
         'address',
         'salary',
-        'salary_status',
         'employee_status',
         'gender',
         'designation',
@@ -27,6 +26,11 @@ class Employee extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function instructor()
+    {
+        return $this->hasOne(Instructor::class);
     }
 
 }

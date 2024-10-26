@@ -9,9 +9,17 @@ use App\Models\Instructor;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\EmailController;
 
 class EmployeeController extends Controller
 {
+    protected $emailController;
+
+    public function __construct(EmailController $emailController)
+    {
+        $this->emailController = $emailController;
+    }
+
     public function adminAllEmployees()
     {
         $employees = Employee::with('user')->paginate(10);
@@ -90,6 +98,7 @@ class EmployeeController extends Controller
                 'license_number' => $request->license_number,
                 'experience' => $request->experience,
             ]);
+            $this->emailController->sendInstructorWelcome($instructor, $user->name, $request->password);
         }
 
 

@@ -30,7 +30,7 @@
                     <div class="inner clearfix">
                         <div class="top-left clearfix">
                             <ul class="top-info clearfix">
-                                <li>Call us : &nbsp;&nbsp;<a href="mailto:info@kingdrivingschool.com"><i
+                                <li>&nbsp;&nbsp;<a href="mailto:info@kingdrivingschool.com"><i
                                             class="icon far fa-envelope"></i> &nbsp;info@kingdrivingschool.com</a></li>
                                 <li><a href="tel:+92 051-4445444"><i class="icon far fa-phone"></i>
                                         &nbsp;051-4445444</a></li>
@@ -38,7 +38,7 @@
                         </div>
                         <div class="top-right clearfix">
                             <ul class="social-links clearfix">
-                                <li>Follow Us :</li>
+                                {{-- <li>Follow Us :</li> --}}
                                 <li><a href="https://www.facebook.com/kingdrivingschoolisb"><i
                                             class="fab fa-facebook-f"></i></a></li>
                                 <li><a href="https://www.instagram.com/king_drivingschool"><i
@@ -86,7 +86,12 @@
                                         <li><a href="{{ route('public.branch') }}">Branches</a></li>
                                         <li><a href="{{ route('public.blog') }}">Blog</a></li>
                                         <li><a href="{{ route('public.contact') }}">Contact</a></li>
-                                        <li><a href="{{ route('public.quiz') }}">Take a Quiz</a></li>
+                                        <li><a href="{{ route('login') }}">Sign In</a></li>
+                                        {{-- <li><a href="{{ route('public.quiz') }}">Take a Quiz</a></li> --}}
+                                        {{-- <li><a href="{{ route('public.quiz') }}"
+                                                style="color: white; padding-left:10px; padding-right:10px; height:10%;"
+                                                class="theme-btn btn-style-one"><span>Theory
+                                                    Test</span></a></li> --}}
                                     </ul>
                                 </nav>
                                 <!-- Main Menu End -->

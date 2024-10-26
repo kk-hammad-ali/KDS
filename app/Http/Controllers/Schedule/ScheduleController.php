@@ -206,6 +206,7 @@ class ScheduleController extends Controller
                    'class_date' => null,
                    'end_date' => null,
                    'address' => null, // Initialize address
+                   'pickup_sector' => null, // Initialize pickup_sector
                ];
 
                // Check if this time slot is booked
@@ -224,6 +225,7 @@ class ScheduleController extends Controller
                        $timeSlot['class_date'] = $classStartDate->format('Y-m-d'); // Class start date
                        $timeSlot['end_date'] = $classEndDate->format('Y-m-d'); // Class end date
                        $timeSlot['address'] = $schedule->student->address; // Fetch pickup address
+                       $timeSlot['pickup_sector'] = $schedule->student->pickup_sector; // Fetch pickup sector
                        break;
                    }
                }
@@ -244,7 +246,7 @@ class ScheduleController extends Controller
            'schedules' => $carSchedules,
            'today' => $today->format('l, F j, Y'), // Format today's date for display
        ];
-   }
+    }
 
    public function getAllInstructorSchedules()
     {

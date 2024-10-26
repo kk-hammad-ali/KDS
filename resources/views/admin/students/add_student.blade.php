@@ -82,7 +82,7 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <label for="address" class="h5 mb-8 fw-semibold font-heading">Pickup Address</label>
+                                <label for="address" class="h5 mb-8 fw-semibold font-heading">Full Address</label>
                                 <input type="text" class="form-control @error('address') is-invalid @enderror"
                                     id="address" name="address" value="{{ old('address') }}" placeholder="I-8" required>
                                 @error('address')
@@ -120,6 +120,18 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            <div class="col-sm-6">
+                                <label for="pickup_sector" class="h5 mb-8 fw-semibold font-heading">Pickup Address (Sector
+                                    Only)</label>
+                                <input type="text" class="form-control @error('pickup_sector') is-invalid @enderror"
+                                    id="pickup_sector" name="pickup_sector" value="{{ old('pickup_sector') }}"
+                                    placeholder="Sector (e.g., I-8)" required>
+                                @error('pickup_sector')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                         </div>
                     </div>
 
@@ -209,7 +221,7 @@
                         <h5>Class Schedule</h5>
                         <div class="row gy-20">
                             <div class="col-sm-6">
-                                <label for="admission_date" class="h5 mb-8 fw-semibold font-heading">Admission
+                                <label for="admission_date" class="h5 mb-8 fw-semibold font-heading">Class
                                     Date</label>
                                 <input type="date" class="form-control @error('admission_date') is-invalid @enderror"
                                     id="admission_date" name="admission_date" value="{{ old('admission_date') }}"
@@ -264,6 +276,19 @@
                                 @error('class_duration')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="timing_preference" class="h5 mb-2 fw-semibold font-heading">Timing
+                                    Preference</label>
+                                <div>
+                                    <input type="checkbox" id="before" name="timing_preference[]" value="before">
+                                    <label for="before">Before</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="after" name="timing_preference[]" value="after">
+                                    <label for="after">After</label>
+                                </div>
                             </div>
                         </div>
                     </div>

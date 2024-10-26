@@ -192,7 +192,9 @@
                                                         <!-- Add pointer cursor -->
                                                         <span
                                                             style="background-color: var(--bs-warning); border-radius:10px; padding: 4px;"
-                                                            class="h6 text-dark">B</span>
+                                                            class="h6 text-dark">
+                                                            {{ $slot['pickup_sector'] }}
+                                                        </span>
                                                     </td>
                                                 @else
                                                     <td>
@@ -303,6 +305,108 @@
             </div>
         </div>
 
+        <div class="row gy-4">
+            <div class="col-lg-12">
+                <!-- Today's New Classes Table -->
+                <div class="card overflow-hidden mt-24 p-20">
+                    <div class="card-body p-0 overflow-x-auto">
+                        <h5 class="mb-20">Today's New Classes</h5>
+                        <table id="todaysNewClassesTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="h6 text-gray-300">#</th>
+                                    <th class="h6 text-gray-300">Student</th>
+                                    <th class="h6 text-gray-300">Instructor</th>
+                                    <th class="h6 text-gray-300">Car</th>
+                                    <th class="h6 text-gray-300">Pickup Sector</th>
+                                    <th class="h6 text-gray-300">Start Time</th>
+                                    <th class="h6 text-gray-300">End Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($todayAdmissions as $admission)
+                                    @foreach ($admission->schedules as $class)
+                                        <tr>
+                                            <td>
+                                                <span
+                                                    class="h6 mb-0 fw-medium text-gray-300">{{ $loop->iteration }}</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="h6 mb-0 fw-medium text-gray-300">{{ $admission->user->name ?? 'N/A' }}</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="h6 mb-0 fw-medium text-gray-300">{{ $class->instructor->employee->user->name ?? 'N/A' }}</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="h6 mb-0 fw-medium text-gray-300">{{ $class->vehicle->make ?? 'N/A' }}
+                                                    {{ $class->vehicle->model ?? 'N/A' }}</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="h6 mb-0 fw-medium text-gray-300">{{ $admission->pickup_sector ?? 'N/A' }}</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="h6 mb-0 fw-medium text-gray-300">{{ $class->start_time ?? 'N/A' }}</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="h6 mb-0 fw-medium text-gray-300">{{ $class->end_time ?? 'N/A' }}</span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row gy-4">
+            <div class="col-lg-12">
+                <!-- Today's Admissions Table -->
+                <div class="card overflow-hidden mt-24 p-20">
+                    <div class="card-body p-0 overflow-x-auto">
+                        <h5 class="mb-20">Today's Admissions</h5>
+                        <table id="todaysAdmissionsTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="h6 text-gray-300">#</th>
+                                    <th class="h6 text-gray-300">Student</th>
+                                    <th class="h6 text-gray-300">CNIC</th>
+                                    <th class="h6 text-gray-300">Class Start Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($todayCreatedStudents as $student)
+                                    <tr>
+                                        <td>
+                                            <span class="h6 mb-0 fw-medium text-gray-300">{{ $loop->iteration }}</span>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="h6 mb-0 fw-medium text-gray-300">{{ $student->user->name }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->cnic }}</span>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="h6 mb-0 fw-medium text-gray-300">{{ $student->admission_date }}</span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Filtering Form -->
         <div class="card mt-24">
             <div class="card-body">
@@ -328,11 +432,30 @@
                         @endforeach
                     </select>
 
+                    <!-- Gender Dropdown -->
+                    <select id="genderSelect" class="form-control form-select h6 rounded-4 mb-0 py-6 px-8">
+                        <option value="" selected disabled>Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+
+                    <!-- Date Picker -->
+                    <input type="date" id="dateSelect" class="form-control h6 rounded-4 mb-0 py-6 px-8">
+
+                    <!-- Time Slot Dropdown -->
+                    <select id="timeSlotSelect" class="form-control form-select h6 rounded-4 mb-0 py-6 px-8">
+                        <option value="" selected disabled>Time Slot</option>
+                        @foreach ($timeSlots as $slot)
+                            <option value="{{ $slot['value'] }}">{{ $slot['display'] }}</option>
+                        @endforeach
+                    </select>
+
                     <button type="button" class="btn btn-main rounded-pill py-9 w-100"
                         onclick="filterData()">Search</button>
                 </form>
             </div>
         </div>
+
 
         <!-- Available Slots Table -->
         <div class="card mt-24" id="slotsTableContainer" style="display: none;">
@@ -377,7 +500,10 @@ foreach ($schedules as $schedule) {
                                     <tr class="slot-row"
                                         data-car="{{ $scheduleForSlot ? $scheduleForSlot->vehicle_id : '' }}"
                                         data-instructor="{{ $scheduleForSlot ? $scheduleForSlot->instructor_id : '' }}"
+                                        data-gender="{{ $scheduleForSlot && $scheduleForSlot->instructor ? $scheduleForSlot->instructor->employee->gender : '' }}"
+                                        data-date="{{ $scheduleForSlot ? $scheduleForSlot->class_date : '' }}"
                                         data-timeslot="{{ $slot['value'] }}">
+
 
                                         <!-- Time Slot Column -->
                                         <td>
@@ -642,25 +768,26 @@ foreach ($schedules as $schedule) {
         </div>
         <br>
         <!-- Script for Filtering Data -->
+        // Script for Filtering Data
         <script>
             function filterData() {
                 let carSelect = document.getElementById('carSelect');
                 let instructorSelect = document.getElementById('instructorSelect');
+                let genderSelect = document.getElementById('genderSelect');
+                let dateSelect = document.getElementById('dateSelect');
+                let timeSlotSelect = document.getElementById('timeSlotSelect');
+
                 let carId = carSelect.value;
                 let instructorId = instructorSelect.value;
-
-                let carOption = carSelect.options[carSelect.selectedIndex];
-                let instructorOption = instructorSelect.options[instructorSelect.selectedIndex];
-
-                let carMake = carOption ? carOption.getAttribute('data-make') : '';
-                let carReg = carOption ? carOption.getAttribute('data-registration') : '';
-                let instructorName = instructorOption ? instructorOption.getAttribute('data-name') : '';
+                let gender = genderSelect.value;
+                let selectedDate = dateSelect.value;
+                let timeSlot = timeSlotSelect.value;
 
                 let rows = document.querySelectorAll('.slot-row');
 
                 // Show or hide the table based on selection
                 let slotsTableContainer = document.getElementById('slotsTableContainer');
-                if (carId || instructorId) {
+                if (carId || instructorId || gender || selectedDate || timeSlot) {
                     slotsTableContainer.style.display = 'block'; // Show the table
                 } else {
                     slotsTableContainer.style.display = 'none'; // Hide the table
@@ -670,27 +797,26 @@ foreach ($schedules as $schedule) {
                 rows.forEach(row => {
                     let rowCar = row.getAttribute('data-car');
                     let rowInstructor = row.getAttribute('data-instructor');
-                    let carInfo = row.querySelector('.car-info');
-                    let instructorNameCell = row.querySelector('.instructor-name');
+                    let rowGender = row.getAttribute('data-gender');
+                    let rowDate = row.getAttribute('data-date');
+                    let rowTimeSlot = row.getAttribute('data-timeslot');
 
-                    // Always show all rows by default
-                    row.style.display = '';
+                    let matchCar = carId ? rowCar === carId : true;
+                    let matchInstructor = instructorId ? rowInstructor === instructorId : true;
+                    let matchGender = gender ? rowGender === gender : true;
+                    let matchDate = selectedDate ? rowDate === selectedDate : true;
+                    let matchTimeSlot = timeSlot ? rowTimeSlot === timeSlot : true;
 
-                    // If a car is selected, show the selected car details
-                    if (carId) {
-                        carInfo.innerHTML = `<span class="h6 mb-0 fw-medium text-gray-300">${carMake} ${carReg}</span>`;
-                        instructorNameCell.innerHTML = '<span class="h6 mb-0 fw-medium text-gray-300">N/A</span>';
-                    }
-
-                    // If an instructor is selected, show the selected instructor's name
-                    if (instructorId) {
-                        instructorNameCell.innerHTML =
-                            `<span class="h6 mb-0 fw-medium text-gray-300">${instructorName}</span>`;
-                        carInfo.innerHTML = '<span class="h6 mb-0 fw-medium text-gray-300">N/A</span>';
+                    // Show row only if all conditions match
+                    if (matchCar && matchInstructor && matchGender && matchDate && matchTimeSlot) {
+                        row.style.display = ''; // Show the row
+                    } else {
+                        row.style.display = 'none'; // Hide the row
                     }
                 });
             }
         </script>
+
         <script>
             // Listen for click events on booked time slots
             document.querySelectorAll('td[data-student-name]').forEach(td => {

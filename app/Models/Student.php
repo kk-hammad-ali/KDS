@@ -33,7 +33,9 @@ class Student extends Model
         'class_end_time',
         'class_duration',
         'course_end_date',
-        'form_type'
+        'form_type',
+        'pickup_sector',
+        'timing_preference',
     ];
 
     // Define relationship with User
@@ -54,12 +56,6 @@ class Student extends Model
         return $this->belongsTo(Course::class);
     }
 
-    // // Define relationship with Vehicle (Car)
-    // public function vehicle()
-    // {
-    //     return $this->belongsTo(Car::class);
-    // }
-
     // Define relationship with Schedule
     public function schedules()
     {
@@ -71,8 +67,16 @@ class Student extends Model
         return $this->hasMany(Attendance::class, 'student_id');
     }
 
-    public function invoices()
+    // In Student.php model
+    public function invoice()
     {
-        return $this->hasMany(Invoice::class);
+        return $this->hasOneThrough(
+            Invoice::class,
+            Schedule::class,
+            'student_id', // Foreign key on the schedules table
+            'schedule_id', // Foreign key on the invoices table
+            'id', // Local key on the students table
+            'id' // Local key on the schedules table
+        );
     }
 }

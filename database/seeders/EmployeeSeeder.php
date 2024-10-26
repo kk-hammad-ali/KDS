@@ -16,11 +16,11 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             // Create a user for each employee
             $user = User::create([
                 'name' => "Employee $i",
-                'password' => Hash::make('password123'),  // Default password
+                'password' => Hash::make('password'),  // Default password
             ]);
 
             // Create employees with user ID

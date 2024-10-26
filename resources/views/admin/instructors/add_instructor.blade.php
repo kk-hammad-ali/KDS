@@ -17,6 +17,18 @@
             <div class="card-body">
                 <form action="{{ route('admin.instructors.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+
+                    <!-- Display All Validation Errors at the Top -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <div class="row mb-3">
                         <div class="col-lg-6">
                             <label for="name" class="form-label">Instructor Name</label>

@@ -43,4 +43,5 @@ class Instructor extends Model
     {
         return $this->hasMany(Invoice::class);
     }
+    
 }

@@ -91,6 +91,7 @@ class StudentController extends Controller
             'father_or_husband_name' => 'required|string|max:255',
             'cnic' => 'required|string|max:20',
             'address' => 'required|string|max:255',
+            'pickup_sector' => 'required|string|max:50',
             'phone' => 'required|string|max:15',
             'optional_phone' => 'nullable|string|max:15',
             'admission_date' => 'required|date',
@@ -110,25 +111,45 @@ class StudentController extends Controller
             'branch' => 'required|string|max:255',
             'paid_by' => 'required|string|max:255',
             'amount_in_english' => 'required|string|max:255',
+            'timing_preference' => 'nullable|array',
         ]);
 
-        // Calculate class end time
-        $class_end_time = Carbon::parse($request->class_start_time)
-            ->addMinutes((int)$request->class_duration)
-            ->format('H:i:s');
+        // Extract timing preference
+        $timingPreference = $request->timing_preference ?? [];
+        $originalStartTime = Carbon::parse($request->class_start_time);
+        $adjustedStartTime = clone $originalStartTime;
+        $additionalMinutes = 0;
+
+        // Adjust start time if "Before" is selected and not at the minimum time
+        if (in_array('before', $timingPreference) && $originalStartTime->gt(Carbon::createFromTime(8, 0))) {
+            $adjustedStartTime = $adjustedStartTime->subMinutes(30);
+            $additionalMinutes += 30;
+        }
+
+        // Adjust class duration if "After" is selected and does not exceed the end time
+        $adjustedClassDuration = $validated['class_duration'] + $additionalMinutes;
+        $adjustedEndTime = $adjustedStartTime->copy()->addMinutes($adjustedClassDuration);
+
+        if (in_array('after', $timingPreference) && $adjustedEndTime->lte(Carbon::createFromTime(20, 0))) {
+            $adjustedClassDuration += 30; // Add 30 minutes after
+            $adjustedEndTime = $adjustedEndTime->addMinutes(30);
+        }
+
+        // Finalize the formatted end time
+        $class_end_time = $adjustedEndTime->format('H:i:s');
 
         // Calculate course end date based on course duration
         $course_end_date = Carbon::parse($request->admission_date)
             ->addDays((int)$request->course_duration)
             ->format('Y-m-d');
 
-        // Check for overlapping schedule
+        // Check for overlapping schedule with adjusted times
         $overlappingSchedule = Schedule::where('instructor_id', $request->instructor_id)
             ->where('vehicle_id', $request->vehicle_id)
-            ->where(function ($query) use ($request, $class_end_time) {
+            ->where(function ($query) use ($request, $adjustedStartTime, $class_end_time) {
                 $query->where('class_date', $request->admission_date)
                     ->whereTime('start_time', '<', $class_end_time)
-                    ->whereTime('end_time', '>', $request->class_start_time);
+                    ->whereTime('end_time', '>', $adjustedStartTime->format('H:i:s'));
             })->exists();
 
         if ($overlappingSchedule) {
@@ -138,17 +159,18 @@ class StudentController extends Controller
         // Create user
         $user = User::create([
             'name' => $validated['name'],
-            'password' => Hash::make("password"),
+            'password' => Hash::make($validated['cnic']),
         ]);
 
         $user->assignRole('student');
 
-        // Create student
+        // Create student with adjusted class times and other fields
         $student = Student::create([
             'user_id' => $user->id,
             'father_or_husband_name' => $validated['father_or_husband_name'],
             'cnic' => $validated['cnic'],
             'address' => $validated['address'],
+            'pickup_sector' => $validated['pickup_sector'],
             'phone' => $validated['phone'],
             'optional_phone' => $validated['optional_phone'],
             'admission_date' => $validated['admission_date'],
@@ -160,32 +182,32 @@ class StudentController extends Controller
             'course_id' => $validated['course_id'],
             'instructor_id' => $request->instructor_id,
             'course_duration' => $request->course_duration,
-            'class_start_time' => $request->class_start_time,
+            'class_start_time' => $adjustedStartTime->format('H:i:s'),
             'class_end_time' => $class_end_time,
             'course_end_date' => $course_end_date,
-            'class_duration' => $request->class_duration,
+            'class_duration' => $adjustedClassDuration,
             'form_type' => 'admin',
+            'timing_preference' => $timingPreference ? implode(', ', $timingPreference) : null,
         ]);
 
+        // Notify user and instructor
         $user->notify(new WelcomeNotification($user));
-
         $instructor = Instructor::find($request->instructor_id);
         $instructor->employee->user->notify(new NewStudentAssignedNotification($student));
 
-        // Create schedule
+        // Create schedule with adjusted times
         $schedule = Schedule::create([
             'student_id' => $student->id,
             'instructor_id' => $request->instructor_id,
             'vehicle_id' => $student->course->car_id,
             'class_date' => $request->admission_date,
             'class_end_date' => $course_end_date,
-            'start_time' => $request->class_start_time,
+            'start_time' => $adjustedStartTime->format('H:i:s'),
             'end_time' => $class_end_time,
         ]);
 
         // Generate receipt number and create invoice
         $receiptNumber = $this->invoiceController->generateReceiptNumber();
-
         $invoice = Invoice::create([
             'schedule_id' => $schedule->id,
             'receipt_number' => $receiptNumber,
@@ -198,60 +220,163 @@ class StudentController extends Controller
         ]);
 
         // Send admission confirmation email
-        $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
+        // $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
 
         return redirect()->route('admin.allStudents')->with('success_student', 'Student added successfully.');
     }
 
     public function adminEditStudent($id)
     {
-        // Ensure only admin can access this function
+
         if (!Auth::user()->hasRole('admin')) {
             abort(403, 'Unauthorized action.');
         }
+        $student = Student::with(['user', 'instructor.employee.user'])->findOrFail($id);
+        $instructors = Instructor::with('employee.user')->get();
 
-        $student = Student::with('user')->findOrFail($id);
-        $instructors = Employee::where('designation', 'instructor')->get();
         $cars = Car::all();
         $courses = Course::all();
 
         return view('admin.students.edit_student', compact('student', 'instructors', 'cars', 'courses'));
     }
 
+
     public function adminUpdateStudent(Request $request, $id)
-    {
-        // Validate the incoming request
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'father_or_husband_name' => 'required|string|max:255',
-            'cnic' => 'required|string|max:20',
-            'address' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
-            'optional_phone' => 'nullable|string|max:15',
-            'email' => 'nullable|email|max:255',
-        ]);
+{
+    // Validate incoming request
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'father_or_husband_name' => 'required|string|max:255',
+        'cnic' => 'required|string|max:20',
+        'address' => 'required|string|max:255',
+        'pickup_sector' => 'required|string|max:50',
+        'phone' => 'required|string|max:15',
+        'optional_phone' => 'nullable|string|max:15',
+        'admission_date' => 'required|date',
+        'email' => 'nullable|email',
+        'course_id' => 'required|exists:courses,id',
+        'fees' => 'required|numeric',
+        'practical_driving_hours' => 'required|numeric',
+        'theory_classes' => 'required|numeric',
+        'coupon_code' => 'nullable|string|max:50',
+        'instructor_id' => 'required|exists:employees,id',
+        'course_duration' => 'required|integer',
+        'class_start_time' => 'required',
+        'class_duration' => 'required|integer',
+        'invoice_date' => 'required|date',
+        'amount_received' => 'required|numeric',
+        'balance' => 'required|numeric',
+        'branch' => 'required|string|max:255',
+        'paid_by' => 'required|string|max:255',
+        'amount_in_english' => 'required|string|max:255',
+        'timing_preference' => 'nullable|array',
+    ]);
 
-        // Find student and user
-        $student = Student::findOrFail($id);
-        $user = $student->user;
+    // Get student and related user record
+    $student = Student::findOrFail($id);
+    $user = $student->user;
 
-        // Update user
-        $user->update([
-            'name' => $validated['name'],
-        ]);
+    // Extract timing preference
+    $newTimingPreference = $request->timing_preference ?? [];
+    $previousTimingPreference = explode(', ', $student->timing_preference ?? '');
+    $originalStartTime = Carbon::parse($request->class_start_time);
+    $adjustedStartTime = clone $originalStartTime;
+    $adjustedClassDuration = $validated['class_duration'];
 
-        // Update student
-        $student->update([
-            'father_or_husband_name' => $validated['father_or_husband_name'],
-            'cnic' => $validated['cnic'],
-            'address' => $validated['address'],
-            'phone' => $validated['phone'],
-            'optional_phone' => $validated['optional_phone'],
-            'email' => $validated['email'] ?? null,
-        ]);
-
-        return redirect()->route('admin.allStudents')->with('success', 'Student updated successfully.');
+    // Check if "before" was added or removed and adjust time accordingly
+    if (in_array('before', $newTimingPreference) && !in_array('before', $previousTimingPreference)) {
+        $adjustedStartTime = $adjustedStartTime->subMinutes(30);
+        $adjustedClassDuration += 30;
+    } elseif (!in_array('before', $newTimingPreference) && in_array('before', $previousTimingPreference)) {
+        $adjustedStartTime = $adjustedStartTime->addMinutes(30);
+        $adjustedClassDuration -= 30;
     }
+
+    // Check if "after" was added or removed and adjust duration accordingly
+    $adjustedEndTime = $adjustedStartTime->copy()->addMinutes($adjustedClassDuration);
+    if (in_array('after', $newTimingPreference) && !in_array('after', $previousTimingPreference)) {
+        $adjustedClassDuration += 30;
+        $adjustedEndTime = $adjustedEndTime->addMinutes(30);
+    } elseif (!in_array('after', $newTimingPreference) && in_array('after', $previousTimingPreference)) {
+        $adjustedClassDuration -= 30;
+        $adjustedEndTime = $adjustedEndTime->subMinutes(30);
+    }
+
+    $class_end_time = $adjustedEndTime->format('H:i:s');
+    $course_end_date = Carbon::parse($request->admission_date)
+        ->addDays((int)$request->course_duration)
+        ->format('Y-m-d');
+
+    // Check for overlapping schedule with adjusted times
+    $overlappingSchedule = Schedule::where('instructor_id', $request->instructor_id)
+        ->where('vehicle_id', $request->vehicle_id)
+        ->where(function ($query) use ($request, $adjustedStartTime, $class_end_time) {
+            $query->where('class_date', $request->admission_date)
+                ->whereTime('start_time', '<', $class_end_time)
+                ->whereTime('end_time', '>', $adjustedStartTime->format('H:i:s'));
+        })->exists();
+
+    if ($overlappingSchedule) {
+        return redirect()->back()->withErrors(['error' => 'The selected time slot or car is already booked.'])->withInput();
+    }
+
+    // Update user and student details
+    $user->update(['name' => $validated['name']]);
+
+    // Update student details
+    $student->update([
+        'father_or_husband_name' => $validated['father_or_husband_name'],
+        'cnic' => $validated['cnic'],
+        'address' => $validated['address'],
+        'pickup_sector' => $validated['pickup_sector'],
+        'phone' => $validated['phone'],
+        'optional_phone' => $validated['optional_phone'],
+        'admission_date' => $validated['admission_date'],
+        'email' => $validated['email'] ?? null,
+        'fees' => $validated['fees'],
+        'practical_driving_hours' => $validated['practical_driving_hours'],
+        'theory_classes' => $validated['theory_classes'],
+        'coupon_code' => $validated['coupon_code'],
+        'course_id' => $validated['course_id'],
+        'instructor_id' => $request->instructor_id,
+        'course_duration' => $request->course_duration,
+        'class_start_time' => $adjustedStartTime->format('H:i:s'),
+        'class_end_time' => $class_end_time,
+        'course_end_date' => $course_end_date,
+        'class_duration' => $adjustedClassDuration,
+        'form_type' => 'admin',
+        'timing_preference' => implode(', ', $newTimingPreference),
+    ]);
+
+    // Update schedule
+    $schedule = Schedule::updateOrCreate(
+        ['student_id' => $student->id],
+        [
+            'instructor_id' => $request->instructor_id,
+            'vehicle_id' => $student->course->car_id,
+            'class_date' => $request->admission_date,
+            'class_end_date' => $course_end_date,
+            'start_time' => $adjustedStartTime->format('H:i:s'),
+            'end_time' => $class_end_time,
+        ]
+    );
+
+    // Update invoice details
+    Invoice::updateOrCreate(
+        ['schedule_id' => $schedule->id],
+        [
+            'invoice_date' => $request->invoice_date,
+            'amount_received' => $request->amount_received,
+            'balance' => $request->balance,
+            'branch' => $request->branch,
+            'paid_by' => $request->paid_by,
+            'amount_in_english' => $request->amount_in_english,
+        ]
+    );
+
+    return redirect()->route('admin.allStudents')->with('success', 'Student updated successfully.');
+}
+
 
     public function adminDestroyStudent($id)
     {
@@ -288,6 +413,35 @@ class StudentController extends Controller
         return response()->json([
             'students' => $students
         ]);
+    }
+
+
+    public function getTodayAdmissionsData()
+    {
+        // Get today's date
+        $today = Carbon::today();
+
+        // Fetch students with admission date equal to today and their associated schedule, instructor, and vehicle details
+        $todayAdmissions = Student::with(['user', 'schedules' => function ($query) {
+                $query->whereHas('instructor')->whereHas('vehicle');
+            }, 'schedules.instructor.employee.user', 'schedules.vehicle'])
+            ->where('admission_date', $today)
+            ->get();
+
+        return $todayAdmissions;
+    }
+
+    public function getTodayCreatedStudents()
+    {
+        // Get today's date
+        $today = Carbon::today();
+
+        // Fetch students created today with associated user details
+        $todayCreatedStudents = Student::with('user')
+            ->whereDate('created_at', $today)
+            ->get();
+
+        return $todayCreatedStudents;
     }
 
 }
