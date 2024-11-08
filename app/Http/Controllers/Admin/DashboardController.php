@@ -34,7 +34,12 @@ class DashboardController extends Controller
         $expenses = $this->getTotalExpenses();
         $sales = $this->getTotalSales();
         $monthlyData = $this->getMonthlyExpensesAndSales();
-        $schedules = Schedule::with('instructor.employee.user', 'vehicle')->get();
+        $schedules = Schedule::with([
+            'instructor.employee.user',
+            'vehicle',
+            'student'
+        ])->get();
+
         $data = $this->getInstructorsCarsAndTimeSlots();
         $currentCounts = $this->getCurrentCounts();
         $todaysClasses = $this->getTodaysClasses();
@@ -43,6 +48,7 @@ class DashboardController extends Controller
         $todayAdmissions = $this->studentController->getTodayAdmissionsData();
         $todayCreatedStudents = $this->studentController->getTodayCreatedStudents();
 
+        // dd($data);
         return view('admin.dashboard', [
             'todayExpense' => $expenses['today'],
             'monthlyExpense' => $expenses['monthly'],
@@ -62,6 +68,7 @@ class DashboardController extends Controller
             'instructors' => $data['instructors'],
             'all_cars' => $data['cars'],
             'timeSlots' => $data['timeSlots'],
+            'allPickupSectors' => $data['allPickupSectors'],
             'todaysClasses' => $todaysClasses,
             'carSchedules' => $carSchedules['schedules'],
             'instructorSchedules' => $instructorSchedules['schedules'],
@@ -166,6 +173,7 @@ class DashboardController extends Controller
    {
        $instructors = Instructor::with('employee.user')->get();
        $cars = Car::all();
+       $allPickupSectors = Student::whereNotNull('pickup_sector')->distinct()->pluck('pickup_sector');
 
        // Generate time slots
        $timeSlots = [];
@@ -186,6 +194,7 @@ class DashboardController extends Controller
            'instructors' => $instructors,
            'cars' => $cars,
            'timeSlots' => $timeSlots,
+           'allPickupSectors' => $allPickupSectors,
        ];
    }
 

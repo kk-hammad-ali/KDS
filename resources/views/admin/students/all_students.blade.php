@@ -38,6 +38,7 @@
                             <th class="h6 text-gray-300">#</th>
                             <th class="h6 text-gray-300">Name</th>
                             <th class="h6 text-gray-300">Phone Number</th>
+                            <th class="h6 text-gray-300">Pickup Sector</th>
                             <th class="h6 text-gray-300">Admission</th>
                             <th class="h6 text-gray-300">Course Enrolled</th>
                             <th class="h6 text-gray-300">Actions</th>
@@ -61,6 +62,9 @@
                                 </td>
                                 <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->phone }}</span>
+                                </td>
+                                <td>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->pickup_sector }}</span>
                                 </td>
                                 <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->admission_date }}</span>

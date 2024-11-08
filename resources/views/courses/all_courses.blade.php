@@ -75,7 +75,11 @@
                                     <button
                                         class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white"
                                         data-bs-toggle="modal" data-bs-target="#editCourseModal"
-                                        data-id="{{ $course->id }}" data-duration_days="{{ $course->duration_days }}"
+                                        data-id="{{ $course->id }}" data-car-id="{{ $course->car->id }}"
+                                        data-transmission="{{ $course->car->transmission }}"
+                                        data-make="{{ $course->car->make }}" data-model="{{ $course->car->model }}"
+                                        data-registration="{{ $course->car->registration_number }}"
+                                        data-duration_days="{{ $course->duration_days }}"
                                         data-duration_minutes="{{ $course->duration_minutes }}"
                                         data-fees="{{ $course->fees }}">
                                         Edit
@@ -113,17 +117,34 @@
                 <div class="modal-body">
                     <form action="{{ route('admin.courses.store') }}" method="POST">
                         @csrf
+                        <!-- Transmission Selection -->
+                        <div class="mb-3">
+                            <label for="transmission" class="form-label">Transmission</label>
+                            <select class="form-select" id="transmission" required>
+                                <option value="">Select Transmission</option>
+                                <option value="automatic">Automatic</option>
+                                <option value="manual">Manual</option>
+                            </select>
+                        </div>
+
+                        <!-- Make Selection -->
+                        <div class="mb-3">
+                            <label for="make" class="form-label">Make</label>
+                            <select class="form-select" id="make" required>
+                                <option value="">Select Make</option>
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+
+                        <!-- Car Selection -->
                         <div class="mb-3">
                             <label for="car_id" class="form-label">Select Car</label>
                             <select class="form-select" id="car_id" name="car_id" required>
-                                <option value="">Choose a Car</option>
-                                @foreach ($cars as $car)
-                                    <option value="{{ $car->id }}">{{ $car->make }} {{ $car->model }}
-                                        ({{ $car->registration_number }})
-                                    </option>
-                                @endforeach
+                                <option value="">Select Car</option>
+                                <!-- Filtered options will appear here -->
                             </select>
                         </div>
+
                         <div class="mb-3">
                             <label for="duration_days" class="form-label">Duration (Days)</label>
                             <input type="number" class="form-control" id="duration_days" name="duration_days" required>
@@ -141,8 +162,6 @@
                                 required>
                         </div>
 
-                        <br>
-                        <!-- Submit Button -->
                         <div class="flex-align justify-content-end gap-8 mt-4">
                             <button type="submit" class="btn btn-main rounded-pill py-9">Add Course</button>
                         </div>
@@ -152,6 +171,7 @@
         </div>
     </div>
     <!-- End Add Course Modal -->
+
 
     <!-- Edit Course Modal -->
     <div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseModalLabel"
@@ -167,14 +187,31 @@
                         @csrf
                         @method('PUT')
 
+                        <!-- Transmission Selection -->
                         <div class="mb-3">
-                            <label for="car_id" class="form-label">Select Car</label>
+                            <label for="edit_transmission" class="form-label">Transmission</label>
+                            <select class="form-select" id="edit_transmission" required>
+                                <option value="">Select Transmission</option>
+                                <option value="automatic">Automatic</option>
+                                <option value="manual">Manual</option>
+                            </select>
+                        </div>
+
+                        <!-- Make Selection -->
+                        <div class="mb-3">
+                            <label for="edit_make" class="form-label">Make</label>
+                            <select class="form-select" id="edit_make" required>
+                                <option value="">Select Make</option>
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+
+                        <!-- Car Selection -->
+                        <div class="mb-3">
+                            <label for="edit_car_id" class="form-label">Select Car</label>
                             <select class="form-select" id="edit_car_id" name="car_id" required>
-                                @foreach ($cars as $car)
-                                    <option value="{{ $car->id }}">{{ $car->registration_number }}
-                                        ({{ $car->make }})
-                                    </option>
-                                @endforeach
+                                <option value="">Select Car</option>
+                                <!-- Filtered options will appear here -->
                             </select>
                         </div>
 
@@ -196,8 +233,6 @@
                                 required>
                         </div>
 
-                        <br>
-                        <!-- Submit Button -->
                         <div class="flex-align justify-content-end gap-8 mt-4">
                             <button type="submit" class="btn btn-main rounded-pill py-9">Update Course</button>
                         </div>
@@ -207,6 +242,7 @@
         </div>
     </div>
     <!-- End Edit Course Modal -->
+
 
 
     <!-- Delete Confirmation Modal -->
@@ -237,11 +273,31 @@
     <!-- Script for handling Edit and Delete modals -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Handling Edit Modal
-            const editCourseModal = document.getElementById('editCourseModal');
-            editCourseModal.addEventListener('show.bs.modal', function(event) {
+            const cars = @json($cars); // Pass the cars data from the server to JavaScript
+
+            // Get elements for Add Modal
+            const transmissionSelect = document.getElementById('transmission');
+            const makeSelect = document.getElementById('make');
+            const carSelect = document.getElementById('car_id');
+
+            // Get elements for Edit Modal
+            const editTransmissionSelect = document.getElementById('edit_transmission');
+            const editMakeSelect = document.getElementById('edit_make');
+            const editCarSelect = document.getElementById('edit_car_id');
+
+            // Populate dropdowns in the Add Modal
+            transmissionSelect.addEventListener('change', function() {
+                filterMakes(transmissionSelect, makeSelect, carSelect);
+            });
+            makeSelect.addEventListener('change', function() {
+                filterCars(transmissionSelect, makeSelect, carSelect);
+            });
+
+            document.getElementById('editCourseModal').addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
-                const courseId = button.getAttribute('data-id');
+                const carId = button.getAttribute('data-car-id');
+                const transmission = button.getAttribute('data-transmission');
+                const make = button.getAttribute('data-make');
                 const durationDays = button.getAttribute('data-duration_days');
                 const durationMinutes = button.getAttribute('data-duration_minutes');
                 const fees = button.getAttribute('data-fees');
@@ -251,11 +307,71 @@
                 document.getElementById('edit_duration_minutes').value = durationMinutes;
                 document.getElementById('edit_fees').value = fees;
 
-                // Set form action
-                const form = document.getElementById('editCourseForm');
-                form.action = `/admin/courses/${courseId}`;
+                // Set the transmission value and populate the make dropdown
+                editTransmissionSelect.value = transmission;
+                console.log("Transmission set to:", transmission);
+
+                filterMakes(editTransmissionSelect, editMakeSelect, editCarSelect, make);
             });
 
+            function filterMakes(transmissionElem, makeElem, carElem, selectedMake = null) {
+                const selectedTransmission = transmissionElem.value;
+                console.log("Filtering makes for transmission:", selectedTransmission);
+
+                const uniqueMakes = [...new Set(cars
+                    .filter(car => car.transmission === selectedTransmission)
+                    .map(car => car.make))];
+
+                makeElem.innerHTML = '<option value="">Select Make</option>';
+                uniqueMakes.forEach(make => {
+                    const option = document.createElement('option');
+                    option.value = make;
+                    option.textContent = make;
+                    if (make === selectedMake) {
+                        option.selected = true; // Set the existing make as selected
+                    }
+                    makeElem.appendChild(option);
+                });
+
+                console.log("Available makes:", uniqueMakes);
+
+                // Trigger the car filter after setting the make if selectedMake exists
+                if (selectedMake) {
+                    makeElem.value = selectedMake;
+                    filterCars(transmissionElem, makeElem, carElem, selectedCarId);
+                }
+            }
+
+            function filterCars(transmissionElem, makeElem, carElem, selectedCarId = null) {
+                const selectedTransmission = transmissionElem.value;
+                const selectedMake = makeElem.value;
+
+                console.log("Filtering cars for transmission:", selectedTransmission, "and make:", selectedMake);
+
+                // Filter cars based on selected transmission and make
+                const filteredCars = cars.filter(car =>
+                    car.transmission === selectedTransmission && car.make === selectedMake
+                );
+
+                // Populate the car dropdown with model and registration number
+                carElem.innerHTML = '<option value="">Select Car</option>';
+                filteredCars.forEach(car => {
+                    const option = document.createElement('option');
+                    option.value = car.id;
+                    option.textContent =
+                        `${car.model || car.make} - ${car.registration_number || 'N/A'}`; // Display model or make with registration number
+                    if (car.id == selectedCarId) {
+                        option.selected = true; // Set the existing car as selected
+                    }
+                    carElem.appendChild(option);
+                });
+
+                console.log("Available cars for selection:", filteredCars);
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             // Handling Delete Modal
             const deleteModal = document.getElementById('deleteModal');
             deleteModal.addEventListener('show.bs.modal', function(event) {

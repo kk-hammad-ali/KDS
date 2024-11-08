@@ -60,6 +60,7 @@ class AdmissionFormController extends Controller
             'cnic' => 'required|string|unique:students',
             'phone' => 'required|string|max:15',
             'address' => 'required|string|max:255',
+            'pickup_sector' => 'required|string|max:50',
             'secondary_phone' => 'nullable|string|max:15',
             'email' => 'nullable|email|max:255|unique:students,email',
             'course_id' => 'required|exists:courses,id',
@@ -86,6 +87,7 @@ class AdmissionFormController extends Controller
             'father_or_husband_name' => $validated['father_husband_name'],
             'cnic' => $validated['cnic'],
             'address' => $validated['address'],
+            'pickup_sector' => $validated['pickup_sector'],
             'phone' => $validated['phone'],
             'optional_phone' => $validated['secondary_phone'],
             'admission_date' => now(), // Set admission date to now

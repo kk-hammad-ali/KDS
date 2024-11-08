@@ -60,7 +60,7 @@ class FormSubmittedSeeder extends Seeder
             // Create user
             $user = User::create([
                 'name' => $record['name'],
-                'password' => Hash::make("12345678"), // Default password
+                'password' => Hash::make("password"), // Default password
             ]);
 
             // Assign role to user as student

@@ -19,10 +19,8 @@
                     <thead>
                         <tr>
                             <th class="h6 text-gray-300">Student Name</th>
-                            <th class="h6 text-gray-300">Father's/Husband's Name</th>
                             <th class="h6 text-gray-300">Email</th>
                             <th class="h6 text-gray-300">Phone</th>
-                            <th class="h6 text-gray-300">CNIC</th>
                             <th class="h6 text-gray-300">Course</th>
                             <th class="h6 text-gray-300">Admission Date</th>
                             <th class="h6 text-gray-300">Course Enrolled</th>
@@ -35,17 +33,10 @@
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->user->name }}</span>
                                 </td>
                                 <td>
-                                    <span
-                                        class="h6 mb-0 fw-medium text-gray-300">{{ $student->father_or_husband_name }}</span>
-                                </td>
-                                <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->email ?? 'N/A' }}</span>
                                 </td>
                                 <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->phone }}</span>
-                                </td>
-                                <td>
-                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->cnic }}</span>
                                 </td>
                                 <td>
                                     <span

@@ -71,12 +71,20 @@
                         </div>
 
 
-
-                        <!-- Address -->
-                        <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                        <!-- Full Address -->
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="field-inner">
-                                <input type="text" name="address" value="{{ old('address') }}"
-                                    placeholder="Your Pickup Address (I-10)" required>
+                                <input type="text" name="address" value="{{ old('address') }}" placeholder="Full Address"
+                                    required>
+                            </div>
+                        </div>
+
+
+                        <!-- Pickup Sector -->
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <div class="field-inner">
+                                <input type="text" name="pickup_sector" value="{{ old('pickup_sector') }}"
+                                    placeholder="Your Pickup Sector (e.g., I-10)" required>
                             </div>
                         </div>
 

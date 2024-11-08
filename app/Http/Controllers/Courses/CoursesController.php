@@ -14,7 +14,6 @@ class CoursesController extends Controller
         // Fetch all courses from the database
         $courses = Course::with('car')->paginate(10);
 
-        // Pass the courses to the view
         $cars = Car::all();
         return view('courses.all_courses', compact('courses', 'cars'));
     }

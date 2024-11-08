@@ -34,7 +34,7 @@ class StudentSeeder extends Seeder
             // Create a user for the student
             $user = User::create([
                 'name' => "Student $i",
-                'password' => Hash::make('password123'),
+                'password' => Hash::make('password'),
             ]);
             // Assign Student role
             $user->assignRole('student');

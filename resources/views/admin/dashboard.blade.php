@@ -77,7 +77,6 @@
             </div>
         </div>
 
-
         <div class="row gy-4">
             <div class="col-lg-9">
                 <!-- Today's Classes Table -->
@@ -172,8 +171,10 @@
                                     <tr>
                                         <th class="h6 text-gray-300">Car</th>
                                         @for ($i = 8; $i < 20; $i++)
-                                            <th class="h6 text-gray-300">{{ $i }}:00</th>
-                                            <th class="h6 text-gray-300">{{ $i }}:30</th>
+                                            <th class="h6 text-gray-300">
+                                                {{ \Carbon\Carbon::createFromTime($i, 0)->format('h:i') }}</th>
+                                            <th class="h6 text-gray-300">
+                                                {{ \Carbon\Carbon::createFromTime($i, 30)->format('h:i') }}</th>
                                         @endfor
                                     </tr>
                                 </thead>
@@ -234,7 +235,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row gy-4">
             <div class="col-lg-12">
                 <div class="card overflow-hidden mt-24 p-20">
@@ -246,8 +246,10 @@
                                     <tr>
                                         <th class="h6 text-gray-300">Instructor</th>
                                         @for ($i = 8; $i < 20; $i++)
-                                            <th class="h6 text-gray-300">{{ $i }}:00</th>
-                                            <th class="h6 text-gray-300">{{ $i }}:30</th>
+                                            <th class="h6 text-gray-300">
+                                                {{ \Carbon\Carbon::createFromTime($i, 0)->format('h:i') }}</th>
+                                            <th class="h6 text-gray-300">
+                                                {{ \Carbon\Carbon::createFromTime($i, 30)->format('h:i') }}</th>
                                         @endfor
                                     </tr>
                                 </thead>
@@ -265,7 +267,9 @@
                                                         data-bs-target="#detailsModal">
                                                         <span
                                                             style="background-color: var(--bs-warning); border-radius:10px; padding: 4px;"
-                                                            class="h6 text-dark">B</span>
+                                                            class="h6 text-dark">
+                                                            {{ $slot['pickup_sector'] ?? 'B' }}
+                                                        </span>
                                                     </td>
                                                 @else
                                                     <td>
@@ -283,7 +287,8 @@
             </div>
         </div>
 
-        <!-- Modal to show booking details for instructors -->
+
+        {{-- <!-- Modal to show booking details for instructors -->
         <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
@@ -303,7 +308,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="row gy-4">
             <div class="col-lg-12">
@@ -450,12 +455,27 @@
                         @endforeach
                     </select>
 
-                    <button type="button" class="btn btn-main rounded-pill py-9 w-100"
-                        onclick="filterData()">Search</button>
+                    <!-- Pickup Sector Dropdown -->
+                    <select id="pickupSectorSelect" class="form-control form-select h6 rounded-4 mb-0 py-6 px-8">
+                        <option value="" selected disabled>Pickup Sector</option>
+                        @foreach ($allPickupSectors as $sector)
+                            <option value="{{ $sector }}">{{ $sector }}</option>
+                        @endforeach
+                    </select>
+
+                    <div class="row mt-3">
+                        <div class="col-12 mb-2">
+                            <button type="button" class="btn btn-main rounded-pill py-9 w-100"
+                                onclick="filterData()">Search</button>
+                        </div>
+                        <div class="col-12">
+                            <button type="button" class="btn btn-secondary rounded-pill py-9 w-100"
+                                onclick="resetFilters()">Reset</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
-
 
         <!-- Available Slots Table -->
         <div class="card mt-24" id="slotsTableContainer" style="display: none;">
@@ -474,90 +494,34 @@
                             </thead>
                             <tbody id="slotsBody">
                                 @foreach ($timeSlots as $slot)
-                                    @php
-                                        $isBooked = false;
-                                        $scheduleForSlot = null;
-
-                                        // Check if today's date is between class_date and class_end_date for each schedule
-foreach ($schedules as $schedule) {
-    // Use the fully qualified class name for Carbon
-    if (
-        \Carbon\Carbon::today()->between(
-            $schedule->class_date,
-            $schedule->class_end_date,
-        ) &&
-        \Carbon\Carbon::parse($schedule->start_time)->format('H:i') <=
-            $slot['value'] &&
-        \Carbon\Carbon::parse($schedule->end_time)->format('H:i') >
-            $slot['value']
-                                            ) {
-                                                $isBooked = true;
-                                                $scheduleForSlot = $schedule;
-                                                break; // No need to check further once booked
-                                            }
-                                        }
-                                    @endphp
-                                    <tr class="slot-row"
-                                        data-car="{{ $scheduleForSlot ? $scheduleForSlot->vehicle_id : '' }}"
-                                        data-instructor="{{ $scheduleForSlot ? $scheduleForSlot->instructor_id : '' }}"
-                                        data-gender="{{ $scheduleForSlot && $scheduleForSlot->instructor ? $scheduleForSlot->instructor->employee->gender : '' }}"
-                                        data-date="{{ $scheduleForSlot ? $scheduleForSlot->class_date : '' }}"
-                                        data-timeslot="{{ $slot['value'] }}">
-
+                                    <tr class="slot-row" data-timeslot="{{ $slot['value'] }}"
+                                        data-display-time="{{ $slot['display'] }}">
 
                                         <!-- Time Slot Column -->
                                         <td>
-                                            <div class="flex-align gap-8">
-                                                <span
-                                                    class="h6 mb-0 fw-medium text-gray-300">{{ $slot['display'] }}</span>
-                                            </div>
+                                            <span class="h6 mb-0 fw-medium text-gray-300">{{ $slot['display'] }}</span>
                                         </td>
 
-                                        <!-- Instructor Name or N/A -->
-                                        <td>
-                                            <div class="flex-align gap-8">
-                                                @if ($isBooked && $scheduleForSlot)
-                                                    <span
-                                                        class="h6 mb-0 fw-medium text-gray-300">{{ $scheduleForSlot->instructor->employee->user->name }}</span>
-                                                @else
-                                                    <span class="h6 mb-0 fw-medium text-gray-300">N/A</span>
-                                                @endif
-                                            </div>
-                                        </td>
+                                        <!-- Instructor Name -->
+                                        <td class="instructor-name h6 mb-0 fw-medium text-gray-300">N/A</td>
 
-                                        <!-- Car Model or N/A -->
-                                        <td>
-                                            <div class="flex-align gap-8">
-                                                @if ($isBooked && $scheduleForSlot)
-                                                    <span
-                                                        class="h6 mb-0 fw-medium text-gray-300">{{ $scheduleForSlot->vehicle->make }}
-                                                        {{ $scheduleForSlot->vehicle->registration_number }}</span>
-                                                @else
-                                                    <span class="h6 mb-0 fw-medium text-gray-300">N/A</span>
-                                                @endif
-                                            </div>
-                                        </td>
+                                        <!-- Car Model -->
+                                        <td class="car-info h6 mb-0 fw-medium text-gray-300">N/A</td>
 
-                                        <!-- Status (Booked/Available) -->
-                                        <td>
-                                            <div class="flex-align gap-8">
-                                                @if ($isBooked)
-                                                    <span class="badge bg-danger">Booked</span>
-                                                @else
-                                                    <span class="badge bg-success">Available</span>
-                                                @endif
-                                            </div>
+                                        <!-- Status -->
+                                        <td class="status-cell">
+                                            <span class="badge bg-success">Available</span>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
-
                         </table>
                     </div>
                 </div>
             </div>
         </div>
         <br>
+
         <div class="row gy-4">
             <div class="col-lg-9">
                 <!-- Top Course Start -->
@@ -767,53 +731,83 @@ foreach ($schedules as $schedule) {
             <!-- Widgets End -->
         </div>
         <br>
-        <!-- Script for Filtering Data -->
-        // Script for Filtering Data
-        <script>
-            function filterData() {
-                let carSelect = document.getElementById('carSelect');
-                let instructorSelect = document.getElementById('instructorSelect');
-                let genderSelect = document.getElementById('genderSelect');
-                let dateSelect = document.getElementById('dateSelect');
-                let timeSlotSelect = document.getElementById('timeSlotSelect');
 
-                let carId = carSelect.value;
-                let instructorId = instructorSelect.value;
-                let gender = genderSelect.value;
-                let selectedDate = dateSelect.value;
-                let timeSlot = timeSlotSelect.value;
+        <!-- Script for Filtering and Displaying Available/Booked Slots -->
+        <script>
+            const schedules = @json($schedules); // Schedule data from server
+
+            function filterData() {
+                let carSelect = document.getElementById('carSelect').value;
+                let instructorSelect = document.getElementById('instructorSelect').value;
+                let pickupSectorSelect = document.getElementById('pickupSectorSelect').value;
+                let genderSelect = document.getElementById('genderSelect').value;
+                let dateSelect = document.getElementById('dateSelect').value;
+                let timeSlotSelect = document.getElementById('timeSlotSelect').value;
 
                 let rows = document.querySelectorAll('.slot-row');
-
-                // Show or hide the table based on selection
                 let slotsTableContainer = document.getElementById('slotsTableContainer');
-                if (carId || instructorId || gender || selectedDate || timeSlot) {
-                    slotsTableContainer.style.display = 'block'; // Show the table
+
+                if (carSelect || instructorSelect || pickupSectorSelect || genderSelect || dateSelect || timeSlotSelect) {
+                    slotsTableContainer.style.display = 'block';
                 } else {
-                    slotsTableContainer.style.display = 'none'; // Hide the table
-                    return; // No filtering if nothing is selected
+                    slotsTableContainer.style.display = 'none';
+                    return;
                 }
 
                 rows.forEach(row => {
-                    let rowCar = row.getAttribute('data-car');
-                    let rowInstructor = row.getAttribute('data-instructor');
-                    let rowGender = row.getAttribute('data-gender');
-                    let rowDate = row.getAttribute('data-date');
-                    let rowTimeSlot = row.getAttribute('data-timeslot');
+                    let timeSlotValue = row.getAttribute('data-timeslot');
+                    let instructorNameCell = row.querySelector('.instructor-name');
+                    let carInfoCell = row.querySelector('.car-info');
+                    let statusCell = row.querySelector('.status-cell');
 
-                    let matchCar = carId ? rowCar === carId : true;
-                    let matchInstructor = instructorId ? rowInstructor === instructorId : true;
-                    let matchGender = gender ? rowGender === gender : true;
-                    let matchDate = selectedDate ? rowDate === selectedDate : true;
-                    let matchTimeSlot = timeSlot ? rowTimeSlot === timeSlot : true;
+                    // Reset row to "Available" state
+                    instructorNameCell.textContent = 'N/A';
+                    carInfoCell.textContent = 'N/A';
+                    statusCell.innerHTML = '<span class="badge bg-success">Available</span>';
+                    row.style.display = '';
 
-                    // Show row only if all conditions match
-                    if (matchCar && matchInstructor && matchGender && matchDate && matchTimeSlot) {
-                        row.style.display = ''; // Show the row
-                    } else {
-                        row.style.display = 'none'; // Hide the row
+                    // Check if the time slot is booked
+                    let isBooked = false;
+                    schedules.forEach(schedule => {
+                        if (schedule.start_time <= timeSlotValue && schedule.end_time > timeSlotValue) {
+                            // Check if filters match
+                            if ((carSelect && schedule.vehicle_id != carSelect) ||
+                                (instructorSelect && schedule.instructor_id != instructorSelect) ||
+                                (pickupSectorSelect && schedule.student.pickup_sector != pickupSectorSelect) ||
+                                (genderSelect && schedule.instructor.employee.gender != genderSelect) ||
+                                (dateSelect && schedule.class_date != dateSelect)) {
+                                row.style.display = 'none';
+                                return;
+                            }
+
+                            // Mark as booked if conditions are met
+                            isBooked = true;
+                            instructorNameCell.textContent = schedule.instructor.employee.user.name;
+                            carInfoCell.textContent = schedule.vehicle.make + ' ' + schedule.vehicle
+                                .registration_number;
+                            statusCell.innerHTML = '<span class="badge bg-danger">Booked</span>';
+                        }
+                    });
+
+                    // If filtering by time slot and it doesn't match, hide the row
+                    if (timeSlotSelect && timeSlotValue !== timeSlotSelect) {
+                        row.style.display = 'none';
                     }
                 });
+            }
+
+            function resetFilters() {
+                document.getElementById('carSelect').value = '';
+                document.getElementById('instructorSelect').value = '';
+                document.getElementById('pickupSectorSelect').value = '';
+                document.getElementById('genderSelect').value = '';
+                document.getElementById('dateSelect').value = '';
+                document.getElementById('timeSlotSelect').value = '';
+
+                let rows = document.querySelectorAll('.slot-row');
+                rows.forEach(row => row.style.display = '');
+
+                document.getElementById('slotsTableContainer').style.display = 'none';
             }
         </script>
 

@@ -84,7 +84,8 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="3">No students available for attendance on this date.</td>
+                                            <td class="h6 text-gray-300" colspan="3">No students available for attendance
+                                                on this date.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

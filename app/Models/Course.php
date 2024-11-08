@@ -20,6 +20,5 @@ class Course extends Model
         return $this->belongsTo(Car::class);
     }
 
-
     use HasFactory;
 }

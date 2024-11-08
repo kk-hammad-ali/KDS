@@ -276,11 +276,12 @@ class ScheduleController extends Controller
             while ($startTime < $endTime) {
                 $timeSlot = [
                     'time' => $startTime->format('H:i'),
-                    'status' => 'available', // Default status is 'available'
+                    'status' => 'available',
                     'student_name' => null,
                     'class_date' => null,
                     'end_date' => null,
-                    'vehicle_details' => null, // Initialize vehicle details
+                    'vehicle_details' => null,
+                    'pickup_sector' => null, // Initialize pickup_sector
                 ];
 
                 // Check if this time slot is booked
@@ -294,14 +295,14 @@ class ScheduleController extends Controller
                     if ($startTime >= $scheduleStart && $startTime < $scheduleEnd &&
                         Carbon::now()->between($classStartDate, $classEndDate)) {
                         $timeSlot['status'] = 'booked';
-                        $timeSlot['student_name'] = $schedule->student->user->name; // Fetch student name
-                        $timeSlot['class_date'] = $classStartDate->format('Y-m-d'); // Class start date
-                        $timeSlot['end_date'] = $classEndDate->format('Y-m-d'); // Class end date
-                        $timeSlot['vehicle_details'] = $schedule->vehicle->make . ' ' . $schedule->vehicle->model; // Vehicle details
+                        $timeSlot['student_name'] = $schedule->student->user->name;
+                        $timeSlot['class_date'] = $classStartDate->format('Y-m-d');
+                        $timeSlot['end_date'] = $classEndDate->format('Y-m-d');
+                        $timeSlot['vehicle_details'] = $schedule->vehicle->make . ' ' . $schedule->vehicle->model;
+                        $timeSlot['pickup_sector'] = $schedule->student->pickup_sector; // Add pickup_sector
                         break;
                     }
                 }
-
                 $timeSlots[] = $timeSlot;
                 $startTime->addMinutes(30); // Move to the next 30-minute interval
             }
