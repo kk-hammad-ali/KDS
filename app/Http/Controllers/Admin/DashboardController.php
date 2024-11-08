@@ -11,8 +11,10 @@ use App\Models\Schedule;
 use App\Models\Instructor;
 use App\Models\Student;
 use App\Models\Car;
+use App\Models\Branch;
 use Carbon\Carbon;
 use App\Http\Controllers\Schedule\ScheduleController;
+use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\Student\StudentController;
 
 
@@ -20,11 +22,13 @@ class DashboardController extends Controller
 {
 
     protected $scheduleController;
+    protected $branchController;
     protected $studentController;
 
-    public function __construct(ScheduleController $scheduleController, StudentController $studentController)
+    public function __construct(ScheduleController $scheduleController,  BranchController $branchController, StudentController $studentController)
     {
         $this->scheduleController = $scheduleController;
+        $this->branchController = $branchController;
         $this->studentController = $studentController;
     }
 
@@ -47,6 +51,7 @@ class DashboardController extends Controller
         $instructorSchedules = $this->scheduleController->getAllInstructorSchedules();
         $todayAdmissions = $this->studentController->getTodayAdmissionsData();
         $todayCreatedStudents = $this->studentController->getTodayCreatedStudents();
+        $currentBranch = auth()->user()->currentBranch;
 
         // dd($data);
         return view('admin.dashboard', [
@@ -73,6 +78,7 @@ class DashboardController extends Controller
             'carSchedules' => $carSchedules['schedules'],
             'instructorSchedules' => $instructorSchedules['schedules'],
             'today' => $carSchedules['today'],
+            'currentBranch' => $currentBranch,
             'todayAdmissions' => $todayAdmissions,
             'todayCreatedStudents' => $todayCreatedStudents,
         ]);

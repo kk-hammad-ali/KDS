@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade');
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->string('address')->nullable();
@@ -29,3 +30,4 @@ return new class extends Migration
         Schema::dropIfExists('employees');
     }
 };
+

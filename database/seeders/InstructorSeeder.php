@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Employee;
 use App\Models\Instructor;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Branch;
 
 class InstructorSeeder extends Seeder
 {
@@ -17,6 +18,10 @@ class InstructorSeeder extends Seeder
      */
     public function run()
     {
+        // Fetch branches created by BranchSeeder
+        $branch1 = Branch::where('name', 'Main Branch')->first();
+        $branch2 = Branch::where('name', 'North Branch')->first();
+
         for ($i = 1; $i <= 3; $i++) {
             // Create a user for each instructor
             $user = User::create([
@@ -37,6 +42,7 @@ class InstructorSeeder extends Seeder
                 'gender' => $i % 2 == 0 ? 'male' : 'female',
                 'designation' => 'Instructor',
                 'picture' => null,
+                'branch_id' => $i == 1 ? $branch1->id : $branch2->id,
             ]);
 
             // Create the instructor record and link it to the employee

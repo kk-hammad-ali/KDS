@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Employee;
+use App\Models\Branch;  // Add this import to access branches
 use Illuminate\Support\Facades\Hash;
 
 class EmployeeSeeder extends Seeder
@@ -16,11 +17,16 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
+        // Fetch branches created by BranchSeeder
+        $branch1 = Branch::where('name', 'Main Branch')->first();
+        $branch2 = Branch::where('name', 'North Branch')->first();
+
+
         for ($i = 1; $i <= 3; $i++) {
             // Create a user for each employee
             $user = User::create([
                 'name' => "Employee $i",
-                'password' => Hash::make('password'),  // Default password
+                'password' => Hash::make('password'),
             ]);
 
             // Create employees with user ID
@@ -34,6 +40,7 @@ class EmployeeSeeder extends Seeder
                 'id_card_number' => 'ID' . str_pad($i, 6, '0', STR_PAD_LEFT),
                 'designation' => 'Employee',
                 'picture' => null,  // Add default if needed
+                'branch_id' => $i == 1 ? $branch1->id : $branch2->id,
             ]);
         }
     }

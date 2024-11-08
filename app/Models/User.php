@@ -13,6 +13,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'password',
+        'current_branch_id',
     ];
 
     protected $hidden = [
@@ -35,4 +36,8 @@ class User extends Authenticatable
         return $this->hasOne(Employee::class);
     }
 
+    public function currentBranch()
+    {
+        return $this->belongsTo(Branch::class, 'current_branch_id');
+    }
 }

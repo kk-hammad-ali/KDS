@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Instructor;
 use App\Models\User;
+use App\Models\Branch;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\EmailController;
@@ -28,12 +29,20 @@ class EmployeeController extends Controller
 
     public function adminAddEmployee()
     {
-        return view('employees.add_employee');
+        $branches = Branch::all();
+        return view('employees.add_employee', compact('branches'));
+    }
+
+
+    public function adminEditEmployee($id)
+    {
+        $employee = Employee::findOrFail($id);
+        $designations = ['Manager', 'Instructor', 'Others']; // Add other designations here
+        return view('employees.edit_employee', compact('employee', 'designations'));
     }
 
     public function adminStoreEmployee(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:employees,email',
@@ -45,7 +54,7 @@ class EmployeeController extends Controller
             'gender' => 'required|in:male,female',
             'salary' => 'required|numeric|min:0',
             'designation' => 'nullable|string|max:255',
-            // Instructor-specific fields
+            'branch_id' => 'required|exists:branches,id',
             'license_city' => 'required_if:designation,Instructor|string|max:255',
             'license_start_date' => 'required_if:designation,Instructor|date',
             'license_end_date' => 'required_if:designation,Instructor|date',
@@ -53,28 +62,22 @@ class EmployeeController extends Controller
             'experience' => 'nullable|string|max:255',
         ]);
 
-
-
-        // Create the user first
-        $user = User::create([
-            'name' => $request->name,
-            'password' => Hash::make($request->password),
-        ]);
-
-
-        // Handle the file upload if a picture is provided
-        $picturePath = null;
-        if ($request->hasFile('picture')) {
-            $picture = $request->file('picture');
-            $picturePath = $picture->store('employees', 'public');
-            $picturePath = str_replace('public', '', $picturePath);
+        // Create the user for Manager and Instructor, but not for Others
+        if ($request->designation != 'Others') {
+            $user = User::create([
+                'name' => $request->name,
+                'password' => Hash::make($request->password),
+            ]);
+        } else {
+            $user = null;
         }
 
-
+        // Handle file upload
+        $picturePath = $request->hasFile('picture') ? $request->file('picture')->store('employees', 'public') : null;
 
         // Create the employee
         $employee = Employee::create([
-            'user_id' => $user->id,
+            'user_id' => $user ? $user->id : null,
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
@@ -83,11 +86,10 @@ class EmployeeController extends Controller
             'salary' => $request->salary,
             'designation' => $request->designation,
             'id_card_number' => $request->id_card_number,
+            'branch_id' => $request->branch_id,
         ]);
 
-
-
-        // If the designation is Instructor, create an instructor entry
+        // Assign roles based on designation
         if ($request->designation == 'Instructor') {
             $user->assignRole('instructor');
             Instructor::create([
@@ -98,57 +100,48 @@ class EmployeeController extends Controller
                 'license_number' => $request->license_number,
                 'experience' => $request->experience,
             ]);
+
             $this->emailController->sendInstructorWelcome($instructor, $user->name, $request->password);
+
+        } elseif ($request->designation == 'Manager') {
+            $user->assignRole('manager');
+            $user->update(['current_branch_id' => $request->branch_id]);
         }
 
-
+         // For 'Others', just assign the branch to the employee directly
+        if ($request->designation == 'Others') {
+            $employee->update(['branch_id' => $request->branch_id]);
+        }
 
         return redirect()->route('admin.allEmployees')->with('success_employee', 'Employee added successfully.');
-    }
-
-    public function adminEditEmployee($id)
-    {
-        $employee = Employee::findOrFail($id);
-        $designations = ['Manager', 'Instructor', 'Others']; // Add other designations here
-        return view('employees.edit_employee', compact('employee', 'designations'));
     }
 
     public function adminUpdateEmployee(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:employees,email,' . $id, // Email must be unique except for this employee
-            'phone' => 'required|string|unique:employees,phone,' . $id, // Phone must be unique except for this employee
+            'email' => 'required|email|unique:employees,email,' . $id,
+            'phone' => 'required|string|unique:employees,phone,' . $id,
             'address' => 'required|string|max:255',
             'salary' => 'required|numeric|min:0',
             'gender' => 'required|in:male,female',
             'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'id_card_number' => 'required|string|max:50',
             'designation' => 'nullable|string|max:255',
+            'branch_id' => 'required|exists:branches,id',
         ]);
 
         // Find the employee and the related user
         $employee = Employee::findOrFail($id);
         $user = $employee->user;
 
-        // Update the user information
-        $user->update([
-            'name' => $request->name,
-        ]);
+        // Update the user information for non-'Others' employees
+        if ($user) {
+            $user->update(['name' => $request->name]);
+        }
 
         // Handle the file upload if a new picture is provided
-        if ($request->hasFile('picture')) {
-            // Delete old picture if exists
-            if ($employee->picture) {
-                Storage::disk('public')->delete($employee->picture);
-            }
-
-            $picture = $request->file('picture');
-            $picturePath = $picture->store('employees', 'public');
-            $picturePath = str_replace('public', '', $picturePath);
-        } else {
-            $picturePath = $employee->picture;
-        }
+        $picturePath = $request->hasFile('picture') ? $request->file('picture')->store('employees', 'public') : $employee->picture;
 
         // Update employee data
         $employee->update([
@@ -160,7 +153,15 @@ class EmployeeController extends Controller
             'designation' => $request->designation,
             'picture' => $picturePath,
             'id_card_number' => $request->id_card_number,
+            'branch_id' => $request->branch_id, // Update branch
         ]);
+
+        // Update roles based on designation
+        if ($request->designation == 'Manager' && $user) {
+            $user->syncRoles(['manager']);
+        } elseif ($request->designation == 'Instructor' && $user) {
+            $user->syncRoles(['instructor']);
+        }
 
         return redirect()->route('admin.allEmployees')->with('success_updated_employee', 'Employee updated successfully.');
     }

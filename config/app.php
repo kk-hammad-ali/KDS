@@ -182,6 +182,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
+        App\Providers\BranchesServiceProvider::class,
 
         /*
          * Package Service Providers...

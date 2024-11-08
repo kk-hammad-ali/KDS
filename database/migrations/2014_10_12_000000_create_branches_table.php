@@ -8,18 +8,16 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('branches', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('password');
-            $table->foreignId('current_branch_id')->nullable()->constrained('branches')->onDelete('set null');
-            $table->rememberToken();
+            $table->string('address');
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('branches');
     }
 };

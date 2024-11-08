@@ -14,6 +14,7 @@ class RolePermissionSeeder extends Seeder
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $instructorRole = Role::firstOrCreate(['name' => 'instructor']);
         $studentRole = Role::firstOrCreate(['name' => 'student']);
+        $managerRole = Role::firstOrCreate(['name' => 'manager']);
 
         // Admin Permissions
         $adminPermissions = [
@@ -74,7 +75,34 @@ class RolePermissionSeeder extends Seeder
         // Assign permissions to admin role
         $adminRole->givePermissionTo($adminPermissions);
 
-        
+        // Manager gets a subset of admin permissions for now
+        $managerPermissions = [
+            'view dashboard',
+            'manage students',
+            'add students',
+            'edit students',
+            'manage instructors',
+            'add instructors',
+            'edit instructors',
+            'manage courses',
+            'add courses',
+            'edit courses',
+            'view all leaves',
+            'manage leaves',
+            'add leaves',
+            'edit leaves',
+            'manage cars',
+            'add cars',
+            'edit cars',
+            'manage daily expenses',
+            'add daily expenses',
+            'edit daily expenses',
+            'view invoices',
+            'manage invoices',
+        ];
+
+        // Assign permissions to manager role
+        $managerRole->givePermissionTo($managerPermissions);
 
         // Instructor Permissions
         $instructorPermissions = [
