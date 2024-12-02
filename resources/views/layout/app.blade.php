@@ -181,21 +181,20 @@
 
         <!-- Banner Section -->
         <section class="inner-banner">
-            <div class="image-layer"
-                style="background-image: url({{ asset('main/images/background/banner-image-1.jpg') }});"></div>
+            <div class="image-layer" style="background-image: url('@yield('bannerImage', asset('main/images/background/banner-image-1.jpg'))');"></div>
             <div class="auto-container">
                 <div class="content-box">
                     <div class="bread-crumb">
                         <ul class="clearfix">
                             <li><a href="{{ route('home') }}">Home</a></li>
-                            <li class="current">@yield('breadcrumb')</li>
+                            <li class="current">@yield('breadcrumb', 'Default Breadcrumb')</li>
                         </ul>
                     </div>
-                    <h1>@yield('title')</h1>
+                    <h1>@yield('title', 'Default Title')</h1>
                 </div>
             </div>
         </section>
-        <!--End Banner Section -->
+        <!-- End Banner Section -->
 
 
         @yield('content')

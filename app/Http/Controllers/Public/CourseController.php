@@ -4,41 +4,60 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Course;
+use App\Models\Car;
+
+
 
 class CourseController extends Controller
 {
+
     public function index()
     {
+        $courses = Course::all();
+        $cars = Car::all();
         return view('public.courses.courses');
     }
 
     public function mehranCourse()
     {
-        return view('public.courses.mehran');
+        $courses = Course::all();
+        $cars = Car::all();
+        return view('public.courses.mehran', compact('courses', 'cars'));
     }
 
     public function altoCourse()
     {
-        return view('public.courses.alto');
+        $courses = Course::all();
+        $cars = Car::all();
+        return view('public.courses.alto', compact('courses', 'cars'));
     }
 
     public function hondaCourse()
     {
-        return view('public.courses.honda');
+        $courses = Course::all();
+        $cars = Car::all();
+        return view('public.courses.honda', compact('courses', 'cars'));
     }
 
     public function vitzCourse()
     {
-        return view('public.courses.vitz');
+        $courses = Course::all();
+        $cars = Car::all();
+        return view('public.courses.vitz', compact('courses', 'cars'));
     }
 
     public function miraCourse()
     {
-        return view('public.courses.mira');
+        $courses = Course::all();
+        $cars = Car::all();
+        return view('public.courses.mira', compact('courses', 'cars'));
     }
 
     public function cd70()
     {
-        return view('public.courses.cd70');
+        $courses = Course::all();
+        $cars = Car::all();
+        return view('public.courses.cd70', compact('courses', 'cars'));
     }
 }
