@@ -15,6 +15,7 @@ use App\Models\Instructor;
 use App\Models\Invoice;
 use App\Models\User;
 use App\Models\Car;
+use App\Models\Branch;
 use App\Models\Leave;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -79,8 +80,9 @@ class StudentController extends Controller
         $instructors = Instructor::with('employee.user')->get();
         $courses = Course::all();
         $cars = Car::all();
+        $branches = Branch::all();
 
-        return view('admin.students.add_student', compact('courses', 'cars', 'instructors'));
+        return view('admin.students.add_student', compact('courses', 'cars', 'instructors','branches'));
     }
 
     public function adminStoreStudent(Request $request)
@@ -88,8 +90,8 @@ class StudentController extends Controller
         // Validate the incoming request
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'father_or_husband_name' => 'required|string|max:255',
-            'cnic' => 'required|string|max:20',
+            'father_or_husband_name' => 'nullable|string|max:255',
+            'cnic' => 'nullable|string|max:20|unique:students,cnic',
             'address' => 'required|string|max:255',
             'pickup_sector' => 'required|string|max:50',
             'phone' => 'required|string|max:15',
@@ -108,7 +110,7 @@ class StudentController extends Controller
             'invoice_date' => 'required|date',
             'amount_received' => 'required|numeric',
             'balance' => 'required|numeric',
-            'branch' => 'required|string|max:255',
+            'branch_id' => 'required|exists:branches,id',
             'paid_by' => 'required|string|max:255',
             'amount_in_english' => 'required|string|max:255',
             'timing_preference' => 'nullable|array',
@@ -187,6 +189,7 @@ class StudentController extends Controller
             'course_end_date' => $course_end_date,
             'class_duration' => $adjustedClassDuration,
             'form_type' => 'admin',
+            'branch_id' => $validated['branch_id'],
             'timing_preference' => $timingPreference ? implode(', ', $timingPreference) : null,
         ]);
 
@@ -214,13 +217,13 @@ class StudentController extends Controller
             'invoice_date' => $request->invoice_date,
             'amount_received' => $request->amount_received,
             'balance' => $request->balance,
-            'branch' => $request->branch,
+            'branch_id' => $validated['branch_id'],
             'paid_by' => $request->paid_by,
             'amount_in_english' => $request->amount_in_english,
         ]);
 
         // Send admission confirmation email
-        // $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
+        $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
 
         return redirect()->route('admin.allStudents')->with('success_student', 'Student added successfully.');
     }
@@ -236,6 +239,7 @@ class StudentController extends Controller
 
         $cars = Car::all();
         $courses = Course::all();
+        $branches = Branch::all();
 
         return view('admin.students.edit_student', compact('student', 'instructors', 'cars', 'courses'));
     }
@@ -246,8 +250,8 @@ class StudentController extends Controller
     // Validate incoming request
     $validated = $request->validate([
         'name' => 'required|string|max:255',
-        'father_or_husband_name' => 'required|string|max:255',
-        'cnic' => 'required|string|max:20',
+        'father_or_husband_name' => 'nullable|string|max:255',
+        'cnic' => 'nullable|string|max:20',
         'address' => 'required|string|max:255',
         'pickup_sector' => 'required|string|max:50',
         'phone' => 'required|string|max:15',
@@ -416,19 +420,27 @@ class StudentController extends Controller
     }
 
 
-    public function getTodayAdmissionsData()
+    public function getTomorrowAdmissionsData()
     {
-        // Get today's date
-        $today = Carbon::today();
+        // Get tomorrow's date
+        $tomorrow = Carbon::tomorrow();
 
-        // Fetch students with admission date equal to today and their associated schedule, instructor, and vehicle details
-        $todayAdmissions = Student::with(['user', 'schedules' => function ($query) {
-                $query->whereHas('instructor')->whereHas('vehicle');
+        // Fetch students whose first class is tomorrow
+        $tomorrowAdmissions = Student::with(['user', 'schedules' => function ($query) use ($tomorrow) {
+                // Get the earliest class for each student and check if it is tomorrow
+                $query->whereDate('class_date', $tomorrow) // Check if class date is tomorrow
+                      ->whereHas('instructor')  // Ensure schedule has an instructor
+                      ->whereHas('vehicle');    // Ensure schedule has a vehicle
             }, 'schedules.instructor.employee.user', 'schedules.vehicle'])
-            ->where('admission_date', $today)
+            ->whereHas('schedules', function ($query) use ($tomorrow) {
+                // Check if the first class is tomorrow by ordering by class_date and filtering
+                $query->whereDate('class_date', $tomorrow)
+                      ->orderBy('class_date', 'asc') // Ensure we are getting the first class
+                      ->limit(1); // We are only interested in the first class
+            })
             ->get();
 
-        return $todayAdmissions;
+        return $tomorrowAdmissions;
     }
 
     public function getTodayCreatedStudents()

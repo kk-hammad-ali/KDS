@@ -150,7 +150,7 @@
                                             data-duration="{{ $course->duration_days }}">
                                             {{ $course->car->make }} {{ $course->car->model }}
                                             {{ $course->car->registration_number }} -
-                                            {{ $course->duration_days }} Days
+                                            {{ $course->duration_days }} Days - {{ $course->duration_minutes }} Minutes
                                         </option>
                                     @endforeach
                                 </select>
@@ -278,6 +278,20 @@
                                 @enderror
                             </div>
 
+                            <div class="col-sm-6">
+                                <label for="branch_id" class="h5 mb-8 fw-semibold font-heading">Assign Branch</label>
+                                <select class="form-select @error('branch_id') is-invalid @enderror" id="branch_id"
+                                    name="branch_id">
+                                    <option value="" disabled selected>Select branch</option>
+                                    @foreach ($branches as $branch)
+                                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('branch_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <div class="col-md-6">
                                 <label for="timing_preference" class="h5 mb-2 fw-semibold font-heading">Timing
                                     Preference</label>
@@ -311,7 +325,7 @@
                                 @enderror
                             </div>
 
-                            <div class="col-sm-6">
+                            {{-- <div class="col-sm-6">
                                 <label for="branch" class="h5 mb-8 fw-semibold font-heading">Branch</label>
                                 <input type="text" class="form-control @error('branch') is-invalid @enderror"
                                     id="branch" name="branch" value="{{ old('branch') }}" placeholder="Main Branch"
@@ -319,7 +333,7 @@
                                 @error('branch')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
-                            </div>
+                            </div> --}}
 
                             <div class="col-sm-6">
                                 <label for="balance" class="h5 mb-8 fw-semibold font-heading">Advance</label>

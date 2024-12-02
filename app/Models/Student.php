@@ -15,6 +15,7 @@ class Student extends Model
 
     protected $fillable = [
         'user_id',
+        'branch_id',
         'father_or_husband_name',
         'cnic',
         'address',
@@ -65,6 +66,11 @@ class Student extends Model
     public function attendances()
     {
         return $this->hasMany(Attendance::class, 'student_id');
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 
     // In Student.php model

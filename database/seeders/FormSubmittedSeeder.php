@@ -88,6 +88,7 @@ class FormSubmittedSeeder extends Seeder
                 'class_duration' => 0,
                 'course_end_date' => now()->addDays($record['course_duration']),
                 'form_type' => 'admission',
+                'branch_id' => 1,
             ]);
 
             // Notify the admin about the new admission

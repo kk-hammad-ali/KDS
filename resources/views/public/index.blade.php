@@ -14,22 +14,6 @@
                         style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');"></div>
                     <div class="auto-container">
                         <div class="content-box">
-                            <div class="content">
-                                <div class="clearfix">
-                                    <div class="inner">
-                                        <h1><span>King Driving School</span></h1>
-                                        <div class="text">High-Quality Driving Schools in Islamabad</div>
-                                        <div class="links-box clearfix">
-                                            <div class="link"><a href="{{ route('public.quiz') }}"
-                                                    class="theme-btn btn-style-one"><span>Theory
-                                                        Test</span></a></div>
-                                            <div class="link"><a href="{{ route('public.admission.form') }}"
-                                                    class="theme-btn btn-style-two"><span>Book
-                                                        Now</span></a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="image-box">
                                 <div class="icon icon-1"><img src="{{ asset('main/images/main-slider/banner-icon-2.svg') }}"
                                         alt="" title=""></div>
@@ -52,29 +36,11 @@
                         style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');"></div>
                     <div class="auto-container">
                         <div class="content-box">
-                            <div class="content">
-                                <div class="clearfix">
-                                    <div class="inner">
-                                        <h1><span>King Driving School</span></h1>
-                                        <div class="text">High-Quality Driving Schools in Islamabad</div>
-                                        <div class="links-box clearfix">
-                                            <div class="link"><a href="{{ route('public.quiz') }}"
-                                                    class="theme-btn btn-style-one"><span>Theory
-                                                        Test</span></a></div>
-                                            <div class="link"><a href="{{ route('public.admission.form') }}"
-                                                    class="theme-btn btn-style-two"><span>Book
-                                                        Now</span></a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="image-box">
-                                <div class="icon icon-1"><img
-                                        src="{{ asset('main/images/main-slider/banner-icon-2.svg') }}" alt=""
-                                        title=""></div>
-                                <div class="icon icon-2"><img
-                                        src="{{ asset('main/images/main-slider/banner-icon-3.svg') }}" alt=""
-                                        title=""></div>
+                                <div class="icon icon-1"><img src="{{ asset('main/images/main-slider/banner-icon-2.svg') }}"
+                                        alt="" title=""></div>
+                                <div class="icon icon-2"><img src="{{ asset('main/images/main-slider/banner-icon-3.svg') }}"
+                                        alt="" title=""></div>
                                 <div class="image">
                                     <img src="{{ asset('main/images/main-slider/slider-3.webp') }}" alt=""
                                         title="">
@@ -94,7 +60,7 @@
                     </div>
                     <div class="auto-container">
                         <div class="content-box">
-                            <div class="content">
+                            {{-- <div class="content">
                                 <div class="clearfix">
                                     <div class="inner">
                                         <h1><span>King Driving School</span></h1>
@@ -109,7 +75,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="image-box">
                                 <div class="icon icon-1"><img
                                         src="{{ asset('main/images/main-slider/banner-icon-2.svg') }}" alt=""
@@ -130,88 +96,6 @@
         </div>
     </section>
     <!-- End Banner Section -->
-
-
-    <!--Welcome Section-->
-    <section class="welcome-two">
-        <div class="right-image"><img src="{{ asset('main/images/resource/welcome-2.webp') }}" alt=""
-                title=""></div>
-        <div class="auto-container">
-            <div class="row clearfix">
-                <!-- Text Col -->
-                <div class="text-col col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                    <div class="inner wow fadeInRight" data-wow-duration="1500ms" data-wow-delay="0ms">
-                        <div class="title-box style-two">
-                            <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}"
-                                    alt=""></div>
-                            <h2><span>Welcome To King <br>Driving School</span></h2>
-                        </div>
-                        <div class="row clearfix">
-                            <!-- Block -->
-                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
-                                    <h6>Driving Training</h6>
-                                    <div class="text">We train on-road, parking, roundabout, U-turns, sharp turns, and
-                                        defensive driving techniques to our students.
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Block -->
-                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
-                                    <h6>Theory Classes</h6>
-                                    <div class="text">Driving theory lectures to familiarize the trainers with cockpit
-                                        drill, basic driving skills, road signs, road safety, and road sense.
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Block -->
-                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
-                                    <h6>Hallmark Training</h6>
-                                    <div class="text">Excellence in S-shape, L-shape, ?-shape, and parallel parking as
-                                        required by the Driving Licenses Authority (DLA).
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Block -->
-                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
-                                    <h6>Pick & Drop</h6>
-                                    <div class="text">We can also provide pick and drop service to students who need it.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="lower-links clearfix">
-                            <div class="link"><a href="{{ route('public.courses') }}"
-                                    class="theme-btn btn-style-one"><span>DISCOVER
-                                        MORE</span></a></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Image Col -->
-                <div class="image-col col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                    <div class="inner wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="0ms">
-                        <div class="images">
-                            <div class="image"><img src="{{ asset('main/images/resource/welcome-1.jpg') }}"
-                                    alt="" title=""></div>
-                            <div class="w-box">
-                                <div class="inner-box">
-                                    <div class="icon-box"><span class="fal fa-shield-check"></span></div>
-                                    <div class="text">We will give you a safe drive from all threats.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     {{-- <!--Video Lesson Class-->
     <section class="video-lessons">
@@ -236,8 +120,8 @@
             </div>
             <div class="row clearfix">
                 <!-- Block -->
-                <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp"
-                    data-wow-duration="1500ms" data-wow-delay="0ms">
+                <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="0ms">
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.mehranCourse') }}"><img
@@ -256,8 +140,8 @@
                 </div>
 
                 <!-- Block -->
-                <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp"
-                    data-wow-duration="1500ms" data-wow-delay="300ms">
+                <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="300ms">
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.altoCourse') }}"><img
@@ -513,7 +397,86 @@
         </div>
     </section>
 
-
+    <!--Welcome Section-->
+    <section class="welcome-two">
+        <div class="right-image"><img src="{{ asset('main/images/resource/welcome-2.webp') }}" alt=""
+                title=""></div>
+        <div class="auto-container">
+            <div class="row clearfix">
+                <!-- Text Col -->
+                <div class="text-col col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                    <div class="inner wow fadeInRight" data-wow-duration="1500ms" data-wow-delay="0ms">
+                        <div class="title-box style-two">
+                            <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}"
+                                    alt=""></div>
+                            <h2><span>Welcome To King <br>Driving School</span></h2>
+                        </div>
+                        <div class="row clearfix">
+                            <!-- Block -->
+                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
+                                    <h6>Driving Training</h6>
+                                    <div class="text">We train on-road, parking, roundabout, U-turns, sharp turns, and
+                                        defensive driving techniques to our students.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Block -->
+                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
+                                    <h6>Theory Classes</h6>
+                                    <div class="text">Driving theory lectures to familiarize the trainers with cockpit
+                                        drill, basic driving skills, road signs, road safety, and road sense.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Block -->
+                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
+                                    <h6>Hallmark Training</h6>
+                                    <div class="text">Excellence in S-shape, L-shape, ?-shape, and parallel parking as
+                                        required by the Driving Licenses Authority (DLA).
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Block -->
+                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
+                                    <h6>Pick & Drop</h6>
+                                    <div class="text">We can also provide pick and drop service to students who need it.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lower-links clearfix">
+                            <div class="link"><a href="{{ route('public.courses') }}"
+                                    class="theme-btn btn-style-one"><span>DISCOVER
+                                        MORE</span></a></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Image Col -->
+                <div class="image-col col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                    <div class="inner wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="0ms">
+                        <div class="images">
+                            <div class="image"><img src="{{ asset('main/images/resource/welcome-1.jpg') }}"
+                                    alt="" title=""></div>
+                            <div class="w-box">
+                                <div class="inner-box">
+                                    <div class="icon-box"><span class="fal fa-shield-check"></span></div>
+                                    <div class="text">We will give you a safe drive from all threats.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!--About Section-->
     <section class="about-one">

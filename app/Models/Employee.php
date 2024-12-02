@@ -33,4 +33,9 @@ class Employee extends Model
         return $this->hasOne(Instructor::class);
     }
 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
 }

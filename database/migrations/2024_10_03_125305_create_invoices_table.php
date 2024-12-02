@@ -13,12 +13,12 @@ return new class extends Migration {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('schedule_id')->constrained('schedules')->onDelete('cascade');
+            $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade');
             $table->string('receipt_number')->unique();
             $table->date('invoice_date');
             $table->string('paid_by')->nullable();
             $table->string('amount_in_english')->nullable();
             $table->decimal('balance', 8, 2)->nullable();
-            $table->string('branch')->nullable();
             $table->decimal('amount_received', 8, 2);
             $table->timestamps();
         });

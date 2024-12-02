@@ -190,12 +190,12 @@
                                 <span class="text">Inquiries</span>
                             </a>
                         </li>
-                        <li class="sidebar-menu__item">
+                        {{-- <li class="sidebar-menu__item">
                             <a href="{{ route('admin.allBranches') }}" class="sidebar-menu__link">
                                 <span class="icon"><i class="ph ph-building"></i></span>
                                 <span class="text">Branches</span>
                             </a>
-                        </li>
+                        </li> --}}
                     @elseif(auth()->user()->hasRole('manager'))
                         <!-- Manager Menu -->
                         <li class="sidebar-menu__item">
@@ -368,7 +368,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Branch Switcher for Admin -->
+                                {{-- <!-- Branch Switcher for Admin -->
                                 @if (auth()->user()->hasRole('admin'))
                                     <form action="{{ route('branch.switch') }}" method="POST">
                                         @csrf
@@ -381,7 +381,7 @@
                                             @endforeach
                                         </select>
                                     </form>
-                                @endif
+                                @endif --}}
 
 
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal"

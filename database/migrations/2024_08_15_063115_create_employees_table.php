@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade');
-            $table->string('email')->unique();
+            $table->string('email')->nullable();
             $table->string('phone')->unique();
             $table->string('address')->nullable();
             $table->string('id_card_number');

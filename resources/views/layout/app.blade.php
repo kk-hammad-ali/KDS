@@ -83,10 +83,21 @@
                                             </ul>
                                         </li>
                                         <li><a href="{{ route('public.gallery') }}">Gallery</a></li>
-                                        <li><a href="{{ route('public.branch') }}">Branches</a></li>
+                                        {{-- <li><a href="{{ route('public.branch') }}">Branches</a></li> --}}
                                         <li><a href="{{ route('public.blog') }}">Blog</a></li>
                                         <li><a href="{{ route('public.contact') }}">Contact</a></li>
-                                        <li><a href="{{ route('public.quiz') }}">Take a Quiz</a></li>
+                                        <li>
+                                            <div class="link"><a style="padding: 8px;"
+                                                    href="{{ route('public.quiz') }}"
+                                                    class="theme-btn btn-style-one"><span>Theory
+                                                        Test</span></a></div>
+                                        </li>
+                                        <li>
+                                            <div class="link"><a style="padding: 8px;"
+                                                    href="{{ route('public.admission.form') }}"
+                                                    class="theme-btn btn-style-one"><span>Book
+                                                        Now</span></a></div>
+                                        </li>
                                     </ul>
                                 </nav>
                                 <!-- Main Menu End -->
@@ -145,10 +156,19 @@
                             </ul>
                         </li>
                         <li><a href="{{ route('public.gallery') }}">Gallery</a></li>
-                        <li><a href="{{ route('public.branch') }}">Branches</a></li>
+                        {{-- <li><a href="{{ route('public.branch') }}">Branches</a></li> --}}
                         <li><a href="{{ route('public.blog') }}">Blog</a></li>
                         <li><a href="{{ route('public.contact') }}">Contact</a></li>
-                        <li><a href="{{ route('public.quiz') }}">Take a Quiz</a></li>
+                        <li style="margin:15px;">
+                            <div class="link"><a href="{{ route('public.quiz') }}"
+                                    class="theme-btn btn-style-one"><span>Theory
+                                        Test</span></a></div>
+                        </li>
+                        <li style="margin:15px;">
+                            <div class="link"><a href="{{ route('public.admission.form') }}"
+                                    class="theme-btn btn-style-one"><span>Book
+                                        Now</span></a></div>
+                        </li>
                     </ul>
                 </div><!-- /.Side-menu -->
             </div>

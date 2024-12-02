@@ -82,6 +82,7 @@ class StudentSeeder extends Seeder
                 'course_end_date' => $course_end_date,
                 'class_duration' => $class_duration,
                 'form_type' => 'admin',
+                'branch_id' => 1,
             ]);
 
             // Create schedule for the student

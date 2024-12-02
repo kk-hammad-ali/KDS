@@ -15,4 +15,14 @@ class Branch extends Model
     {
         return $this->hasMany(User::class, 'current_branch_id');
     }
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

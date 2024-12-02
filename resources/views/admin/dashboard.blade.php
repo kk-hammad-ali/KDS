@@ -4,12 +4,12 @@
     <div class="dashboard-body">
         <div class="row gy-4">
 
-            <!-- Dummy Text to Test Branch Switch -->
+            {{-- <!-- Dummy Text to Test Branch Switch -->
             <div class="alert alert-info mt-3">
                 @if (auth()->user()->current_branch_id && auth()->user()->currentBranch)
                     <strong>Current Branch:</strong> {{ auth()->user()->currentBranch->name }}
                 @endif
-            </div>
+            </div> --}}
 
             <div class="row g-4">
                 <!-- Total Students Card -->
@@ -323,7 +323,7 @@
                 <!-- Today's New Classes Table -->
                 <div class="card overflow-hidden mt-24 p-20">
                     <div class="card-body p-0 overflow-x-auto">
-                        <h5 class="mb-20">Today's New Classes</h5>
+                        <h5 class="mb-20">Tomorrow New Classes</h5>
                         <table id="todaysNewClassesTable" class="table table-striped">
                             <thead>
                                 <tr>

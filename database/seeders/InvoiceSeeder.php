@@ -30,7 +30,7 @@ class InvoiceSeeder extends Seeder
                 'paid_by' => $faker->name(),
                 'amount_in_english' => 'English Ammount',
                 'balance' => $faker->randomFloat(2, 0, 500),
-                'branch' => $faker->city(),
+                'branch_id' => 1,
                 'amount_received' => $faker->randomFloat(2, 100, 1000),
                 'created_at' => now(),
                 'updated_at' => now(),

@@ -18,7 +18,7 @@ class Invoice extends Model
         'paid_by',
         'amount_in_english',
         'balance',
-        'branch',
+        'branch_id',
         'amount_received',
 
     ];
@@ -45,5 +45,10 @@ class Invoice extends Model
     public function schedule()
     {
         return $this->belongsTo(Schedule::class);
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 }

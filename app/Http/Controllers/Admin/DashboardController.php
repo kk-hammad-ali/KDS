@@ -49,7 +49,7 @@ class DashboardController extends Controller
         $todaysClasses = $this->getTodaysClasses();
         $carSchedules = $this->scheduleController->getAllCarSchedules();
         $instructorSchedules = $this->scheduleController->getAllInstructorSchedules();
-        $todayAdmissions = $this->studentController->getTodayAdmissionsData();
+        $todayAdmissions = $this->studentController->getTomorrowAdmissionsData();
         $todayCreatedStudents = $this->studentController->getTodayCreatedStudents();
         $currentBranch = auth()->user()->currentBranch;
 

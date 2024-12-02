@@ -172,7 +172,6 @@
     </div>
     <!-- End Add Course Modal -->
 
-
     <!-- Edit Course Modal -->
     <div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseModalLabel"
         aria-hidden="true">
@@ -242,8 +241,6 @@
         </div>
     </div>
     <!-- End Edit Course Modal -->
-
-
 
     <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">

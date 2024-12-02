@@ -18,7 +18,7 @@
             <div class="flex-align gap-8 flex-wrap">
                 <a href="{{ route('admin.addStudent') }}"
                     class="btn btn-main text-sm btn-sm px-24 py-12 d-flex align-items-center gap-8">
-                    <i class="ph ph-user-plus d-flex text-xl"></i> <!-- Changed icon to a more relevant one -->
+                    <i class="ph ph-user-plus d-flex text-xl"></i> 
                     Add Student
                 </a>
             </div>
