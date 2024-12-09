@@ -7,38 +7,23 @@ use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
-    public function index(Request $request)
+
+    public function index()
     {
-        // If the request is POST, process the quiz submission
-        if ($request->isMethod('post')) {
-            // Hard-coded correct answers for the quiz
-            $answers = [
-                'q1' => '60',
-                'q2' => 'Always',
-                'q3' => 'Stop',
-                'q4' => 'At crosswalks',
-                'q5' => 'Prepare to stop',
-                'q6' => '15 meters',
-                'q7' => 'Pull over and stop',
-                'q8' => 'Slow down, look, and listen',
-                'q9' => 'You may change lanes',
-                'q10' => 'Steer into the skid',
-            ];
+        return view('public.signals.signal-test');
+    }
 
-            $score = 0;
+    public function indexEnglish()
+    {
+        $englishQuestions = json_decode(file_get_contents(storage_path('app/public/english_questions.json')), true);
+        return view('public.signals.english-signal-test', compact('englishQuestions'));
+    }
 
-            // Check the answers and calculate the score
-            foreach ($answers as $key => $correctAnswer) {
-                if ($request->input($key) == $correctAnswer) {
-                    $score++;
-                }
-            }
-
-            // Redirect back to the quiz page with the score in the session
-            return redirect()->route('public.quiz')->with('score', $score);
-        }
-
-        // If the request is GET, simply show the quiz form
-        return view('public.quiz');
+    public function indexUrdu()
+    {
+        $urduQuestions = json_decode(file_get_contents(storage_path('app/public/urdu_questions.json')), true);
+        return view('public.signals.urdu-signal-test', compact('urduQuestions'));
     }
 }
+
+

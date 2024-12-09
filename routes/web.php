@@ -42,7 +42,14 @@ Route::post('/admission', [AdmissionFormController::class, 'store'])->name('publ
 Route::get('/branches', [BranchController::class, 'index'])->name("public.branch");
 Route::get('/gallery', [GalleryController::class, 'index'])->name("public.gallery");
 Route::get('/courses', [CourseController::class, 'index'])->name("public.courses");
-Route::match(['get', 'post'], '/quiz', [QuizController::class, 'index'])->name('public.quiz');
+
+// Route::match(['get', 'post'], '/quiz', [QuizController::class, 'index'])->name('public.quiz');
+
+Route::get('/quiz', [QuizController::class, 'index'])->name('public.quiz');
+Route::get('/quiz/english', [QuizController::class, 'indexEnglish'])->name('public.quiz.english');
+Route::get('/quiz/urdu', [QuizController::class, 'indexUrdu'])->name('public.quiz.urdu');
+
+
 Route::get('/blog', [BlogController::class, 'index'])->name("public.blog");
 Route::get('/courses/mehranCourse', [CourseController::class, 'mehranCourse'])->name("public.courses.mehranCourse");
 Route::get('/courses/altoCourse', [CourseController::class, 'altoCourse'])->name("public.courses.altoCourse");

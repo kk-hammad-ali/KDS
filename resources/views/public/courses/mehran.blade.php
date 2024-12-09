@@ -68,6 +68,7 @@
             line-height: 20px;
             font-size: 16px;
             margin-right: 10px;
+
         }
 
         /* Background for each step container */
@@ -126,83 +127,32 @@
             padding: 20px;
         }
 
-        @media only screen and (max-width:480px) {
+        @media only screen and (max-width: 480px) {
             .our_pricing {
                 background-size: auto;
             }
         }
 
         .pricingTable {
-            background: #fff none repeat scroll 0 0;
+            background: #fff;
             color: #232434;
             margin-top: 30px;
             padding: 50px 15px;
-            -webkit-box-shadow: 0px 19px 43px 0px rgba(17, 17, 17, 0.05);
             box-shadow: 0px 19px 43px 0px rgba(17, 17, 17, 0.05);
-            -webkit-perspective: 700px;
             perspective: 700px;
-            position: relative;
             text-align: center;
-            -webkit-transition: all 0.3s ease-in-out 0s;
-            -o-transition: all 0.3s ease-in-out 0s;
-            transition: all 0.3s ease-in-out 0s;
-            z-index: 1;
-        }
-
-        @media only screen and (max-width:480px) {
-            .pricingTable {
-                margin-bottom: 60px;
-            }
+            transition: all 0.3s ease-in-out;
         }
 
         .pricingTabletop {
             margin-top: -30px;
         }
 
-        .pricingTable .pricingTable-header {}
-
-        .pricingTable .title {
-            display: block;
-            font-size: 24px;
-            font-weight: 600;
-            text-transform: capitalize;
-            -webkit-transition: all 0.3s ease-in-out 0s;
-            -o-transition: all 0.3s ease-in-out 0s;
-            transition: all 0.3s ease-in-out 0s;
-        }
-
-        .pricingTable .price-month {
-            font-size: 16px;
-            font-weight: 500;
-            margin-top: 5px;
-        }
-
-        .pricingTable .price-value {
-            /* font-size: 170px; */
-            /* line-height: 112px;
-                                                                                                                                                            position: relative;
-                                                                                                                                                            color: #e4f1ff;
-                                                                                                                                                            margin: 40px 0; */
-        }
-
-        @media only screen and (max-width:768px) {
-            .pricingTable .price-value {
-                font-size: 130px;
-            }
-        }
-
         .pricingTable .price-value .value-bg {
-            display: contents;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            -webkit-transform: translateX(-50%) translateY(-50%);
-            -ms-transform: translateX(-50%) translateY(-50%);
-            transform: translateX(-50%) translateY(-50%);
             color: #FF8F1F;
             font-weight: 600;
             font-size: 60px;
-            line-height: 20px;
+            display: inline-block;
         }
 
         .pricingTable-2 .price-value {
@@ -219,27 +169,8 @@
             margin: 0 0 20px 0;
         }
 
-        .pricing-content-border {}
-
-        .pricing-content-border>li {
-            border: 1px solid #eee;
-            margin-bottom: 10px;
-        }
-
         .pricingTable .pricing-content li {
             line-height: 40px;
-        }
-
-        @media only screen and (max-width: 990px) {
-            .pricingTable {
-                margin-bottom: 30px;
-            }
-        }
-
-        @media only screen and (max-width: 767px) {
-            .pricingTable {
-                margin-bottom: 50px;
-            }
         }
 
         .btn-price-bg {
@@ -247,20 +178,35 @@
             border: 2px solid #FF8F1F;
             border-radius: 5000px;
             color: #fff;
-            display: inline-block;
             font-size: 16px;
-            overflow: hidden;
             padding: 12px 40px;
             text-transform: capitalize;
-            -webkit-transition: all 0.3s ease 0s;
-            -o-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
+            transition: all 0.3s ease;
         }
 
         .pricingTable:hover .btn-price-bg {
             background: #232434;
-            color: #fff;
             border: 2px solid #232434;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .pricingTable {
+                margin-bottom: 50px;
+            }
+
+            .pricingTable .price-value .value-bg {
+                font-size: 40px;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .pricingTable .price-value .value-bg {
+                font-size: 24px;
+            }
+
+            .customli {
+                margin: 15px 0px;
+            }
         }
 
         .section-title {
@@ -308,18 +254,21 @@
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="auto-container mt-5">
                             <ul>
-                                <li><span class="checkmark">&#x2713;</span> Monday to Saturday: 8:00 am - 8:00 pm for
+                                <li><span class="checkmark customli">&#x2713;</span> Monday to Saturday: 8:00 am - 8:00 pm
+                                    for
                                     gents &
                                     9:00 am - 6:00 pm for ladies</li>
-                                <li><span class="checkmark">&#x2713;</span> Students can take 1 to 2 hours maximum daily
+                                <li><span class="checkmark customli">&#x2713;</span> Students can take 1 to 2 hours maximum
+                                    daily
                                     or
                                     according to their selected package time.</li>
-                                <li><span class="checkmark">&#x2713;</span> If you wish to stop the classes due to
+                                <li><span class="checkmark customli">&#x2713;</span> If you wish to stop the classes due to
                                     health
                                     issues, please inform us 1 hour in advance so your training will be extended
                                     accordingly.
                                 </li>
-                                <li><span class="checkmark">&#x2713;</span> In case your instructor is absent, we will
+                                <li><span class="checkmark customli">&#x2713;</span> In case your instructor is absent, we
+                                    will
                                     arrange a replacement instructor. If we fail to provide another instructor, your
                                     training will be extended accordingly.</li>
                             </ul>
@@ -382,13 +331,12 @@
                             <div class="container">
                                 <div class="row">
                                     <!-- Standard Plan -->
-                                    <div class="col-xs-12 col-sm-4 col-lg-4">
-                                        <div class="pricingTable pricingTable-2">
+                                    <div class="col-xs-12 col-sm-12 col-md-4">
+                                        <div class="pricingTable">
                                             <div class="pricingTable-header">
                                                 <h3 class="title">30 Min</h3>
-
-                                                <h1 class="price-value"> <span class="value-bg">10 Days</span></h1>
-                                                <h1 class="price-value"> <span class="value-bg">10,000/-</span></h1>
+                                                <h1 class="price-value"><span class="value-bg">10 Days</span></h1>
+                                                <h1 class="price-value"><span class="value-bg">10,000/-</span></h1>
                                             </div>
                                             <ul class="pricing-content">
                                                 <li>09 Days Practical Driving</li>
@@ -397,16 +345,15 @@
                                                 <li>Automatic</li>
                                             </ul>
                                         </div>
-                                    </div><!-- END COL -->
+                                    </div>
 
                                     <!-- Business Plan -->
-                                    <div class="col-xs-12 col-sm-4 col-lg-4">
+                                    <div class="col-xs-12 col-sm-12 col-md-4">
                                         <div class="pricingTable pricingTabletop pricingTable-2">
                                             <div class="pricingTable-header">
                                                 <h3 class="title">60 Min</h3>
-
-                                                <h1 class="price-value"> <span class="value-bg">10 Days</span></h1>
-                                                <h1 class="price-value"> <span class="value-bg">20,000/-</span></h1>
+                                                <h1 class="price-value"><span class="value-bg">10 Days</span></h1>
+                                                <h1 class="price-value"><span class="value-bg">20,000/-</span></h1>
                                             </div>
                                             <ul class="pricing-content">
                                                 <li>09 Days Practical Driving</li>
@@ -415,16 +362,15 @@
                                                 <li>Automatic</li>
                                             </ul>
                                         </div>
-                                    </div><!-- END COL -->
+                                    </div>
 
                                     <!-- Premium Plan -->
-                                    <div class="col-xs-12 col-sm-4 col-lg-4">
-                                        <div class="pricingTable pricingTable-2">
+                                    <div class="col-xs-12 col-sm-12 col-md-4">
+                                        <div class="pricingTable">
                                             <div class="pricingTable-header">
                                                 <h3 class="title">60 Min</h3>
-
-                                                <h1 class="price-value"> <span class="value-bg">15 Days</span></h1>
-                                                <h1 class="price-value"> <span class="value-bg">30,000/-</span></h1>
+                                                <h1 class="price-value"><span class="value-bg">15 Days</span></h1>
+                                                <h1 class="price-value"><span class="value-bg">30,000/-</span></h1>
                                             </div>
                                             <ul class="pricing-content">
                                                 <li>14 Days Practical Driving</li>
@@ -433,25 +379,30 @@
                                                 <li>Automatic</li>
                                             </ul>
                                         </div>
-                                    </div><!-- END COL -->
-                                </div><!--END ROW -->
-
+                                    </div>
+                                </div>
 
                                 <!-- Additional Terms -->
                                 <ul class="mt-5">
-                                    <li><span class="checkmark">&#x2713;</span> One Theory Class is Compulsory.</li>
-                                    <li><span class="checkmark">&#x2713;</span> Pick & Drop charges will be according to
+                                    <li><span class="checkmark customli">&#x2713;</span> One Theory Class is Compulsory.
+                                    </li>
+                                    <li><span class="checkmark customli">&#x2713;</span> Pick & Drop charges will be
+                                        according to
                                         location.</li>
-                                    <li><span class="checkmark">&#x2713;</span> Change of Driving Route will be charged
+                                    <li><span class="checkmark customli">&#x2713;</span> Change of Driving Route will be
+                                        charged
                                         separately ₨ 10,000/-.</li>
-                                    <li><span class="checkmark">&#x2713;</span> Air-conditioned facility available in car ₨
+                                    <li><span class="checkmark customli">&#x2713;</span> Air-conditioned facility available
+                                        in car ₨
                                         5,000/-.</li>
-                                    <li><span class="checkmark">&#x2713;</span> Individual training classes fee ₨ 10,000/-.
+                                    <li><span class="checkmark customli">&#x2713;</span> Individual training classes fee ₨
+                                        10,000/-.
                                     </li>
                                 </ul>
-                            </div><!-- END CONTAINER -->
+                            </div>
                         </section>
                     </div>
+
                     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                         <section class="contact-section">
                             <div class="auto-container">
