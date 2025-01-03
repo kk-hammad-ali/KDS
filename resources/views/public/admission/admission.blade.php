@@ -46,22 +46,6 @@
                             </div>
                         </div>
 
-                        <!-- Father/Husband Name -->
-                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                            <div class="field-inner">
-                                <input type="text" name="father_husband_name" value="{{ old('father_husband_name') }}"
-                                    placeholder="Father/Husband Name" required>
-                            </div>
-                        </div>
-
-                        <!-- CNIC -->
-                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                            <div class="field-inner">
-                                <input type="text" name="cnic" value="{{ old('cnic') }}" placeholder="CNIC"
-                                    required>
-                            </div>
-                        </div>
-
                         <!-- Phone -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="field-inner">
@@ -88,18 +72,22 @@
                             </div>
                         </div>
 
-                        <!-- Secondary Phone -->
-                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                            <div class="field-inner">
-                                <input type="text" name="secondary_phone" value="{{ old('secondary_phone') }}"
-                                    placeholder="Secondary Phone">
-                            </div>
-                        </div>
-
                         <!-- Email (Optional) -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="field-inner">
                                 <input type="email" name="email" value="{{ old('email') }}" placeholder="Your Email">
+                            </div>
+                        </div>
+
+                        <!-- Transmission Dropdown -->
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <div class="field-inner">
+                                <select class="form-select" id="transmission" name="transmission" required>
+                                    <option value="" disabled selected>Select Transmission</option>
+                                    @foreach ($courses->pluck('car.transmission')->unique() as $transmission)
+                                        <option value="{{ $transmission }}">{{ ucfirst($transmission) }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -109,21 +97,12 @@
                                 <select class="form-select @error('course_id') is-invalid @enderror" id="course"
                                     name="course_id" required>
                                     <option value="" disabled selected>Select Course</option>
-                                    @foreach ($courses as $course)
-                                        <option value="{{ $course->id }}" data-fees="{{ $course->fees }}"
-                                            data-duration="{{ $course->duration_days }}">
-                                            {{ $course->car->make }} - {{ $course->car->model }} -
-                                            {{ $course->car->registration_number }}
-                                            ({{ $course->duration_days }} Days, {{ $course->car->transmission }})
-                                        </option>
-                                    @endforeach
                                 </select>
                                 @error('course_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
-
 
                         <!-- Fees -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
@@ -164,19 +143,42 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const transmissionSelect = document.getElementById('transmission');
             const courseSelect = document.getElementById('course');
             const feesInput = document.getElementById('fees');
             const durationInput = document.getElementById('course_duration');
 
-            // Update fees and course duration when a course is selected
+            // Store all courses data
+            const coursesData = @json($courses);
+
+            // Update course dropdown when transmission changes
+            transmissionSelect.addEventListener('change', function() {
+                const selectedTransmission = this.value;
+
+                // Clear the current courses dropdown
+                courseSelect.innerHTML = '<option value="" disabled selected>Select Course</option>';
+
+                // Filter courses based on selected transmission
+                const filteredCourses = coursesData.filter(course => course.car.transmission ===
+                    selectedTransmission);
+
+                // Populate courses dropdown
+                filteredCourses.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.id;
+                    option.textContent =
+                        `${course.car.make} - ${course.car.model} (${course.duration_days} Days, ${course.car.transmission})`;
+                    option.setAttribute('data-fees', course.fees);
+                    option.setAttribute('data-duration', course.duration_days);
+                    courseSelect.appendChild(option);
+                });
+            });
+
+            // Update fees and duration when a course is selected
             courseSelect.addEventListener('change', function() {
                 const selectedOption = courseSelect.options[courseSelect.selectedIndex];
-                const fees = selectedOption.getAttribute('data-fees');
-                const duration = selectedOption.getAttribute('data-duration');
-
-                // Assign values
-                feesInput.value = fees;
-                durationInput.value = parseInt(duration, 10); // Ensure duration is an integer
+                feesInput.value = selectedOption.getAttribute('data-fees');
+                durationInput.value = selectedOption.getAttribute('data-duration');
             });
         });
     </script>

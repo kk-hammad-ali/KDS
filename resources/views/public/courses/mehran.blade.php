@@ -13,6 +13,10 @@
             display: none;
         }
 
+        h4 span {
+            color: #FF8F1F;
+        }
+
         nav>.nav.nav-tabs {
 
             border: none;
@@ -257,7 +261,7 @@
                                 <li><span class="checkmark customli">&#x2713;</span> Monday to Saturday: 8:00 am - 8:00 pm
                                     for
                                     gents &
-                                    9:00 am - 6:00 pm for ladies</li>
+                                    9:00 am - 5:00 pm for ladies</li>
                                 <li><span class="checkmark customli">&#x2713;</span> Students can take 1 to 2 hours maximum
                                     daily
                                     or
@@ -329,38 +333,26 @@
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <section id="pricing" class="our_pricing section-padding">
                             <div class="container">
-                                <div class="row">
+
+
+                                <div class="row justify-content-center text-center">
+                                    <div class="col-12">
+                                        <h4><span>FOR FEMALES</span></h4>
+                                    </div>
                                     <!-- Standard Plan -->
                                     <div class="col-xs-12 col-sm-12 col-md-4">
                                         <div class="pricingTable">
                                             <div class="pricingTable-header">
-                                                <h3 class="title">30 Min</h3>
-                                                <h1 class="price-value"><span class="value-bg">10 Days</span></h1>
-                                                <h1 class="price-value"><span class="value-bg">10,000/-</span></h1>
-                                            </div>
-                                            <ul class="pricing-content">
-                                                <li>09 Days Practical Driving</li>
-                                                <li>30 Minutes Daily</li>
-                                                <li>01 Theory Class</li>
-                                                <li>Automatic</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <!-- Business Plan -->
-                                    <div class="col-xs-12 col-sm-12 col-md-4">
-                                        <div class="pricingTable pricingTabletop pricingTable-2">
-                                            <div class="pricingTable-header">
+                                                <h3 class="price-value"><span class="value-bg">11 Days</span></h3>
                                                 <h3 class="title">60 Min</h3>
-                                                <h1 class="price-value"><span class="value-bg">10 Days</span></h1>
-                                                <h1 class="price-value"><span class="value-bg">20,000/-</span></h1>
                                             </div>
                                             <ul class="pricing-content">
-                                                <li>09 Days Practical Driving</li>
+                                                <li>10 Days Practical Driving</li>
                                                 <li>60 Minutes Daily</li>
                                                 <li>01 Theory Class</li>
                                                 <li>Automatic</li>
                                             </ul>
+                                            <h1 class="price-value"><span class="value-bg">17,000/-</span></h1>
                                         </div>
                                     </div>
 
@@ -368,9 +360,47 @@
                                     <div class="col-xs-12 col-sm-12 col-md-4">
                                         <div class="pricingTable">
                                             <div class="pricingTable-header">
+                                                <h3 class="price-value"><span class="value-bg">16 Days</span></h3>
                                                 <h3 class="title">60 Min</h3>
-                                                <h1 class="price-value"><span class="value-bg">15 Days</span></h1>
-                                                <h1 class="price-value"><span class="value-bg">30,000/-</span></h1>
+                                            </div>
+                                            <ul class="pricing-content">
+                                                <li>15 Days Practical Driving</li>
+                                                <li>60 Minutes Daily</li>
+                                                <li>01 Theory Class</li>
+                                                <li>Automatic</li>
+                                            </ul>
+                                            <h1 class="price-value"><span class="value-bg">28,000/-</span></h1>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center text-center mt-5">
+                                    <div class="col-12">
+                                        <h4><span>FOR MALES</span></h4>
+                                    </div>
+                                    <!-- Standard Plan -->
+                                    <div class="col-xs-12 col-sm-12 col-md-4">
+                                        <div class="pricingTable">
+                                            <div class="pricingTable-header">
+                                                <h3 class="price-value"><span class="value-bg">10 Days</span></h3>
+                                                <h3 class="title">60 Min</h3>
+                                            </div>
+                                            <ul class="pricing-content">
+                                                <li>09 Days Practical Driving</li>
+                                                <li>60 Minutes Daily</li>
+                                                <li>01 Theory Class</li>
+                                                <li>Automatic</li>
+                                            </ul>
+                                            <h1 class="price-value"><span class="value-bg">10,000/-</span></h1>
+                                        </div>
+                                    </div>
+
+                                    <!-- Premium Plan -->
+                                    <div class="col-xs-12 col-sm-12 col-md-4">
+                                        <div class="pricingTable">
+                                            <div class="pricingTable-header">
+                                                <h3 class="price-value"><span class="value-bg">15 Days</span></h3>
+                                                <h3 class="title">60 Min</h3>
                                             </div>
                                             <ul class="pricing-content">
                                                 <li>14 Days Practical Driving</li>
@@ -378,6 +408,7 @@
                                                 <li>01 Theory Class</li>
                                                 <li>Automatic</li>
                                             </ul>
+                                            <h1 class="price-value"><span class="value-bg">15,000/-</span></h1>
                                         </div>
                                     </div>
                                 </div>

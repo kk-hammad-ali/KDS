@@ -60,4 +60,11 @@ class CourseController extends Controller
         $cars = Car::all();
         return view('public.courses.cd70', compact('courses', 'cars'));
     }
+
+    public function swiftCourse()
+    {
+        $courses = Course::all();
+        $cars = Car::all();
+        return view('public.courses.swift', compact('courses', 'cars'));
+    }
 }

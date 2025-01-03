@@ -50,12 +50,17 @@ Route::get('/quiz/english', [QuizController::class, 'indexEnglish'])->name('publ
 Route::get('/quiz/urdu', [QuizController::class, 'indexUrdu'])->name('public.quiz.urdu');
 
 
-Route::get('/blog', [BlogController::class, 'index'])->name("public.blog");
+Route::get('/blog', [BlogController::class, 'index'])->name('public.blog');
+Route::get('/blog/common-traffic', [BlogController::class, 'commonTraffic'])->name('public.blog.common-traffic');
+Route::get('/blog/driving-test', [BlogController::class, 'drivingTest'])->name('public.blog.driving-test');
+Route::get('/blog/tips-for-beginner', [BlogController::class, 'tipsBeginner'])->name('public.blog.tips-for-beginner');
+
 Route::get('/courses/mehranCourse', [CourseController::class, 'mehranCourse'])->name("public.courses.mehranCourse");
 Route::get('/courses/altoCourse', [CourseController::class, 'altoCourse'])->name("public.courses.altoCourse");
 Route::get('/courses/hondaCourse', [CourseController::class, 'hondaCourse'])->name("public.courses.hondaCourse");
 Route::get('/courses/vitzCourse', [CourseController::class, 'vitzCourse'])->name("public.courses.vitzCourse");
 Route::get('/courses/miraCourse', [CourseController::class, 'miraCourse'])->name("public.courses.miraCourse");
+Route::get('/courses/swiftCourse', [CourseController::class, 'swiftCourse'])->name("public.courses.swiftCourse");
 Route::get('/courses/cd70', [CourseController::class, 'cd70'])->name("public.courses.cd70");
 
 // Auth Routes

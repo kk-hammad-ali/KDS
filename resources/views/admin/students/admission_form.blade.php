@@ -26,8 +26,6 @@
                             </th>
                             <th class="h6 text-gray-300">#</th>
                             <th class="h6 text-gray-300">Name</th>
-                            <th class="h6 text-gray-300">Father's/Husband's Name</th>
-                            <th class="h6 text-gray-300">CNIC</th>
                             <th class="h6 text-gray-300">Pickup Sector</th>
                             <th class="h6 text-gray-300">Phone</th>
                             <th class="h6 text-gray-300">Admission Date</th>
@@ -50,13 +48,6 @@
                                 </td>
                                 <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->user->name }}</span>
-                                </td>
-                                <td>
-                                    <span
-                                        class="h6 mb-0 fw-medium text-gray-300">{{ $student->father_or_husband_name }}</span>
-                                </td>
-                                <td>
-                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->cnic }}</span>
                                 </td>
                                 <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->pickup_sector }}</span>

@@ -52,22 +52,18 @@ class AdmissionFormController extends Controller
 
     public function store(Request $request)
     {
-        // dd('Notification NOT reached!');
+
         // Validate the request data
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'father_husband_name' => 'required|string|max:255',
-            'cnic' => 'required|string|unique:students',
             'phone' => 'required|string|max:15',
             'address' => 'required|string|max:255',
             'pickup_sector' => 'required|string|max:50',
-            'secondary_phone' => 'nullable|string|max:15',
             'email' => 'nullable|email|max:255|unique:students,email',
             'course_id' => 'required|exists:courses,id',
             'fees' => 'required|numeric',
             'course_duration' => 'required|integer',
         ]);
-
 
 
         // Create user
@@ -79,37 +75,31 @@ class AdmissionFormController extends Controller
         // Assign role to user as student
         $user->assignRole('student');
 
-
-
         // Create student entry
         $student = Student::create([
             'user_id' => $user->id,
-            'father_or_husband_name' => $validated['father_husband_name'],
-            'cnic' => $validated['cnic'],
             'address' => $validated['address'],
             'pickup_sector' => $validated['pickup_sector'],
             'phone' => $validated['phone'],
-            'optional_phone' => $validated['secondary_phone'],
-            'admission_date' => now(), // Set admission date to now
+            'admission_date' => now(),
             'email' => $validated['email'] ?? null,
             'fees' => $validated['fees'],
-            'practical_driving_hours' => 0, // Default or empty value
-            'theory_classes' => 0, // Default or empty value
-            'coupon_code' => null, // Default or empty value
+            'practical_driving_hours' => 0,
+            'theory_classes' => 0,
+            'coupon_code' => null,
             'course_id' => $validated['course_id'],
-            'instructor_id' => null, // Default or empty value
+            'instructor_id' => null,
             'course_duration' => $validated['course_duration'],
-            'class_start_time' => null, // Default or empty value
-            'class_end_time' => null, // Default or empty value
-            'class_duration' => 0, // Default or empty value
+            'class_start_time' => null,
+            'class_end_time' => null,
+            'class_duration' => 0,
             'course_end_date' => now()->addDays($validated['course_duration']),
             'form_type' => 'admission',
         ]);
 
 
-
         // Notify the admin
-        $adminUser = User::whereHas('roles', function($query) {
+        $adminUser = User::whereHas('roles', function ($query) {
             $query->where('name', 'admin');
         })->first();
 
@@ -117,11 +107,10 @@ class AdmissionFormController extends Controller
             $adminUser->notify(new NewAdmissionForm($student));
         }
 
-        // dd('Notification block reached!');
-
         // Redirect back with success message
         return redirect()->route('public.admission.form')->with('success', 'Application submitted successfully.');
     }
+
 
     public function adminUpdateFormStudent(Request $request, $id)
     {

@@ -1,7 +1,14 @@
 @extends('layout.main')
 
 
+
 @section('content')
+    <style>
+        h2 span {
+            color: #FF8F1F;
+        }
+    </style>
+
     <!-- Banner Section -->
     <section class="banner-two">
         <div class="banner-container">
@@ -9,89 +16,27 @@
                 <!-- Slide Item -->
                 <div class="slide-item">
                     <div class="image-layer"
-                        style="background-image: url('{{ asset('main/images/main-slider/slider-2.jpg') }}');"></div>
-                    <div class="curve-layer"
-                        style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');"></div>
+                        style="background-image: url('{{ asset('main/images/main-slider/slider-4.jpg') }}');"></div>
+                    {{-- <div class="curve-layer"
+                        style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');"></div> --}}
                     <div class="auto-container">
                         <div class="content-box">
-                            <div class="image-box">
+                            {{-- <div class="image-box">
                                 <div class="icon icon-1"><img src="{{ asset('main/images/main-slider/banner-icon-2.svg') }}"
                                         alt="" title=""></div>
                                 <div class="icon icon-2"><img src="{{ asset('main/images/main-slider/banner-icon-3.svg') }}"
                                         alt="" title=""></div>
-                                <div class="image">
-                                    <img src="{{ asset('main/images/main-slider/slider-3.webp') }}" alt=""
-                                        title="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide Item -->
-                <div class="slide-item">
-                    <div class="image-layer"
-                        style="background-image: url('{{ asset('main/images/main-slider/slider-2.jpg') }}');"></div>
-                    <div class="curve-layer"
-                        style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');"></div>
-                    <div class="auto-container">
-                        <div class="content-box">
-                            <div class="image-box">
-                                <div class="icon icon-1"><img src="{{ asset('main/images/main-slider/banner-icon-2.svg') }}"
-                                        alt="" title=""></div>
-                                <div class="icon icon-2"><img src="{{ asset('main/images/main-slider/banner-icon-3.svg') }}"
-                                        alt="" title=""></div>
-                                <div class="image">
-                                    <img src="{{ asset('main/images/main-slider/slider-3.webp') }}" alt=""
-                                        title="">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide Item -->
-                <div class="slide-item">
-                    <div class="image-layer"
-                        style="background-image: url('{{ asset('main/images/main-slider/slider-2.jpg') }}');"></div>
-                    <div class="curve-layer"
-                        style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');">
-                    </div>
-                    <div class="auto-container">
-                        <div class="content-box">
-                            {{-- <div class="content">
-                                <div class="clearfix">
-                                    <div class="inner">
-                                        <h1><span>King Driving School</span></h1>
-                                        <div class="text">High-Quality Driving Schools in Islamabad</div>
-                                        <div class="links-box clearfix">
-                                            <div class="link"><a href="{{ route('public.quiz') }}"
-                                                    class="theme-btn btn-style-one"><span>Theory
-                                                        Test</span></a></div>
-                                            <div class="link"><a href="{{ route('public.admission.form') }}"
-                                                    class="theme-btn btn-style-two"><span>Book
-                                                        Now</span></a></div>
-                                        </div>
+                                <div class="content">
+                                    <div class="links-box clearfix">
+                                        <div class="link"><a href="{{ route('public.admission.form') }}"
+                                                class="theme-btn btn-style-one"><span>Book Now</span></a></div>
                                     </div>
                                 </div>
                             </div> --}}
-                            <div class="image-box">
-                                <div class="icon icon-1"><img
-                                        src="{{ asset('main/images/main-slider/banner-icon-2.svg') }}" alt=""
-                                        title=""></div>
-                                <div class="icon icon-2"><img
-                                        src="{{ asset('main/images/main-slider/banner-icon-3.svg') }}" alt=""
-                                        title=""></div>
-                                <div class="image">
-                                    <img src="{{ asset('main/images/main-slider/slider-3.webp') }}" alt=""
-                                        title="">
-
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -116,7 +61,9 @@
             <div class="title-box centered style-two">
                 <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}" alt="">
                 </div>
-                <h2><span>Check Our Latest <br>Courses</span></h2>
+                {{-- <h2><span><br></span></h2> --}}
+                <div class="link"><a href="#" class="theme-btn btn-style-one"><span>Courses We Offers</span></a>
+                </div>
             </div>
             <div class="row clearfix">
                 <!-- Block -->
@@ -134,7 +81,7 @@
                         <div class="mid-box">
                             <h4><a href="{{ route('public.courses.mehranCourse') }}">Suzuki Mehran</a></h4>
                         </div>
-                        <div class="link-box"><a href="{{ route('public.courses.mehranCourse') }}">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.mehranCourse') }}">JOIN NOW<i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
@@ -145,8 +92,7 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.altoCourse') }}"><img
-                                        src="{{ asset('main/images/resource/image-12.webp') }}" alt=""
-                                        title=""></a>
+                                        src="{{ asset('main/images/cars/alto.jpg') }}" alt="" title=""></a>
                             </div>
                             <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
                                     alt="" title=""></div>
@@ -154,14 +100,14 @@
                         <div class="mid-box">
                             <h4><a href="{{ route('public.courses.altoCourse') }}">Suzuki Alto (Manual)</a></h4>
                         </div>
-                        <div class="link-box"><a href="{{ route('public.courses.altoCourse') }}">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.altoCourse') }}">JOIN NOW <i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
 
                 <!-- Block -->
-                <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp"
-                    data-wow-duration="1500ms" data-wow-delay="600ms">
+                <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="600ms">
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.vitzCourse') }}"><img
@@ -174,13 +120,13 @@
                         <div class="mid-box">
                             <h4><a href="{{ route('public.courses.vitzCourse') }}">Toyota Vitz (Automatic)</a></h4>
                         </div>
-                        <div class="link-box"><a href="{{ route('public.courses.vitzCourse') }}">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.vitzCourse') }}">JOIN NOW <i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
 
-                <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp"
-                    data-wow-duration="1500ms" data-wow-delay="600ms">
+                <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="600ms">
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.miraCourse') }}"><img
@@ -193,17 +139,17 @@
                         <div class="mid-box">
                             <h4><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira (Automatic)</a></h4>
                         </div>
-                        <div class="link-box"><a href="{{ route('public.courses.miraCourse') }}">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.miraCourse') }}">JOIN NOW <i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
 
-                <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp"
-                    data-wow-duration="1500ms" data-wow-delay="600ms">
+                <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
+                    data-wow-delay="600ms">
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.hondaCourse') }}"><img
-                                        src="{{ asset('main/images/resource/image-15.jpg') }}" alt=""
+                                        src="{{ asset('main/images/cars/honda.jpg') }}" alt=""
                                         title=""></a>
                             </div>
                             <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
@@ -212,7 +158,7 @@
                         <div class="mid-box">
                             <h4><a href="{{ route('public.courses.hondaCourse') }}">Honda City (Automatic)</a></h4>
                         </div>
-                        <div class="link-box"><a href="{{ route('public.courses.hondaCourse') }}">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.hondaCourse') }}">JOIN NOW <i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
@@ -231,7 +177,7 @@
                         <div class="mid-box">
                             <h4><a href="'{{ route('public.courses.cd70') }}'">Bike (CD-70)</a></h4>
                         </div>
-                        <div class="link-box"><a href="{{ route('public.courses.cd70') }}">READ MORE <i
+                        <div class="link-box"><a href="{{ route('public.courses.cd70') }}">JOIN NOW <i
                                     class="fa-light fa-angle-right"></i></a></div>
                     </div>
                 </div>
@@ -399,8 +345,8 @@
 
     <!--Welcome Section-->
     <section class="welcome-two">
-        <div class="right-image"><img src="{{ asset('main/images/resource/welcome-2.webp') }}" alt=""
-                title=""></div>
+        {{-- <div class="right-image"><img src="{{ asset('main/images/resource/welcome-2.webp') }}" alt=""
+                title=""></div> --}}
         <div class="auto-container">
             <div class="row clearfix">
                 <!-- Text Col -->
@@ -550,28 +496,25 @@
     </section>
 
     <!--News Section-->
-    <section class="news-section no-padd-top">
-        <div class="auto-container">
-            <div class="title-box centered style-two">
-                <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}" alt="">
-                </div>
-                <h2><span>Latest news <br>updates</span></h2>
-            </div>
+    <section class="news-section">
+        <div class="container">
             <div class="news-box">
                 <div class="row clearfix">
                     <!--News Block-->
                     <div class="news-block col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <div class="inner-box wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="0ms">
                             <div class="image-box">
-                                <div class="image"><a href="blog-single.html"><img
-                                            src="{{ asset('main/images/resource/news-1.jpg') }}" alt=""
+                                <div class="image"><a href="{{ route('public.blog.common-traffic') }}"><img
+                                            src="{{ asset('main/images/resource/new-1.png') }}" alt=""
                                             title=""></a></div>
                             </div>
                             <div class="lower-box">
-                                <div class="info">Personal / June 13, 2022</div>
-                                <h4><a href="blog-single.html">How to become a best driver Marketer in a year!</a></h4>
-                                <div class="link-box"><a href="blog-single.html" class="theme-btn">More Details
-                                        <span class="icon far fa-long-arrow-right"></span></a></div>
+                                <div class="info">king driving / September 23, 2024</div>
+                                <h4><a href="{{ route('public.blog.common-traffic') }}">Understanding Common Traffic Signs
+                                        and Their Meanings | A Comprehensive Guide</a></h4>
+                                <div class="link-box"><a href="{{ route('public.blog.common-traffic') }}"
+                                        class="theme-btn">More Details <span
+                                            class="icon far fa-long-arrow-right"></span></a></div>
                             </div>
                         </div>
                     </div>
@@ -579,15 +522,18 @@
                     <div class="news-block col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <div class="inner-box wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="300ms">
                             <div class="image-box">
-                                <div class="image"><a href="blog-single.html"><img
-                                            src="{{ asset('main/images/resource/news-2.jpg') }}" alt=""
+                                <div class="image"><a href="{{ route('public.blog.driving-test') }}"><img
+                                            src="{{ asset('main/images/resource/new-2.webp') }}" alt=""
                                             title=""></a></div>
                             </div>
                             <div class="lower-box">
-                                <div class="info">Personal / June 13, 2022</div>
-                                <h4><a href="blog-single.html">How to become a best driver Marketer in a year!</a></h4>
-                                <div class="link-box"><a href="blog-single.html" class="theme-btn">More Details
-                                        <span class="icon far fa-long-arrow-right"></span></a></div>
+                                <div class="info">king driving / September 23, 2024</div>
+                                <h4><a href="{{ route('public.blog.driving-test') }}">How to Prepare for Your Driving Test
+                                        |
+                                        Expert Tips from King Driving School</a></h4>
+                                <div class="link-box"><a href="{{ route('public.blog.driving-test') }}"
+                                        class="theme-btn">More Details <span
+                                            class="icon far fa-long-arrow-right"></span></a></div>
                             </div>
                         </div>
                     </div>
@@ -595,15 +541,17 @@
                     <div class="news-block col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <div class="inner-box wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="600ms">
                             <div class="image-box">
-                                <div class="image"><a href="blog-single.html"><img
-                                            src="{{ asset('main/images/resource/news-3.jpg') }}" alt=""
+                                <div class="image"><a href="{{ route('public.blog.tips-for-beginner') }}"><img
+                                            src="{{ asset('main/images/resource/new-3.webp') }}" alt=""
                                             title=""></a></div>
                             </div>
                             <div class="lower-box">
-                                <div class="info">Personal / June 13, 2022</div>
-                                <h4><a href="blog-single.html">How to become a best driver Marketer in a year!</a></h4>
-                                <div class="link-box"><a href="blog-single.html" class="theme-btn">More Details
-                                        <span class="icon far fa-long-arrow-right"></span></a></div>
+                                <div class="info">king driving / September 23, 2024</div>
+                                <h4><a href="{{ route('public.blog.tips-for-beginner') }}">Top Tips for Beginner Drivers |
+                                        King Driving School Islamabad</a></h4>
+                                <div class="link-box"><a href="{{ route('public.blog.tips-for-beginner') }}"
+                                        class="theme-btn">More Details <span
+                                            class="icon far fa-long-arrow-right"></span></a></div>
                             </div>
                         </div>
                     </div>

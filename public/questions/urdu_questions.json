@@ -1,0 +1,201 @@
+[
+    {
+        "question_id": 1,
+        "question_type": "image_text",
+        "question": "ان میں سے کون سا اشارہ 'پولیس چیک کے بغیر گزرنا ممنوع ہے' کو ظاہر کرتا ہے؟",
+        "options": [
+            { "id": 1, "image": "/storage/questions/1_1.png", "text": "" },
+            { "id": 2, "image": "/storage/questions/1_2.png", "text": "" },
+            { "id": 3, "image": "/storage/questions/1_3.png", "text": "" },
+            { "id": 4, "image": "/storage/questions/1_4.png", "text": "" }
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_id": 2,
+        "question_type": "text",
+        "question": "کون سا سائن بورڈ خطرے کو ظاہر کرتا ہے؟",
+        "options": [
+            { "id": 1, "text": "لازمی" },
+            { "id": 2, "text": "وارننگ" },
+            { "id": 3, "text": "معلوماتی" }
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_id": 3,
+        "question_type": "text",
+        "question": "کیا بس لین میں گاڑی پارک کرتے وقت بریک لگانا ضروری ہے؟",
+        "options": [
+            { "id": 1, "text": "بس لین میں پارکنگ کی اجازت نہیں" },
+            { "id": 2, "text": "نہیں" },
+            { "id": 3, "text": "ہاں" }
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_id": 4,
+        "question_type": "text",
+        "question": "ڈیپرز کس لئے استعمال کیے جاتے ہیں؟",
+        "options": [
+            { "id": 1, "text": "اوورٹیکنگ کے لیے" },
+            { "id": 2, "text": "گاڑی روکنے کے لیے" },
+            { "id": 3, "text": "اپنی موجودگی دکھانے کے لیے" }
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_id": 5,
+        "question_type": "text",
+        "question": "اگر سامان چھت پر رکھا جائے تو بس کی چھت پر کتنے افراد بیٹھ سکتے ہیں؟",
+        "options": [
+            { "id": 1, "text": "ایک شخص" },
+            { "id": 2, "text": "دو افراد" },
+            { "id": 3, "text": "کوئی نہیں" }
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_id": 6,
+        "question_type": "text",
+        "question": "کیا بریک لگانے کے لیے ہمیشہ کلچ استعمال کرنا ضروری ہے؟",
+        "options": [
+            { "id": 1, "text": "ہاں" },
+            { "id": 2, "text": "نہیں" },
+            { "id": 3, "text": "ہمیشہ" }
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_id": 7,
+        "question_type": "text",
+        "question": "LTV لائسنس جاری ہونے کے کتنے عرصے بعد HTV لائسنس کے لیے درخواست دی جا سکتی ہے؟",
+        "options": [
+            { "id": 1, "text": "ایک سال بعد" },
+            { "id": 2, "text": "دو سال بعد" },
+            { "id": 3, "text": "تین سال بعد" }
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_id": 8,
+        "question_type": "image_text",
+        "question": "یہ نشان کیا ظاہر کرتا ہے؟",
+        "options": [
+            { "id": 1, "text": "پیدل چلنے والوں کا راستہ" },
+            { "id": 2, "text": "پیدل چلنے والوں کو منع کیا گیا ہے" },
+            { "id": 3, "text": "زیبرا کراسنگ" }
+        ],
+        "image": "/storage/questions/no_pedestrians.png",
+        "correct_answer": 2
+    },
+    {
+        "question_id": 9,
+        "question_type": "image",
+        "question": "ان میں سے کون سا اشارہ 'اوورٹیکنگ ممنوع ہے' کو ظاہر کرتا ہے؟",
+        "options": [
+            {
+                "id": 1,
+                "image": "/storage/questions/overtaking_prohibited_1.png"
+            },
+            {
+                "id": 2,
+                "image": "/storage/questions/overtaking_prohibited_2.png"
+            },
+            {
+                "id": 3,
+                "image": "/storage/questions/overtaking_prohibited_3.png"
+            },
+            {
+                "id": 4,
+                "image": "/storage/questions/overtaking_prohibited_4.png"
+            }
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_id": 10,
+        "question_type": "image",
+        "question": "ان میں سے کون سا اشارہ 'سروس روڈ آپ کے بائیں طرف ہے' کو ظاہر کرتا ہے؟",
+        "options": [
+            { "id": 1, "image": "/storage/questions/service_road_left_1.png" },
+            { "id": 2, "image": "/storage/questions/service_road_left_2.png" },
+            { "id": 3, "image": "/storage/questions/service_road_left_3.png" },
+            { "id": 4, "image": "/storage/questions/service_road_left_4.png" }
+        ],
+        "correct_answer": 1
+    },
+
+    {
+        "question_id": 11,
+        "question_type": "image",
+        "question": "ان میں سے کون سا اشارہ 'سیدھے جائیں یا دائیں طرف جانے کی اجازت ہے' کو ظاہر کرتا ہے؟",
+        "options": [
+            { "id": 1, "image": "/storage/questions/straight_right_1.png" },
+            { "id": 2, "image": "/storage/questions/straight_right_2.png" },
+            { "id": 3, "image": "/storage/questions/straight_right_3.png" },
+            { "id": 4, "image": "/storage/questions/straight_right_4.png" }
+        ],
+        "correct_answer": 4
+    },
+    {
+        "question_id": 12,
+        "question_type": "image",
+        "question": "ان میں سے کون سا اشارہ 'نرم راستہ آگے' کو ظاہر کرتا ہے؟",
+        "options": [
+            { "id": 1, "image": "/storage/questions/soft_verge_1.png" },
+            { "id": 2, "image": "/storage/questions/soft_verge_2.png" },
+            { "id": 3, "image": "/storage/questions/soft_verge_3.png" },
+            { "id": 4, "image": "/storage/questions/soft_verge_4.png" }
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_id": 13,
+        "question_type": "image",
+        "question": "ان میں سے کون سا لائن 'پارکنگ ممنوع ہے' کو ظاہر کرتی ہے؟",
+        "options": [
+            { "id": 1, "image": "/storage/questions/parking_prohibited_1.png" },
+            { "id": 2, "image": "/storage/questions/parking_prohibited_2.png" },
+            { "id": 3, "image": "/storage/questions/parking_prohibited_3.png" },
+            { "id": 4, "image": "/storage/questions/parking_prohibited_4.png" }
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_id": 14,
+        "question_type": "image",
+        "question": "ان میں سے کون سا اشارہ 'بجلی کا اشارہ آگے' کو ظاہر کرتا ہے؟",
+        "options": [
+            { "id": 1, "image": "/storage/questions/electric_signal_1.png" },
+            { "id": 2, "image": "/storage/questions/electric_signal_2.png" },
+            { "id": 3, "image": "/storage/questions/electric_signal_3.png" },
+            { "id": 4, "image": "/storage/questions/electric_signal_4.png" }
+        ],
+        "correct_answer": 4
+    },
+    {
+        "question_id": 15,
+        "question_type": "image",
+        "question": "ان میں سے کون سا اشارہ 'ایک طرفہ دائیں جانب' کو ظاہر کرتا ہے؟",
+        "options": [
+            { "id": 1, "image": "/storage/questions/oneway_right_1.png" },
+            { "id": 2, "image": "/storage/questions/oneway_right_2.png" },
+            { "id": 3, "image": "/storage/questions/oneway_right_3.png" },
+            { "id": 4, "image": "/storage/questions/oneway_right_4.png" }
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_id": 16,
+        "question_type": "image",
+        "question": "ان میں سے کون سا اشارہ 'ڈھیلی کنکریوں والی سڑک' کو ظاہر کرتا ہے؟",
+        "options": [
+            { "id": 1, "image": "/storage/questions/loose_gravel_1.png" },
+            { "id": 2, "image": "/storage/questions/loose_gravel_2.png" },
+            { "id": 3, "image": "/storage/questions/loose_gravel_3.png" },
+            { "id": 4, "image": "/storage/questions/loose_gravel_4.png" }
+        ],
+        "correct_answer": 4
+    }
+]

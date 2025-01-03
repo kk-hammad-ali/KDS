@@ -10,7 +10,12 @@
         .preloader {
             display: none;
         }
+
+        h2 span {
+            color: #FF8F1F;
+        }
     </style>
+
     <section class="contact-section">
         <div class="auto-container">
             <div class="title-box centered style-two">

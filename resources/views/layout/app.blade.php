@@ -79,6 +79,7 @@
                                                         (Automatic)</a></li>
                                                 <li><a href="{{ route('public.courses.hondaCourse') }}">Honda City
                                                         (Automatic)</a></li>
+                                                <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li>
                                                 <li><a href="{{ route('public.courses.cd70') }}">Bike (CD-70)</a></li>
                                             </ul>
                                         </li>
@@ -211,10 +212,10 @@
 
                                 <div class="footer-column col-xl-7 col-lg-7 col-md-6 col-sm-12">
                                     <div class="about">
-                                        <div class="footer-logo"><a href="index.html"
+                                        {{-- <div class="footer-logo"><a href="index.html"
                                                 title="King Driving School"><img
                                                     src="{{ asset('main/images/logo.png') }}" alt=""
-                                                    title="King Driving School"></a></div>
+                                                    title="King Driving School"></a></div> --}}
                                         <div class="text">Don't just learn to drive, experience the joy of the ride.
                                             Contact us and let's start your driving lessons together!</div>
                                         <div class="address"><span class="icon fa-light fa-map-marker-alt"></span>
@@ -336,7 +337,7 @@
                 </div>
             </div>
 
-            <div class="f-bottom">
+            <div class="f-bottom bg-black" style="background: black;">
                 <div class="auto-container">
                     <div class="inner clearfix">
                         <div class="copyright">Copyrights &copy; 2024 King Driving School</div>

@@ -5,6 +5,12 @@
 
 @section('content')
 
+    <style>
+        h2 span {
+            color: #FF8F1F;
+        }
+    </style>
+
     <section class="welcome-three">
         <div class="auto-container">
             <div class="row clearfix">
@@ -31,7 +37,7 @@
                         <div class="pattern"><img src="{{ asset('main/images/resource/wel-pattern.png') }}" alt=""
                                 title=""></div>
                         <div class="images clearfix">
-                            <div class="image"><img src="{{ asset('main/images/resource/welcome-3.jpg') }}" alt=""
+                            <div class="image"><img src="{{ asset('main/images/resource/welcome-1.jpg') }}" alt=""
                                     title=""></div>
                             <div class="image-box">
                                 <img src="{{ asset('main/images/resource/welcome-4.jpg') }}" alt="" title="">

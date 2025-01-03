@@ -1,0 +1,204 @@
+[
+    {
+        "question_id": 1,
+        "question_type": "image_text",
+        "question": "Which of the following indicates 'IT IS PROHIBITED TO CROSS WITHOUT POLICE CHECKOUT'?",
+        "options": [
+            { "id": 1, "image": "/storage/questions/1_1.png", "text": "" },
+            { "id": 2, "image": "/storage/questions/1_2.png", "text": "" },
+            { "id": 3, "image": "/storage/questions/1_3.png", "text": "" },
+            { "id": 4, "image": "/storage/questions/1_4.png", "text": "" }
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_id": 2,
+        "question_type": "text",
+        "question": "Which Sign Board shows Danger?",
+        "options": [
+            { "id": 1, "text": "Mandatory" },
+            { "id": 2, "text": "Warning" },
+            { "id": 3, "text": "Informative" }
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_id": 3,
+        "question_type": "text",
+        "question": "It is necessary to apply the break when vehicle is parked in a bus lane?",
+        "options": [
+            { "id": 1, "text": "Not allowed to park in a bus lane" },
+            { "id": 2, "text": "No" },
+            { "id": 3, "text": "Yes" }
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_id": 4,
+        "question_type": "text",
+        "question": "Why are Dippers used?",
+        "options": [
+            { "id": 1, "text": "For Overtaking" },
+            { "id": 2, "text": "To Stop your Vehicle" },
+            { "id": 3, "text": "To show your presence" }
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_id": 5,
+        "question_type": "text",
+        "question": "If Luggage is loaded on roof, how many men sit on the roof of the bus?",
+        "options": [
+            { "id": 1, "text": "One Man" },
+            { "id": 2, "text": "Two Man" },
+            { "id": 3, "text": "No Body" }
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_id": 6,
+        "question_type": "text",
+        "question": "It is necessary to use Clutch for applying break always?",
+        "options": [
+            { "id": 1, "text": "Yes" },
+            { "id": 2, "text": "No" },
+            { "id": 3, "text": "Always" }
+        ],
+        "correct_answer": 2
+    },
+    {
+        "question_id": 7,
+        "question_type": "text",
+        "question": "How long after the LTV License is issued can a HTV License be applied for?",
+        "options": [
+            { "id": 1, "text": "After One Year" },
+            { "id": 2, "text": "After Two Year" },
+            { "id": 3, "text": "After Three Year" }
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_id": 8,
+        "question_type": "image_text",
+        "question": "What Does this Sign mean?",
+        "options": [
+            { "id": 1, "text": "Pedestrians crossing" },
+            { "id": 2, "text": "Pedestrians prohibited" },
+            { "id": 3, "text": "Zebra crossing" }
+        ],
+        "image": "/storage/questions/no_pedestrians.png",
+        "correct_answer": 2
+    },
+
+    {
+        "question_id": 9,
+        "question_type": "image",
+        "question": "Which of the following indicates 'OVERTAKING IS PROHIBITED'?",
+        "options": [
+            {
+                "id": 1,
+                "image": "/storage/questions/overtaking_prohibited_1.png"
+            },
+            {
+                "id": 2,
+                "image": "/storage/questions/overtaking_prohibited_2.png"
+            },
+            {
+                "id": 3,
+                "image": "/storage/questions/overtaking_prohibited_3.png"
+            },
+            {
+                "id": 4,
+                "image": "/storage/questions/overtaking_prohibited_4.png"
+            }
+        ],
+        "correct_answer": 1
+    },
+
+    {
+        "question_id": 10,
+        "question_type": "image",
+        "question": "Which of the following indicates 'SERVICE ROAD IS AT YOUR LEFT'?",
+        "options": [
+            { "id": 1, "image": "/storage/questions/service_road_left_1.png" },
+            { "id": 2, "image": "/storage/questions/service_road_left_2.png" },
+            { "id": 3, "image": "/storage/questions/service_road_left_3.png" },
+            { "id": 4, "image": "/storage/questions/service_road_left_4.png" }
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_id": 11,
+        "question_type": "image",
+        "question": "Which of the following indicates 'GO STRAIGHT OR RIGHT ALLOWED'?",
+        "options": [
+            { "id": 1, "image": "/storage/questions/straight_right_1.png" },
+            { "id": 2, "image": "/storage/questions/straight_right_2.png" },
+            { "id": 3, "image": "/storage/questions/straight_right_3.png" },
+            { "id": 4, "image": "/storage/questions/straight_right_4.png" }
+        ],
+        "correct_answer": 4
+    },
+    {
+        "question_id": 12,
+        "question_type": "image",
+        "question": "Which of the following indicates 'SOFT VERGE AHEAD'?",
+        "options": [
+            { "id": 1, "image": "/storage/questions/soft_verge_1.png" },
+            { "id": 2, "image": "/storage/questions/soft_verge_2.png" },
+            { "id": 3, "image": "/storage/questions/soft_verge_3.png" },
+            { "id": 4, "image": "/storage/questions/soft_verge_4.png" }
+        ],
+        "correct_answer": 3
+    },
+    {
+        "question_id": 13,
+        "question_type": "image",
+        "question": "Which of the following line indicates 'PARKING IS PROHIBITED'?",
+        "options": [
+            { "id": 1, "image": "/storage/questions/parking_prohibited_1.png" },
+            { "id": 2, "image": "/storage/questions/parking_prohibited_2.png" },
+            { "id": 3, "image": "/storage/questions/parking_prohibited_3.png" },
+            { "id": 4, "image": "/storage/questions/parking_prohibited_4.png" }
+        ],
+        "correct_answer": 2
+    },
+
+    {
+        "question_id": 14,
+        "question_type": "image",
+        "question": "Which of the following indicates 'ELECTRIC SIGNAL AHEAD'?",
+        "options": [
+            { "id": 1, "image": "/storage/questions/electric_signal_1.png" },
+            { "id": 2, "image": "/storage/questions/electric_signal_2.png" },
+            { "id": 3, "image": "/storage/questions/electric_signal_3.png" },
+            { "id": 4, "image": "/storage/questions/electric_signal_4.png" }
+        ],
+        "correct_answer": 4
+    },
+
+    {
+        "question_id": 15,
+        "question_type": "image",
+        "question": "Which of the following indicates 'ONEWAY ON THE RIGHT SIDE'?",
+        "options": [
+            { "id": 1, "image": "/storage/questions/oneway_right_1.png" },
+            { "id": 2, "image": "/storage/questions/oneway_right_2.png" },
+            { "id": 3, "image": "/storage/questions/oneway_right_3.png" },
+            { "id": 4, "image": "/storage/questions/oneway_right_4.png" }
+        ],
+        "correct_answer": 1
+    },
+    {
+        "question_id": 16,
+        "question_type": "image",
+        "question": "Which of the following indicates 'LOOSE GRAVEL ROAD'?",
+        "options": [
+            { "id": 1, "image": "/storage/questions/loose_gravel_1.png" },
+            { "id": 2, "image": "/storage/questions/loose_gravel_2.png" },
+            { "id": 3, "image": "/storage/questions/loose_gravel_3.png" },
+            { "id": 4, "image": "/storage/questions/loose_gravel_4.png" }
+        ],
+        "correct_answer": 4
+    }
+]
