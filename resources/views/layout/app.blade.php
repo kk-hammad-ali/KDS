@@ -153,6 +153,7 @@
                                         (Automatic)</a></li>
                                 <li><a href="{{ route('public.courses.hondaCourse') }}">Honda City
                                         (Automatic)</a></li>
+                                <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li>
                                 <li><a href="{{ route('public.courses.cd70') }}">Bike (CD-70)</a></li>
                             </ul>
                         </li>

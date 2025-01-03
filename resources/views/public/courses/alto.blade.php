@@ -14,6 +14,10 @@
             display: none;
         }
 
+        h4 span {
+            color: #FF8F1F;
+        }
+
         /* General styles for tabs */
         nav>.nav.nav-tabs {
             display: flex;
@@ -60,20 +64,6 @@
             border-radius: 5px;
         }
 
-        /* Active tab arrow */
-        nav>div a.nav-item.nav-link.active:after {
-            content: "";
-            position: absolute;
-            bottom: -5px;
-            /* Adjust arrow position */
-            left: 50%;
-            /* Center the arrow */
-            transform: translateX(-50%);
-            border: 10px solid transparent;
-            border-top-color: #FF8F1F;
-            /* Arrow color */
-        }
-
         /* Remove hover effect */
         nav>div a.nav-item.nav-link:hover,
         nav>div a.nav-item.nav-link:focus {
@@ -86,9 +76,7 @@
         .tab-content {
             background: #fdfdfd;
             line-height: 25px;
-            border-top: 5px solid #FF8F1F;
-            border-bottom: 5px solid #FF8F1F;
-            padding: 30px 25px;
+            /* padding: 30px 25px; */
         }
 
         nav>div a.nav-item.nav-link:hover,
@@ -99,6 +87,7 @@
             border-radius: 0;
             transition: background 0.20s linear;
         }
+
 
         .checkmark {
             display: inline-block;
@@ -111,6 +100,7 @@
             line-height: 20px;
             font-size: 16px;
             margin-right: 10px;
+
         }
 
         /* Background for each step container */
@@ -165,87 +155,36 @@
             background-repeat: no-repeat;
             background-position: top center;
             position: relative;
-            margin-top: 120px;
-            padding: 20px;
+            /* padding: 20px; */
         }
 
-        @media only screen and (max-width:480px) {
+        @media only screen and (max-width: 480px) {
             .our_pricing {
                 background-size: auto;
             }
         }
 
         .pricingTable {
-            background: #fff none repeat scroll 0 0;
+            background: #fff;
             color: #232434;
             margin-top: 30px;
             padding: 50px 15px;
-            -webkit-box-shadow: 0px 19px 43px 0px rgba(17, 17, 17, 0.05);
             box-shadow: 0px 19px 43px 0px rgba(17, 17, 17, 0.05);
-            -webkit-perspective: 700px;
             perspective: 700px;
-            position: relative;
+            margin-top: 20px;
             text-align: center;
-            -webkit-transition: all 0.3s ease-in-out 0s;
-            -o-transition: all 0.3s ease-in-out 0s;
-            transition: all 0.3s ease-in-out 0s;
-            z-index: 1;
-        }
-
-        @media only screen and (max-width:480px) {
-            .pricingTable {
-                margin-bottom: 60px;
-            }
+            transition: all 0.3s ease-in-out;
         }
 
         .pricingTabletop {
             margin-top: -30px;
         }
 
-        .pricingTable .pricingTable-header {}
-
-        .pricingTable .title {
-            display: block;
-            font-size: 24px;
-            font-weight: 600;
-            text-transform: capitalize;
-            -webkit-transition: all 0.3s ease-in-out 0s;
-            -o-transition: all 0.3s ease-in-out 0s;
-            transition: all 0.3s ease-in-out 0s;
-        }
-
-        .pricingTable .price-month {
-            font-size: 16px;
-            font-weight: 500;
-            margin-top: 5px;
-        }
-
-        .pricingTable .price-value {
-            /* font-size: 170px; */
-            /* line-height: 112px;
-                                                                                                                                                                                    position: relative;
-                                                                                                                                                                                    color: #e4f1ff;
-                                                                                                                                                                                    margin: 40px 0; */
-        }
-
-        @media only screen and (max-width:768px) {
-            .pricingTable .price-value {
-                font-size: 130px;
-            }
-        }
-
         .pricingTable .price-value .value-bg {
-            display: contents;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            -webkit-transform: translateX(-50%) translateY(-50%);
-            -ms-transform: translateX(-50%) translateY(-50%);
-            transform: translateX(-50%) translateY(-50%);
             color: #FF8F1F;
             font-weight: 600;
             font-size: 60px;
-            line-height: 20px;
+            display: inline-block;
         }
 
         .pricingTable-2 .price-value {
@@ -262,27 +201,8 @@
             margin: 0 0 20px 0;
         }
 
-        .pricing-content-border {}
-
-        .pricing-content-border>li {
-            border: 1px solid #eee;
-            margin-bottom: 10px;
-        }
-
         .pricingTable .pricing-content li {
             line-height: 40px;
-        }
-
-        @media only screen and (max-width: 990px) {
-            .pricingTable {
-                margin-bottom: 30px;
-            }
-        }
-
-        @media only screen and (max-width: 767px) {
-            .pricingTable {
-                margin-bottom: 50px;
-            }
         }
 
         .btn-price-bg {
@@ -290,20 +210,35 @@
             border: 2px solid #FF8F1F;
             border-radius: 5000px;
             color: #fff;
-            display: inline-block;
             font-size: 16px;
-            overflow: hidden;
             padding: 12px 40px;
             text-transform: capitalize;
-            -webkit-transition: all 0.3s ease 0s;
-            -o-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
+            transition: all 0.3s ease;
         }
 
         .pricingTable:hover .btn-price-bg {
             background: #232434;
-            color: #fff;
             border: 2px solid #232434;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .pricingTable {
+                margin-bottom: 50px;
+            }
+
+            .pricingTable .price-value .value-bg {
+                font-size: 40px;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .pricingTable .price-value .value-bg {
+                font-size: 40px;
+            }
+
+            .customli {
+                margin: 15px 0px;
+            }
         }
 
         .section-title {
@@ -334,13 +269,14 @@
             letter-spacing: 1px;
         }
     </style>
-    <div class="container-fluid px-5">
-        <div class="row">
-            <div class="col-12">
+
+    <div class="container-fluid px-3">
+        <div class="row" style="padding: 0px;">
+            <div class="col-12" style="padding: 0px;">
                 <nav>
                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-                            aria-controls="nav-home" aria-selected="true">Training</a>
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
+                            role="tab" aria-controls="nav-home" aria-selected="true">Training</a>
                         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
                             role="tab" aria-controls="nav-profile" aria-selected="false">Rates/Fees</a>
                         <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
@@ -368,7 +304,7 @@
                             </ul>
                         </div>
 
-                        <div class="row clearfix mt-5">
+                        <div class="row clearfix mt-5 px-sm-5">
                             <div class="col-lg-3 col-md-6 col-sm-12 step-container step-1">
                                 <h3>STEP 1</h3>
                                 <ul>

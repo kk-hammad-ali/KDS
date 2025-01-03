@@ -1,7 +1,5 @@
 @extends('layout.main')
 
-
-
 @section('content')
     <style>
         h2 span {
@@ -62,7 +60,8 @@
                 <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}" alt="">
                 </div>
                 {{-- <h2><span><br></span></h2> --}}
-                <div class="link"><h3 href="#" class="theme-btn btn-style-one"><span>Courses We Offers</span></h3>
+                <div class="link">
+                    <h3 href="#" class="theme-btn btn-style-one"><span>Courses We Offers</span></h3>
                 </div>
             </div>
             <div class="row clearfix">

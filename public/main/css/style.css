@@ -2320,6 +2320,7 @@ body.visible-sidebar {
 .banner-two {
     position: relative;
     padding: 0 0;
+    margin: 0px;
     background: #ffffff;
 }
 
@@ -2341,6 +2342,7 @@ body.visible-sidebar {
     position: relative;
     width: 100%;
     padding: 0px;
+    margin: 0px;
     overflow: hidden;
 }
 
@@ -2364,6 +2366,26 @@ body.visible-sidebar {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+@media (max-width: 768px) {
+    .banner-two {
+        margin-bottom: 0;
+    }
+
+    .banner-two .slide-item {
+        height: 210px;
+        /* Adjust height for smaller screens */
+    }
+
+    .banner-two .slide-item .image-layer {
+        background-size: cover;
+        /* Ensures the image covers the entire width */
+        background-position: center center;
+        /* Centers the image */
+        background-repeat: no-repeat;
+        /* Ensures no repetition */
+    }
 }
 
 .banner-two .slide-item .image-layer:before {
@@ -4237,7 +4259,7 @@ body.visible-sidebar {
     position: relative;
     background: #FF8F1F;
     color: #ffffff;
-    padding: 60px 0 0;
+    /* padding: 60px 0 0; */
     font-family: 'Mulish', sans-serif;
 }
 

@@ -10,7 +10,7 @@
 
             <div class="row clearfix">
                 <!--Content Side-->
-                <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="content-side col-lg-12 col-md-12 col-sm-12">
                     <div class="content-inner">
                         <div class="blog-details">
                             <div class="image-box"><img src="{{ asset('main/images/resource/new-3.webp') }}" alt="">
@@ -84,50 +84,6 @@
                             </div>
                         </div>
 
-                    </div>
-                </div>
-                <!--Sidebar Side-->
-                <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
-                    <div class="sidebar">
-                        <div class="sidebar-widget recent-post">
-                            <div class="sidebar-title">
-                                <h5><span>Recent posts</span></h5>
-                            </div>
-                            <div class="posts">
-                                <div class="post">
-                                    <div class="inner">
-                                        <div class="image"><a href="#"><img src="images/resource/thumb-1.jpg"
-                                                    alt=""></a></div>
-                                        <div class="text"><a href="#">Doloremque velit sapien</a></div>
-                                        <div class="date"><span>January 14, 2021</span></div>
-                                    </div>
-                                </div>
-
-                                <div class="post">
-                                    <div class="inner">
-                                        <div class="image"><a href="#"><img src="images/resource/thumb-2.jpg"
-                                                    alt=""></a></div>
-                                        <div class="text"><a href="#">Aliquam mollit nemo taci</a></div>
-                                        <div class="date"><span>January 14, 2021</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="sidebar-widget links-widget">
-                            <div class="sidebar-title">
-                                <h5><span>Quick Link</span></h5>
-                            </div>
-                            <div class="categories">
-                                <ul>
-                                    <li><a href="#">Fashion</a></li>
-                                    <li><a href="#">Features</a></li>
-                                    <li><a href="#">Food for thought</a></li>
-                                    <li><a href="#">Gaming</a></li>
-                                    <li><a href="#">Quote</a></li>
-                                    <li><a href="#">Video post</a></li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

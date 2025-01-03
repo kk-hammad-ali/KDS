@@ -63,20 +63,6 @@
             border-radius: 5px;
         }
 
-        /* Active tab arrow */
-        nav>div a.nav-item.nav-link.active:after {
-            content: "";
-            position: absolute;
-            bottom: -5px;
-            /* Adjust arrow position */
-            left: 50%;
-            /* Center the arrow */
-            transform: translateX(-50%);
-            border: 10px solid transparent;
-            border-top-color: #FF8F1F;
-            /* Arrow color */
-        }
-
         /* Remove hover effect */
         nav>div a.nav-item.nav-link:hover,
         nav>div a.nav-item.nav-link:focus {
@@ -89,9 +75,7 @@
         .tab-content {
             background: #fdfdfd;
             line-height: 25px;
-            border-top: 5px solid #FF8F1F;
-            border-bottom: 5px solid #FF8F1F;
-            padding: 30px 25px;
+            /* padding: 30px 25px; */
         }
 
         nav>div a.nav-item.nav-link:hover,
@@ -170,8 +154,7 @@
             background-repeat: no-repeat;
             background-position: top center;
             position: relative;
-            margin-top: 120px;
-            padding: 20px;
+            /* padding: 20px; */
         }
 
         @media only screen and (max-width: 480px) {
@@ -187,6 +170,7 @@
             padding: 50px 15px;
             box-shadow: 0px 19px 43px 0px rgba(17, 17, 17, 0.05);
             perspective: 700px;
+            margin-top: 20px;
             text-align: center;
             transition: all 0.3s ease-in-out;
         }
@@ -248,7 +232,7 @@
 
         @media only screen and (max-width: 480px) {
             .pricingTable .price-value .value-bg {
-                font-size: 24px;
+                font-size: 40px;
             }
 
             .customli {
@@ -284,9 +268,10 @@
             letter-spacing: 1px;
         }
     </style>
-    <div class="container-fluid px-5">
+
+    <div class="container-fluid px-3">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12" style="padding: 0px;">
                 <nav>
                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
@@ -321,7 +306,7 @@
                             </ul>
                         </div>
 
-                        <div class="row clearfix mt-5">
+                        <div class="row clearfix mt-5 px-sm-5">
                             <div class="col-lg-3 col-md-6 col-sm-12 step-container step-1">
                                 <h3>STEP 1</h3>
                                 <ul>
@@ -376,11 +361,9 @@
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <section id="pricing" class="our_pricing section-padding">
                             <div class="container">
-
-
                                 <div class="row justify-content-center text-center">
-                                    <div class="col-12">
-                                        <h4><span>FOR FEMALES</span></h4>
+                                    <div class="col-12" style="padding: 0px;">
+                                        <h4 class="mt-3"><span>FOR FEMALES</span></h4>
                                     </div>
                                     <!-- Standard Plan -->
                                     <div class="col-xs-12 col-sm-12 col-md-4">
@@ -476,7 +459,6 @@
                             </div>
                         </section>
                     </div>
-
                     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                         <section class="contact-section">
                             <div class="auto-container">
