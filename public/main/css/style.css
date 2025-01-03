@@ -4897,7 +4897,7 @@ body.visible-sidebar {
     background: #ffffff;
     text-align: center;
     overflow: hidden;
-    border-radius: 5px;
+    border-radius: 40px;
 }
 
 .program-block-two .image-box,

@@ -12,48 +12,73 @@
             display: none;
         }
 
+        /* General styles for tabs */
         nav>.nav.nav-tabs {
-
+            display: flex;
+            justify-content: center;
+            /* Center-align the tabs */
+            flex-wrap: nowrap;
+            /* Prevent wrapping */
+            background-color: #272e38;
+            /* Maintain background color */
             border: none;
-            color: #fff;
-            background: #272e38;
-            border-radius: 0;
-
+            padding: 10px 0;
+            /* Add padding for spacing */
         }
 
-        nav>div a.nav-item.nav-link,
+        /* Individual tab styling */
+        nav>div a.nav-item.nav-link {
+            flex: 1;
+            /* Equal width for all tabs */
+            text-align: center;
+            /* Center-align text within each tab */
+            font-size: 14px;
+            /* Adjust font size */
+            /* color: #fff; */
+            padding: 10px 15px;
+            /* Add padding for a better click area */
+            margin: 0 5px;
+            /* Add spacing between tabs */
+            border-radius: 5px;
+            /* Add slight rounding for a modern look */
+            background-color: #272e38;
+            /* Match background color */
+            transition: all 0.3s ease;
+            /* Smooth transition effect */
+        }
+
+        /* Active tab styling */
         nav>div a.nav-item.nav-link.active {
-            border: none;
-            padding: 18px 25px;
+            background-color: #FF8F1F;
+            /* Highlight active tab */
             color: #fff;
-            background: #272e38;
-            border-radius: 0;
+            /* Keep text white */
+            border-color: #FF8F1F;
+
+            border-radius: 5px;
         }
 
+        /* Active tab arrow */
         nav>div a.nav-item.nav-link.active:after {
             content: "";
-            position: relative;
-            bottom: -60px;
-            left: -10%;
-            border: 15px solid transparent;
+            position: absolute;
+            bottom: -5px;
+            /* Adjust arrow position */
+            left: 50%;
+            /* Center the arrow */
+            transform: translateX(-50%);
+            border: 10px solid transparent;
             border-top-color: #FF8F1F;
+            /* Arrow color */
         }
 
-        .tab-content {
-            background: #fdfdfd;
-            line-height: 25px;
-            border-top: 5px solid #FF8F1F;
-            border-bottom: 5px solid #FF8F1F;
-            padding: 30px 25px;
-        }
-
+        /* Remove hover effect */
         nav>div a.nav-item.nav-link:hover,
         nav>div a.nav-item.nav-link:focus {
-            border: none;
-            background: #FF8F1F;
+            background-color: #272e38;
+            /* Maintain original color on hover */
             color: #fff;
-            border-radius: 0;
-            transition: background 0.20s linear;
+            /* Keep text white */
         }
 
         .checkmark {
@@ -179,9 +204,9 @@
         .pricingTable .price-value {
             /* font-size: 170px; */
             /* line-height: 112px;
-                                                                                                                                                                                                                                position: relative;
-                                                                                                                                                                                                                                color: #e4f1ff;
-                                                                                                                                                                                                                                margin: 40px 0; */
+                                                                                                                                                                                                                                            position: relative;
+                                                                                                                                                                                                                                            color: #e4f1ff;
+                                                                                                                                                                                                                                            margin: 40px 0; */
         }
 
         @media only screen and (max-width:768px) {
@@ -296,7 +321,7 @@
                 <nav>
                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-                            aria-controls="nav-home" aria-selected="true">Training Details</a>
+                            aria-controls="nav-home" aria-selected="true">Training</a>
                         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
                             role="tab" aria-controls="nav-profile" aria-selected="false">Rates/Fees</a>
                         <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
