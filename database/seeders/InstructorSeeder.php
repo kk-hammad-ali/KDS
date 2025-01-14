@@ -20,7 +20,6 @@ class InstructorSeeder extends Seeder
     {
         // Fetch branches created by BranchSeeder
         $branch1 = Branch::where('name', 'Main Branch')->first();
-        $branch2 = Branch::where('name', 'North Branch')->first();
 
         for ($i = 1; $i <= 3; $i++) {
             // Create a user for each instructor
@@ -42,7 +41,7 @@ class InstructorSeeder extends Seeder
                 'gender' => $i % 2 == 0 ? 'male' : 'female',
                 'designation' => 'Instructor',
                 'picture' => null,
-                'branch_id' => $i == 1 ? $branch1->id : $branch2->id,
+                'branch_id' =>  $branch1->id,
             ]);
 
             // Create the instructor record and link it to the employee

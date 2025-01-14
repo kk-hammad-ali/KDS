@@ -14,7 +14,7 @@
                 <!-- Slide Item -->
                 <div class="slide-item">
                     <div class="image-layer"
-                        style="background-image: url('{{ asset('main/images/main-slider/slider-4.jpg') }}');"></div>
+                        style="background-image: url('{{ asset('main/images/main-slider/slider-1.jpg') }}');"></div>
                     {{-- <div class="curve-layer"
                         style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');"></div> --}}
                     <div class="auto-container">
@@ -35,8 +35,29 @@
                     </div>
                 </div>
 
+                <div class="slide-item">
+                    <div class="image-layer"
+                        style="background-image: url('{{ asset('main/images/main-slider/slider-2.png') }}');"></div>
+                    {{-- <div class="curve-layer"
+                        style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');"></div> --}}
+                    <div class="auto-container">
+                        <div class="content-box">
+                            {{-- <div class="image-box">
+                                <div class="icon icon-1"><img src="{{ asset('main/images/main-slider/banner-icon-2.svg') }}"
+                                        alt="" title=""></div>
+                                <div class="icon icon-2"><img src="{{ asset('main/images/main-slider/banner-icon-3.svg') }}"
+                                        alt="" title=""></div>
+                                <div class="content">
+                                    <div class="links-box clearfix">
+                                        <div class="link"><a href="{{ route('public.admission.form') }}"
+                                                class="theme-btn btn-style-one"><span>Book Now</span></a></div>
+                                    </div>
+                                </div>
+                            </div> --}}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
     </section>
     <!-- End Banner Section -->
 
@@ -185,6 +206,86 @@
         </div>
     </section>
 
+    <!--Welcome Section-->
+    <section class="welcome-two">
+        {{-- <div class="right-image"><img src="{{ asset('main/images/resource/welcome-2.webp') }}" alt=""
+                    title=""></div> --}}
+        <div class="auto-container">
+            <div class="row clearfix">
+                <!-- Text Col -->
+                <div class="text-col col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                    <div class="inner wow fadeInRight" data-wow-duration="1500ms" data-wow-delay="0ms">
+                        <div class="title-box style-two">
+                            <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}"
+                                    alt=""></div>
+                            <h2><span>Welcome To King <br>Driving School</span></h2>
+                        </div>
+                        <div class="row clearfix">
+                            <!-- Block -->
+                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
+                                    <h6>Driving Training</h6>
+                                    <div class="text">We train on-road, parking, roundabout, U-turns, sharp turns, and
+                                        defensive driving techniques to our students.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Block -->
+                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
+                                    <h6>Theory Classes</h6>
+                                    <div class="text">Driving theory lectures to familiarize the trainers with cockpit
+                                        drill, basic driving skills, road signs, road safety, and road sense.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Block -->
+                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
+                                    <h6>Hallmark Training</h6>
+                                    <div class="text">Excellence in S-shape, L-shape, ?-shape, and parallel parking as
+                                        required by the Driving Licenses Authority (DLA).
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Block -->
+                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
+                                <div class="inner-box">
+                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
+                                    <h6>Pick & Drop</h6>
+                                    <div class="text">We can also provide pick and drop service to students who need it.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lower-links clearfix">
+                            <div class="link"><a href="{{ route('public.courses') }}"
+                                    class="theme-btn btn-style-one"><span>DISCOVER
+                                        MORE</span></a></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Image Col -->
+                <div class="image-col col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                    <div class="inner wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="0ms">
+                        <div class="images">
+                            <div class="image"><img src="{{ asset('main/images/resource/welcome-1.jpg') }}"
+                                    alt="" title=""></div>
+                            <div class="w-box">
+                                <div class="inner-box">
+                                    <div class="icon-box"><span class="fal fa-shield-check"></span></div>
+                                    <div class="text">We will give you a safe drive from all threats.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Why Us Section -->
     <section class="why-us-two">
@@ -342,89 +443,10 @@
         </div>
     </section>
 
-    <!--Welcome Section-->
-    <section class="welcome-two">
-        {{-- <div class="right-image"><img src="{{ asset('main/images/resource/welcome-2.webp') }}" alt=""
-                title=""></div> --}}
-        <div class="auto-container">
-            <div class="row clearfix">
-                <!-- Text Col -->
-                <div class="text-col col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                    <div class="inner wow fadeInRight" data-wow-duration="1500ms" data-wow-delay="0ms">
-                        <div class="title-box style-two">
-                            <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}"
-                                    alt=""></div>
-                            <h2><span>Welcome To King <br>Driving School</span></h2>
-                        </div>
-                        <div class="row clearfix">
-                            <!-- Block -->
-                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
-                                    <h6>Driving Training</h6>
-                                    <div class="text">We train on-road, parking, roundabout, U-turns, sharp turns, and
-                                        defensive driving techniques to our students.
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Block -->
-                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
-                                    <h6>Theory Classes</h6>
-                                    <div class="text">Driving theory lectures to familiarize the trainers with cockpit
-                                        drill, basic driving skills, road signs, road safety, and road sense.
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Block -->
-                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
-                                    <h6>Hallmark Training</h6>
-                                    <div class="text">Excellence in S-shape, L-shape, ?-shape, and parallel parking as
-                                        required by the Driving Licenses Authority (DLA).
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Block -->
-                            <div class="wel-block-two col-lg-6 col-md-6 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="icon"><i class="fa-light fa-long-arrow-right"></i></div>
-                                    <h6>Pick & Drop</h6>
-                                    <div class="text">We can also provide pick and drop service to students who need it.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="lower-links clearfix">
-                            <div class="link"><a href="{{ route('public.courses') }}"
-                                    class="theme-btn btn-style-one"><span>DISCOVER
-                                        MORE</span></a></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Image Col -->
-                <div class="image-col col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                    <div class="inner wow fadeInLeft" data-wow-duration="1500ms" data-wow-delay="0ms">
-                        <div class="images">
-                            <div class="image"><img src="{{ asset('main/images/resource/welcome-1.jpg') }}"
-                                    alt="" title=""></div>
-                            <div class="w-box">
-                                <div class="inner-box">
-                                    <div class="icon-box"><span class="fal fa-shield-check"></span></div>
-                                    <div class="text">We will give you a safe drive from all threats.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!--About Section-->
-    <section class="about-one">
+    <section class="about-one bg-light">
         <div class="auto-container">
             <div class="row clearfix">
                 <!--Text Col-->
@@ -463,26 +485,26 @@
                 <div class="image-col col-xl-5 col-lg-6 col-md-12 col-sm-12">
                     <div class="inner wow fadeInRight" data-wow-duration="1500ms" data-wow-delay="0ms">
                         <div class="row clearfix">
-                            <div class="image-block col-lg-6 col-d-6 col-sm-6">
-                                <div class="inner-box">
+                            <div class= "image-block col-lg-6 col-d-6 col-sm-6">
+                                <div class="inner-box bg-white">
                                     <h3>230,800</h3>
                                     <h5><a href="#">Trained Student</a></h5>
                                 </div>
                             </div>
                             <div class="image-block col-lg-6 col-d-6 col-sm-6">
-                                <div class="inner-box">
+                                <div class="bg-white inner-box">
                                     <h3>450+</h3>
                                     <h5><a href="#">Positive Feedback</a></h5>
                                 </div>
                             </div>
                             <div class="image-block col-lg-6 col-d-6 col-sm-6">
-                                <div class="inner-box">
+                                <div class="bg-white inner-box">
                                     <h3>20+</h3>
                                     <h5><a href="#">Staff</a></h5>
                                 </div>
                             </div>
                             <div class="image-block col-lg-6 col-d-6 col-sm-6">
-                                <div class="inner-box">
+                                <div class="bg-white inner-box">
                                     <h5>24+</h5>
                                     <h5><a href="#">Years of Experience</a></h5>
                                 </div>

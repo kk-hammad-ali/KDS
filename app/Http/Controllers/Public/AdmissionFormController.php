@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\Schedule;
 use App\Models\Course;
 use App\Models\Coupon;
+use App\Models\CarModel;
 use App\Models\Instructor;
 use App\Models\Invoice;
 use App\Models\User;
@@ -36,23 +37,25 @@ class AdmissionFormController extends Controller
 
     public function index()
     {
-        $courses = Course::all();
-        $cars = Car::all();
-        return view('public.admission.admission', compact('courses', 'cars'));
+        $carModels = CarModel::with('courses')->get();
+        return view('public.admission.admission', compact('carModels'));
     }
 
     public function adminAllAdmissionForm()
     {
-        $students = Student::where('form_type', 'admission')->paginate(10);
+        $students = Student::with([
+            'course.carModel.cars' // Include cars for the car model
+        ])->where('form_type', 'admission')->paginate(10);
+
         $instructors = Instructor::with('employee.user')->get();
-        $courses = Course::all();
-        $cars = Car::all();
-        return view('admin.students.admission_form', compact('students', 'courses', 'cars', 'instructors'));
+        $courses = Course::with('carModel')->get();
+        $carModels = CarModel::all();
+
+        return view('admin.students.admission_form', compact('students', 'courses', 'carModels', 'instructors'));
     }
 
     public function store(Request $request)
     {
-
         // Validate the request data
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -61,10 +64,10 @@ class AdmissionFormController extends Controller
             'pickup_sector' => 'required|string|max:50',
             'email' => 'nullable|email|max:255|unique:students,email',
             'course_id' => 'required|exists:courses,id',
-            'fees' => 'required|numeric',
-            'course_duration' => 'required|integer',
         ]);
 
+        // Retrieve the selected course details
+        $course = Course::findOrFail($validated['course_id']);
 
         // Create user
         $user = User::create([
@@ -83,20 +86,19 @@ class AdmissionFormController extends Controller
             'phone' => $validated['phone'],
             'admission_date' => now(),
             'email' => $validated['email'] ?? null,
-            'fees' => $validated['fees'],
+            'fees' => $course->fees, // Use the course's fees
             'practical_driving_hours' => 0,
             'theory_classes' => 0,
             'coupon_code' => null,
-            'course_id' => $validated['course_id'],
+            'course_id' => $course->id,
             'instructor_id' => null,
-            'course_duration' => $validated['course_duration'],
+            'course_duration' => $course->duration_days, // Use the course's duration
             'class_start_time' => null,
             'class_end_time' => null,
             'class_duration' => 0,
-            'course_end_date' => now()->addDays($validated['course_duration']),
+            'course_end_date' => now()->addDays($course->duration_days),
             'form_type' => 'admission',
         ]);
-
 
         // Notify the admin
         $adminUser = User::whereHas('roles', function ($query) {
@@ -107,25 +109,25 @@ class AdmissionFormController extends Controller
             $adminUser->notify(new NewAdmissionForm($student));
         }
 
+        $this->emailController->sendNewStudentNotification($student, $user);
+
         // Redirect back with success message
         return redirect()->route('public.admission.form')->with('success', 'Application submitted successfully.');
     }
 
-
     public function adminUpdateFormStudent(Request $request, $id)
     {
+        // dd($request->all());
         // Validate the request data
         $validated = $request->validate([
             'instructor_id' => 'required|exists:instructors,id',
             'class_start_time' => 'required|date_format:H:i',
             'class_duration' => 'required|integer|min:30',
             'admission_date' => 'required|date',
-            'practical_driving_hours' => 'required|integer',
-            'theory_classes' => 'required|integer',
             'invoice_date' => 'required|date',
             'amount_received' => 'required|numeric',
             'balance' => 'required|numeric',
-            'branch' => 'required|string|max:255',
+            'branch_id' => 'required|exists:branches,id',
             'paid_by' => 'required|string|max:255',
             'amount_in_english' => 'required|string|max:255',
         ]);
@@ -159,14 +161,9 @@ class AdmissionFormController extends Controller
         // Update student
         $student->update([
             'instructor_id' => $request->instructor_id,
-            'class_start_time' => $request->class_start_time,
-            'class_duration' => $request->class_duration,
             'admission_date' => $request->admission_date,
-            'practical_driving_hours' => $request->practical_driving_hours,
-            'theory_classes' => $request->theory_classes,
-            'class_end_time' => $class_end_time,
-            'course_end_date' => $course_end_date,
             'form_type' => 'admin',
+            'branch_id' => $request->branch_id,
         ]);
 
         // Delete existing schedules if they need to be replaced
@@ -176,14 +173,15 @@ class AdmissionFormController extends Controller
         $schedule = Schedule::create([
             'student_id' => $student->id,
             'instructor_id' => $request->instructor_id,
-            'vehicle_id' => $student->course->car_id,
-            'class_date' => $request->admission_date,  // Start date
-            'class_end_date' => $course_end_date,      // End date
+            'vehicle_id' => $request->car_id,
+            'class_date' => $request->admission_date,
+            'class_end_date' => $course_end_date,
             'start_time' => $request->class_start_time,
             'end_time' => $class_end_time,
         ]);
 
         $receiptNumber = $this->invoiceController->generateReceiptNumber();
+
 
         $invoice = Invoice::create([
             'schedule_id' => $schedule->id,
@@ -192,12 +190,12 @@ class AdmissionFormController extends Controller
             'paid_by' => $request->paid_by,
             'amount_in_english' => $request->amount_in_english,
             'balance' => $request->balance,
-            'branch' => $request->branch,
+            'branch_id' => $request->branch_id,
             'amount_received' => $request->amount_received,
         ]);
 
         // Send admission confirmation email
-        $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
+        // $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
 
         $student->user->notify(new WelcomeNotification($student));
         $instructor = Instructor::find($request->instructor_id);

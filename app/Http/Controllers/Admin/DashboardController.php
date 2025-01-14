@@ -111,17 +111,32 @@ class DashboardController extends Controller
         ];
     }
 
-        // Refactored function to get total sales
+    // Refactored function to get total sales
     private function getTotalSales()
     {
-        // Calculate sales from students' fees for today
-        $todaySales = Student::whereDate('admission_date', Carbon::today())->sum('fees');
+        // Calculate sales from courses of students admitted today
+        $todaySales = Student::whereDate('admission_date', Carbon::today())
+            ->with('course')
+            ->get()
+            ->sum(function ($student) {
+                return $student->course->fees ?? 0;
+            });
 
-        // Calculate sales from students' fees for this month
-        $monthlySales = Student::whereMonth('admission_date', Carbon::now()->month)->sum('fees');
+        // Calculate sales from courses of students admitted this month
+        $monthlySales = Student::whereMonth('admission_date', Carbon::now()->month)
+            ->with('course')
+            ->get()
+            ->sum(function ($student) {
+                return $student->course->fees ?? 0;
+            });
 
-        // Calculate sales from students' fees for this year
-        $yearlySales = Student::whereYear('admission_date', Carbon::now()->year)->sum('fees');
+        // Calculate sales from courses of students admitted this year
+        $yearlySales = Student::whereYear('admission_date', Carbon::now()->year)
+            ->with('course')
+            ->get()
+            ->sum(function ($student) {
+                return $student->course->fees ?? 0;
+            });
 
         return [
             'today' => $todaySales,
@@ -142,36 +157,41 @@ class DashboardController extends Controller
         ];
     }
 
-    // Function to get monthly expenses and sales data
-    private function getMonthlyExpensesAndSales()
-    {
-        $monthlyExpenses = [];
-        $monthlySales = [];
+// Function to get monthly expenses and sales data
+private function getMonthlyExpensesAndSales()
+{
+    $monthlyExpenses = [];
+    $monthlySales = [];
 
-        // Loop through each month (1-12) to gather monthly data
-        foreach (range(1, 12) as $month) {
-            // Get monthly expenses
-            $monthlyExpenses[] = DailyExpense::whereMonth('expense_date', $month)
-                ->whereYear('expense_date', Carbon::now()->year)
-                ->sum('amount')
-                + FixedExpense::whereMonth('expense_date', $month)
-                ->whereYear('expense_date', Carbon::now()->year)
-                ->sum('amount')
-                + CarExpense::whereMonth('expense_date', $month)
-                ->whereYear('expense_date', Carbon::now()->year)
-                ->sum('amount');
+    // Loop through each month (1-12) to gather monthly data
+    foreach (range(1, 12) as $month) {
+        // Get monthly expenses
+        $monthlyExpenses[] = DailyExpense::whereMonth('expense_date', $month)
+            ->whereYear('expense_date', Carbon::now()->year)
+            ->sum('amount')
+            + FixedExpense::whereMonth('expense_date', $month)
+            ->whereYear('expense_date', Carbon::now()->year)
+            ->sum('amount')
+            + CarExpense::whereMonth('expense_date', $month)
+            ->whereYear('expense_date', Carbon::now()->year)
+            ->sum('amount');
 
-            // Get monthly sales
-            $monthlySales[] = Student::whereMonth('admission_date', $month)
-                ->whereYear('admission_date', Carbon::now()->year)
-                ->sum('fees');
-        }
-
-        return [
-            'monthlyExpenses' => $monthlyExpenses,
-            'monthlySales' => $monthlySales,
-        ];
+        // Get monthly sales by summing the fees of associated courses
+        $monthlySales[] = Student::whereMonth('admission_date', $month)
+            ->whereYear('admission_date', Carbon::now()->year)
+            ->with('course')
+            ->get()
+            ->sum(function ($student) {
+                return $student->course->fees ?? 0;
+            });
     }
+
+    return [
+        'monthlyExpenses' => $monthlyExpenses,
+        'monthlySales' => $monthlySales,
+    ];
+}
+
 
 
    // Function for dropdown data (instructors, cars, and time slots)

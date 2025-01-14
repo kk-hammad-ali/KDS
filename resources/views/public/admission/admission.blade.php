@@ -33,7 +33,6 @@
                 </div>
             @endif
 
-
             <div class="form-box contact-form">
                 <form method="post" action="{{ route('public.admission.store') }}" id="contact-form">
                     @csrf
@@ -54,7 +53,6 @@
                             </div>
                         </div>
 
-
                         <!-- Full Address -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="field-inner">
@@ -62,7 +60,6 @@
                                     required>
                             </div>
                         </div>
-
 
                         <!-- Pickup Sector -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
@@ -79,15 +76,37 @@
                             </div>
                         </div>
 
-                        <!-- Transmission Dropdown -->
+                        <!-- Car Model Dropdown -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="field-inner">
-                                <select class="form-select" id="transmission" name="transmission" required>
-                                    <option value="" disabled selected>Select Transmission</option>
-                                    @foreach ($courses->pluck('car.transmission')->unique() as $transmission)
-                                        <option value="{{ $transmission }}">{{ ucfirst($transmission) }}</option>
+                                <select class="form-select @error('car_model_id') is-invalid @enderror" id="car_model"
+                                    name="car_model_id" required>
+                                    <option value="" disabled selected>Select Car Model</option>
+                                    @foreach ($carModels as $carModel)
+                                        <option value="{{ $carModel->id }}">{{ $carModel->name }}
+                                            ({{ ucfirst($carModel->transmission) }})
+                                        </option>
                                     @endforeach
                                 </select>
+                                @error('car_model_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Gender Dropdown -->
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <div class="field-inner">
+                                <select class="form-select @error('gender') is-invalid @enderror" id="gender"
+                                    name="gender" required>
+                                    <option value="" disabled selected>Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="both">Male & Female Both</option> <!-- Added "both" option -->
+                                </select>
+                                @error('gender')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 
@@ -99,30 +118,6 @@
                                     <option value="" disabled selected>Select Course</option>
                                 </select>
                                 @error('course_id')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Fees -->
-                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                            <div class="field-inner">
-                                <input type="number" class="form-control @error('fees') is-invalid @enderror"
-                                    id="fees" name="fees" value="{{ old('fees') }}" placeholder="Course Fee"
-                                    readonly required>
-                                @error('fees')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Course Duration -->
-                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                            <div class="field-inner">
-                                <input type="text" class="form-control @error('course_duration') is-invalid @enderror"
-                                    id="course_duration" name="course_duration" value="{{ old('course_duration') }}"
-                                    placeholder="Course Duration" readonly required>
-                                @error('course_duration')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -143,43 +138,41 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const transmissionSelect = document.getElementById('transmission');
+            const carModelSelect = document.getElementById('car_model');
+            const genderSelect = document.getElementById('gender');
             const courseSelect = document.getElementById('course');
-            const feesInput = document.getElementById('fees');
-            const durationInput = document.getElementById('course_duration');
 
-            // Store all courses data
-            const coursesData = @json($courses);
+            function updateCourses() {
+                const carModelId = carModelSelect.value;
+                const gender = genderSelect.value;
 
-            // Update course dropdown when transmission changes
-            transmissionSelect.addEventListener('change', function() {
-                const selectedTransmission = this.value;
-
-                // Clear the current courses dropdown
                 courseSelect.innerHTML = '<option value="" disabled selected>Select Course</option>';
 
-                // Filter courses based on selected transmission
-                const filteredCourses = coursesData.filter(course => course.car.transmission ===
-                    selectedTransmission);
+                if (carModelId && gender) {
+                    @foreach ($carModels as $carModel)
+                        if (carModelId == {{ $carModel->id }}) {
+                            @foreach ($carModel->courses as $course)
+                                if ('{{ $course->course_type }}' === gender || '{{ $course->course_type }}' ===
+                                    'both') {
+                                    courseSelect.innerHTML += `
+                                <option value="{{ $course->id }}">
+                                    {{ $course->duration_days }} days / {{ $course->duration_minutes }} minutes -
+                                    {{ number_format($course->fees, 2) }} PKR
+                                </option>`;
+                                }
+                            @endforeach
+                        }
+                    @endforeach
 
-                // Populate courses dropdown
-                filteredCourses.forEach(course => {
-                    const option = document.createElement('option');
-                    option.value = course.id;
-                    option.textContent =
-                        `${course.car.make} - ${course.car.model} (${course.duration_days} Days, ${course.car.transmission})`;
-                    option.setAttribute('data-fees', course.fees);
-                    option.setAttribute('data-duration', course.duration_days);
-                    courseSelect.appendChild(option);
-                });
-            });
+                    if (courseSelect.innerHTML === '<option value="" disabled selected>Select Course</option>') {
+                        courseSelect.innerHTML =
+                            '<option value="" disabled>No courses available for the selected criteria.</option>';
+                    }
+                }
+            }
 
-            // Update fees and duration when a course is selected
-            courseSelect.addEventListener('change', function() {
-                const selectedOption = courseSelect.options[courseSelect.selectedIndex];
-                feesInput.value = selectedOption.getAttribute('data-fees');
-                durationInput.value = selectedOption.getAttribute('data-duration');
-            });
+            carModelSelect.addEventListener('change', updateCourses);
+            genderSelect.addEventListener('change', updateCourses);
         });
     </script>
 @endsection

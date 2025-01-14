@@ -14,26 +14,35 @@ class CarSeeder extends Seeder
      */
     public function run()
     {
-        // Seed some example cars
-        Car::create([
-            'make' => 'Toyota',
-            'model' => 'Corolla',
-            'registration_number' => 'ABC-123',
-            'transmission' => 'automatic',
-        ]);
+        $cars = [
+            // Suzuki Mehran
+            ['car_model_id' => 1, 'registration_number' => 'MEH-001'],
+            ['car_model_id' => 1, 'registration_number' => 'MEH-002'],
 
-        Car::create([
-            'make' => 'Honda',
-            'model' => 'Civic',
-            'registration_number' => 'XYZ-789',
-            'transmission' => 'manual',
-        ]);
+            // Suzuki Alto
+            ['car_model_id' => 2, 'registration_number' => 'ALT-001'],
+            ['car_model_id' => 2, 'registration_number' => 'ALT-002'],
 
-        Car::create([
-            'make' => 'Ford',
-            'model' => 'Focus',
-            'registration_number' => 'JKL-456',
-            'transmission' => 'automatic',
-        ]);
+            // Toyota Vitz
+            ['car_model_id' => 3, 'registration_number' => 'VIT-001'],
+            ['car_model_id' => 3, 'registration_number' => 'VIT-002'],
+
+            // Daihatsu Mira
+            ['car_model_id' => 4, 'registration_number' => 'MIR-001'],
+            ['car_model_id' => 4, 'registration_number' => 'MIR-002'],
+
+            // Honda City
+            ['car_model_id' => 5, 'registration_number' => 'HON-001'],
+            ['car_model_id' => 5, 'registration_number' => 'HON-002'],
+
+            // Bike (CD-70)
+            ['car_model_id' => 6, 'registration_number' => 'CD70-001'],
+            ['car_model_id' => 6, 'registration_number' => 'CD70-002'],
+
+        ];
+
+        foreach ($cars as $car) {
+            Car::create($car);
+        }
     }
 }

@@ -31,10 +31,8 @@ class InstructorController extends Controller
         // Assuming the instructor is logged in
         $instructor = auth()->user()->instructor;
 
-        // Call the instructorStudents function from the StudentController
+        // Fetch students from the instructorStudents function
         $studentsResponse = $this->studentController->instructorStudents();
-
-        // Get the 'students' data from the response
         $students = $studentsResponse->getData()->students;
 
         // Fetch instructors and pass data to the dashboard view
@@ -47,7 +45,6 @@ class InstructorController extends Controller
         // Pass instructors, students, and events to the dashboard view
         return view('instructor.dashboard', compact('instructors', 'students', 'events'));
     }
-
 
     public function adminAllInstructors()
     {

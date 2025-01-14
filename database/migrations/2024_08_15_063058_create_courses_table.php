@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('car_id')->constrained('cars')->onDelete('cascade'); // Adding car_id foreign key
+            $table->foreignId('car_model_id')->constrained('car_models')->onDelete('cascade'); // Link to car models
             $table->integer('duration_days');
             $table->integer('duration_minutes');
             $table->decimal('fees', 8, 2);
+            $table->enum('course_type', ['male', 'female', 'both']); // Updated to include "both"
             $table->timestamps();
         });
     }

@@ -19,8 +19,6 @@ class EmployeeSeeder extends Seeder
     {
         // Fetch branches created by BranchSeeder
         $branch1 = Branch::where('name', 'Main Branch')->first();
-        $branch2 = Branch::where('name', 'North Branch')->first();
-
 
         for ($i = 1; $i <= 3; $i++) {
             // Create a user for each employee
@@ -40,7 +38,7 @@ class EmployeeSeeder extends Seeder
                 'id_card_number' => 'ID' . str_pad($i, 6, '0', STR_PAD_LEFT),
                 'designation' => 'Employee',
                 'picture' => null,  // Add default if needed
-                'branch_id' => $i == 1 ? $branch1->id : $branch2->id,
+                'branch_id' => $branch1->id,
             ]);
         }
     }

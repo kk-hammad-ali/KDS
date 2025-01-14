@@ -21,7 +21,7 @@
                             <th class="h6 text-gray-300">Student Name</th>
                             <th class="h6 text-gray-300">Email</th>
                             <th class="h6 text-gray-300">Phone</th>
-                            <th class="h6 text-gray-300">Course</th>
+                            <th class="h6 text-gray-300">Class Duration</th>
                             <th class="h6 text-gray-300">Admission Date</th>
                             <th class="h6 text-gray-300">Course Enrolled</th>
                         </tr>
@@ -48,10 +48,12 @@
                                 </td>
                                 <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">
-                                        {{ $student->course->car->make ?? 'N/A' }}
-                                        {{ $student->course->car->model ?? 'N/A' }} -
-                                        {{ $student->course->car->registration_number ?? 'N/A' }} -
-                                        ({{ $student->course->duration_days ?? 'N/A' }} Days)
+                                        {{-- {{ $student->course->carModel->cars->first()->name ?? 'N/A' }} --}}
+                                        {{-- ({{ ucfirst($student->course->carModel->transmission ?? 'N/A') }}) --}}
+                                        -
+                                        {{-- {{ $student->course->carModel->cars->first()->registration_number ?? 'N/A' }} --}}
+                                        -
+                                        {{-- ({{ $student->course->duration_days ?? 'N/A' }} Days) --}}
                                     </span>
                                 </td>
                             </tr>

@@ -24,17 +24,9 @@ return new class extends Migration
             $table->string('optional_phone')->nullable();
             $table->date('admission_date');
             $table->string('email')->nullable();
-            $table->decimal('fees', 8, 2);
-            $table->integer('practical_driving_hours');
-            $table->integer('theory_classes');
             $table->string('coupon_code')->nullable();
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->foreignId('instructor_id')->nullable()->constrained('instructors')->onDelete('cascade');
-            $table->integer('course_duration');
-            $table->time('class_start_time')->nullable();
-            $table->time('class_end_time')->nullable();
-            $table->integer('class_duration')->nullable();
-            $table->date('course_end_date')->nullable();
             $table->enum('form_type', ['admin', 'admission']);
             $table->string('pickup_sector')->nullable();
             $table->text('timing_preference')->nullable();

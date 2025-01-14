@@ -1,19 +1,18 @@
 <?php
 
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Student;
 use App\Models\User;
+use App\Models\Student;
+use App\Models\Schedule;
+use App\Models\Invoice;
 use App\Models\Course;
 use App\Models\Instructor;
+use App\Models\Branch;
 use App\Models\Car;
-use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-use App\Notifications\WelcomeNotification; // Import WelcomeNotification
-use App\Notifications\NewStudentAssignedNotification; // Import NewStudentAssignedNotification
 
 class StudentSeeder extends Seeder
 {
@@ -24,86 +23,74 @@ class StudentSeeder extends Seeder
      */
     public function run()
     {
-        // Ensure the necessary data exists before creating students
+        // Ensure necessary data exists
         $courses = Course::all();
         $instructors = Instructor::all();
+        $branches = Branch::all();
         $cars = Car::all();
 
-        // Create 3 Student users and corresponding student and schedule records
-        for ($i = 1; $i <= 3; $i++) {
+        // Seed 5 students
+        for ($i = 1; $i <= 5; $i++) {
             // Create a user for the student
             $user = User::create([
                 'name' => "Student $i",
                 'password' => Hash::make('password'),
             ]);
-            // Assign Student role
-            $user->assignRole('student');
+            $user->assignRole('student'); // Assign role
 
-            // Set up random values for course and schedule
-            $admission_date = now()->subMonths($i);
-            $course_duration = rand(10, 30);  // Duration of the course in days
-            $class_duration = 60;  // Duration of class in minutes
+            // Randomize values for student
+            $admission_date = now()->subDays(rand(1, 30));
+            $course = $courses->random();
+            $branch = $branches->random();
+            $instructor = $instructors->random();
+            $car = $cars->random();
 
-            // Define start and end time
-            $start_time = Carbon::createFromTime(8, 0, 0); // 08:00 AM
-            $end_time = Carbon::createFromTime(20, 0, 0); // 08:00 PM
-
-            // Generate all 30-minute slots
-            $slots = [];
-            while ($start_time->lessThanOrEqualTo($end_time)) {
-                $slots[] = $start_time->format('H:i:s');
-                $start_time->addMinutes(30);
-            }
-
-            // Randomly pick a start time from the available slots
-            $class_start_time = $slots[array_rand($slots)];
-            $class_end_time = Carbon::parse($class_start_time)->addMinutes($class_duration)->format('H:i:s');
-            $course_end_date = Carbon::parse($admission_date)->addDays($course_duration)->format('Y-m-d');
-
-            // Create the student record
+            // Create student record
             $student = Student::create([
                 'user_id' => $user->id,
-                'father_or_husband_name' => "Father $i",
-                'cnic' => '12345-678901' . $i,
-                'address' => 'Address ' . $i,
-                'phone' => '0312345678' . $i,
-                'optional_phone' => '0321123456' . $i,
-                'admission_date' => $admission_date,
-                'email' => "mail$i@gmail.com",
-                'fees' => rand(1000, 5000),
-                'practical_driving_hours' => rand(10, 30),
-                'theory_classes' => rand(5, 15),
-                'coupon_code' => null,
-                'course_id' => $courses->random()->id,  // Assign a random course
-                'instructor_id' => $instructors->random()->id,  // Assign a random instructor
-                'course_duration' => $course_duration,
-                'class_start_time' => $class_start_time,
-                'class_end_time' => $class_end_time,
-                'course_end_date' => $course_end_date,
-                'class_duration' => $class_duration,
-                'form_type' => 'admin',
                 'branch_id' => 1,
+                'father_or_husband_name' => "Parent $i",
+                'cnic' => '12345-678901' . $i,
+                'address' => "Address $i",
+                'phone' => "0312345678$i",
+                'optional_phone' => "0321123456$i",
+                'admission_date' => $admission_date,
+                'email' => "student$i@example.com",
+                'course_id' => $course->id,
+                'instructor_id' => $instructor->id,
+                'form_type' => 'admin',
+                'pickup_sector' => "Sector $i",
+                'timing_preference' => "Morning",
             ]);
 
-            // Create schedule for the student
-            Schedule::create([
+            // Randomize schedule details
+            $class_date = Carbon::parse($admission_date)->addDays(rand(1, 3));
+            $class_end_date = Carbon::parse($class_date)->addDays($course->duration_days);
+            $start_time = Carbon::createFromTime(rand(7, 10), 0, 0);
+            $end_time = $start_time->copy()->addMinutes(60);
+
+            // Create schedule record
+            $schedule = Schedule::create([
                 'student_id' => $student->id,
-                'instructor_id' => $student->instructor_id,
-                'vehicle_id' => $cars->random()->id,
-                'class_date' => $admission_date,  // Start date
-                'class_end_date' => $course_end_date,      // End date
-                'start_time' => $class_start_time,
-                'end_time' => $class_end_time,
+                'instructor_id' => $instructor->id,
+                'vehicle_id' => $car->id,
+                'class_date' => $class_date,
+                'class_end_date' => $class_end_date,
+                'start_time' => $start_time->format('H:i:s'),
+                'end_time' => $end_time->format('H:i:s'),
             ]);
 
-            // Notify the student with a welcome notification
-            $user->notify(new WelcomeNotification($student));
-
-            // Notify the assigned instructor about the new student
-            $instructor = $student->instructor; // Get the assigned instructor
-            if ($instructor) {
-                $instructor->employee->user->notify(new NewStudentAssignedNotification($student));
-            }
+            // Create invoice record
+            Invoice::create([
+                'schedule_id' => $schedule->id,
+                'branch_id' => $branch->id,
+                'receipt_number' => 'INV-' . strtoupper(uniqid()),
+                'invoice_date' => Carbon::now(),
+                'paid_by' => "Cash",
+                'amount_in_english' => ucfirst(number_format($course->fees, 2)) . ' rupees only',
+                'balance' => 0,
+                'amount_received' => $course->fees,
+            ]);
         }
     }
 }

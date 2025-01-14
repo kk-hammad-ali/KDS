@@ -78,7 +78,7 @@ class StudentController extends Controller
         }
 
         $instructors = Instructor::with('employee.user')->get();
-        $courses = Course::all();
+        $courses = Course::with('carModel')->get();
         $cars = Car::all();
         $branches = Branch::all();
 
@@ -99,12 +99,9 @@ class StudentController extends Controller
             'admission_date' => 'required|date',
             'email' => 'nullable|email',
             'course_id' => 'required|exists:courses,id',
-            'fees' => 'required|numeric',
-            'practical_driving_hours' => 'required|numeric',
-            'theory_classes' => 'required|numeric',
+            'car_id' => 'required|exists:cars,id',
             'coupon_code' => 'nullable|string|max:50',
             'instructor_id' => 'required|exists:employees,id',
-            'course_duration' => 'required|integer',
             'class_start_time' => 'required',
             'class_duration' => 'required|integer',
             'invoice_date' => 'required|date',
@@ -140,10 +137,14 @@ class StudentController extends Controller
         // Finalize the formatted end time
         $class_end_time = $adjustedEndTime->format('H:i:s');
 
-        // Calculate course end date based on course duration
+        // Fetch the course based on course_id
+        $course = Course::findOrFail($request->course_id);
+
+        // Calculate course end date by adding duration_days to the admission date
         $course_end_date = Carbon::parse($request->admission_date)
-            ->addDays((int)$request->course_duration)
+            ->addDays($course->duration_days) // Add duration_days from the course
             ->format('Y-m-d');
+
 
         // Check for overlapping schedule with adjusted times
         $overlappingSchedule = Schedule::where('instructor_id', $request->instructor_id)
@@ -166,7 +167,7 @@ class StudentController extends Controller
 
         $user->assignRole('student');
 
-        // Create student with adjusted class times and other fields
+        // Updated student creation logic within the method
         $student = Student::create([
             'user_id' => $user->id,
             'father_or_husband_name' => $validated['father_or_husband_name'],
@@ -177,17 +178,9 @@ class StudentController extends Controller
             'optional_phone' => $validated['optional_phone'],
             'admission_date' => $validated['admission_date'],
             'email' => $validated['email'] ?? null,
-            'fees' => $validated['fees'],
-            'practical_driving_hours' => $validated['practical_driving_hours'],
-            'theory_classes' => $validated['theory_classes'],
             'coupon_code' => $validated['coupon_code'],
             'course_id' => $validated['course_id'],
             'instructor_id' => $request->instructor_id,
-            'course_duration' => $request->course_duration,
-            'class_start_time' => $adjustedStartTime->format('H:i:s'),
-            'class_end_time' => $class_end_time,
-            'course_end_date' => $course_end_date,
-            'class_duration' => $adjustedClassDuration,
             'form_type' => 'admin',
             'branch_id' => $validated['branch_id'],
             'timing_preference' => $timingPreference ? implode(', ', $timingPreference) : null,
@@ -202,7 +195,7 @@ class StudentController extends Controller
         $schedule = Schedule::create([
             'student_id' => $student->id,
             'instructor_id' => $request->instructor_id,
-            'vehicle_id' => $student->course->car_id,
+            'vehicle_id' =>  $validated['car_id'],
             'class_date' => $request->admission_date,
             'class_end_date' => $course_end_date,
             'start_time' => $adjustedStartTime->format('H:i:s'),
@@ -237,8 +230,8 @@ class StudentController extends Controller
         $student = Student::with(['user', 'instructor.employee.user'])->findOrFail($id);
         $instructors = Instructor::with('employee.user')->get();
 
+        $courses = Course::with('carModel')->get();
         $cars = Car::all();
-        $courses = Course::all();
         $branches = Branch::all();
 
         return view('admin.students.edit_student', compact('student', 'instructors', 'cars', 'courses'));
@@ -246,140 +239,139 @@ class StudentController extends Controller
 
 
     public function adminUpdateStudent(Request $request, $id)
-{
-    // Validate incoming request
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'father_or_husband_name' => 'nullable|string|max:255',
-        'cnic' => 'nullable|string|max:20',
-        'address' => 'required|string|max:255',
-        'pickup_sector' => 'required|string|max:50',
-        'phone' => 'required|string|max:15',
-        'optional_phone' => 'nullable|string|max:15',
-        'admission_date' => 'required|date',
-        'email' => 'nullable|email',
-        'course_id' => 'required|exists:courses,id',
-        'fees' => 'required|numeric',
-        'practical_driving_hours' => 'required|numeric',
-        'theory_classes' => 'required|numeric',
-        'coupon_code' => 'nullable|string|max:50',
-        'instructor_id' => 'required|exists:employees,id',
-        'course_duration' => 'required|integer',
-        'class_start_time' => 'required',
-        'class_duration' => 'required|integer',
-        'invoice_date' => 'required|date',
-        'amount_received' => 'required|numeric',
-        'balance' => 'required|numeric',
-        'branch' => 'required|string|max:255',
-        'paid_by' => 'required|string|max:255',
-        'amount_in_english' => 'required|string|max:255',
-        'timing_preference' => 'nullable|array',
-    ]);
+    {
+        // dd($request->all());
+        // Validate incoming request
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'father_or_husband_name' => 'nullable|string|max:255',
+            'cnic' => 'nullable|string|max:20',
+            'address' => 'required|string|max:255',
+            'pickup_sector' => 'required|string|max:50',
+            'phone' => 'required|string|max:15',
+            'optional_phone' => 'nullable|string|max:15',
+            'admission_date' => 'required|date',
+            'email' => 'nullable|email',
+            'course_id' => 'required|exists:courses,id',
+            'car_id' => 'required|exists:cars,id',
+            'coupon_code' => 'nullable|string|max:50',
+            'instructor_id' => 'required|exists:employees,id',
+            'class_start_time' => 'required',
+            'class_duration' => 'required|integer',
+            'invoice_date' => 'required|date',
+            'amount_received' => 'required|numeric',
+            'balance' => 'required|numeric',
+            'branch_id' => 'required|exists:branches,id',
+            'paid_by' => 'required|string|max:255',
+            'amount_in_english' => 'required|string|max:255',
+            'timing_preference' => 'nullable|array',
+        ]);
 
-    // Get student and related user record
-    $student = Student::findOrFail($id);
-    $user = $student->user;
+        // Get student and related user record
+        $student = Student::findOrFail($id);
+        $user = $student->user;
 
-    // Extract timing preference
-    $newTimingPreference = $request->timing_preference ?? [];
-    $previousTimingPreference = explode(', ', $student->timing_preference ?? '');
-    $originalStartTime = Carbon::parse($request->class_start_time);
-    $adjustedStartTime = clone $originalStartTime;
-    $adjustedClassDuration = $validated['class_duration'];
+        // Extract timing preference
+        $newTimingPreference = $request->timing_preference ?? [];
+        $previousTimingPreference = explode(', ', $student->timing_preference ?? '');
+        $originalStartTime = Carbon::parse($request->class_start_time);
+        $adjustedStartTime = clone $originalStartTime;
+        $adjustedClassDuration = $validated['class_duration'];
 
-    // Check if "before" was added or removed and adjust time accordingly
-    if (in_array('before', $newTimingPreference) && !in_array('before', $previousTimingPreference)) {
-        $adjustedStartTime = $adjustedStartTime->subMinutes(30);
-        $adjustedClassDuration += 30;
-    } elseif (!in_array('before', $newTimingPreference) && in_array('before', $previousTimingPreference)) {
-        $adjustedStartTime = $adjustedStartTime->addMinutes(30);
-        $adjustedClassDuration -= 30;
-    }
+        // Check if "before" was added or removed and adjust time accordingly
+        if (in_array('before', $newTimingPreference) && !in_array('before', $previousTimingPreference)) {
+            $adjustedStartTime = $adjustedStartTime->subMinutes(30);
+            $adjustedClassDuration += 30;
+        } elseif (!in_array('before', $newTimingPreference) && in_array('before', $previousTimingPreference)) {
+            $adjustedStartTime = $adjustedStartTime->addMinutes(30);
+            $adjustedClassDuration -= 30;
+        }
 
-    // Check if "after" was added or removed and adjust duration accordingly
-    $adjustedEndTime = $adjustedStartTime->copy()->addMinutes($adjustedClassDuration);
-    if (in_array('after', $newTimingPreference) && !in_array('after', $previousTimingPreference)) {
-        $adjustedClassDuration += 30;
-        $adjustedEndTime = $adjustedEndTime->addMinutes(30);
-    } elseif (!in_array('after', $newTimingPreference) && in_array('after', $previousTimingPreference)) {
-        $adjustedClassDuration -= 30;
-        $adjustedEndTime = $adjustedEndTime->subMinutes(30);
-    }
+        // Check if "after" was added or removed and adjust duration accordingly
+        $adjustedEndTime = $adjustedStartTime->copy()->addMinutes($adjustedClassDuration);
+        if (in_array('after', $newTimingPreference) && !in_array('after', $previousTimingPreference)) {
+            $adjustedClassDuration += 30;
+            $adjustedEndTime = $adjustedEndTime->addMinutes(30);
+        } elseif (!in_array('after', $newTimingPreference) && in_array('after', $previousTimingPreference)) {
+            $adjustedClassDuration -= 30;
+            $adjustedEndTime = $adjustedEndTime->subMinutes(30);
+        }
 
-    $class_end_time = $adjustedEndTime->format('H:i:s');
-    $course_end_date = Carbon::parse($request->admission_date)
-        ->addDays((int)$request->course_duration)
-        ->format('Y-m-d');
+        $class_end_time = $adjustedEndTime->format('H:i:s');
+        // Fetch the course based on course_id
+        $course = Course::findOrFail($request->course_id);
 
-    // Check for overlapping schedule with adjusted times
-    $overlappingSchedule = Schedule::where('instructor_id', $request->instructor_id)
-        ->where('vehicle_id', $request->vehicle_id)
-        ->where(function ($query) use ($request, $adjustedStartTime, $class_end_time) {
-            $query->where('class_date', $request->admission_date)
-                ->whereTime('start_time', '<', $class_end_time)
-                ->whereTime('end_time', '>', $adjustedStartTime->format('H:i:s'));
-        })->exists();
+        // Calculate course end date by adding duration_days to the admission date
+        $course_end_date = Carbon::parse($request->admission_date)
+            ->addDays($course->duration_days) // Add duration_days from the course
+            ->format('Y-m-d');
 
-    if ($overlappingSchedule) {
-        return redirect()->back()->withErrors(['error' => 'The selected time slot or car is already booked.'])->withInput();
-    }
+        // Check for overlapping schedule with adjusted times
+        $overlappingSchedule = Schedule::where('instructor_id', $request->instructor_id)
+            ->where('vehicle_id', $request->car_id)
+            ->where(function ($query) use ($request, $adjustedStartTime, $class_end_time) {
+                $query->where('class_date', $request->admission_date)
+                    ->whereTime('start_time', '<', $class_end_time)
+                    ->whereTime('end_time', '>', $adjustedStartTime->format('H:i:s'));
+            })->exists();
 
-    // Update user and student details
-    $user->update(['name' => $validated['name']]);
+        if ($overlappingSchedule) {
+            return redirect()->back()->withErrors(['error' => 'The selected time slot or car is already booked.'])->withInput();
+        }
 
-    // Update student details
-    $student->update([
-        'father_or_husband_name' => $validated['father_or_husband_name'],
-        'cnic' => $validated['cnic'],
-        'address' => $validated['address'],
-        'pickup_sector' => $validated['pickup_sector'],
-        'phone' => $validated['phone'],
-        'optional_phone' => $validated['optional_phone'],
-        'admission_date' => $validated['admission_date'],
-        'email' => $validated['email'] ?? null,
-        'fees' => $validated['fees'],
-        'practical_driving_hours' => $validated['practical_driving_hours'],
-        'theory_classes' => $validated['theory_classes'],
-        'coupon_code' => $validated['coupon_code'],
-        'course_id' => $validated['course_id'],
-        'instructor_id' => $request->instructor_id,
-        'course_duration' => $request->course_duration,
-        'class_start_time' => $adjustedStartTime->format('H:i:s'),
-        'class_end_time' => $class_end_time,
-        'course_end_date' => $course_end_date,
-        'class_duration' => $adjustedClassDuration,
-        'form_type' => 'admin',
-        'timing_preference' => implode(', ', $newTimingPreference),
-    ]);
+        // Update user and student details
+        $user->update(['name' => $validated['name']]);
 
-    // Update schedule
-    $schedule = Schedule::updateOrCreate(
-        ['student_id' => $student->id],
-        [
+        // Update student details
+        $student->update([
+            'father_or_husband_name' => $validated['father_or_husband_name'],
+            'cnic' => $validated['cnic'],
+            'address' => $validated['address'],
+            'pickup_sector' => $validated['pickup_sector'],
+            'phone' => $validated['phone'],
+            'optional_phone' => $validated['optional_phone'],
+            'admission_date' => $validated['admission_date'],
+            'email' => $validated['email'] ?? null,
+            'coupon_code' => $validated['coupon_code'],
+            'course_id' => $validated['course_id'],
             'instructor_id' => $request->instructor_id,
-            'vehicle_id' => $student->course->car_id,
-            'class_date' => $request->admission_date,
-            'class_end_date' => $course_end_date,
-            'start_time' => $adjustedStartTime->format('H:i:s'),
-            'end_time' => $class_end_time,
-        ]
-    );
+            'class_start_time' => $adjustedStartTime->format('H:i:s'),
+            'class_end_time' => $class_end_time,
+            'course_end_date' => $course_end_date,
+            'class_duration' => $adjustedClassDuration,
+            'form_type' => 'admin',
+            'branch_id' => $validated['branch_id'],
+            'timing_preference' => implode(', ', $newTimingPreference),
+        ]);
 
-    // Update invoice details
-    Invoice::updateOrCreate(
-        ['schedule_id' => $schedule->id],
-        [
-            'invoice_date' => $request->invoice_date,
-            'amount_received' => $request->amount_received,
-            'balance' => $request->balance,
-            'branch' => $request->branch,
-            'paid_by' => $request->paid_by,
-            'amount_in_english' => $request->amount_in_english,
-        ]
-    );
+        // Update schedule
+        $schedule = Schedule::updateOrCreate(
+            ['student_id' => $student->id],
+            [
+                'instructor_id' => $request->instructor_id,
+                'vehicle_id' => $request->car_id,
+                'class_date' => $request->admission_date,
+                'class_end_date' => $course_end_date,
+                'start_time' => $adjustedStartTime->format('H:i:s'),
+                'end_time' => $class_end_time,
+            ]
+        );
 
-    return redirect()->route('admin.allStudents')->with('success', 'Student updated successfully.');
-}
+        // Update invoice details
+        Invoice::updateOrCreate(
+            ['schedule_id' => $schedule->id],
+            [
+                'invoice_date' => $request->invoice_date,
+                'amount_received' => $request->amount_received,
+                'balance' => $request->balance,
+                'branch' => $request->branch,
+                'paid_by' => $request->paid_by,
+                'amount_in_english' => $request->amount_in_english,
+            ]
+        );
+
+        return redirect()->route('admin.allStudents')->with('success', 'Student updated successfully.');
+    }
 
 
     public function adminDestroyStudent($id)
@@ -409,8 +401,8 @@ class StudentController extends Controller
 
         $instructor = auth()->user()->instructor;
 
-        // Eager load course and car
-        $students = Student::with(['user', 'course.car'])
+        // Fetch students with relationships to course and car model
+        $students = Student::with(['user'   ,'course.carModel'])
             ->where('instructor_id', $instructor->id)
             ->get();
 

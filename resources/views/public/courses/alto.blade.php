@@ -1,10 +1,7 @@
 @extends('layout.app')
 
 
-@section('title', 'Alto')
-@section('breadcrumb', 'Alto (Manual)')
-
-@section('bannerImage', asset('main/images/resource/image-12.webp'))
+@section('bannerImage', asset('main/images/cars/ALTO.png'))
 
 
 @section('content')
@@ -359,60 +356,185 @@
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <section id="pricing" class="our_pricing section-padding">
                             <div class="container">
-                                <div class="row justify-content-center text-center">
+                                @php
+                                    $hasBoth = $courses->where('course_type', 'both')->isNotEmpty();
+                                    $hasIndividuals = $courses
+                                        ->whereIn('course_type', ['male', 'female'])
+                                        ->isNotEmpty();
+                                @endphp
 
-                                    <!-- Standard Plan -->
-                                    <div class="col-xs-12 col-sm-12 col-md-4">
-                                        <div class="pricingTable">
-                                            <div class="pricingTable-header">
-                                                <h3 class="price-value"><span class="value-bg">11 Days</span></h3>
-                                                <h3 class="title">60 Min</h3>
-                                            </div>
-                                            <ul class="pricing-content">
-                                                <li>10 Days Practical Driving</li>
-                                                <li>60 Minutes Daily</li>
-                                                <li>01 Theory Class</li>
-                                                <li>Automatic</li>
-                                            </ul>
-                                            <h1 class="price-value"><span class="value-bg">20,000/-</span></h1>
+                                @if ($hasBoth && !$hasIndividuals)
+                                    <!-- Show only "Both" section -->
+                                    <div class="row justify-content-center text-center mt-5">
+                                        <div class="col-12">
+                                            <h4><span>FOR MALE & FEMALE</span></h4>
                                         </div>
+                                        @foreach ($courses->where('course_type', 'both') as $course)
+                                            <div class="col-xs-12 col-sm-12 col-md-4">
+                                                <div class="pricingTable">
+                                                    <div class="pricingTable-header">
+                                                        <h3 class="price-value"><span
+                                                                class="value-bg">{{ $course->duration_days }} Days</span>
+                                                        </h3>
+                                                        <h3 class="title">{{ $course->duration_minutes }} Min</h3>
+                                                    </div>
+                                                    <ul class="pricing-content">
+                                                        <li>{{ $course->duration_days - 1 }} Days Practical Driving</li>
+                                                        <li>{{ $course->duration_minutes }} Minutes Daily</li>
+                                                        <li>01 Theory Class</li>
+                                                        <li>{{ ucfirst($course->carModel->transmission) }}</li>
+                                                    </ul>
+                                                    <h1 class="price-value"><span
+                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @elseif ($hasBoth && $hasIndividuals)
+                                    <!-- Show both "Both" and individual sections -->
+                                    <div class="row justify-content-center text-center mt-5">
+                                        <div class="col-12">
+                                            <h4><span>FOR MALE & FEMALE</span></h4>
+                                        </div>
+                                        @foreach ($courses->where('course_type', 'both') as $course)
+                                            <div class="col-xs-12 col-sm-12 col-md-4">
+                                                <div class="pricingTable">
+                                                    <div class="pricingTable-header">
+                                                        <h3 class="price-value"><span
+                                                                class="value-bg">{{ $course->duration_days }} Days</span>
+                                                        </h3>
+                                                        <h3 class="title">{{ $course->duration_minutes }} Min</h3>
+                                                    </div>
+                                                    <ul class="pricing-content">
+                                                        <li>{{ $course->duration_days - 1 }} Days Practical Driving</li>
+                                                        <li>{{ $course->duration_minutes }} Minutes Daily</li>
+                                                        <li>01 Theory Class</li>
+                                                        <li>{{ ucfirst($course->carModel->transmission) }}</li>
+                                                    </ul>
+                                                    <h1 class="price-value"><span
+                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
 
-                                    <!-- Premium Plan -->
-                                    <div class="col-xs-12 col-sm-12 col-md-4">
-                                        <div class="pricingTable">
-                                            <div class="pricingTable-header">
-                                                <h3 class="price-value"><span class="value-bg">16 Days</span></h3>
-                                                <h3 class="title">60 Min</h3>
-                                            </div>
-                                            <ul class="pricing-content">
-                                                <li>15 Days Practical Driving</li>
-                                                <li>60 Minutes Daily</li>
-                                                <li>01 Theory Class</li>
-                                                <li>Automatic</li>
-                                            </ul>
-                                            <h1 class="price-value"><span class="value-bg">30,000/-</span></h1>
+                                    <!-- Female Section -->
+                                    <div class="row justify-content-center text-center mt-5">
+                                        <div class="col-12">
+                                            <h4><span>FOR FEMALES</span></h4>
                                         </div>
+                                        @foreach ($courses->where('course_type', 'female') as $course)
+                                            <div class="col-xs-12 col-sm-12 col-md-4">
+                                                <div class="pricingTable">
+                                                    <div class="pricingTable-header">
+                                                        <h3 class="price-value"><span
+                                                                class="value-bg">{{ $course->duration_days }} Days</span>
+                                                        </h3>
+                                                        <h3 class="title">{{ $course->duration_minutes }} Min</h3>
+                                                    </div>
+                                                    <ul class="pricing-content">
+                                                        <li>{{ $course->duration_days - 1 }} Days Practical Driving</li>
+                                                        <li>{{ $course->duration_minutes }} Minutes Daily</li>
+                                                        <li>01 Theory Class</li>
+                                                        <li>{{ ucfirst($course->carModel->transmission) }}</li>
+                                                    </ul>
+                                                    <h1 class="price-value"><span
+                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
 
+                                    <!-- Male Section -->
+                                    <div class="row justify-content-center text-center mt-5">
+                                        <div class="col-12">
+                                            <h4><span>FOR MALES</span></h4>
+                                        </div>
+                                        @foreach ($courses->where('course_type', 'male') as $course)
+                                            <div class="col-xs-12 col-sm-12 col-md-4">
+                                                <div class="pricingTable">
+                                                    <div class="pricingTable-header">
+                                                        <h3 class="price-value"><span
+                                                                class="value-bg">{{ $course->duration_days }} Days</span>
+                                                        </h3>
+                                                        <h3 class="title">{{ $course->duration_minutes }} Min</h3>
+                                                    </div>
+                                                    <ul class="pricing-content">
+                                                        <li>{{ $course->duration_days - 1 }} Days Practical Driving</li>
+                                                        <li>{{ $course->duration_minutes }} Minutes Daily</li>
+                                                        <li>01 Theory Class</li>
+                                                        <li>{{ ucfirst($course->carModel->transmission) }}</li>
+                                                    </ul>
+                                                    <h1 class="price-value"><span
+                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <!-- Show only individual sections -->
+                                    <div class="row justify-content-center text-center mt-5">
+                                        <div class="col-12">
+                                            <h4><span>FOR FEMALES</span></h4>
+                                        </div>
+                                        @foreach ($courses->where('course_type', 'female') as $course)
+                                            <div class="col-xs-12 col-sm-12 col-md-4">
+                                                <div class="pricingTable">
+                                                    <div class="pricingTable-header">
+                                                        <h3 class="price-value"><span
+                                                                class="value-bg">{{ $course->duration_days }} Days</span>
+                                                        </h3>
+                                                        <h3 class="title">{{ $course->duration_minutes }} Min</h3>
+                                                    </div>
+                                                    <ul class="pricing-content">
+                                                        <li>{{ $course->duration_days - 1 }} Days Practical Driving</li>
+                                                        <li>{{ $course->duration_minutes }} Minutes Daily</li>
+                                                        <li>01 Theory Class</li>
+                                                        <li>{{ ucfirst($course->carModel->transmission) }}</li>
+                                                    </ul>
+                                                    <h1 class="price-value"><span
+                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
 
-                                </div><!--END ROW -->
-
-                                <!-- Additional Terms -->
-                                <ul class="mt-5">
-                                    <li><span class="checkmark">&#x2713;</span> One Theory Class is Compulsory.</li>
-                                    <li><span class="checkmark">&#x2713;</span> Pick & Drop charges will be according to
-                                        location.</li>
-                                    <li><span class="checkmark">&#x2713;</span> Change of Driving Route will be charged
-                                        separately ₨ 10,000/-.</li>
-                                    <li><span class="checkmark">&#x2713;</span> Air-conditioned facility available in car ₨
-                                        5,000/-.</li>
-                                    <li><span class="checkmark">&#x2713;</span> Individual training classes fee ₨ 10,000/-.
-                                    </li>
-                                </ul>
-                            </div><!-- END CONTAINER -->
+                                    <div class="row justify-content-center text-center mt-5">
+                                        <div class="col-12">
+                                            <h4><span>FOR MALES</span></h4>
+                                        </div>
+                                        @foreach ($courses->where('course_type', 'male') as $course)
+                                            <div class="col-xs-12 col-sm-12 col-md-4">
+                                                <div class="pricingTable">
+                                                    <div class="pricingTable-header">
+                                                        <h3 class="price-value"><span
+                                                                class="value-bg">{{ $course->duration_days }} Days</span>
+                                                        </h3>
+                                                        <h3 class="title">{{ $course->duration_minutes }} Min</h3>
+                                                    </div>
+                                                    <ul class="pricing-content">
+                                                        <li>{{ $course->duration_days - 1 }} Days Practical Driving</li>
+                                                        <li>{{ $course->duration_minutes }} Minutes Daily</li>
+                                                        <li>01 Theory Class</li>
+                                                        <li>{{ ucfirst($course->carModel->transmission) }}</li>
+                                                    </ul>
+                                                    <h1 class="price-value"><span
+                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
                         </section>
                     </div>
+
                     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                         <section class="contact-section">
                             <div class="auto-container">
@@ -438,7 +560,6 @@
                                     </div>
                                 @endif
 
-
                                 <div class="form-box contact-form">
                                     <form method="post" action="{{ route('public.admission.store') }}"
                                         id="contact-form">
@@ -452,23 +573,6 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Father/Husband Name -->
-                                            <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                                                <div class="field-inner">
-                                                    <input type="text" name="father_husband_name"
-                                                        value="{{ old('father_husband_name') }}"
-                                                        placeholder="Father/Husband Name" required>
-                                                </div>
-                                            </div>
-
-                                            <!-- CNIC -->
-                                            <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                                                <div class="field-inner">
-                                                    <input type="text" name="cnic" value="{{ old('cnic') }}"
-                                                        placeholder="CNIC" required>
-                                                </div>
-                                            </div>
-
                                             <!-- Phone -->
                                             <div class="form-group col-lg-6 col-md-6 col-sm-12">
                                                 <div class="field-inner">
@@ -476,7 +580,6 @@
                                                         placeholder="Phone Number" required>
                                                 </div>
                                             </div>
-
 
                                             <!-- Full Address -->
                                             <div class="form-group col-lg-6 col-md-6 col-sm-12">
@@ -486,22 +589,12 @@
                                                 </div>
                                             </div>
 
-
                                             <!-- Pickup Sector -->
                                             <div class="form-group col-lg-6 col-md-6 col-sm-12">
                                                 <div class="field-inner">
                                                     <input type="text" name="pickup_sector"
                                                         value="{{ old('pickup_sector') }}"
                                                         placeholder="Your Pickup Sector (e.g., I-10)" required>
-                                                </div>
-                                            </div>
-
-                                            <!-- Secondary Phone -->
-                                            <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                                                <div class="field-inner">
-                                                    <input type="text" name="secondary_phone"
-                                                        value="{{ old('secondary_phone') }}"
-                                                        placeholder="Secondary Phone">
                                                 </div>
                                             </div>
 
@@ -513,52 +606,47 @@
                                                 </div>
                                             </div>
 
+                                            <!-- Car Model Dropdown -->
+                                            <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                                <div class="field-inner">
+                                                    <select class="form-select @error('car_model_id') is-invalid @enderror"
+                                                        id="car_model" name="car_model_id" required>
+                                                        <option value="" disabled selected>Select Car Model</option>
+                                                        @foreach ($carModels as $carModel)
+                                                            <option value="{{ $carModel->id }}">{{ $carModel->name }}
+                                                                ({{ ucfirst($carModel->transmission) }})
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('car_model_id')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <!-- Gender Dropdown -->
+                                            <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                                <div class="field-inner">
+                                                    <select class="form-select @error('gender') is-invalid @enderror"
+                                                        id="gender" name="gender" required>
+                                                        <option value="" disabled selected>Select Gender</option>
+                                                        <option value="male">Male</option>
+                                                        <option value="female">Female</option>
+                                                    </select>
+                                                    @error('gender')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
                                             <!-- Course Dropdown -->
                                             <div class="form-group col-lg-6 col-md-6 col-sm-12">
                                                 <div class="field-inner">
                                                     <select class="form-select @error('course_id') is-invalid @enderror"
                                                         id="course" name="course_id" required>
                                                         <option value="" disabled selected>Select Course</option>
-                                                        @foreach ($courses as $course)
-                                                            <option value="{{ $course->id }}"
-                                                                data-fees="{{ $course->fees }}"
-                                                                data-duration="{{ $course->duration_days }}">
-                                                                {{ $course->car->make }} - {{ $course->car->model }} -
-                                                                {{ $course->car->registration_number }}
-                                                                ({{ $course->duration_days }} Days,
-                                                                {{ $course->car->transmission }})
-                                                            </option>
-                                                        @endforeach
                                                     </select>
                                                     @error('course_id')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-
-
-                                            <!-- Fees -->
-                                            <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                                                <div class="field-inner">
-                                                    <input type="number"
-                                                        class="form-control @error('fees') is-invalid @enderror"
-                                                        id="fees" name="fees" value="{{ old('fees') }}"
-                                                        placeholder="Course Fee" readonly required>
-                                                    @error('fees')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-
-                                            <!-- Course Duration -->
-                                            <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                                                <div class="field-inner">
-                                                    <input type="text"
-                                                        class="form-control @error('course_duration') is-invalid @enderror"
-                                                        id="course_duration" name="course_duration"
-                                                        value="{{ old('course_duration') }}"
-                                                        placeholder="Course Duration" readonly required>
-                                                    @error('course_duration')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
@@ -577,6 +665,45 @@
                             </div>
                         </section>
                     </div>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const carModelSelect = document.getElementById('car_model');
+                            const genderSelect = document.getElementById('gender');
+                            const courseSelect = document.getElementById('course');
+
+                            function updateCourses() {
+                                const carModelId = carModelSelect.value;
+                                const gender = genderSelect.value;
+
+                                courseSelect.innerHTML = '<option value="" disabled selected>Select Course</option>';
+
+                                if (carModelId && gender) {
+                                    @foreach ($carModels as $carModel)
+                                        if (carModelId == {{ $carModel->id }}) {
+                                            @foreach ($carModel->courses as $course)
+                                                if ('{{ $course->course_type }}' === gender) {
+                                                    courseSelect.innerHTML += `
+                                        <option value="{{ $course->id }}">
+                                            {{ $course->duration_days }} days / {{ $course->duration_minutes }} minutes -
+                                            {{ number_format($course->fees, 2) }} PKR
+                                        </option>`;
+                                                }
+                                            @endforeach
+                                        }
+                                    @endforeach
+
+                                    if (courseSelect.innerHTML === '<option value="" disabled selected>Select Course</option>') {
+                                        courseSelect.innerHTML =
+                                            '<option value="" disabled>No courses available for the selected criteria.</option>';
+                                    }
+                                }
+                            }
+
+                            carModelSelect.addEventListener('change', updateCourses);
+                            genderSelect.addEventListener('change', updateCourses);
+                        });
+                    </script>
                 </div>
             </div>
         </div>

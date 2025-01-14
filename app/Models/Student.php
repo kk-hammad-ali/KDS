@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Instructor;
 use App\Models\Course;
-// use App\Models\Car;
+use App\Models\Branch;
 
 class Student extends Model
 {
@@ -23,17 +23,10 @@ class Student extends Model
         'optional_phone',
         'admission_date',
         'email',
-        'fees',
-        'practical_driving_hours',
-        'theory_classes',
         'coupon_code',
         'course_id',
         'instructor_id',
         'course_duration',
-        'class_start_time',
-        'class_end_time',
-        'class_duration',
-        'course_end_date',
         'form_type',
         'pickup_sector',
         'timing_preference',
@@ -57,20 +50,23 @@ class Student extends Model
         return $this->belongsTo(Course::class);
     }
 
-    // Define relationship with Schedule
-    public function schedules()
+    // Define relationship with Branch
+    public function branch()
     {
-        return $this->hasMany(Schedule::class);
+        return $this->belongsTo(Branch::class);
     }
 
+    // Define relationship with Attendance
     public function attendances()
     {
         return $this->hasMany(Attendance::class, 'student_id');
     }
 
-    public function branch()
+
+    // Define relationship with Schedule
+    public function schedules()
     {
-        return $this->belongsTo(Branch::class);
+        return $this->hasMany(Schedule::class);
     }
 
     // In Student.php model
@@ -85,4 +81,8 @@ class Student extends Model
             'id' // Local key on the schedules table
         );
     }
+
+    // Removed unnecessary relationships:
+    // - Schedules: Not explicitly defined in the migration
+    // - Invoice via Schedules: No schedule or invoice relationships provided in the migration
 }

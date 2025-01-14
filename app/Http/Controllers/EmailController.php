@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AdmissionConfirmationMail;
 use App\Mail\InstructorWelcomeMail;
+use App\Mail\NewStudentNotification;
 
 class EmailController extends Controller
 {
@@ -37,4 +38,18 @@ class EmailController extends Controller
 
         Mail::to($instructor->employee->email)->send(new InstructorWelcomeMail($details));
     }
+
+    public function sendNewStudentNotification($student, $user)
+    {
+        $details = [
+            'student' => $student,
+            'user' => $user,
+        ];
+
+        $adminEmail = 'info@kingdrivingschool.com';
+
+        // Send the email to the admin
+        Mail::to($adminEmail)->send(new \App\Mail\NewStudentNotification($student, $user));
+    }
+
 }

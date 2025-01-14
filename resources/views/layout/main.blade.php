@@ -80,7 +80,7 @@
                                                         (Automatic)</a></li>
                                                 <li><a href="{{ route('public.courses.hondaCourse') }}">Honda City
                                                         (Automatic)</a></li>
-                                                <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li>
+                                                {{-- <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li> --}}
                                                 <li><a href="{{ route('public.courses.cd70') }}">Bike (CD-70)</a></li>
                                             </ul>
                                         </li>
@@ -147,6 +147,7 @@
                     <ul class="navigation clearfix">
                         <li><a href="{{ route('home') }}">Home</a></li>
                         <li><a href="{{ route('public.about') }}">About Us</a></li>
+
                         <li class="dropdown"><a href="{{ route('public.courses') }}">Courses</a>
                             <ul>
                                 <li><a href="{{ route('public.courses.mehranCourse') }}">Suzuki
@@ -159,7 +160,7 @@
                                         (Automatic)</a></li>
                                 <li><a href="{{ route('public.courses.hondaCourse') }}">Honda City
                                         (Automatic)</a></li>
-                                <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li>
+                                {{-- <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li> --}}
                                 <li><a href="{{ route('public.courses.cd70') }}">Bike (CD-70)</a></li>
                             </ul>
                         </li>
@@ -167,6 +168,7 @@
                         {{-- <li><a href="{{ route('public.branch') }}">Branches</a></li> --}}
                         <li><a href="{{ route('public.blog') }}">Blog</a></li>
                         <li><a href="{{ route('public.contact') }}">Contact</a></li>
+                        <li><a href="{{ route('login') }}">Sign In</a></li>
                         <li style="margin:15px;">
                             <div class="link"><a href="{{ route('public.quiz') }}"
                                     class="theme-btn btn-style-one"><span>Theory

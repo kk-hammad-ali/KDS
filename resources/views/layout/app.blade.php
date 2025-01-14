@@ -79,7 +79,7 @@
                                                         (Automatic)</a></li>
                                                 <li><a href="{{ route('public.courses.hondaCourse') }}">Honda City
                                                         (Automatic)</a></li>
-                                                <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li>
+                                                {{-- <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li> --}}
                                                 <li><a href="{{ route('public.courses.cd70') }}">Bike (CD-70)</a></li>
                                             </ul>
                                         </li>
@@ -87,6 +87,7 @@
                                         {{-- <li><a href="{{ route('public.branch') }}">Branches</a></li> --}}
                                         <li><a href="{{ route('public.blog') }}">Blog</a></li>
                                         <li><a href="{{ route('public.contact') }}">Contact</a></li>
+                                        <li><a href="{{ route('login') }}">Sign In</a></li>
                                         <li>
                                             <div class="link"><a style="padding: 8px;"
                                                     href="{{ route('public.quiz') }}"
@@ -153,7 +154,7 @@
                                         (Automatic)</a></li>
                                 <li><a href="{{ route('public.courses.hondaCourse') }}">Honda City
                                         (Automatic)</a></li>
-                                <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li>
+                                {{-- <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li> --}}
                                 <li><a href="{{ route('public.courses.cd70') }}">Bike (CD-70)</a></li>
                             </ul>
                         </li>
@@ -161,6 +162,7 @@
                         {{-- <li><a href="{{ route('public.branch') }}">Branches</a></li> --}}
                         <li><a href="{{ route('public.blog') }}">Blog</a></li>
                         <li><a href="{{ route('public.contact') }}">Contact</a></li>
+                        <li><a href="{{ route('login') }}">Sign In</a></li>
                         <li style="margin:15px;">
                             <div class="link"><a href="{{ route('public.quiz') }}"
                                     class="theme-btn btn-style-one"><span>Theory
@@ -183,16 +185,17 @@
 
         <!-- Banner Section -->
         <section class="inner-banner">
-            <div class="image-layer" style="background-image: url('@yield('bannerImage', asset('main/images/background/banner-image-1.jpg'))');"></div>
+            <div class="image-layer" style="background-image: url('@yield('bannerImage', asset('main/images/main-slider/slider-2.png'))');"></div>
             <div class="auto-container">
                 <div class="content-box">
+                    <h1>@yield('title', '')</h1>
                     <div class="bread-crumb">
-                        <ul class="clearfix">
+                        {{-- <ul class="clearfix">
                             <li><a href="{{ route('home') }}">Home</a></li>
                             <li class="current">@yield('breadcrumb', 'Default Breadcrumb')</li>
-                        </ul>
+                        </ul> --}}
                     </div>
-                    <h1>@yield('title', 'Default Title')</h1>
+
                 </div>
             </div>
         </section>

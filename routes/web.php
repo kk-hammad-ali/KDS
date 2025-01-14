@@ -27,6 +27,7 @@ use App\Http\Controllers\Schedule\ScheduleController;
 use App\Http\Controllers\Attendance\AttendanceController;
 use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Manager\ManagerController;
+use App\Http\Controllers\Car\CarModelController;
 
 // Main website
 Route::get('/', function () {
@@ -34,8 +35,8 @@ Route::get('/', function () {
 })->name('home');
 
 // Public Routes
-Route::get('/about', [AboutController::class, 'index'])->name("public.about");
-Route::get('/contact', [ContactController::class, 'index'])->name('public.contact');
+Route::get('/about-us', [AboutController::class, 'index'])->name("public.about");
+Route::get('/contact-us', [ContactController::class, 'index'])->name('public.contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('public.contact.store');
 Route::get('/admission', [AdmissionFormController::class, 'index'])->name('public.admission.form');
 Route::post('/admission', [AdmissionFormController::class, 'store'])->name('public.admission.store');
@@ -55,13 +56,13 @@ Route::get('/blog/common-traffic', [BlogController::class, 'commonTraffic'])->na
 Route::get('/blog/driving-test', [BlogController::class, 'drivingTest'])->name('public.blog.driving-test');
 Route::get('/blog/tips-for-beginner', [BlogController::class, 'tipsBeginner'])->name('public.blog.tips-for-beginner');
 
-Route::get('/courses/mehranCourse', [CourseController::class, 'mehranCourse'])->name("public.courses.mehranCourse");
-Route::get('/courses/altoCourse', [CourseController::class, 'altoCourse'])->name("public.courses.altoCourse");
-Route::get('/courses/hondaCourse', [CourseController::class, 'hondaCourse'])->name("public.courses.hondaCourse");
-Route::get('/courses/vitzCourse', [CourseController::class, 'vitzCourse'])->name("public.courses.vitzCourse");
-Route::get('/courses/miraCourse', [CourseController::class, 'miraCourse'])->name("public.courses.miraCourse");
-Route::get('/courses/swiftCourse', [CourseController::class, 'swiftCourse'])->name("public.courses.swiftCourse");
-Route::get('/courses/cd70', [CourseController::class, 'cd70'])->name("public.courses.cd70");
+Route::get('/suzuki-mehran', [CourseController::class, 'mehranCourse'])->name("public.courses.mehranCourse");
+Route::get('/courses/suzuki-alto-manual', [CourseController::class, 'altoCourse'])->name("public.courses.altoCourse");
+Route::get('/courses/honda-city', [CourseController::class, 'hondaCourse'])->name("public.courses.hondaCourse");
+Route::get('/toyota-vitz-automatic', [CourseController::class, 'vitzCourse'])->name("public.courses.vitzCourse");
+Route::get('/daihatsu-mira-automaic', [CourseController::class, 'miraCourse'])->name("public.courses.miraCourse");
+Route::get('/courses/swift', [CourseController::class, 'swiftCourse'])->name("public.courses.swiftCourse");
+Route::get('/bike', [CourseController::class, 'cd70'])->name("public.courses.cd70");
 
 // Auth Routes
 Route::get('/signin', [SignInController::class, 'index'])->name('login');
@@ -137,11 +138,16 @@ Route::middleware(['role:admin'])->group(function () {
 
     // Admin Cars
     Route::get('/admin/cars', [CarController::class, 'allCarsPage'])->name('admin.allCars');
-    Route::get('/admin/cars/create', [CarController::class, 'addCars'])->name('admin.addCars');
     Route::post('/admin/cars/add', [CarController::class, 'storeCars'])->name('admin.cars.store');
-    Route::get('/admin/cars/edit/{id}', [CarController::class, 'editCars'])->name('admin.editCar');
     Route::put('/admin/cars/{id}', [CarController::class, 'update'])->name('admin.updateCar');
     Route::get('/admin/cars/delete/{id}', [CarController::class, 'destroy'])->name('admin.deleteCars');
+
+    // Admin Car Models
+    Route::get('/admin/car-models', [CarModelController::class, 'allCarModelsPage'])->name('admin.allCarModels');
+    Route::post('/admin/car-models/add', [CarModelController::class, 'storeCarModel'])->name('admin.carModels.store');
+    Route::put('/admin/car-models/{id}', [CarModelController::class, 'updateCarModel'])->name('admin.updateCarModel');
+    Route::get('/admin/car-models/delete/{id}', [CarModelController::class, 'deleteCarModel'])->name('admin.deleteCarModel');
+
 
     // Fixed Expenses Routes
     Route::get('/admin/expense/fixed', [FixedExpenseController::class, 'index'])->name('admin.fixedExpenses');

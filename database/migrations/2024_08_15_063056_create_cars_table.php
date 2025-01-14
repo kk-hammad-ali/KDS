@@ -15,10 +15,8 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->string('make');
-            $table->string('model');
-            $table->string('registration_number')->unique();
-            $table->enum('transmission', ['automatic', 'manual']);
+            $table->foreignId('car_model_id')->constrained('car_models')->onDelete('cascade'); // Link to car models
+            $table->string('registration_number')->unique(); // Unique for each car
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@
             <div class="flex-align gap-8 flex-wrap">
                 <a href="{{ route('admin.addStudent') }}"
                     class="btn btn-main text-sm btn-sm px-24 py-12 d-flex align-items-center gap-8">
-                    <i class="ph ph-user-plus d-flex text-xl"></i> 
+                    <i class="ph ph-user-plus d-flex text-xl"></i>
                     Add Student
                 </a>
             </div>
@@ -29,12 +29,6 @@
                 <table id="studentTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="fixed-width">
-                                <div class="form-check">
-                                    <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
-                                        id="selectAll">
-                                </div>
-                            </th>
                             <th class="h6 text-gray-300">#</th>
                             <th class="h6 text-gray-300">Name</th>
                             <th class="h6 text-gray-300">Phone Number</th>
@@ -47,11 +41,6 @@
                     <tbody>
                         @foreach ($students as $student)
                             <tr>
-                                <td class="fixed-width">
-                                    <div class="form-check">
-                                        <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
-                                    </div>
-                                </td>
                                 <td>
                                     <div class="flex-align gap-8">
                                         <span class="h6 mb-0 fw-medium text-gray-300">{{ $loop->iteration }}</span>
@@ -70,10 +59,10 @@
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $student->admission_date }}</span>
                                 </td>
                                 <td>
-                                    <span class="h6 mb-0 fw-medium text-gray-300"> {{ $student->course->car->make }}
-                                        {{ $student->course->car->model }} -
-                                        {{ $student->course->car->registration_number }} -
-                                        ({{ $student->course->duration_days }} Days)
+                                    <span class="h6 mb-0 fw-medium text-gray-300">
+                                        {{ $student->course->carModel->name }}
+                                        ({{ ucfirst($student->course->carModel->transmission) }})
+                                        - {{ $student->course->duration_days }} Days
                                     </span>
                                 </td>
                                 <td>
@@ -88,7 +77,6 @@
                                         class="bg-info text-white py-2 px-14 rounded-pill hover-bg-info-600"
                                         data-bs-toggle="modal" data-bs-target="#viewStudentModal"
                                         data-student="{{ json_encode($student) }}">View</button>
-
                                 </td>
                             </tr>
                         @endforeach
@@ -96,13 +84,45 @@
                 </table>
             </div>
             <div class="card-footer flex-between flex-wrap">
-                <span class="text-gray-900">
-                    Showing {{ $students->firstItem() }} to {{ $students->lastItem() }} of {{ $students->total() }}
-                    entries
-                </span>
+                <span class="text-gray-900">Showing {{ $students->firstItem() }} to {{ $students->lastItem() }} of
+                    {{ $students->total() }} entries</span>
+                <ul class="pagination flex-align flex-wrap">
+                    @if ($students->onFirstPage())
+                        <li class="page-item disabled">
+                            <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium" href="#">Prev</a>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium"
+                                href="{{ $students->previousPageUrl() }}">Prev</a>
+                        </li>
+                    @endif
 
-                <!-- Default pagination links -->
-                {{ $students->links() }}
+                    @foreach ($students->links()->elements[0] as $page => $url)
+                        @if ($page == $students->currentPage())
+                            <li class="page-item active">
+                                <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium"
+                                    href="#">{{ $page }}</a>
+                            </li>
+                        @else
+                            <li class="page-item">
+                                <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium"
+                                    href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endif
+                    @endforeach
+
+                    @if ($students->hasMorePages())
+                        <li class="page-item">
+                            <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium"
+                                href="{{ $students->nextPageUrl() }}">Next</a>
+                        </li>
+                    @else
+                        <li class="page-item disabled">
+                            <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium" href="#">Next</a>
+                        </li>
+                    @endif
+                </ul>
             </div>
         </div>
 

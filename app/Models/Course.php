@@ -7,18 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'car_id',
+        'car_model_id',
         'duration_days',
         'duration_minutes',
         'fees',
+        'course_type', // New column
     ];
 
-
-    public function car()
+    /**
+     * Get the car model associated with the course.
+     */
+    public function carModel()
     {
-        return $this->belongsTo(Car::class);
+        return $this->belongsTo(CarModel::class);
     }
 
-    use HasFactory;
+    /**
+     * Get the students enrolled in the course.
+     */
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

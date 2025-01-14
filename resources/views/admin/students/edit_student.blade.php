@@ -14,6 +14,17 @@
             </div>
         </div>
 
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- Student Step List Start -->
         <ul class="step-list mb-24">
             <li class="step-list__item py-15 px-24 text-15 text-heading fw-medium flex-center gap-6 active" data-step="1">
@@ -136,69 +147,68 @@
                     <div class="step-content" id="step-2" style="display: none;">
                         <h5>Admission Details</h5>
                         <div class="row gy-20">
+
+                            <!-- Car Model Dropdown -->
+                            <div class="col-sm-6">
+                                <label for="carModel" class="h5 mb-8 fw-semibold font-heading">Car Model</label>
+                                <select class="form-select @error('car_model_id') is-invalid @enderror" id="carModel"
+                                    name="car_model_id" required>
+                                    <option value="" disabled>Select Car Model</option>
+                                    @foreach ($courses->pluck('carModel')->unique('id') as $carModel)
+                                        <option value="{{ $carModel->id }}"
+                                            {{ old('car_model_id', $student->car_model_id) == $carModel->id ? 'selected' : '' }}>
+                                            {{ $carModel->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('car_model_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Car Dropdown -->
+                            <div class="col-sm-6">
+                                <label for="car" class="h5 mb-8 fw-semibold font-heading">Car</label>
+                                <select class="form-select @error('car_id') is-invalid @enderror" id="car"
+                                    name="car_id" required disabled>
+                                    <option value="" disabled>Select Car</option>
+                                </select>
+                                @error('car_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Course Type Dropdown -->
+                            <div class="col-sm-6">
+                                <label for="courseType" class="h5 mb-8 fw-semibold font-heading">Course Type</label>
+                                <select class="form-select @error('course_type') is-invalid @enderror" id="courseType"
+                                    name="course_type" required>
+                                    <option value="" disabled>Select Course Type</option>
+                                    <option value="male"
+                                        {{ old('course_type', $student->course_type) == 'male' ? 'selected' : '' }}>Male
+                                    </option>
+                                    <option value="female"
+                                        {{ old('course_type', $student->course_type) == 'female' ? 'selected' : '' }}>
+                                        Female</option>
+                                </select>
+                                @error('course_type')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Course Dropdown -->
                             <div class="col-sm-6">
                                 <label for="course" class="h5 mb-8 fw-semibold font-heading">Course</label>
                                 <select class="form-select @error('course_id') is-invalid @enderror" id="course"
-                                    name="course_id" required>
+                                    name="course_id" required disabled>
                                     <option value="" disabled>Select Course</option>
-                                    @foreach ($courses as $course)
-                                        <option value="{{ $course->id }}" data-fees="{{ $course->fees }}"
-                                            data-duration="{{ $course->duration_days }}"
-                                            {{ old('course_id', $student->course_id) == $course->id ? 'selected' : '' }}>
-                                            {{ $course->car->make }} {{ $course->car->model }}
-                                            {{ $course->car->registration_number }} - {{ $course->duration_days }} Days
-                                        </option>
-                                    @endforeach
                                 </select>
                                 @error('course_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="col-sm-6">
-                                <label for="fees" class="h5 mb-8 fw-semibold font-heading">Fees</label>
-                                <input type="number" class="form-control @error('fees') is-invalid @enderror"
-                                    id="fees" name="fees" value="{{ old('fees', $student->fees) }}" readonly>
-                                @error('fees')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="course_duration" class="h5 mb-8 fw-semibold font-heading">Course Duration
-                                    (Days)</label>
-                                <input type="number" class="form-control @error('course_duration') is-invalid @enderror"
-                                    id="course_duration" name="course_duration"
-                                    value="{{ old('course_duration', $student->course_duration) }}" readonly>
-                                @error('course_duration')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="practicalDriving" class="h5 mb-8 fw-semibold font-heading">Practical Driving
-                                    Days</label>
-                                <input type="number"
-                                    class="form-control @error('practical_driving_hours') is-invalid @enderror"
-                                    id="practicalDriving" name="practical_driving_hours"
-                                    value="{{ old('practical_driving_hours', $student->practical_driving_hours) }}"
-                                    required>
-                                @error('practical_driving_hours')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="theoryClasses" class="h5 mb-8 fw-semibold font-heading">Theory Classes
-                                    Days</label>
-                                <input type="number" class="form-control @error('theory_classes') is-invalid @enderror"
-                                    id="theoryClasses" name="theory_classes"
-                                    value="{{ old('theory_classes', $student->theory_classes) }}" required>
-                                @error('theory_classes')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
+                            <!-- Coupon Code -->
                             <div class="col-sm-6">
                                 <label for="couponCode" class="h5 mb-8 fw-semibold font-heading">Coupon Code
                                     (Optional)</label>
@@ -211,6 +221,86 @@
                             </div>
                         </div>
                     </div>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const carModelSelect = document.getElementById('carModel');
+                            const carSelect = document.getElementById('car');
+                            const courseTypeSelect = document.getElementById('courseType');
+                            const courseSelect = document.getElementById('course');
+
+                            function filterCars() {
+                                const selectedCarModelId = carModelSelect.value;
+
+                                // Enable the car dropdown only if a car model is selected
+                                if (selectedCarModelId) {
+                                    carSelect.disabled = false;
+
+                                    // Clear the car dropdown
+                                    carSelect.innerHTML = '<option value="" disabled>Select Car</option>';
+
+                                    // Filter cars based on car model
+                                    const cars = @json($cars);
+                                    cars.forEach(car => {
+                                        if (car.car_model_id == selectedCarModelId) {
+                                            const option = document.createElement('option');
+                                            option.value = car.id;
+                                            option.textContent = `Car #${car.registration_number}`;
+                                            option.selected = car.id == @json(old('car_id', $student->car_id));
+                                            carSelect.appendChild(option);
+                                        }
+                                    });
+                                } else {
+                                    carSelect.disabled = true;
+                                    carSelect.innerHTML = '<option value="" disabled>Select Car</option>';
+                                }
+                            }
+
+                            function filterCourses() {
+                                const selectedCarModelId = carModelSelect.value;
+                                const selectedCourseType = courseTypeSelect.value;
+
+                                // Enable the course dropdown only if both fields are selected
+                                if (selectedCarModelId && selectedCourseType) {
+                                    courseSelect.disabled = false;
+
+                                    // Clear the course dropdown
+                                    courseSelect.innerHTML = '<option value="" disabled>Select Course</option>';
+
+                                    // Filter courses based on car model and course type
+                                    const courses = @json($courses);
+                                    courses.forEach(course => {
+                                        if (
+                                            course.car_model_id == selectedCarModelId &&
+                                            course.course_type === selectedCourseType
+                                        ) {
+                                            const option = document.createElement('option');
+                                            option.value = course.id;
+                                            option.textContent =
+                                                `${course.car_model.name} - ${course.duration_days} Days / ${course.duration_minutes} Minutes - ${course.fees} PKR`;
+                                            option.selected = course.id == @json(old('course_id', $student->course_id));
+                                            courseSelect.appendChild(option);
+                                        }
+                                    });
+                                } else {
+                                    courseSelect.disabled = true;
+                                    courseSelect.innerHTML = '<option value="" disabled>Select Course</option>';
+                                }
+                            }
+
+                            // Event listeners for car model, car, and course type dropdowns
+                            carModelSelect.addEventListener('change', () => {
+                                filterCars();
+                                filterCourses();
+                            });
+                            carSelect.addEventListener('change', filterCourses);
+                            courseTypeSelect.addEventListener('change', filterCourses);
+
+                            // Trigger the filters on page load to populate fields if editing
+                            filterCars();
+                            filterCourses();
+                        });
+                    </script>
 
                     <!-- Step 3: Class Schedule -->
                     <div class="step-content" id="step-3" style="display: none;">
@@ -271,7 +361,7 @@
                                     minutes):</label>
                                 <input type="number" id="class_duration" name="class_duration"
                                     class="form-control @error('class_duration') is-invalid @enderror"
-                                    value="{{ old('class_duration', $student->class_duration) }}" required>
+                                    value="{{ old('class_duration', $student->course->duration_minutes) }}" required>
                                 @error('class_duration')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

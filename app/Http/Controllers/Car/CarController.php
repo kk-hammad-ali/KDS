@@ -2,36 +2,32 @@
 
 namespace App\Http\Controllers\Car;
 
-namespace App\Http\Controllers\Car;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Car;
+use App\Models\CarModel;
 
 class CarController extends Controller
 {
-    // Display the list of cars
+    /**
+     * Display the list of cars
+     */
     public function allCarsPage()
     {
-        $cars = Car::paginate(10);
-        return view('cars.all_cars', compact('cars'));
+        $cars = Car::with('carModel')->paginate(10); // Eager load car model relationships
+        $carModels = CarModel::paginate(10); // Fetch all car models for dropdown or selection
+        return view('cars.all_cars', compact('cars', 'carModels'));
     }
 
-    // Return the view to add a new car
-    public function addCars()
-    {
-        return view('admin.cars.add_cars');
-    }
-
-    // Store a new car
+    /**
+     * Store a new car
+     */
     public function storeCars(Request $request)
     {
-        // Updated validation rules
+        // Validation
         $validatedData = $request->validate([
-            'make' => 'required|string|max:255',
-            'model' => 'required|string|max:255', // Model is a string, not numeric
-            'registration_number' => 'required|string|max:255|unique:cars',
-            'transmission' => 'required|in:automatic,manual',
+            'car_model_id' => 'required|exists:car_models,id', // Ensure the car model exists
+            'registration_number' => 'required|string|max:255|unique:cars', // Unique registration number
         ]);
 
         // Store car
@@ -40,22 +36,15 @@ class CarController extends Controller
         return redirect()->route('admin.allCars')->with('success_cars', 'Car added successfully.');
     }
 
-    // Return the view to edit a car
-    public function editCars($id)
-    {
-        $car = Car::findOrFail($id);
-        return view('admin.cars.edit_cars', compact('car'));
-    }
-
-    // Update the car
+    /**
+     * Update the car
+     */
     public function update(Request $request, $id)
     {
-        // Updated validation rules
+        // Validation
         $validatedData = $request->validate([
-            'make' => 'required|string|max:255',
-            'model' => 'required|string|max:255', // Model is a string, not numeric
-            'registration_number' => 'required|string|max:255|unique:cars,registration_number,' . $id,
-            'transmission' => 'required|in:automatic,manual',
+            'car_model_id' => 'required|exists:car_models,id', // Ensure the car model exists
+            'registration_number' => 'required|string|max:255|unique:cars,registration_number,' . $id, // Unique per car, exclude current car
         ]);
 
         // Find and update the car
@@ -65,7 +54,9 @@ class CarController extends Controller
         return redirect()->route('admin.allCars')->with('success_updated_cars', 'Car updated successfully.');
     }
 
-    // Delete a car
+    /**
+     * Delete a car
+     */
     public function destroy($id)
     {
         $car = Car::findOrFail($id);
