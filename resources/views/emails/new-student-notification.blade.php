@@ -72,9 +72,10 @@
                 <li><strong>Phone Number:</strong> {{ $student->phone }}</li>
                 <li><strong>Address:</strong> {{ $student->address }}</li>
                 <li><strong>Pickup Sector:</strong> {{ $student->pickup_sector }}</li>
-                <li><strong>Course:</strong> {{ $student->course->car->make }} - {{ $student->course->car->model }}</li>
-                <li><strong>Fees:</strong> {{ $student->fees }}</li>
-                <li><strong>Course Duration:</strong> {{ $student->course_duration }} days</li>
+                <li><strong>Course:</strong> {{ $student->course->carModel->name }}
+                    ({{ ucfirst($student->course->carModel->transmission) }}) -
+                    {{ $student->course->fees }} PKR -
+                    {{ $student->course->duration_days }} Days</li>
             </ul>
             <p>Please review the form and proceed with further actions.</p>
         </div>

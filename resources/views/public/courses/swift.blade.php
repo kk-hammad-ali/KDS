@@ -24,7 +24,7 @@
             /* Center-align the tabs */
             flex-wrap: nowrap;
             /* Prevent wrapping */
-            background-color: #272e38;
+            background-color: black;
             /* Maintain background color */
             border: none;
             padding: 10px 0;
@@ -46,7 +46,7 @@
             /* Add spacing between tabs */
             border-radius: 5px;
             /* Add slight rounding for a modern look */
-            background-color: #272e38;
+            background-color: black;
             /* Match background color */
             transition: all 0.3s ease;
             /* Smooth transition effect */
@@ -274,16 +274,16 @@
             <div class="col-12" style="padding: 0px;">
                 <nav>
                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
-                            role="tab" aria-controls="nav-home" aria-selected="true">Training</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
+                        <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                            aria-controls="nav-home" aria-selected="true">Training</a>
+                        <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
                             role="tab" aria-controls="nav-profile" aria-selected="false">Rates/Fees</a>
                         <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
                             role="tab" aria-controls="nav-contact" aria-selected="false">Register</a>
                     </div>
                 </nav>
                 <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="auto-container mt-5">
                             <ul>
                                 <li><span class="checkmark">&#x2713;</span> Monday to Saturday: 8:00 am - 8:00 pm for
@@ -355,7 +355,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="tab-pane fade show active" id="nav-profile" role="tabpanel"
+                        aria-labelledby="nav-profile-tab">
                         <section id="pricing" class="our_pricing section-padding">
                             <div class="container">
                                 @php
@@ -533,6 +534,18 @@
                                         @endforeach
                                     </div>
                                 @endif
+                            </div>
+
+                            <div class="auto-container mt-5">
+                                <ul>
+                                    <li><span class="checkmark customli">&#x2713;</span>One Theory Class is Compulsory.
+                                    </li>
+                                    <li><span class="checkmark customli">&#x2713;</span>This packages do not include
+                                        pick-and-drop services. Pick-and-drop charges are based on your location.</li>
+                                    <li><span class="checkmark customli">&#x2713;</span>Change Of Driving Route Will Be
+                                        Charged Separately 10,000/-
+                                    </li>
+                                </ul>
                             </div>
                         </section>
                     </div>

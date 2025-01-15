@@ -15,10 +15,45 @@
     <link href="{{ asset('main/css/responsive.css') }}" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 
 <body>
     <div class="page-wrapper">
+
+        <style>
+            .float {
+                position: fixed;
+                width: 60px;
+                height: 60px;
+                bottom: 40px;
+                right: 40px;
+                background-color: #25d366;
+                color: #FFF;
+                border-radius: 50px;
+                text-align: center;
+                font-size: 30px;
+                z-index: 100;
+            }
+
+            .float:hover {
+                background-color: #25d366;
+                /* Ensure the color doesn't change */
+                color: #FFF;
+                /* Ensure the text color doesn't change */
+                cursor: default;
+                /* No pointer change */
+            }
+
+            .my-float {
+                margin-top: 16px;
+            }
+        </style>
+
+        <a href="https://api.whatsapp.com/send?phone=923324044111&text=King%20Driving%20School" class="float"
+            target="_blank">
+            <i class="fa fa-whatsapp my-float"></i>
+        </a>
 
         <!-- Preloader -->
         <div class="preloader"></div>
@@ -53,9 +88,18 @@
                 <div class="auto-container">
                     <!-- Main Box -->
                     <div class="main-box clearfix">
+
+                        <!-- Hidden Nav Toggler -->
+                        <div class="nav-toggler">
+                            <button class="hidden-bar-opener"><span class="icon"><img
+                                        src="{{ asset('main/images/icons/menu-icon.png') }}"
+                                        alt=""></span></button>
+                        </div>
+
                         <!-- Logo -->
-                        <div class="logo-box">
+                        <div class="logo-box d-lg-block d-none">
                             <div class="logo"><a href="{{ route('home') }}" title="King Driving School"><img
+                                        src="{{ asset('main/images/logo.png') }}" alt=""
                                         src="{{ asset('main/images/logo.png') }}" alt=""
                                         title="King Driving School"></a></div>
                         </div>
@@ -106,11 +150,12 @@
                             </div>
                             <!-- Nav Outer End -->
 
-                            <!-- Hidden Nav Toggler -->
-                            <div class="nav-toggler">
-                                <button class="hidden-bar-opener"><span class="icon"><img
-                                            src="{{ asset('main/images/icons/menu-icon.png') }}"
-                                            alt=""></span></button>
+                            <!-- Logo -->
+                            <div class="logo-box d-lg-none d-block">
+                                <div class="logo"><a href="{{ route('home') }}" title="King Driving School"><img
+                                            src="{{ asset('main/images/logo.png') }}" alt=""
+                                            src="{{ asset('main/images/logo.png') }}" alt=""
+                                            title="King Driving School"></a></div>
                             </div>
 
                         </div>
@@ -227,7 +272,7 @@
                                             Islamabad, 44000</div>
                                         <div class="phone">
                                             <span class="icon fa fa-phone"></span>
-                                            <a href="tel:+923233333818" class="theme-btn">0323-3333818</a>
+                                            <a href="tel:+923324044111" class="theme-btn">0332-4044111</a>
                                             <a href="tel:+92514445444" class="theme-btn">051-4445444</a>
                                         </div>
                                     </div>

@@ -262,7 +262,7 @@
                             </div>
                         </div>
                         <div class="lower-links clearfix">
-                            <div class="link"><a href="{{ route('public.courses') }}"
+                            <div class="link"><a href="{{ route('public.about') }}"
                                     class="theme-btn btn-style-one"><span>DISCOVER
                                         MORE</span></a></div>
                         </div>
@@ -293,7 +293,10 @@
             <div class="title-box centered style-two">
                 <div class="dots"><img src="{{ asset('main/images/resource/title-pattern-2.svg') }}" alt="">
                 </div>
-                <h2><span>Our <br>Facilities</span></h2>
+                {{-- <h2><span>Our <br>Facilities</span></h2> --}}
+                <div class="link">
+                    <h3 href="#" class="theme-btn btn-style-one"><span>Our Facilities</span></h3>
+                </div>
             </div>
             <div class="row clearfix">
                 <!-- Block -->
@@ -384,21 +387,22 @@
             <div class="carousel-box">
                 <div class="testi-carousel-two owl-theme owl-carousel">
                     <!--Block-->
+
                     <div class="testi-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <div class="image"><img src="{{ asset('main/images/resource/testi-6.png') }}"
-                                        alt="" title=""></div>
+                                <div class="image"><img src="{{ asset('user.jpeg') }}" alt="" title="">
+                                </div>
                                 <i class="quotes fa fa-quote-right"></i>
                             </div>
                             <div class="text-content">
-                                <div class="text">"My experience with this driving school was excellent! The instructors
-                                    were very professional and helped me gain confidence behind the wheel. Highly
-                                    recommended!"</div>
+                                <div class="text">"I have had a great experience at King Driving School. My instructor,
+                                    Mrs. Sajida, is honestly a very good teacher with a lot of patience. She has never
+                                    shouted or shown any attitude. Thanks to her, I passed my exam on the first attempt and
+                                    truly enjoyed the entire learning experience."</div>
                             </div>
                             <div class="info">
-                                <span class="name">Aisha Malik</span> <i class="dot"></i> <span
-                                    class="designation">Student</span>
+                                <span class="name">Anooshay Abbasi</span>
                             </div>
                         </div>
                     </div>
@@ -406,17 +410,18 @@
                     <div class="testi-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <div class="image"><img src="{{ asset('main/images/resource/testi-6.png') }}"
-                                        alt="" title=""></div>
+                                <div class="image"><img src="{{ asset('user.jpeg') }}" alt="" title="">
+                                </div>
                                 <i class="quotes fa fa-quote-right"></i>
                             </div>
                             <div class="text-content">
-                                <div class="text">"I was nervous about learning to drive, but the friendly staff made the
-                                    process so easy. Thanks to them, I passed my test on the first try!"</div>
+                                <div class="text">"I had the pleasure of learning driving from Miss Seema. She is
+                                    incredibly patient and professional. Her dedication is extremely appreciable, and I can
+                                    safely say she has instilled confidence in me to become a great driver. I highly
+                                    recommend her for a calm and smooth learning experience."</div>
                             </div>
                             <div class="info">
-                                <span class="name">Usman Ahmed</span> <i class="dot"></i> <span
-                                    class="designation">Software Engineer</span>
+                                <span class="name">Soha Jehangir</span>
                             </div>
                         </div>
                     </div>
@@ -424,17 +429,55 @@
                     <div class="testi-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <div class="image"><img src="{{ asset('main/images/resource/testi-6.png') }}"
-                                        alt="" title=""></div>
+                                <div class="image"><img src="{{ asset('user.jpeg') }}" alt="" title="">
+                                </div>
                                 <i class="quotes fa fa-quote-right"></i>
                             </div>
                             <div class="text-content">
-                                <div class="text">"The lessons were structured and easy to follow. I learned so much in a
-                                    short time. Thank you for helping me become a safe driver!"</div>
+                                <div class="text">"I took a five-day driving lesson course with Ma’am Sadaf. I had never
+                                    driven before, but thanks to her, I gained a lot of confidence in my driving. She made
+                                    sure I was calm throughout my lessons and consistently checked up on me. I am very
+                                    grateful for this opportunity."</div>
                             </div>
                             <div class="info">
-                                <span class="name">Fatima Khan</span> <i class="dot"></i> <span
-                                    class="designation">Teacher</span>
+                                <span class="name">Hana Lee</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Block-->
+                    <div class="testi-block">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="image"><img src="{{ asset('user.jpeg') }}" alt="" title="">
+                                </div>
+                                <i class="quotes fa fa-quote-right"></i>
+                            </div>
+                            <div class="text-content">
+                                <div class="text">"I had a great experience learning to drive with Mam Seema. She is very
+                                    nice, humble, and professional. Her teaching style is encouraging and clear, making me a
+                                    more confident driver. I highly recommend her as an instructor."</div>
+                            </div>
+                            <div class="info">
+                                <span class="name">Nida Sadiq</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Block-->
+                    <div class="testi-block">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <div class="image"><img src="{{ asset('user.jpeg') }}" alt="" title="">
+                                </div>
+                                <i class="quotes fa fa-quote-right"></i>
+                            </div>
+                            <div class="text-content">
+                                <div class="text">"I have taken admission in King Driving School and had a very great
+                                    experience! My instructor, Mam Sadaf, guided me very well and helped build my
+                                    confidence. She made me feel comfortable, and her friendly nature made the learning
+                                    process enjoyable. I highly recommend her!"</div>
+                            </div>
+                            <div class="info">
+                                <span class="name">A.Ayesha Vlogs</span>
                             </div>
                         </div>
                     </div>
@@ -442,8 +485,6 @@
             </div>
         </div>
     </section>
-
-
 
     <!--About Section-->
     <section class="about-one bg-light">
@@ -493,7 +534,7 @@
                             </div>
                             <div class="image-block col-lg-6 col-d-6 col-sm-6">
                                 <div class="bg-white inner-box">
-                                    <h3>450+</h3>
+                                    <h3>650+</h3>
                                     <h5><a href="#">Positive Feedback</a></h5>
                                 </div>
                             </div>
@@ -517,7 +558,7 @@
     </section>
 
     <!--News Section-->
-    <section class="news-section">
+    {{-- <section class="news-section">
         <div class="container">
             <div class="news-box">
                 <div class="row clearfix">
@@ -579,5 +620,5 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 @endsection

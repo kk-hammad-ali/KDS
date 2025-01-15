@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Apply Now')
+@section('title', '')
 @section('breadcrumb', 'Admission Form')
 
 @section('content')

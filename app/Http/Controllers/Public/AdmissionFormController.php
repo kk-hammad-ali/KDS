@@ -86,17 +86,9 @@ class AdmissionFormController extends Controller
             'phone' => $validated['phone'],
             'admission_date' => now(),
             'email' => $validated['email'] ?? null,
-            'fees' => $course->fees, // Use the course's fees
-            'practical_driving_hours' => 0,
-            'theory_classes' => 0,
             'coupon_code' => null,
             'course_id' => $course->id,
             'instructor_id' => null,
-            'course_duration' => $course->duration_days, // Use the course's duration
-            'class_start_time' => null,
-            'class_end_time' => null,
-            'class_duration' => 0,
-            'course_end_date' => now()->addDays($course->duration_days),
             'form_type' => 'admission',
         ]);
 
@@ -195,7 +187,7 @@ class AdmissionFormController extends Controller
         ]);
 
         // Send admission confirmation email
-        // $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor, $student->vehicle);
+        $this->emailController->sendAdmissionConfirmation($student, $schedule, $student->instructor);
 
         $student->user->notify(new WelcomeNotification($student));
         $instructor = Instructor::find($request->instructor_id);

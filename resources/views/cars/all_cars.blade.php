@@ -55,7 +55,7 @@
                                         data-transmission="{{ $carModel->transmission }}">Edit</button>
                                     <button type="button"
                                         class="bg-danger text-white py-2 px-14 rounded-pill hover-bg-danger-600"
-                                        data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                        data-bs-toggle="modal" data-bs-target="#deleteCarModelModal"
                                         data-car-model-id="{{ $carModel->id }}">Delete</button>
                                 </td>
                             </tr>
@@ -183,29 +183,6 @@
         </div>
         <!-- End Edit Car Model Modal -->
 
-        <!-- Delete Confirmation Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to delete this car model?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <form id="deleteCarModelForm" method="GET" action="">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Delete Confirmation Modal -->
-
 
         <!-- Car Table Start -->
         <div class="card overflow-hidden mt-20">
@@ -242,7 +219,7 @@
                                         data-registration_number="{{ $car->registration_number }}">Edit</button>
                                     <button type="button"
                                         class="bg-danger text-white py-2 px-14 rounded-pill hover-bg-danger-600"
-                                        data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                        data-bs-toggle="modal" data-bs-target="#deleteCarModal"
                                         data-car-id="{{ $car->id }}">Delete</button>
                                 </td>
                             </tr>
@@ -334,7 +311,6 @@
         </div>
         <!-- End Add Car Modal -->
 
-
         <!-- Edit Car Modal -->
         <div class="modal fade" id="editCarModal" tabindex="-1" aria-labelledby="editCarModalLabel"
             aria-hidden="true">
@@ -378,13 +354,37 @@
         </div>
         <!-- End Edit Car Modal -->
 
-
-        <!-- Delete Confirmation Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <!-- Delete Car Model Confirmation Modal -->
+        <div class="modal fade" id="deleteCarModelModal" tabindex="-1" aria-labelledby="deleteCarModelModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                        <h5 class="modal-title" id="deleteCarModelModalLabel">Confirm Delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this car model?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form id="deleteCarModelForm" method="GET" action="">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Delete Car Model Confirmation Modal -->
+
+        <!-- Delete Car Confirmation Modal -->
+        <div class="modal fade" id="deleteCarModal" tabindex="-1" aria-labelledby="deleteCarModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteCarModalLabel">Confirm Delete</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -400,8 +400,7 @@
                 </div>
             </div>
         </div>
-        <!-- End Delete Confirmation Modal -->
-
+        <!-- End Delete Car Confirmation Modal -->
 
     </div>
 
@@ -423,15 +422,6 @@
                 // Set form action
                 const form = document.getElementById('editCarModelForm');
                 form.action = `/admin/car-models/${carModelId}`;
-            });
-
-            // Handling Delete Modal
-            const deleteModal = document.getElementById('deleteModal');
-            deleteModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget;
-                const carModelId = button.getAttribute('data-car-model-id');
-                const deleteForm = document.getElementById('deleteCarModelForm');
-                deleteForm.action = `/admin/car-models/delete/${carModelId}`;
             });
         });
     </script>
@@ -455,10 +445,24 @@
                 const form = document.getElementById('editCarForm');
                 form.action = `/admin/cars/${carId}`;
             });
+        });
+    </script>
 
-            // Handling Delete Modal
-            const deleteModal = document.getElementById('deleteModal');
-            deleteModal.addEventListener('show.bs.modal', function(event) {
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handling Delete Car Model Modal
+            const deleteCarModelModal = document.getElementById('deleteCarModelModal');
+            deleteCarModelModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                const carModelId = button.getAttribute('data-car-model-id');
+                const deleteForm = document.getElementById('deleteCarModelForm');
+                deleteForm.action = `/admin/car-models/delete/${carModelId}`;
+            });
+
+            // Handling Delete Car Modal
+            const deleteCarModal = document.getElementById('deleteCarModal');
+            deleteCarModal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
                 const carId = button.getAttribute('data-car-id');
                 const deleteForm = document.getElementById('deleteCarForm');
