@@ -21,6 +21,7 @@ class Employee extends Model
         'gender',
         'designation',
         'picture',
+        'branch_id'
     ];
 
     public function user()

@@ -66,6 +66,7 @@ class InstructorController extends Controller
                 'password' => 'required|string|min:8',
                 'email' => 'required|email|unique:employees,email',
                 'phone' => 'required|string|unique:employees,phone',
+                'branch_id' => 'required|exists:branches,id',
                 'address' => 'required|string|max:255',
                 'salary' => 'required|numeric|min:0',
                 'id_card_number' => 'required|string|max:50',
@@ -105,6 +106,7 @@ class InstructorController extends Controller
                 'id_card_number' => $request->id_card_number,
                 'picture' => $picturePath,
                 'designation' => 'Instructor',
+                'branch_id' => $request->branch_id,
             ]);
 
             // Create Instructor
@@ -115,9 +117,10 @@ class InstructorController extends Controller
                 'license_end_date' => $request->license_end_date,
                 'experience' => $request->experience,
                 'license_number' => $request->license_number,
+
             ]);
 
-            $this->emailController->sendInstructorWelcome($instructor, $user->name, $request->password);
+            // $this->emailController->sendInstructorWelcome($instructosr, $user->name, $request->password);
 
             return redirect()->route('admin.allInstructors')->with('success_instructor', 'Instructor added successfully.');
     }
@@ -147,6 +150,7 @@ class InstructorController extends Controller
             'license_start_date' => 'required|date',
             'license_end_date' => 'required|date',
             'salary' => 'required|numeric|min:0',
+            'branch_id' => 'required|exists:branches,id',
         ]);
 
         // Update the user information
@@ -171,6 +175,7 @@ class InstructorController extends Controller
             'picture' => $picturePath,
             'gender' => $request->gender,
             'salary' => $request->salary,
+            'branch_id' => $request->branch_id, // Update branch
         ]);
 
         // Update instructor data

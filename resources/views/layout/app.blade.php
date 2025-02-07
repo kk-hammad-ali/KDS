@@ -21,8 +21,10 @@
 <body>
     <div class="page-wrapper">
 
+
         <style>
-            .float {
+            /* WhatsApp Button */
+            .float-whatsapp {
                 position: fixed;
                 width: 60px;
                 height: 60px;
@@ -36,23 +38,54 @@
                 z-index: 100;
             }
 
-            .float:hover {
+            .float-whatsapp:hover {
                 background-color: #25d366;
-                /* Ensure the color doesn't change */
                 color: #FFF;
-                /* Ensure the text color doesn't change */
                 cursor: default;
-                /* No pointer change */
             }
 
-            .my-float {
+            .my-float-whatsapp {
+                margin-top: 16px;
+            }
+
+            /* Call Button */
+            .float-call {
+                position: fixed;
+                width: 60px;
+                height: 60px;
+                bottom: 110px;
+                /* Adjust to position it above WhatsApp button */
+                right: 40px;
+                background-color: #FF8F1F;
+                /* Call button color */
+                color: #FFFFFF;
+                border-radius: 50px;
+                text-align: center;
+                font-size: 30px;
+                z-index: 101;
+            }
+
+            .float-call:hover {
+                background-color: #45a049;
+                /* Hover effect */
+                color: #FFF;
+                cursor: default;
+            }
+
+            .my-float-call {
                 margin-top: 16px;
             }
         </style>
 
-        <a href="https://api.whatsapp.com/send?phone=923324044111&text=King%20Driving%20School" class="float"
+        <!-- WhatsApp Button -->
+        <a href="https://api.whatsapp.com/send?phone=923324044111&text=King%20Driving%20School" class="float-whatsapp"
             target="_blank">
-            <i class="fa fa-whatsapp my-float"></i>
+            <i class="fa fa-whatsapp my-float-whatsapp"></i>
+        </a>
+
+        <!-- Call Button with PTCL Landline Number -->
+        <a href="tel:+925144445444" class="float-call" target="_blank">
+            <i class="fa fa-phone my-float-call"></i>
         </a>
 
         <!-- Preloader -->
@@ -230,7 +263,7 @@
 
         <!-- Banner Section -->
         <section class="inner-banner">
-            <div class="image-layer" style="background-image: url('@yield('bannerImage', asset('main/images/main-slider/slider-2.png'))');"></div>
+            <div class="image-layer" style="background-image: url('@yield('bannerImage', asset('main/images/main-slider/slider-1.png'))');"></div>
             <div class="auto-container">
                 <div class="content-box">
                     <h1>@yield('title', '')</h1>
@@ -405,12 +438,12 @@
     </div>
     <!--End pagewrapper-->
 
-    <!-- Scroll to top -->
+    {{-- <!-- Scroll to top -->
     <div class="scroll-to-top scroll-to-target" data-target="html">
         <span class="icon">
             <img src="{{ asset('main/images/icons/arrow-up.svg') }}" alt="" title="Go To Top">
         </span>
-    </div>
+    </div> --}}
 
     <script src="{{ asset('main/js/jquery.js') }}"></script>
     <script src="{{ asset('main/js/popper.min.js') }}"></script>

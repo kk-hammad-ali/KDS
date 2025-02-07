@@ -107,9 +107,24 @@
                             </select>
                         </div>
                         <div class="col-lg-6">
-                            <label for="picture" class="form-label">Upload Picture</label>
-                            <input type="file" class="form-control" id="picture" name="picture">
+                            <label for="gender" class="form-label">Assign Branch</label>
+                            <select class="form-select @error('branch_id') is-invalid @enderror" id="branch_id"
+                                name="branch_id">
+                                <option value="" disabled selected>Select branch</option>
+                                @foreach ($branches as $branch)
+                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('branch_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label for="picture" class="form-label">Upload Picture</label>
+                        <input type="file" class="form-control" id="picture" name="picture">
                     </div>
 
                     <br>

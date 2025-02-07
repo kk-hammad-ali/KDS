@@ -110,6 +110,22 @@
                                 </option>
                             </select>
                         </div>
+                        <div class="col-sm-6">
+                            <label for="branch_id" class="h5 mb-8 fw-semibold font-heading">Assign Branch</label>
+                            <select class="form-select @error('branch_id') is-invalid @enderror" id="branch_id"
+                                name="branch_id" required>
+                                <option value="" disabled>Select branch</option>
+                                @foreach ($branches as $branch)
+                                    <option value="{{ $branch->id }}"
+                                        {{ old('branch_id', $instructor->employee->user->current_branch_id) == $branch->id ? 'selected' : '' }}>
+                                        {{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('branch_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="col-lg-6">
                             <label for="picture" class="form-label">Upload Picture</label>
                             <input type="file" class="form-control" id="picture" name="picture">

@@ -537,6 +537,8 @@
 
                             <div class="auto-container mt-5">
                                 <ul>
+                                    <li><span class="checkmark customli">&#x2713;</span>Free Driving Course Certificate.
+                                    </li>
                                     <li><span class="checkmark customli">&#x2713;</span>One Theory Class is Compulsory.
                                     </li>
                                     <li><span class="checkmark customli">&#x2713;</span>This packages do not include

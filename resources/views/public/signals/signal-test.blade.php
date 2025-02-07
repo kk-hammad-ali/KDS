@@ -50,7 +50,7 @@
                         <div class="pattern"><img src="{{ asset('main/images/resource/wel-pattern.png') }}" alt=""
                                 title=""></div>
                         <div class="images clearfix">
-                            <div class="image"><img src="{{ asset('main/images/resource/welcome-3.jpg') }}" alt=""
+                            <div class="image"><img src="{{ asset('main/images/cars/alto.jpg') }}" alt=""
                                     title=""></div>
                             <div class="image-box">
                                 <img src="{{ asset('main/images/resource/welcome-4.jpg') }}" alt="" title="">

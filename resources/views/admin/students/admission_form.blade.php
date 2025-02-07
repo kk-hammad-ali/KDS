@@ -55,7 +55,7 @@
                                         {{ $student->course->duration_days }} Days -
                                     </span>
                                 </td>
-                                <td>
+                                {{-- <td>
                                     <button type="button"
                                         class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white"
                                         data-bs-toggle="modal" data-bs-target="#enrollModal" data-id="{{ $student->id }}"
@@ -64,8 +64,7 @@
                                         data-cars='@json($student->course->carModel->cars)'>
                                         Enroll
                                     </button>
-
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -115,7 +114,7 @@
         </div>
         <!-- Table Section End -->
     </div>
-
+    {{--
     <div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="enrollModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -408,6 +407,5 @@
 
         document.getElementById('admission_date').addEventListener('change', fetchBookedTimes);
         document.getElementById('instructor').addEventListener('change', fetchBookedTimes);
-    </script>
-
+    </script> --}}
 @endsection

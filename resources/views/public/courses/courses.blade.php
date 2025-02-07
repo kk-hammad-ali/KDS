@@ -7,14 +7,14 @@
     <!--Programs Section-->
     <section class="programs-three">
         <div class="auto-container">
-            <div class="row clearfix">
+            <div class="row justify-content-center">
                 <!--Block-->
                 <div class="program-block-three col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
                     data-wow-delay="0ms">
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.mehranCourse') }}"><img
-                                        src="{{ asset('main/images/resource/image-11.webp') }}" alt="Suzuki Mehran"
+                                        src="{{ asset('main/images/car-thumbs/mehran.png') }}" alt="Suzuki Mehran"
                                         title="Suzuki Mehran"></a></div>
                         </div>
                         <div class="lower-box">
@@ -34,7 +34,7 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.altoCourse') }}"><img
-                                        src="{{ asset('main/images/resource/image-12.webp') }}" alt="Suzuki Alto"
+                                        src="{{ asset('main/images/car-thumbs/alto.png') }}" alt="Suzuki Alto"
                                         title="Suzuki Alto"></a></div>
                         </div>
                         <div class="lower-box">
@@ -54,8 +54,8 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.vitzCourse') }}"><img
-                                        src="{{ asset('main/images/resource/image-13.webp') }}"
-                                        alt="Toyota Vitz (Automatic)" title="Toyota Vitz (Automatic)"></a></div>
+                                        src="{{ asset('main/images/car-thumbs/vitz.png') }}" alt="Toyota Vitz (Automatic)"
+                                        title="Toyota Vitz (Automatic)"></a></div>
                         </div>
                         <div class="lower-box">
                             <h3><a href="{{ route('public.courses.vitzCourse') }}">Toyota Vitz (Automatic)</a></h3>
@@ -73,28 +73,8 @@
                     data-wow-duration="1500ms" data-wow-delay="600ms">
                     <div class="inner-box">
                         <div class="image-box">
-                            <div class="image"><a href="{{ route('public.courses.miraCourse') }}"><img
-                                        src="{{ asset('main/images/resource/image-14.jpg') }}"
-                                        alt="Daihatsu Mira (Automatic)" title="Daihatsu Mira (Automatic)"></a></div>
-                        </div>
-                        <div class="lower-box">
-                            <h3><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira (Automatic)</a></h3>
-                            <div class="text">The Daihatsu Mira is known for its reliability and ease of use. Join our
-                                driving lessons to master this compact car and enjoy the benefits of automatic driving!
-                            </div>
-                            <div class="link-box"><a href="{{ route('public.courses.miraCourse') }}"
-                                    class="theme-btn btn-style-one semi-round"><span>DETAILS</span></a></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!--Block-->
-                <div class="program-block-three col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp"
-                    data-wow-duration="1500ms" data-wow-delay="600ms">
-                    <div class="inner-box">
-                        <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.hondaCourse') }}"><img
-                                        src="{{ asset('main/images/resource/image-15.jpg') }}" alt="Honda City"
+                                        src="{{ asset('main/images/car-thumbs/honda.png') }}" alt="Honda City"
                                         title="Honda City"></a></div>
                         </div>
                         <div class="lower-box">
@@ -114,7 +94,7 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.cd70') }}"><img
-                                        src="{{ asset('main/images/resource/image-16.webp') }}" alt="CD70 Bike"
+                                        src="{{ asset('main/images/car-thumbs/bike.png') }}" alt="CD70 Bike"
                                         title="CD70 Bike"></a></div>
                         </div>
                         <div class="lower-box">

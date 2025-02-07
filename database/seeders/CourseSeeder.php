@@ -30,9 +30,9 @@ class CourseSeeder extends Seeder
             ['car_model_id' => 3, 'duration_days' => 11, 'duration_minutes' => 60, 'fees' => 20000.00, 'course_type' => 'both'],
             ['car_model_id' => 3, 'duration_days' => 16, 'duration_minutes' => 60, 'fees' => 30000.00, 'course_type' => 'both'],
 
-            // Daihatsu Mira
-            ['car_model_id' => 4, 'duration_days' => 11, 'duration_minutes' => 60, 'fees' => 20000.00, 'course_type' => 'both'],
-            ['car_model_id' => 4, 'duration_days' => 16, 'duration_minutes' => 60, 'fees' => 30000.00, 'course_type' => 'both'],
+            // // Daihatsu Mira
+            // ['car_model_id' => 4, 'duration_days' => 11, 'duration_minutes' => 60, 'fees' => 20000.00, 'course_type' => 'both'],
+            // ['car_model_id' => 4, 'duration_days' => 16, 'duration_minutes' => 60, 'fees' => 30000.00, 'course_type' => 'both'],
 
             // Honda City
             ['car_model_id' => 5, 'duration_days' => 11, 'duration_minutes' => 60, 'fees' => 25000.00, 'course_type' => 'both'],

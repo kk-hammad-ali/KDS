@@ -14,7 +14,7 @@
                 <!-- Slide Item -->
                 <div class="slide-item">
                     <div class="image-layer"
-                        style="background-image: url('{{ asset('main/images/main-slider/slider-1.jpg') }}');"></div>
+                        style="background-image: url('{{ asset('main/images/main-slider/slider-1.png') }}');"></div>
                     {{-- <div class="curve-layer"
                         style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');"></div> --}}
                     <div class="auto-container">
@@ -37,7 +37,7 @@
 
                 <div class="slide-item">
                     <div class="image-layer"
-                        style="background-image: url('{{ asset('main/images/main-slider/slider-2.png') }}');"></div>
+                        style="background-image: url('{{ asset('main/images/main-slider/slider-2.jpg') }}');"></div>
                     {{-- <div class="curve-layer"
                         style="background-image: url('{{ asset('main/images/main-slider/banner-curve-1.png') }}');"></div> --}}
                     <div class="auto-container">
@@ -85,14 +85,14 @@
                     <h3 href="#" class="theme-btn btn-style-one"><span>Courses We Offers</span></h3>
                 </div>
             </div>
-            <div class="row clearfix">
+            <div class="row clearfix" style="display: flex; justify-content: center; align-items: center;">
                 <!-- Block -->
                 <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
                     data-wow-delay="0ms">
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.mehranCourse') }}"><img
-                                        src="{{ asset('main/images/resource/image-11.webp') }}" alt=""
+                                        src="{{ asset('main/images/car-thumbs/mehran.png') }}" alt=""
                                         title=""></a>
                             </div>
                             <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
@@ -112,7 +112,8 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.altoCourse') }}"><img
-                                        src="{{ asset('main/images/cars/alto.jpg') }}" alt="" title=""></a>
+                                        src="{{ asset('main/images/car-thumbs/alto.png') }}" alt=""
+                                        title=""></a>
                             </div>
                             <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
                                     alt="" title=""></div>
@@ -131,7 +132,7 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.vitzCourse') }}"><img
-                                        src="{{ asset('main/images/resource/image-13.webp') }}" alt=""
+                                        src="{{ asset('main/images/car-thumbs/vitz.png') }}" alt=""
                                         title=""></a>
                             </div>
                             <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
@@ -145,31 +146,13 @@
                     </div>
                 </div>
 
-                <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
-                    data-wow-delay="600ms">
-                    <div class="inner-box">
-                        <div class="image-box">
-                            <div class="image"><a href="{{ route('public.courses.miraCourse') }}"><img
-                                        src="{{ asset('main/images/resource/image-14.jpg') }}" alt=""
-                                        title=""></a>
-                            </div>
-                            <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
-                                    alt="" title=""></div>
-                        </div>
-                        <div class="mid-box">
-                            <h4><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira (Automatic)</a></h4>
-                        </div>
-                        <div class="link-box"><a href="{{ route('public.courses.miraCourse') }}">JOIN NOW <i
-                                    class="fa-light fa-angle-right"></i></a></div>
-                    </div>
-                </div>
 
                 <div class="program-block-two col-xl-4 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1500ms"
                     data-wow-delay="600ms">
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.hondaCourse') }}"><img
-                                        src="{{ asset('main/images/cars/honda.jpg') }}" alt=""
+                                        src="{{ asset('main/images/car-thumbs/honda.png') }}" alt=""
                                         title=""></a>
                             </div>
                             <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
@@ -188,7 +171,7 @@
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="image"><a href="{{ route('public.courses.cd70') }}"><img
-                                        src="{{ asset('main/images/resource/image-16.webp') }}" alt=""
+                                        src="{{ asset('main/images/car-thumbs/bike.png') }}" alt=""
                                         title=""></a>
                             </div>
                             <div class="icon-box"><img src="{{ asset('main/images/resource/steering-icon.svg') }}"
@@ -274,7 +257,7 @@
                         <div class="images">
                             <div class="image"><img src="{{ asset('main/images/resource/welcome-1.jpg') }}"
                                     alt="" title=""></div>
-                            <div class="w-box">
+                            <div class="w-box d-lg-block d-none">
                                 <div class="inner-box">
                                     <div class="icon-box"><span class="fal fa-shield-check"></span></div>
                                     <div class="text">We will give you a safe drive from all threats.</div>

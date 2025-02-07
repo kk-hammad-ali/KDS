@@ -42,6 +42,7 @@
                             <th class="h6 text-gray-300">Phone Number</th>
                             <th class="h6 text-gray-300">License City</th>
                             <th class="h6 text-gray-300">License Number</th>
+                            <th class="h6 text-gray-300">Branch</th>
                             <th class="h6 text-gray-300">Action</th>
                         </tr>
                     </thead>
@@ -73,6 +74,9 @@
                                 <td><span class="h6 mb-0 fw-medium text-gray-300">{{ $instructor->license_city }}</span>
                                 </td>
                                 <td><span class="h6 mb-0 fw-medium text-gray-300">{{ $instructor->license_number }}</span>
+                                </td>
+                                <td><span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ $instructor->employee->branch->name }}</span>
                                 </td>
                                 <td>
                                     <a href="{{ route('admin.editInstructor', $instructor->id) }}"

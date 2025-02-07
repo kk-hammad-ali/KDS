@@ -23,7 +23,8 @@
     <div class="page-wrapper">
 
         <style>
-            .float {
+            /* WhatsApp Button */
+            .float-whatsapp {
                 position: fixed;
                 width: 60px;
                 height: 60px;
@@ -37,23 +38,54 @@
                 z-index: 100;
             }
 
-            .float:hover {
+            .float-whatsapp:hover {
                 background-color: #25d366;
-                /* Ensure the color doesn't change */
                 color: #FFF;
-                /* Ensure the text color doesn't change */
                 cursor: default;
-                /* No pointer change */
             }
 
-            .my-float {
+            .my-float-whatsapp {
+                margin-top: 16px;
+            }
+
+            /* Call Button */
+            .float-call {
+                position: fixed;
+                width: 60px;
+                height: 60px;
+                bottom: 110px;
+                /* Adjust to position it above WhatsApp button */
+                right: 40px;
+                background-color: #FF8F1F;
+                /* Call button color */
+                color: #FFFFFF;
+                border-radius: 50px;
+                text-align: center;
+                font-size: 30px;
+                z-index: 101;
+            }
+
+            .float-call:hover {
+                background-color: #45a049;
+                /* Hover effect */
+                color: #FFF;
+                cursor: default;
+            }
+
+            .my-float-call {
                 margin-top: 16px;
             }
         </style>
 
-        <a href="https://api.whatsapp.com/send?phone=923324044111&text=King%20Driving%20School" class="float"
+        <!-- WhatsApp Button -->
+        <a href="https://api.whatsapp.com/send?phone=923324044111&text=King%20Driving%20School" class="float-whatsapp"
             target="_blank">
-            <i class="fa fa-whatsapp my-float"></i>
+            <i class="fa fa-whatsapp my-float-whatsapp"></i>
+        </a>
+
+        <!-- Call Button with PTCL Landline Number -->
+        <a href="tel:+925144445444" class="float-call" target="_blank">
+            <i class="fa fa-phone my-float-call"></i>
         </a>
 
         <!-- Preloader -->
@@ -90,19 +122,40 @@
                     <!-- Main Box -->
                     <div class="main-box clearfix">
 
-                        <!-- Hidden Nav Toggler -->
-                        <div class="nav-toggler">
-                            <button class="hidden-bar-opener"><span class="icon"><img
-                                        src="{{ asset('main/images/icons/menu-icon.png') }}"
-                                        alt=""></span></button>
+                        <!-- Hidden Nav Toggler and Logo Row -->
+                        <div class="d-lg-none d-none row d-flex justify-content-between">
+                            <!-- Hidden Nav Toggler -->
+                            <div class="nav-toggler">
+                                <button class="hidden-bar-opener"><span class="icon"><img
+                                            src="{{ asset('main/images/icons/menu-icon.png') }}"
+                                            alt=""></span></button>
+                            </div>
+                            <!-- Logo -->
+                            <div class="logo-box d-lg-none d-block">
+                                <div class="logo">
+                                    <a href="{{ route('home') }}" title="King Driving School">
+                                        <img src="{{ asset('main/images/logo.png') }}" alt=""
+                                            title="King Driving School">
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Logo -->
+                            <div class="logo-box d-lg-none d-block">
+                                <div class="link"><a style="padding: 8px;" href="{{ route('public.quiz') }}"
+                                        class="theme-btn btn-style-one"><span>Theory
+                                            Test</span></a>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Logo -->
                         <div class="logo-box d-lg-block d-none">
-                            <div class="logo"><a href="{{ route('home') }}" title="King Driving School"><img
-                                        src="{{ asset('main/images/logo.png') }}" alt=""
-                                        src="{{ asset('main/images/logo.png') }}" alt=""
-                                        title="King Driving School"></a></div>
+                            <div class="logo">
+                                <a href="{{ route('home') }}" title="King Driving School">
+                                    <img src="{{ asset('main/images/logo.png') }}" alt=""
+                                        title="King Driving School">
+                                </a>
+                            </div>
                         </div>
 
                         <div class="nav-box clearfix">
@@ -152,15 +205,6 @@
 
                             </div>
                             <!-- Nav Outer End -->
-
-                            <!-- Logo -->
-                            <div class="logo-box d-lg-none d-block">
-                                <div class="logo"><a href="{{ route('home') }}" title="King Driving School"><img
-                                            src="{{ asset('main/images/logo.png') }}" alt=""
-                                            src="{{ asset('main/images/logo.png') }}" alt=""
-                                            title="King Driving School"></a></div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
