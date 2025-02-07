@@ -117,7 +117,7 @@
                                 <option value="" disabled>Select branch</option>
                                 @foreach ($branches as $branch)
                                     <option value="{{ $branch->id }}"
-                                        {{ old('branch_id', $instructor->employee->user->current_branch_id) == $branch->id ? 'selected' : '' }}>
+                                        {{ old('branch_id', $instructor->employee->branch->name) == $branch->id ? 'selected' : '' }}>
                                         {{ $branch->name }}</option>
                                 @endforeach
                             </select>

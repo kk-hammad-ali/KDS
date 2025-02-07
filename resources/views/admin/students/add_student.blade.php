@@ -187,6 +187,7 @@
                                     <option value="" disabled selected>Select Course Type</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
+                                    <option value="both">Both</option>
                                 </select>
                                 @error('course_type')
                                     <div class="text-danger">{{ $message }}</div>
@@ -265,9 +266,10 @@
                                     // Filter courses based on car model and course type
                                     const courses = @json($courses);
                                     courses.forEach(course => {
+                                        // Check for matching car model and course type or if the course is for both genders
                                         if (
                                             course.car_model_id == selectedCarModelId &&
-                                            course.course_type === selectedCourseType
+                                            (course.course_type === selectedCourseType || selectedCourseType === 'both')
                                         ) {
                                             const option = document.createElement('option');
                                             option.value = course.id;

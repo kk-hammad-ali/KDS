@@ -190,6 +190,9 @@
                                     <option value="female"
                                         {{ old('course_type', $student->course_type) == 'female' ? 'selected' : '' }}>
                                         Female</option>
+                                    <option value="both"
+                                        {{ old('course_type', $student->course_type) == 'both' ? 'selected' : '' }}>Both
+                                    </option>
                                 </select>
                                 @error('course_type')
                                     <div class="text-danger">{{ $message }}</div>
@@ -246,6 +249,7 @@
                                             const option = document.createElement('option');
                                             option.value = car.id;
                                             option.textContent = `Car #${car.registration_number}`;
+                                            // Pre-select the car if it's the one selected for editing
                                             option.selected = car.id == @json(old('car_id', $student->car_id));
                                             carSelect.appendChild(option);
                                         }
@@ -272,19 +276,20 @@
                                     courses.forEach(course => {
                                         if (
                                             course.car_model_id == selectedCarModelId &&
-                                            course.course_type === selectedCourseType
+                                            (course.course_type === selectedCourseType || selectedCourseType === 'both')
                                         ) {
                                             const option = document.createElement('option');
                                             option.value = course.id;
                                             option.textContent =
                                                 `${course.car_model.name} - ${course.duration_days} Days / ${course.duration_minutes} Minutes - ${course.fees} PKR`;
+                                            // Pre-select the course if it's the one selected for editing
                                             option.selected = course.id == @json(old('course_id', $student->course_id));
                                             courseSelect.appendChild(option);
                                         }
                                     });
                                 } else {
                                     courseSelect.disabled = true;
-                                    courseSelect.innerHTML = '<option value="" disabled>Select Course</option>';
+                                    courseSelect.innerHTML = '<option value="" disabled selected>Select Course</option>';
                                 }
                             }
 
