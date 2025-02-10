@@ -46,7 +46,7 @@ class EmailController extends Controller
             'user' => $user,
         ];
 
-        $adminEmail = 'info@kingdrivingschool.com';
+        $adminEmail = 'kingdrivingschool2@gmail.com';
 
         // Send the email to the admin
         Mail::to($adminEmail)->send(new \App\Mail\NewStudentNotification($student, $user));

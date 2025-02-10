@@ -453,12 +453,13 @@ class StudentController extends Controller
         // Get today's date
         $today = Carbon::today();
 
-        // Fetch students created today with associated user details
-        $todayCreatedStudents = Student::with('user')
+        // Fetch students created today with associated user and invoice details
+        $todayCreatedStudents = Student::with('user', 'invoice') // Eager load 'user' and 'invoice'
             ->whereDate('created_at', $today)
             ->get();
 
         return $todayCreatedStudents;
     }
+
 
 }

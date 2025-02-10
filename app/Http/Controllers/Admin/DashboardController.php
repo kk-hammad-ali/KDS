@@ -157,42 +157,40 @@ class DashboardController extends Controller
         ];
     }
 
-// Function to get monthly expenses and sales data
-private function getMonthlyExpensesAndSales()
-{
-    $monthlyExpenses = [];
-    $monthlySales = [];
+    // Function to get monthly expenses and sales data
+    private function getMonthlyExpensesAndSales()
+    {
+        $monthlyExpenses = [];
+        $monthlySales = [];
 
-    // Loop through each month (1-12) to gather monthly data
-    foreach (range(1, 12) as $month) {
-        // Get monthly expenses
-        $monthlyExpenses[] = DailyExpense::whereMonth('expense_date', $month)
-            ->whereYear('expense_date', Carbon::now()->year)
-            ->sum('amount')
-            + FixedExpense::whereMonth('expense_date', $month)
-            ->whereYear('expense_date', Carbon::now()->year)
-            ->sum('amount')
-            + CarExpense::whereMonth('expense_date', $month)
-            ->whereYear('expense_date', Carbon::now()->year)
-            ->sum('amount');
+        // Loop through each month (1-12) to gather monthly data
+        foreach (range(1, 12) as $month) {
+            // Get monthly expenses
+            $monthlyExpenses[] = DailyExpense::whereMonth('expense_date', $month)
+                ->whereYear('expense_date', Carbon::now()->year)
+                ->sum('amount')
+                + FixedExpense::whereMonth('expense_date', $month)
+                ->whereYear('expense_date', Carbon::now()->year)
+                ->sum('amount')
+                + CarExpense::whereMonth('expense_date', $month)
+                ->whereYear('expense_date', Carbon::now()->year)
+                ->sum('amount');
 
-        // Get monthly sales by summing the fees of associated courses
-        $monthlySales[] = Student::whereMonth('admission_date', $month)
-            ->whereYear('admission_date', Carbon::now()->year)
-            ->with('course')
-            ->get()
-            ->sum(function ($student) {
-                return $student->course->fees ?? 0;
-            });
+            // Get monthly sales by summing the fees of associated courses
+            $monthlySales[] = Student::whereMonth('admission_date', $month)
+                ->whereYear('admission_date', Carbon::now()->year)
+                ->with('course')
+                ->get()
+                ->sum(function ($student) {
+                    return $student->course->fees ?? 0;
+                });
+        }
+
+        return [
+            'monthlyExpenses' => $monthlyExpenses,
+            'monthlySales' => $monthlySales,
+        ];
     }
-
-    return [
-        'monthlyExpenses' => $monthlyExpenses,
-        'monthlySales' => $monthlySales,
-    ];
-}
-
-
 
    // Function for dropdown data (instructors, cars, and time slots)
    private function getInstructorsCarsAndTimeSlots()

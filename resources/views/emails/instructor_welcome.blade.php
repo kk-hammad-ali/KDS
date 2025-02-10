@@ -218,7 +218,7 @@
                                     style="font-family: 'Montserrat', sans-serif; font-size: 12px; color: #666666;">
                                     <p style="margin: 0;">Visit us: <a href="https://kingdrivingschool.com"
                                             style="color: #26a4d3;">kingdrivingschool.com</a></p>
-                                    <p style="margin: 0;">This email was sent from info@kingdrivingschool.com
+                                    <p style="margin: 0;">This email was sent from kingdrivingschool2@gmail.com
                                     </p>
                                 </td>
                             </tr>

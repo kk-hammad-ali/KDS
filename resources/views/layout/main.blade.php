@@ -98,8 +98,9 @@
                     <div class="inner clearfix">
                         <div class="top-left clearfix">
                             <ul class="top-info clearfix">
-                                <li>&nbsp;&nbsp;<a href="mailto:info@kingdrivingschool.com"><i
-                                            class="icon far fa-envelope"></i> &nbsp;info@kingdrivingschool.com</a></li>
+                                <li>&nbsp;&nbsp;<a href="mailto:kingdrivingschool2@gmail.com"><i
+                                            class="icon far fa-envelope"></i> &nbsp;kingdrivingschool2@gmail.com</a>
+                                </li>
                                 <li><a href="tel:+92 051-4445444"><i class="icon far fa-phone"></i>
                                         &nbsp;051-4445444</a></li>
                             </ul>

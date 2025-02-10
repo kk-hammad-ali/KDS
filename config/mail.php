@@ -92,7 +92,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'info@kingdrivingschool.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'kingdrivingschool2@gmail.com'),
         'name' => env('MAIL_FROM_NAME', 'King Driving School'),
     ],
     /*

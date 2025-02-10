@@ -29,6 +29,8 @@ use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\Car\CarModelController;
 
+
+
 // Main website
 Route::get('/', function () {
     return view('public.index');

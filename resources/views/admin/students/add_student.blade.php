@@ -412,16 +412,6 @@
                                 @enderror
                             </div>
 
-                            {{-- <div class="col-sm-6">
-                                <label for="branch" class="h5 mb-8 fw-semibold font-heading">Branch</label>
-                                <input type="text" class="form-control @error('branch') is-invalid @enderror"
-                                    id="branch" name="branch" value="{{ old('branch') }}" placeholder="Main Branch"
-                                    required>
-                                @error('branch')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div> --}}
-
                             <div class="col-sm-6">
                                 <label for="balance" class="h5 mb-8 fw-semibold font-heading">Advance</label>
                                 <input type="number" class="form-control @error('balance') is-invalid @enderror"
@@ -441,9 +431,34 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            <!-- Non-editable Balance field -->
+                            <div class="col-sm-6">
+                                <label for="remaining_balance" class="h5 mb-8 fw-semibold font-heading">Remaining
+                                    Balance</label>
+                                <input type="text" class="form-control" id="remaining_balance"
+                                    name="remaining_balance" value="0" readonly>
+                            </div>
+
                             <input type="hidden" name="schedule_id" value="{{ $schedule->id ?? null }}">
                         </div>
                     </div>
+
+                    <script>
+                        document.getElementById('balance').addEventListener('input', updateBalance);
+                        document.getElementById('amount_received').addEventListener('input', updateBalance);
+
+                        function updateBalance() {
+                            var advance = parseFloat(document.getElementById('balance').value) || 0;
+                            var totalAmount = parseFloat(document.getElementById('amount_received').value) || 0;
+                            var remainingBalance = totalAmount - advance;
+                            document.getElementById('remaining_balance').value = remainingBalance.toFixed(2);
+                        }
+
+                        // Initialize the balance field on page load
+                        updateBalance();
+                    </script>
+
                     <br>
                     <!-- Navigation Buttons -->
                     <div class="flex-align justify-content-end gap-8 mt-4">

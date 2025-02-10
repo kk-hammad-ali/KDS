@@ -27,7 +27,7 @@
                     <div class="inner-box wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="300ms">
                         <div class="icon-box"><span class="fa-light fa-envelope"></span></div>
                         <h4>Company Email</h4>
-                        <div class="text">info@kingdrivingschool.com<br></div>
+                        <div class="text">kingdrivingschool2@gmail.com<br></div>
                     </div>
                 </div>
                 <!--Block-->

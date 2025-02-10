@@ -11,7 +11,26 @@
                 @endif
             </div> --}}
 
+
+
+            <!-- Date Picker for Student Attendance -->
+
+
             <div class="row g-4">
+
+                {{-- <div class="card mt-24">
+                    <div class="card-body">
+                        <form action="#" method="GET" class="search-input-form">
+                            <!-- Date Picker for Attendance Date -->
+                            <input type="date" id="selectedDate" name="date" value="{{ old('date') }}"
+                                class="form-control h6 rounded-4 mb-0 py-6 px-8" placeholder="Select Date">
+
+                            <!-- Search Button -->
+                            <button type="submit" class="btn btn-main rounded-pill py-9 w-100 mt-3">Go</button>
+                        </form>
+                    </div>
+                </div> --}}
+
                 <!-- Total Students Card -->
                 <div class="col-xxl-3 col-sm-3">
                     <div class="card">
@@ -126,10 +145,12 @@
                                                 class="h6 mb-0 fw-medium text-gray-300">{{ $class->student->address }}</span>
                                         </td>
                                         <td>
-                                            <span class="h6 mb-0 fw-medium text-gray-300">{{ $class->start_time }}</span>
+                                            <span
+                                                class="h6 mb-0 fw-medium text-gray-300">{{ \Carbon\Carbon::parse($class->start_time)->format('h:i A') }}</span>
                                         </td>
                                         <td>
-                                            <span class="h6 mb-0 fw-medium text-gray-300">{{ $class->end_time }}</span>
+                                            <span
+                                                class="h6 mb-0 fw-medium text-gray-300">{{ \Carbon\Carbon::parse($class->end_time)->format('h:i A') }}</span>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -167,6 +188,7 @@
                 <!-- Calendar End -->
             </div>
         </div>
+
 
         <div class="row gy-4 ">
             <div class="col-lg-12">
@@ -392,6 +414,9 @@
                                     <th class="h6 text-gray-300">Student</th>
                                     <th class="h6 text-gray-300">CNIC</th>
                                     <th class="h6 text-gray-300">Class Start Date</th>
+                                    <th class="h6 text-gray-300">Total</th>
+                                    <th class="h6 text-gray-300">Advance</th>
+                                    <th class="h6 text-gray-300">Balance</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -410,6 +435,25 @@
                                         <td>
                                             <span
                                                 class="h6 mb-0 fw-medium text-gray-300">{{ $student->admission_date }}</span>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="h6 mb-0 fw-medium text-gray-300">{{ $student->invoice->amount_received }}</span>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="h6 mb-0 fw-medium text-gray-300">{{ $student->invoice->balance }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="h6 mb-0 fw-medium text-gray-300">
+                                                @php
+                                                    $invoice = $student->invoice; // Assuming each student has one invoice
+                                                    $amountReceived = $invoice ? $invoice->amount_received : 0;
+                                                    $balance = $invoice ? $invoice->balance : 0;
+                                                    $remainingBalance = $amountReceived - $balance; // Calculate remaining balance
+                                                @endphp
+                                                {{ $remainingBalance }}
+                                            </span>
                                         </td>
                                     </tr>
                                 @endforeach
