@@ -11,6 +11,21 @@
             </ul>
         </div>
 
+        <!-- Date Picker for Student Attendance -->
+        <div class="card mt-24">
+            <div class="card-body">
+                <form action="{{ route('student.attendance.update') }}" method="GET" class="search-input-form">
+                    <!-- Date Picker for Attendance Date -->
+                    <input type="date" id="attendance_date" name="date" value="{{ old('date', $date) }}"
+                        class="form-control h6 rounded-4 mb-0 py-6 px-8" placeholder="Select Attendance Date">
+
+                    <!-- Search Button -->
+                    <button type="submit" class="btn btn-main rounded-pill py-9 w-100 mt-3">Go</button>
+                </form>
+            </div>
+        </div>
+
+
         <!-- Attendance Form -->
         <div class="card mt-24 bg-transparent">
             <div class="card-body p-4">
@@ -75,7 +90,8 @@
                                                 @endif
                                             </td>
                                             <td class="h6 text-gray-300">
-                                                {{ $student->vehicle->make ?? 'No Vehicle Assigned' }}
+                                                {{ $student->course->carModel->name ?? 'No Vehicle Assigned' }}
+                                                ({{ $student->course->duration_days ?? 'N/A' }} days)
                                             </td>
                                             <td>
                                                 <label class="h6 text-gray-300 me-2">

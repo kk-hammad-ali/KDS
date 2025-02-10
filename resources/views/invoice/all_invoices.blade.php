@@ -39,12 +39,6 @@
                 <table id="invoiceTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="fixed-width">
-                                <div class="form-check">
-                                    <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
-                                        id="selectAll">
-                                </div>
-                            </th>
                             <th class="h6 text-gray-300">#</th>
                             <th class="h6 text-gray-300">Student Name</th>
                             <th class="h6 text-gray-300">Instructor Name</th>
@@ -59,11 +53,6 @@
                     <tbody id="invoiceTableBody">
                         @foreach ($invoices as $invoice)
                             <tr>
-                                <td class="fixed-width">
-                                    <div class="form-check">
-                                        <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
-                                    </div>
-                                </td>
                                 <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $loop->iteration }}</span>
                                 </td>
@@ -91,7 +80,8 @@
                                         class="h6 mb-0 fw-medium text-gray-300">{{ number_format($invoice->balance, 2) }}</span>
                                 </td>
                                 <td>
-                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $invoice->branch ?? 'N/A' }}</span>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ $invoice->branch->name ?? 'N/A' }}</span>
                                 </td>
                                 <td>
                                     <a href="{{ route('invoice.show', $invoice->id) }}"

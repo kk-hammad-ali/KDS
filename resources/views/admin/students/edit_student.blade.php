@@ -322,6 +322,16 @@
                             </div>
 
                             <div class="col-sm-6">
+                                <label for="end_date" class="h5 mb-8 fw-semibold font-heading">End Date</label>
+                                <input type="date" class="form-control @error('end_date') is-invalid @enderror"
+                                    id="end_date" name="end_date" value="{{ old('end_date', $class_end_date) }}">
+                                @error('end_date')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="col-sm-6">
                                 <label for="instructor" class="h5 mb-8 fw-semibold font-heading">Select Instructor</label>
                                 <select class="form-select @error('instructor_id') is-invalid @enderror" id="instructor"
                                     name="instructor_id" required>
@@ -455,31 +465,8 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
-                            <div class="col-sm-6">
-                                <label for="paid_by" class="h5 mb-8 fw-semibold font-heading">Paid By</label>
-                                <input type="text" class="form-control @error('paid_by') is-invalid @enderror"
-                                    id="paid_by" name="paid_by"
-                                    value="{{ old('paid_by', $student->invoice->paid_by) }}">
-                                @error('paid_by')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="amount_in_english" class="h5 mb-8 fw-semibold font-heading">Amount in Words
-                                    (English)</label>
-                                <input type="text"
-                                    class="form-control @error('amount_in_english') is-invalid @enderror"
-                                    id="amount_in_english" name="amount_in_english"
-                                    value="{{ old('amount_in_english', $student->invoice->amount_in_english) }}">
-                                @error('amount_in_english')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
                         </div>
                     </div>
-
 
                     <!-- Navigation Buttons -->
                     <div class="flex-align justify-content-end gap-8 mt-4">

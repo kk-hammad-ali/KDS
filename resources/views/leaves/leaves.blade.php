@@ -20,12 +20,6 @@
                 <table id="leaveTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="fixed-width">
-                                <div class="form-check">
-                                    <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
-                                        id="selectAll">
-                                </div>
-                            </th>
                             <th class="h6 text-gray-300">User Name</th>
                             <th class="h6 text-gray-300">Role</th>
                             <th class="h6 text-gray-300">Start Date</th>
@@ -38,20 +32,25 @@
                     <tbody>
                         @foreach ($leaves as $leave)
                             <tr>
-                                <td class="fixed-width">
-                                    <div class="form-check">
-                                        <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
-                                    </div>
-                                </td>
                                 <td>
-                                    <span class="h6 mb-0 fw-medium text-gray-300">{{ $leave->user->name }}</span>
+                                    <span class="h6 mb-0 fw-medium text-gray-300">
+                                        @if ($leave->student_id)
+                                            {{ $leave->student->user->name }} <!-- For Student -->
+                                        @elseif ($leave->employee_id)
+                                            {{ $leave->employee->user->name }} <!-- For Employee -->
+                                        @else
+                                            N/A
+                                        @endif
+                                    </span>
                                 </td>
                                 <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">
-                                        @if ($leave->user->role == 2)
+                                        @if ($leave->student_id)
                                             Student
-                                        @else
+                                        @elseif ($leave->employee_id)
                                             Employee
+                                        @else
+                                            N/A
                                         @endif
                                     </span>
                                 </td>
@@ -141,8 +140,7 @@
                             @csrf
                             <input type="hidden" name="leave_id" id="reject_leave_id">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" name="status" value="rejected"
-                                class="btn btn-danger">Reject</button>
+                            <button type="submit" name="status" value="rejected" class="btn btn-danger">Reject</button>
                         </form>
                     </div>
                 </div>

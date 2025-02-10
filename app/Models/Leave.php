@@ -7,19 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Leave extends Model
 {
-
     use HasFactory;
 
-    protected $fillable = ['user_id', 'start_date', 'end_date', 'leave_reason', 'status'];
+    protected $fillable = ['student_id', 'employee_id', 'start_date', 'end_date', 'leave_reason', 'status'];
 
-    public function instructor()
+    // Define relationship with Student model
+    public function student()
     {
-        return $this->belongsTo(Instructor::class);
+        return $this->belongsTo(Student::class);
     }
-    public function user()
+
+    // Define relationship with Employee model
+    public function employee()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Employee::class);
     }
 }
-
-

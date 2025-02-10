@@ -95,12 +95,6 @@
                 <table id="leaveTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="fixed-width">
-                                <div class="form-check">
-                                    <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
-                                        id="selectAll">
-                                </div>
-                            </th>
                             <th class="h6 text-gray-300">Start Date</th>
                             <th class="h6 text-gray-300">End Date</th>
                             <th class="h6 text-gray-300">Reason</th>
@@ -111,11 +105,6 @@
                     <tbody>
                         @foreach ($leaves as $leave)
                             <tr>
-                                <td class="fixed-width">
-                                    <div class="form-check">
-                                        <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
-                                    </div>
-                                </td>
                                 <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $leave->start_date }}</span>
                                 </td>
@@ -232,8 +221,7 @@
 
 
     <!-- Edit Leave Modal -->
-    <div class="modal fade" id="editLeaveModal" tabindex="-1" aria-labelledby="editLeaveModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="editLeaveModal" tabindex="-1" aria-labelledby="editLeaveModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

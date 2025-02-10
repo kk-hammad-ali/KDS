@@ -8,6 +8,8 @@ use App\Models\Schedule;
 use App\Models\Instructor;
 use Carbon\Carbon;
 use App\Models\Car;
+use App\Models\Student;
+use App\Models\Attendance;
 
 class ScheduleController extends Controller
 {
@@ -321,4 +323,35 @@ class ScheduleController extends Controller
         ];
     }
 
+    public function pauseStudentSchedule($studentId)
+    {
+        // Get the student
+        $student = Student::find($studentId);
+
+        if ($student) {
+            // Count the number of attendance records for the student
+            $attendanceCount = Attendance::where('student_id', $studentId)->count();
+
+            // Get the schedules for the student
+            $schedules = $student->schedules()->where('status', 'active')->get();
+
+            foreach ($schedules as $schedule) {
+                // Update the status to 'paused', record the attended classes, and clear class-related data
+                $schedule->update([
+                    'status' => 'paused',
+                    'instructor_id' => null,
+                    'vehicle_id' => null,
+                    'classes_attended' => $attendanceCount,  // Assign the count of attended classes
+                    'class_date' => null,  // Clear class dates
+                    'start_time' => null,  // Clear start time
+                    'end_time' => null,    // Clear end time
+                    'class_end_date' => null, // Set class end date to null
+                ]);
+            }
+
+            return redirect()->route('admin.allStudents')->with('success', 'Student schedule paused successfully.');
+        }
+
+        return redirect()->route('admin.allStudents')->with('error', 'Student not found.');
+    }
 }

@@ -66,6 +66,7 @@
                                     </span>
                                 </td>
                                 <td>
+
                                     <a href="{{ route('admin.editStudent', ['id' => $student->id]) }}"
                                         class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white">Edit</a>
 
@@ -77,6 +78,21 @@
                                         class="bg-info text-white py-2 px-14 rounded-pill hover-bg-info-600"
                                         data-bs-toggle="modal" data-bs-target="#viewStudentModal"
                                         data-student="{{ json_encode($student) }}">View</button>
+
+                                    <!-- Pause Button -->
+                                    <form action="{{ route('admin.pauseStudentSchedule', ['student' => $student->id]) }}"
+                                        method="POST" style="display: inline;">
+                                        @csrf
+                                        <button type="submit"
+                                            class="bg-warning text-white py-2 px-14 rounded-pill hover-bg-warning-600"
+                                            @if ($student->schedules->where('status', 'paused')->count() > 0) disabled @endif>
+                                            @if ($student->schedules->where('status', 'paused')->count() > 0)
+                                                Paused
+                                            @else
+                                                Pause
+                                            @endif
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -164,6 +180,7 @@
                 </div>
             </div>
         </div>
+
 
     </div>
 

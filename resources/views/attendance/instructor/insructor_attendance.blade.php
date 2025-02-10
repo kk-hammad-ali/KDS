@@ -11,7 +11,22 @@
             </ul>
         </div>
 
-        <!-- Attendance Form -->
+        <!-- Date Picker for Instructor Attendance -->
+        <div class="card mt-24">
+            <div class="card-body">
+                <form action="{{ route('instructor.attendance.update') }}" method="GET" class="search-input-form">
+                    <!-- Date Picker for Attendance Date -->
+                    <input type="date" id="attendance_date" name="date" value="{{ old('date', $date) }}"
+                        class="form-control h6 rounded-4 mb-0 py-6 px-8" placeholder="Select Attendance Date">
+
+                    <!-- Search Button -->
+                    <button type="submit" class="btn btn-main rounded-pill py-9 w-100 mt-3">Go</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- Instructor Attendance Form -->
         <div class="card mt-24 bg-transparent">
             <div class="card-body p-4">
                 {{-- Display errors if any --}}
@@ -37,8 +52,7 @@
 
                     <!-- Instructor Attendance Section -->
                     <h5 class="text-info mb-3"><i class="ph ph-chalkboard-teacher"></i> Mark Attendance for
-                        {{ $date }}
-                    </h5>
+                        {{ $date }}</h5>
 
                     <!-- Instructors Attendance Table -->
                     <div class="card overflow-hidden pt-20">
@@ -111,11 +125,7 @@
             <div class="card-body p-0">
                 <div id='wrap'>
                     <div id='calendar' class="position-relative" data-events='@json($events)'>
-                        {{-- <a href="{{ route('instructor.attendance.mark', ['date' => \Carbon\Carbon::now()->format('Y-m-d')]) }}"
-                            class="add-event btn btn-main text-sm btn-sm px-24 rounded-pill py-12 d-flex align-items-center gap-2">
-                            <i class="ph ph-plus me-4"></i>
-                            Today
-                        </a> --}}
+                        {{-- You can uncomment and implement the button to navigate to today's attendance --}}
                     </div>
                     <div style='clear:both'></div>
                 </div>

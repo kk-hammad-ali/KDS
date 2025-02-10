@@ -20,12 +20,7 @@
                 <table id="contactTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="fixed-width">
-                                <div class="form-check">
-                                    <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
-                                        id="selectAll">
-                                </div>
-                            </th>
+
                             <th class="h6 text-gray-300">Name</th>
                             <th class="h6 text-gray-300">Email</th>
                             <th class="h6 text-gray-300">Address</th>
@@ -36,11 +31,6 @@
                     <tbody>
                         @foreach ($contacts as $contact)
                             <tr>
-                                <td class="fixed-width">
-                                    <div class="form-check">
-                                        <input class="form-check-input border-gray-200 rounded-4" type="checkbox">
-                                    </div>
-                                </td>
                                 <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ $contact->name }}</span>
                                 </td>

@@ -122,11 +122,16 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/admin/student/attendance', [AttendanceController::class, 'showStudentAttendance'])->name('student.attendance.show');
     Route::get('/admin/student/attendance/mark/{date}', [AttendanceController::class, 'markTodayStudentAttendance'])->name('student.attendance.mark');
     Route::post('/admin/student/attendance/store', [AttendanceController::class, 'storeStudentAttendance'])->name('student.attendance.store');
+    Route::get('/admin/student/attendance/update', [AttendanceController::class, 'showAndUpdateStudentAttendance'])->name('student.attendance.update');
+    Route::post('/admin/student/attendance/store-update', [AttendanceController::class, 'storeUpdatedStudentAttendance'])->name('student.attendance.store.update');
 
     // Instructor Attendance Routes
+    // Display the instructor attendance
     Route::get('/admin/instructors/attendance', [AttendanceController::class, 'showInstructorAttendance'])->name('instructor.attendance.show');
-    Route::get('/admin/instructors/attendance/mark/{date}', [AttendanceController::class, 'markTodayAttendance'])->name('instructor.attendance.mark');
+    Route::get('/admin/instructors/attendance/mark/{date}', [AttendanceController::class, 'markTodayInstructorAttendance'])->name('instructor.attendance.mark');
     Route::post('/admin/instructors/attendance/store', [AttendanceController::class, 'storeInstructorAttendance'])->name('instructor.attendance.store');
+    Route::get('/admin/instructors/attendance/update', [AttendanceController::class, 'showAndUpdateInstructorAttendance'])->name('instructor.attendance.update');
+    Route::post('/admin/instructors/attendance/store-update', [AttendanceController::class, 'storeUpdatedInstructorAttendance'])->name('instructor.attendance.store.update');
 
     // Admin Coupons Routes
     Route::get('/admin/coupons', [CouponController::class, 'allCouponsPage'])->name('admin.allCoupons');
@@ -182,6 +187,8 @@ Route::middleware(['role:admin'])->group(function () {
     Route::post('/admin/schedule/store', [ScheduleController::class, 'storeSchedule'])->name('admin.storeSchedule');
     Route::get('/admin/schedules', [ScheduleController::class, 'allSchedules'])->name('admin.allSchedules');
     Route::get('/admin/schedules/booked-times', [ScheduleController::class, 'getBookedTimes'])->name('schedules.booked-times');
+    Route::post('/admin/schedule/pause/{student}', [ScheduleController::class, 'pauseStudentSchedule'])->name('admin.pauseStudentSchedule');
+
 
     Route::get('/invoices', [InvoiceController::class, 'index'])->name("admin.allInvoices");
     Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');

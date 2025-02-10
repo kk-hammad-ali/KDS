@@ -16,11 +16,9 @@ class Invoice extends Model
         'receipt_number',
         'invoice_date',
         'paid_by',
-        'amount_in_english',
         'balance',
         'branch_id',
         'amount_received',
-
     ];
 
     // /**

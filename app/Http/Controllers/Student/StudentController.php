@@ -52,12 +52,13 @@ class StudentController extends Controller
         $student = Student::where('user_id', Auth::id())->first();
         $certificateAvailable = $student && $student->course_end_date <= now();
 
-        // Fetch all leaves for the logged-in student
-        $leaves = Leave::where('user_id', Auth::id())->paginate(10);
+        // Fetch all leaves for the logged-in student using student_id
+        $leaves = Leave::where('student_id', $student ? $student->id : null)->paginate(10);
 
         // Pass events, student data, leave data, and certificate availability to the dashboard view
         return view('student.dashboard', compact('events', 'student', 'certificateAvailable', 'leaves'));
     }
+
 
     public function adminAllStudent()
     {
@@ -97,6 +98,7 @@ class StudentController extends Controller
             'phone' => 'required|string|max:15',
             'optional_phone' => 'nullable|string|max:15',
             'admission_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:admission_date',
             'email' => 'nullable|email',
             'course_id' => 'required|exists:courses,id',
             'car_id' => 'required|exists:cars,id',
@@ -108,8 +110,6 @@ class StudentController extends Controller
             'amount_received' => 'required|numeric',
             'balance' => 'required|numeric',
             'branch_id' => 'required|exists:branches,id',
-            'paid_by' => 'required|string|max:255',
-            'amount_in_english' => 'required|string|max:255',
             'timing_preference' => 'nullable|array',
         ]);
 
@@ -140,12 +140,15 @@ class StudentController extends Controller
         // Fetch the course based on course_id
         $course = Course::findOrFail($request->course_id);
 
-        // Calculate course end date by adding duration_days to the admission date
-        $course_end_date = Carbon::parse($request->admission_date)
-            ->addDays($course->duration_days) // Add duration_days from the course
-            ->format('Y-m-d');
+        // Check if end date is provided, else calculate it based on admission date and course duration
+        $course_end_date = $request->has('end_date') && $request->end_date
+            ? Carbon::parse($request->end_date)->format('Y-m-d') // Use the provided end date
+            : Carbon::parse($request->admission_date)
+                ->addDays($course->duration_days) // Add duration_days from the course
+                ->format('Y-m-d');
 
 
+                // dd($course_end_date);
         // Check for overlapping schedule with adjusted times
         $overlappingSchedule = Schedule::where('instructor_id', $request->instructor_id)
             ->where('vehicle_id', $request->vehicle_id)
@@ -162,7 +165,7 @@ class StudentController extends Controller
         // Create user
         $user = User::create([
             'name' => $validated['name'],
-            'password' => Hash::make($validated['cnic']),
+            'password' => Hash::make($validated['phone']),
         ]);
 
         $user->assignRole('student');
@@ -211,8 +214,7 @@ class StudentController extends Controller
             'amount_received' => $request->amount_received,
             'balance' => $request->balance,
             'branch_id' => $validated['branch_id'],
-            'paid_by' => $request->paid_by,
-            'amount_in_english' => $request->amount_in_english,
+            'paid_by' =>  $validated['name'],
         ]);
 
         // Send admission confirmation email
@@ -223,20 +225,21 @@ class StudentController extends Controller
 
     public function adminEditStudent($id)
     {
-
         if (!Auth::user()->hasRole('admin')) {
             abort(403, 'Unauthorized action.');
         }
-        $student = Student::with(['user', 'instructor.employee.user'])->findOrFail($id);
-        $instructors = Instructor::with('employee.user')->get();
 
+        $student = Student::with(['user', 'instructor.employee.user', 'schedules'])->findOrFail($id);
+        $instructors = Instructor::with('employee.user')->get();
         $courses = Course::with('carModel')->get();
         $cars = Car::all();
         $branches = Branch::all();
 
-        return view('admin.students.edit_student', compact('student', 'instructors', 'cars', 'courses'));
-    }
+        // Check if the student has a schedule and if class_end_date exists
+        $class_end_date = $student->schedules->first()->class_end_date ?? null;
 
+        return view('admin.students.edit_student', compact('student', 'instructors', 'cars', 'courses', 'class_end_date'));
+    }
 
     public function adminUpdateStudent(Request $request, $id)
     {
@@ -251,6 +254,7 @@ class StudentController extends Controller
             'phone' => 'required|string|max:15',
             'optional_phone' => 'nullable|string|max:15',
             'admission_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:admission_date',
             'email' => 'nullable|email',
             'course_id' => 'required|exists:courses,id',
             'car_id' => 'required|exists:cars,id',
@@ -262,8 +266,6 @@ class StudentController extends Controller
             'amount_received' => 'required|numeric',
             'balance' => 'required|numeric',
             'branch_id' => 'required|exists:branches,id',
-            'paid_by' => 'required|string|max:255',
-            'amount_in_english' => 'required|string|max:255',
             'timing_preference' => 'nullable|array',
         ]);
 
@@ -298,13 +300,18 @@ class StudentController extends Controller
         }
 
         $class_end_time = $adjustedEndTime->format('H:i:s');
+
+
         // Fetch the course based on course_id
         $course = Course::findOrFail($request->course_id);
 
-        // Calculate course end date by adding duration_days to the admission date
-        $course_end_date = Carbon::parse($request->admission_date)
-            ->addDays($course->duration_days) // Add duration_days from the course
-            ->format('Y-m-d');
+        // Check if end date is provided, else calculate it based on admission date and course duration
+        $course_end_date = $request->has('end_date') && $request->end_date
+            ? Carbon::parse($request->end_date)->format('Y-m-d') // Use the provided end date
+            : Carbon::parse($request->admission_date)
+                ->addDays($course->duration_days) // Add duration_days from the course
+                ->format('Y-m-d');
+
 
         // Check for overlapping schedule with adjusted times
         $overlappingSchedule = Schedule::where('instructor_id', $request->instructor_id)
@@ -321,6 +328,13 @@ class StudentController extends Controller
 
         // Update user and student details
         $user->update(['name' => $validated['name']]);
+
+        $schedule = $student->schedules()->first();
+
+        if ($schedule && $schedule->status === 'paused') {
+            // Update the schedule status to 'active'
+            $schedule->update(['status' => 'active']);
+        }
 
         // Update student details
         $student->update([
@@ -365,8 +379,7 @@ class StudentController extends Controller
                 'amount_received' => $request->amount_received,
                 'balance' => $request->balance,
                 'branch' => $request->branch,
-                'paid_by' => $request->paid_by,
-                'amount_in_english' => $request->amount_in_english,
+                'paid_by' =>  $validated['name'],
             ]
         );
 

@@ -14,6 +14,8 @@ class Schedule extends Model
         'class_date',
         'start_time',
         'end_time',
+        'status',
+        'classes_attended',
         'class_end_date',
     ];
 

@@ -26,13 +26,17 @@ class AttendanceController extends Controller
      */
     public function showStudentAttendance()
     {
-
         $date = Carbon::now()->format('Y-m-d');
 
-        // Fetch all students who are currently enrolled and have a non-null instructor_id
-        $students = Student::where('admission_date', '<=', $date)->where('course_end_date', '>=', $date)->whereNotNull('instructor_id')->get();
-        $instructors = Instructor::all();
+        // Fetch all students who are currently enrolled and have a non-null instructor_id,
+        // using the schedules table to check if the class_end_date is >= the current date
+        $students = Student::whereHas('schedules', function($query) use ($date) {
+            $query->where('class_end_date', '>=', $date);
+        })->where('admission_date', '<=', $date)
+        ->whereNotNull('instructor_id')
+        ->get();
 
+        $instructors = Instructor::all();
         $events = [];
 
         // Fetch all attendance records with student relationships
@@ -62,12 +66,15 @@ class AttendanceController extends Controller
 
     public function markTodayStudentAttendance($date)
     {
-        $students = Student::where('admission_date', '<=', $date)
-            ->where('course_end_date', '>=', $date)
-            ->get();
+        // Get students based on their schedule's course end date
+        $students = Student::whereHas('schedules', function($query) use ($date) {
+            $query->where('class_end_date', '>=', $date);
+        })->where('admission_date', '<=', $date)
+        ->get();
 
         return view('attendance.student.mark_student_attendance', compact('students', 'date'));
     }
+
 
     public function storeStudentAttendance(Request $request)
     {
@@ -95,144 +102,191 @@ class AttendanceController extends Controller
         return redirect()->route('student.attendance.show')->with('success', 'Student attendance marked successfully.');
     }
 
-    // Instructor Attendance Functions (already implemented)
-    public function showInstructorAttendance()
+
+    public function showAndUpdateStudentAttendance(Request $request)
     {
-        $events = [];
+        // Ensure the selected date is passed correctly
+        $selectedDate = $request->query('date'); // Get the date passed from the form
 
-        $instructors = Instructor::all();
-
-        $date = Carbon::now()->format('Y-m-d');
-
-        // Fetch all attendance records with instructor relationships
-        $attendances = Attendance::with('instructor.employee.user')->get();
-
-        foreach ($attendances as $attendance) {
-            // Check if the attendance has an instructor and if that instructor has a user
-            if ($attendance->instructor && $attendance->instructor->employee && $attendance->instructor->employee->user) {
-                $attendanceDate = Carbon::parse($attendance->attendance_date);
-
-                $events[] = [
-                    'title' => $attendance->instructor->employee->user->name, // Safe to access now
-                    'start' => $attendanceDate->format('Y-m-d'),
-                    'attendance' => $attendance->instructor_present ? 'present' : 'absent',
-                    'className' => 'attendance-event', // Add this line
-                    'backgroundColor' => $attendance->instructor_present ? '#28a745' : '#dc3545',
-                    'textColor' => 'white',
-                ];
-            }
+        if (!$selectedDate) {
+            return redirect()->route('admin.dashboard'); // Handle case where no date is selected
         }
 
-        // Pass the $events array to the view
-        return view('attendance.instructor.insructor_attendance', compact('events','date','instructors'));
-    }
-
-    public function markTodayAttendance($date)
-    {
-        $instructors = Instructor::all();
-
-        // Pass the instructors and the selected date to the view
-        return view('attendance.instructor.mark_instructor_attendance', compact('instructors', 'date'));
-    }
-
-    public function storeInstructorAttendance(Request $request)
-    {
-        $validated = $request->validate([
-            'instructor_attendance' => 'nullable|array',
-        ]);
-
-        $currentDate = Carbon::now()->format('Y-m-d');
-
-        if (isset($validated['instructor_attendance'])) {
-            foreach ($validated['instructor_attendance'] as $instructor_id => $attendance) {
-                // Use updateOrCreate to either create a new attendance record or update the existing one
-                Attendance::updateOrCreate(
-                    [
-                        'instructor_id' => $instructor_id,
-                        'attendance_date' => $currentDate,
-                    ],
-                    [
-                        'instructor_present' => $attendance[$currentDate] ? 1 : 0,
-                    ]
-                );
-            }
-        }
-
-        return redirect()->route('instructor.attendance.show')->with('success', 'Instructor attendance marked successfully.');
-    }
-
-    public function showInstructorStudentAttendance()
-    {
-        $events = [];
-        $instructor = auth()->user()->instructor; // Fetch the logged-in instructor
-
-        // Fetch attendance records for students associated with the instructor
-        $attendances = Attendance::with('student.user')->whereHas('student', function ($query) use ($instructor) {
-            $query->where('instructor_id', $instructor->id);
+        // Fetch students enrolled between admission date and class end date
+        $students = Student::whereHas('schedules', function ($query) use ($selectedDate) {
+            $query->whereDate('class_date', '<=', $selectedDate)
+                  ->whereDate('class_end_date', '>=', $selectedDate);
         })->get();
 
-        foreach ($attendances as $attendance) {
-            // Check if the attendance has a student and if that student has a user
-            if ($attendance->student && $attendance->student->user) {
-                $attendanceDate = Carbon::parse($attendance->attendance_date);
+        $attendanceRecords = [];
 
-                $events[] = [
-                    'title' => $attendance->student->user->name, // Safe to access now
-                    'start' => $attendanceDate->format('Y-m-d'),
-                    'attendance' => $attendance->student_present ? 'present' : 'absent',
-                    'className' => 'attendance-event', // Add this line for CSS styling
-                    'backgroundColor' => $attendance->student_present ? '#28a745' : '#dc3545',
-                    'textColor' => 'white',
-                ];
-            }
+        // Get attendance data for students
+        foreach ($students as $student) {
+            $attendance = Attendance::where('student_id', $student->id)
+                                    ->where('attendance_date', $selectedDate)
+                                    ->first();
+
+            $attendanceRecords[] = [
+                'student' => $student,
+                'attendance' => $attendance,
+            ];
         }
 
-        // Pass the $events array to the view
-        return view('attendance.instructor_student.student_attendance', compact('events'));
+        // Return the view with selected date and attendance records
+        return view('attendance.student.update_student_attendance', compact('attendanceRecords', 'selectedDate'));
     }
 
 
-    /**
-     * Show form for marking student attendance (For the logged-in instructor's students).
-     */
-    public function markTodayInstructorStudentAttendance($date)
-    {
-        $instructor = auth()->user()->instructor; // Fetch the logged-in instructor
-        $students = Student::where('instructor_id', $instructor->id)
-            ->where('admission_date', '<=', $date)
-            ->where('course_end_date', '>=', $date)
-            ->get();
 
-        return view('attendance.instructor_student.mark_student_attendance', compact('students', 'date'));
-    }
-
-    /**
-     * Store attendance records for instructor's students.
-     */
-    public function storeInstructorStudentAttendance(Request $request)
+    public function storeUpdatedStudentAttendance(Request $request)
     {
         $validated = $request->validate([
-            'student_attendance' => 'nullable|array',
+            'attendance_update' => 'nullable|array',
+            'date' => 'required|date', // Validate the date field
         ]);
 
-        $currentDate = Carbon::now()->format('Y-m-d');
+        $selectedDate = $validated['date']; // Get the date from the form
 
-        if (isset($validated['student_attendance'])) {
-            foreach ($validated['student_attendance'] as $student_id => $attendance) {
+        if (isset($validated['attendance_update'])) {
+            foreach ($validated['attendance_update'] as $student_id => $attendance) {
+                // Update the attendance record for the student
                 Attendance::updateOrCreate(
                     [
                         'student_id' => $student_id,
-                        'attendance_date' => $currentDate,
+                        'attendance_date' => $selectedDate,
                     ],
                     [
-                        'student_present' => $attendance[$currentDate] ? 1 : 0,
+                        'student_present' => $attendance['present'] ? 1 : 0,
                     ]
                 );
             }
         }
 
-        return redirect()->route('instructor.student.attendance.show')
-            ->with('success', 'Attendance marked successfully.');
+        return redirect()->route('student.attendance.show', ['date' => $selectedDate])
+            ->with('success', 'Attendance updated successfully.');
     }
 
+
+    // Instructor Attendance Functions
+
+// Show the attendance records for instructors
+public function showInstructorAttendance()
+{
+    $date = Carbon::now()->format('Y-m-d');
+    $instructors = Instructor::all();
+    $events = [];
+
+    // Fetch all attendance records with instructor relationships
+    $attendances = Attendance::with('instructor.employee.user')->get();
+
+    foreach ($attendances as $attendance) {
+        if ($attendance->instructor && $attendance->instructor->employee && $attendance->instructor->employee->user) {
+            $attendanceDate = Carbon::parse($attendance->attendance_date);
+
+            $events[] = [
+                'title' => $attendance->instructor->employee->user->name,
+                'start' => $attendanceDate->format('Y-m-d'),
+                'attendance' => $attendance->instructor_present ? 'present' : 'absent',
+                'className' => 'attendance-event',
+                'backgroundColor' => $attendance->instructor_present ? '#28a745' : '#dc3545',
+                'textColor' => 'white',
+            ];
+        }
+    }
+
+    return view('attendance.instructor.insructor_attendance', compact('events', 'date', 'instructors'));
 }
+
+// Mark today's attendance for instructors
+public function markTodayInstructorAttendance($date)
+{
+    $instructors = Instructor::all();
+
+    return view('attendance.instructor.mark_instructor_attendance', compact('instructors', 'date'));
+}
+
+// Store instructor attendance records
+public function storeInstructorAttendance(Request $request)
+{
+    $validated = $request->validate([
+        'instructor_attendance' => 'nullable|array',
+    ]);
+
+    $currentDate = Carbon::now()->format('Y-m-d');
+
+    if (isset($validated['instructor_attendance'])) {
+        foreach ($validated['instructor_attendance'] as $instructor_id => $attendance) {
+            // Use updateOrCreate to create or update attendance records
+            Attendance::updateOrCreate(
+                [
+                    'instructor_id' => $instructor_id,
+                    'attendance_date' => $currentDate,
+                ],
+                [
+                    'instructor_present' => $attendance[$currentDate] ? 1 : 0,
+                ]
+            );
+        }
+    }
+
+    return redirect()->route('instructor.attendance.show')->with('success', 'Instructor attendance marked successfully.');
+}
+
+// Show and update instructor attendance for a specific date
+public function showAndUpdateInstructorAttendance(Request $request)
+{
+    $selectedDate = $request->query('date'); // Get the date from the query string
+
+    if (!$selectedDate) {
+        return redirect()->route('admin.dashboard'); // Handle case where no date is selected
+    }
+
+    $instructors = Instructor::all();
+    $attendanceRecords = [];
+
+    foreach ($instructors as $instructor) {
+        // Check if attendance exists for the instructor on the given date
+        $attendance = Attendance::where('instructor_id', $instructor->id)
+            ->where('attendance_date', $selectedDate)
+            ->first();
+
+        $attendanceRecords[] = [
+            'instructor' => $instructor,
+            'attendance' => $attendance,
+        ];
+    }
+
+    return view('attendance.instructor.update_instructor_attendance', compact('attendanceRecords', 'selectedDate'));
+}
+
+// Store updated instructor attendance
+public function storeUpdatedInstructorAttendance(Request $request)
+{
+    $validated = $request->validate([
+        'attendance_update' => 'nullable|array',
+        'date' => 'required|date', // Validate the date field
+    ]);
+
+    $selectedDate = $validated['date']; // Get the date from the form
+
+    if (isset($validated['attendance_update'])) {
+        foreach ($validated['attendance_update'] as $instructor_id => $attendance) {
+            Attendance::updateOrCreate(
+                [
+                    'instructor_id' => $instructor_id,
+                    'attendance_date' => $selectedDate,
+                ],
+                [
+                    'instructor_present' => $attendance['present'] ? 1 : 0,
+                ]
+            );
+        }
+    }
+
+    return redirect()->route('instructor.attendance.show', ['date' => $selectedDate])
+        ->with('success', 'Instructor attendance updated successfully.');
+}
+
+}
+
+
