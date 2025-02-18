@@ -24,6 +24,25 @@
             </div>
         </div>
 
+        <div class="card mt-24">
+            <div class="card-body">
+                <form class="search-input-form">
+                    <!-- Student Name Input -->
+                    <input type="text" id="studentName" class="form-control h6 rounded-4 mb-0 py-6 px-8"
+                        placeholder="Enter Student Name">
+
+                    <!-- Phone Number Input -->
+                    <input type="text" id="studentPhone" class="form-control h6 rounded-4 mb-0 py-6 px-8 mt-3"
+                        placeholder="Enter Phone Number">
+
+                    <button type="button" class="btn btn-main rounded-pill py-9 w-100 mt-3" onclick="filterStudents()">
+                        Search
+                    </button>
+                </form>
+            </div>
+        </div>
+        <br>
+
         <div class="card overflow-hidden">
             <div class="card-body p-0 overflow-x-auto">
                 <table id="studentTable" class="table table-striped">
@@ -66,33 +85,9 @@
                                     </span>
                                 </td>
                                 <td>
-
                                     <a href="{{ route('admin.editStudent', ['id' => $student->id]) }}"
                                         class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white">Edit</a>
-
-                                    <button type="button"
-                                        class="bg-danger text-white py-2 px-14 rounded-pill hover-bg-danger-600"
-                                        data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                        data-student-id="{{ $student->id }}">Delete</button>
-                                    <button type="button"
-                                        class="bg-info text-white py-2 px-14 rounded-pill hover-bg-info-600"
-                                        data-bs-toggle="modal" data-bs-target="#viewStudentModal"
-                                        data-student="{{ json_encode($student) }}">View</button>
-
-                                    <!-- Pause Button -->
-                                    <form action="{{ route('admin.pauseStudentSchedule', ['student' => $student->id]) }}"
-                                        method="POST" style="display: inline;">
-                                        @csrf
-                                        <button type="submit"
-                                            class="bg-warning text-white py-2 px-14 rounded-pill hover-bg-warning-600"
-                                            @if ($student->schedules->where('status', 'paused')->count() > 0) disabled @endif>
-                                            @if ($student->schedules->where('status', 'paused')->count() > 0)
-                                                Paused
-                                            @else
-                                                Pause
-                                            @endif
-                                        </button>
-                                    </form>
+                                    <!-- other actions -->
                                 </td>
                             </tr>
                         @endforeach
@@ -230,5 +225,29 @@
                 document.getElementById('studentDetails').innerHTML = detailsHtml; // Update modal content
             });
         });
+    </script>
+
+
+    <script>
+        document.getElementById('studentName').addEventListener('input', filterStudents);
+        document.getElementById('studentPhone').addEventListener('input', filterStudents);
+
+        function filterStudents() {
+            const studentNameInput = document.getElementById('studentName').value.toLowerCase();
+            const studentPhoneInput = document.getElementById('studentPhone').value.toLowerCase();
+            const tableRows = document.querySelectorAll('#studentTable tbody tr');
+
+            tableRows.forEach(function(row) {
+                const studentName = row.cells[1].innerText.toLowerCase();
+                const studentPhone = row.cells[2].innerText.toLowerCase();
+
+                // Show or hide the row based on both the name and phone number input
+                if (studentName.includes(studentNameInput) && studentPhone.includes(studentPhoneInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
     </script>
 @endsection

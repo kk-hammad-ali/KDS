@@ -11,6 +11,23 @@
             </ul>
         </div>
 
+
+        <!-- Student Name Filter Form -->
+        <div class="card mt-24 bg-transparent">
+            <div class="card-body p-4">
+                <form class="search-input-form">
+                    <!-- Student Name Input -->
+                    <input type="text" id="studentName" class="form-control h6 rounded-4 mb-0 py-6 px-8"
+                        placeholder="Enter Student Name">
+
+                    <button type="button" class="btn btn-main rounded-pill py-9 w-100 mt-3" onclick="filterAttendance()">
+                        Search
+                    </button>
+                </form>
+            </div>
+        </div>
+
+
         <!-- Attendance Update Form -->
         <div class="card mt-24 bg-transparent">
             <div class="card-body p-4">
@@ -35,9 +52,6 @@
                 <form action="{{ route('student.attendance.store.update') }}" method="POST">
                     @csrf
                     <input type="hidden" name="date" value="{{ $selectedDate }}">
-
-                    <h5 class="text-info mb-3"><i class="ph ph-user-graduate"></i> Update Attendance for {{ $selectedDate }}
-                    </h5>
 
                     <div class="card overflow-hidden p-20">
                         <div class="card-body p-0 overflow-x-auto">
@@ -85,4 +99,26 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Add event listener for live filtering by student name
+        document.getElementById('studentName').addEventListener('input', filterAttendance);
+
+        function filterAttendance() {
+            const studentNameInput = document.getElementById('studentName').value.toLowerCase();
+            const tableRows = document.querySelectorAll('#studentTable tbody tr');
+
+            tableRows.forEach(function(row) {
+                const studentName = row.cells[0].innerText.toLowerCase(); // Get student name from the first column
+
+                // Show or hide the row based on the student name input
+                if (studentName.includes(studentNameInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
 @endsection

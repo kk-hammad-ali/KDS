@@ -142,9 +142,8 @@
                             </div>
                             <!-- Logo -->
                             <div class="logo-box d-lg-none d-block">
-                                <div class="link"><a style="padding: 8px;" href="{{ route('public.quiz') }}"
-                                        class="theme-btn btn-style-one"><span>Theory
-                                            Test</span></a>
+                                <div class="link"><a style="padding: 8px;" href="{{ route('public.admission.form') }}"
+                                        class="theme-btn btn-style-one"><span>Book Now</span></a>
                                 </div>
                             </div>
                         </div>

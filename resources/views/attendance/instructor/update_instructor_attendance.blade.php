@@ -12,6 +12,24 @@
             </ul>
         </div>
 
+        <!-- Instructor Name Filter Form -->
+        <div class="card mt-24 bg-transparent">
+            <div class="card-body p-4">
+                <form class="search-input-form">
+                    <!-- Instructor Name Input -->
+                    <input type="text" id="instructorName" class="form-control h6 rounded-4 mb-0 py-6 px-8"
+                        placeholder="Enter Instructor Name">
+
+                    <button type="button" class="btn btn-main rounded-pill py-9 w-100 mt-3"
+                        onclick="filterInstructorAttendance()">
+                        Search
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <br>
+
         <!-- Instructor Attendance Update Form -->
         <div class="card mt-24 bg-transparent">
             <div class="card-body p-4">
@@ -36,9 +54,6 @@
                 <form action="{{ route('instructor.attendance.store.update') }}" method="POST">
                     @csrf
                     <input type="hidden" name="date" value="{{ $selectedDate }}">
-
-                    <h5 class="text-info mb-3"><i class="ph ph-chalkboard-teacher"></i> Update Attendance for
-                        {{ $selectedDate }}</h5>
 
                     <div class="card overflow-hidden p-20">
                         <div class="card-body p-0 overflow-x-auto">
@@ -86,6 +101,27 @@
                 </form>
             </div>
         </div>
-
     </div>
+    <script>
+        // Add event listener for live filtering by instructor name
+        document.getElementById('instructorName').addEventListener('input', filterInstructorAttendance);
+
+        function filterInstructorAttendance() {
+            const instructorNameInput = document.getElementById('instructorName').value.toLowerCase();
+            const tableRows = document.querySelectorAll('#instructorTable tbody tr');
+
+            tableRows.forEach(function(row) {
+                const instructorName = row.cells[0].innerText
+                    .toLowerCase(); // Get instructor name from the first column
+
+                // Show or hide the row based on the instructor name input
+                if (instructorName.includes(instructorNameInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
 @endsection

@@ -324,11 +324,13 @@
                             <div class="col-sm-6">
                                 <label for="end_date" class="h5 mb-8 fw-semibold font-heading">End Date</label>
                                 <input type="date" class="form-control @error('end_date') is-invalid @enderror"
-                                    id="end_date" name="end_date" value="{{ old('end_date', $class_end_date) }}">
+                                    id="end_date" name="end_date"
+                                    value="{{ old('end_date', $student->schedules->first()->class_end_date) }}">
                                 @error('end_date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
 
 
                             <div class="col-sm-6">
@@ -353,17 +355,28 @@
                                     Time:</label>
                                 <select id="class_start_time" name="class_start_time"
                                     class="form-select @error('class_start_time') is-invalid @enderror" required>
+                                    @php
+                                        // Get the student's schedule start time and format it to match the dropdown values
+$studentStartTime = \Carbon\Carbon::parse(
+    $student->schedules->first()->start_time,
+)->format('H:i');
+                                    @endphp
+
                                     @for ($hour = 8; $hour <= 19; $hour++)
                                         @php
                                             $time1 = \Carbon\Carbon::createFromTime($hour, 0)->format('H:i');
                                             $time2 = \Carbon\Carbon::createFromTime($hour, 30)->format('H:i');
                                         @endphp
+
+                                        <!-- Display time slots, and set the correct one as selected -->
                                         <option value="{{ $time1 }}"
-                                            {{ old('class_start_time', $student->class_start_time) == $time1 ? 'selected' : '' }}>
-                                            {{ \Carbon\Carbon::createFromTime($hour, 0)->format('h:i A') }}</option>
+                                            {{ old('class_start_time', $studentStartTime) == $time1 ? 'selected' : '' }}>
+                                            {{ \Carbon\Carbon::createFromTime($hour, 0)->format('h:i A') }}
+                                        </option>
                                         <option value="{{ $time2 }}"
-                                            {{ old('class_start_time', $student->class_start_time) == $time2 ? 'selected' : '' }}>
-                                            {{ \Carbon\Carbon::createFromTime($hour, 30)->format('h:i A') }}</option>
+                                            {{ old('class_start_time', $studentStartTime) == $time2 ? 'selected' : '' }}>
+                                            {{ \Carbon\Carbon::createFromTime($hour, 30)->format('h:i A') }}
+                                        </option>
                                     @endfor
                                 </select>
                                 @error('class_start_time')

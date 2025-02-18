@@ -14,29 +14,55 @@
 
 
             <!-- Date Picker for Student Attendance -->
+            <div class="d-flex justify-content-end">
+                <div class="card w-75">
+                    <div class="card-body">
+                        <form action="{{ route('admin.dashboard') }}" method="GET"
+                            class="d-flex justify-content-end align-items-center">
+                            <!-- Date Picker for Date Before -->
+                            <div class="col-4 me-3">
+                                <input type="date" id="dateBefore" name="dateBefore" value="{{ old('dateBefore') }}"
+                                    class="form-control h6 rounded-4 mb-0 py-6 px-8" placeholder="Select Date Before">
+                            </div>
+
+                            <!-- Date Picker for Date After -->
+                            <div class="col-4 me-3">
+                                <input type="date" id="dateAfter" name="dateAfter" value="{{ old('dateAfter') }}"
+                                    class="form-control h6 rounded-4 mb-0 py-6 px-8" placeholder="Select Date After">
+                            </div>
+
+                            <!-- Buttons (Stacked vertically) -->
+                            <div class="d-flex flex-column col-4">
+                                <!-- Search Button -->
+                                <button type="submit" class="btn btn-main rounded-pill py-9 px-4 mb-3">Go</button>
+
+                                <!-- Reset Button -->
+                                <button type="button" onclick="resetForm()"
+                                    class="btn btn-secondary rounded-pill py-9 px-4">Reset</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function resetForm() {
+                    // Clear the date inputs and submit the form with default values
+                    document.getElementById('dateBefore').value = '';
+                    document.getElementById('dateAfter').value = '';
+                    // Submit the form with no date filters
+                    window.location.href = '{{ route('admin.dashboard') }}'; // Redirect to the dashboard without date filters
+                }
+            </script>
 
 
             <div class="row g-4">
-
-                {{-- <div class="card mt-24">
-                    <div class="card-body">
-                        <form action="#" method="GET" class="search-input-form">
-                            <!-- Date Picker for Attendance Date -->
-                            <input type="date" id="selectedDate" name="date" value="{{ old('date') }}"
-                                class="form-control h6 rounded-4 mb-0 py-6 px-8" placeholder="Select Date">
-
-                            <!-- Search Button -->
-                            <button type="submit" class="btn btn-main rounded-pill py-9 w-100 mt-3">Go</button>
-                        </form>
-                    </div>
-                </div> --}}
-
                 <!-- Total Students Card -->
                 <div class="col-xxl-3 col-sm-3">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="mb-2">{{ $totalStudentsCount }}</h4>
-                            <span class="text-gray-600">Total Students</span>
+                            <span class="text-gray-600">Students</span>
                             <div class="flex-between gap-8 mt-16">
                                 <span
                                     class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
@@ -54,7 +80,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="mb-2">{{ $todaysClassesCount }}</h4>
-                            <span class="text-gray-600">Today's Classes</span>
+                            <span class="text-gray-600">Classes</span>
                             <div class="flex-between gap-8 mt-16">
                                 <span
                                     class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
@@ -68,11 +94,11 @@
                 </div>
 
                 <!-- Today's Expense Card -->
-                <div class="col-xxl-3 col-sm-3">
+                <div class="col-xxl-3 col-sm-3" data-bs-toggle="modal" data-bs-target="#expenseModal">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="mb-2">{{ number_format($todayExpense, 2) }}</h4>
-                            <span class="text-gray-600">Today's Expense</span>
+                            <span class="text-gray-600">Expenses</span>
                             <div class="flex-between gap-8 mt-16">
                                 <span
                                     class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-600 text-white text-2xl">
@@ -86,11 +112,11 @@
                 </div>
 
                 <!-- Today's Sales Card -->
-                <div class="col-xxl-3 col-sm-3">
+                <div class="col-xxl-3 col-sm-3" data-bs-toggle="modal" data-bs-target="#salesModal">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="mb-2">{{ number_format($todaySales, 2) }}</h4>
-                            <span class="text-gray-600">Today's Sales</span>
+                            <span class="text-gray-600">Sales</span>
                             <div class="flex-between gap-8 mt-16">
                                 <span
                                     class="flex-shrink-0 w-48 h-48 flex-center rounded-circle bg-main-500 text-white text-2xl">
@@ -101,8 +127,89 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
+
+        <!-- Today's Expense Modal -->
+        <div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="expenseModalLabel">Today's Expenses</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="h6 text-gray-300">Expense Type</th>
+                                    <th class="h6 text-gray-300">Description</th>
+                                    <th class="h6 text-gray-300">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($todayExpenseDetails as $expense)
+                                    <tr>
+                                        <td class="h6 mb-0 fw-medium text-gray-300">
+                                            {{ $expense instanceof DailyExpense ? 'Daily Expense' : ($expense instanceof FixedExpense ? 'Fixed Expense' : 'Car Expense') }}
+                                        </td>
+                                        <td class="h6 mb-0 fw-medium text-gray-300">{{ $expense->description }}</td>
+                                        <td class="h6 mb-0 fw-medium text-gray-300">
+                                            {{ number_format($expense->amount, 2) }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Sales Modal -->
+        <div class="modal fade" id="salesModal" tabindex="-1" aria-labelledby="salesModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="salesModalLabel">Today's Sales</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="h6 text-gray-300">Student Name</th>
+                                    <th class="h6 text-gray-300">Course Name</th>
+                                    <th class="h6 text-gray-300">Fee</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($todaySalesDetails as $student)
+                                    <tr>
+                                        <td class="h6 mb-0 fw-medium text-gray-300">{{ $student->user->name }}</td>
+                                        <td class="h6 mb-0 fw-medium text-gray-300">{{ $student->course->duration_days }}
+                                            - Days
+                                            {{ $student->course->carModel->name }}
+                                        </td>
+                                        <td class="h6 mb-0 fw-medium text-gray-300">
+                                            {{ number_format($student->course->fees, 2) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Initialize Bootstrap modal on click
+            var expenseModal = new bootstrap.Modal(document.getElementById('expenseModal'));
+            var salesModal = new bootstrap.Modal(document.getElementById('salesModal'));
+        </script>
+
+
 
         <div class="row gy-4">
             <div class="col-lg-9">
@@ -137,8 +244,8 @@
                                                 class="h6 mb-0 fw-medium text-gray-300">{{ $class->instructor->employee->user->name }}</span>
                                         </td>
                                         <td>
-                                            <span class="h6 mb-0 fw-medium text-gray-300">{{ $class->vehicle->make }}
-                                                {{ $class->vehicle->model }}</span>
+                                            <span
+                                                class="h6 mb-0 fw-medium text-gray-300">{{ $class->student->course->carModel->name }}</span>
                                         </td>
                                         <td>
                                             <span
@@ -190,16 +297,40 @@
         </div>
 
 
-        <div class="row gy-4 ">
+        <div class="row gy-4">
             <div class="col-lg-12">
                 <div class="card overflow-hidden mt-24 p-20">
                     <div class="card-body p-0 overflow-x-auto">
-                        <h5 class="mb-20">Car Schedules for {{ $today }}</h5>
+                        <div class="d-flex justify-content-between align-items-center mb-20">
+                            <h5 class="mb-0">Instructor Schedules for {{ $today }}</h5>
+
+                            <!-- Dropdown for Gender Selection with col-4 -->
+                            <div class="col-3">
+                                <select id="genderSelect" class="form-select" onchange="filterSchedules()">
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+
+                            <!-- Dropdown for Instructor Selection with col-4 -->
+                            <div class="col-3">
+                                <select id="instructorSelect" class="form-select" onchange="filterSchedules()">
+                                    <option value="">Select Instructor</option>
+                                    @foreach ($instructorSchedules as $instructorSchedule)
+                                        <option value="{{ $instructorSchedule['instructor'] }}">
+                                            {{ $instructorSchedule['instructor'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <div style="max-height: 500px; overflow-y: auto; overflow-x: scroll;">
-                            <table id="carSchedulesTable" class="table table-striped">
+                            <table id="instructorSchedulesTable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="h6 text-gray-300">Car</th>
+                                        <th class="h6 text-gray-300">Instructor</th>
                                         @for ($i = 8; $i < 20; $i++)
                                             <th class="h6 text-gray-300">
                                                 {{ \Carbon\Carbon::createFromTime($i, 0)->format('h:i') }}</th>
@@ -209,22 +340,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($carSchedules as $carSchedule)
-                                        <tr>
-                                            <td class="h6 text-gray-300">{{ $carSchedule['car'] }}</td>
-                                            @foreach ($carSchedule['timeSlots'] as $slot)
+                                    @foreach ($instructorSchedules as $instructorSchedule)
+                                        <tr class="schedule-row"
+                                            data-instructor="{{ $instructorSchedule['instructor'] }}"
+                                            data-gender="{{ $instructorSchedule['gender'] }}">
+                                            <td class="h6 text-gray-300">{{ $instructorSchedule['instructor'] }}</td>
+                                            @foreach ($instructorSchedule['timeSlots'] as $slot)
                                                 @if ($slot['status'] == 'booked')
                                                     <td data-student-name="{{ $slot['student_name'] }}"
-                                                        data-instructor-name="{{ $slot['instructor_name'] }}"
                                                         data-class-date="{{ $slot['class_date'] }}"
                                                         data-end-date="{{ $slot['end_date'] }}"
-                                                        data-pickup-address="{{ $slot['address'] }}"
-                                                        style="cursor: pointer;">
-                                                        <!-- Add pointer cursor -->
+                                                        data-vehicle-details="{{ $slot['vehicle_details'] }}"
+                                                        style="cursor: pointer;" data-bs-toggle="modal"
+                                                        data-bs-target="#detailsModal">
                                                         <span
                                                             style="background-color: var(--bs-warning); border-radius:10px; padding: 4px;"
                                                             class="h6 text-dark">
-                                                            {{ $slot['pickup_sector'] }}
+                                                            {{ $slot['pickup_sector'] ?? 'B' }}
+                                                            ({{ \Carbon\Carbon::parse($slot['end_date'])->format('d') }})
                                                         </span>
                                                     </td>
                                                 @else
@@ -242,6 +375,148 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            function filterSchedules() {
+                var selectedInstructor = document.getElementById('instructorSelect').value;
+                var selectedGender = document.getElementById('genderSelect').value;
+                var rows = document.querySelectorAll('.schedule-row');
+
+                rows.forEach(function(row) {
+                    var instructorName = row.getAttribute('data-instructor');
+                    var gender = row.getAttribute('data-gender');
+
+                    // Filter by Instructor and Gender
+                    if ((selectedInstructor === '' || instructorName === selectedInstructor) &&
+                        (selectedGender === '' || gender === selectedGender)) {
+                        row.style.display = ''; // Show the row
+                    } else {
+                        row.style.display = 'none'; // Hide the row
+                    }
+                });
+            }
+        </script>
+
+        <!-- Modal to show booking details for instructors -->
+        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailsModalLabel">Booking Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Student Name:</strong> <span id="modal-student-name"></span></p>
+                        <p><strong>Class Date:</strong> <span id="modal-class-date"></span></p>
+                        <p><strong>End Date:</strong> <span id="modal-end-date"></span></p>
+                        <p><strong>Vehicle Details:</strong> <span id="modal-vehicle-details"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row gy-4">
+            <div class="col-lg-12">
+                <div class="card overflow-hidden mt-24 p-20">
+                    <div class="card-body p-0 overflow-x-auto">
+                        <div class="d-flex justify-content-between align-items-center mb-20">
+                            <h5 class="mb-0">Car Schedules for {{ $today }}</h5>
+                            <!-- Dropdown for Car Selection with col-4 -->
+                            <div class="col-3">
+                                <select id="carSelect" class="form-select" onchange="filterCarSchedules()">
+                                    <option value="">Select Car</option>
+                                    @foreach ($carSchedules as $carSchedule)
+                                        <option value="{{ $carSchedule['car'] }}">
+                                            {{ $carSchedule['car'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Dropdown for Transmission Selection -->
+                            <div class="col-3">
+                                <select id="transmissionSelect" class="form-select" onchange="filterCarSchedules()">
+                                    <option value="">Select Transmission</option>
+                                    <option value="automatic">Automatic</option>
+                                    <option value="manual">Manual</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="max-height: 500px; overflow-y: auto; overflow-x: scroll;">
+                            <table id="carSchedulesTable" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="h6 text-gray-300">Car</th>
+                                        @for ($i = 8; $i < 20; $i++)
+                                            <th class="h6 text-gray-300">
+                                                {{ \Carbon\Carbon::createFromTime($i, 0)->format('h:i') }}</th>
+                                            <th class="h6 text-gray-300">
+                                                {{ \Carbon\Carbon::createFromTime($i, 30)->format('h:i') }}</th>
+                                        @endfor
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($carSchedules as $carSchedule)
+                                        <tr class="car-schedule-row" data-car="{{ $carSchedule['car'] }}"
+                                            data-transmission="{{ $carSchedule['transmission'] }}">
+                                            <td class="h6 text-gray-300">{{ $carSchedule['car'] }}</td>
+                                            @foreach ($carSchedule['timeSlots'] as $slot)
+                                                @if ($slot['status'] == 'booked')
+                                                    <td data-student-name="{{ $slot['student_name'] }}"
+                                                        data-instructor-name="{{ $slot['instructor_name'] }}"
+                                                        data-class-date="{{ $slot['class_date'] }}"
+                                                        data-end-date="{{ $slot['end_date'] }}"
+                                                        data-pickup-address="{{ $slot['address'] }}"
+                                                        style="cursor: pointer;">
+                                                        <span
+                                                            style="background-color: var(--bs-warning); border-radius:10px; padding: 4px;"
+                                                            class="h6 text-dark">
+                                                            {{ $slot['pickup_sector'] ?? 'B' }}
+                                                            ({{ \Carbon\Carbon::parse($slot['end_date'])->format('d') }})
+                                                        </span>
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        <span class="h6 text-dark">A</span>
+                                                    </td>
+                                                @endif
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function filterCarSchedules() {
+                var selectedCar = document.getElementById('carSelect').value;
+                var selectedTransmission = document.getElementById('transmissionSelect').value;
+
+                var rows = document.querySelectorAll('.car-schedule-row');
+
+                rows.forEach(function(row) {
+                    var carName = row.getAttribute('data-car');
+                    var carTransmission = row.getAttribute('data-transmission');
+
+                    if ((selectedCar === '' || carName === selectedCar) &&
+                        (selectedTransmission === '' || carTransmission === selectedTransmission)) {
+                        row.style.display = ''; // Show the row
+                    } else {
+                        row.style.display = 'none'; // Hide the row
+                    }
+                });
+            }
+        </script>
 
         <!-- Modal to show booking details -->
         <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel"
@@ -265,80 +540,6 @@
                 </div>
             </div>
         </div>
-        <div class="row gy-4">
-            <div class="col-lg-12">
-                <div class="card overflow-hidden mt-24 p-20">
-                    <div class="card-body p-0 overflow-x-auto">
-                        <h5 class="mb-20">Instructor Schedules for {{ $today }}</h5>
-                        <div style="max-height: 500px; overflow-y: auto; overflow-x: scroll;">
-                            <table id="instructorSchedulesTable" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th class="h6 text-gray-300">Instructor</th>
-                                        @for ($i = 8; $i < 20; $i++)
-                                            <th class="h6 text-gray-300">
-                                                {{ \Carbon\Carbon::createFromTime($i, 0)->format('h:i') }}</th>
-                                            <th class="h6 text-gray-300">
-                                                {{ \Carbon\Carbon::createFromTime($i, 30)->format('h:i') }}</th>
-                                        @endfor
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($instructorSchedules as $instructorSchedule)
-                                        <tr>
-                                            <td class="h6 text-gray-300">{{ $instructorSchedule['instructor'] }}</td>
-                                            @foreach ($instructorSchedule['timeSlots'] as $slot)
-                                                @if ($slot['status'] == 'booked')
-                                                    <td data-student-name="{{ $slot['student_name'] }}"
-                                                        data-class-date="{{ $slot['class_date'] }}"
-                                                        data-end-date="{{ $slot['end_date'] }}"
-                                                        data-vehicle-details="{{ $slot['vehicle_details'] }}"
-                                                        style="cursor: pointer;" data-bs-toggle="modal"
-                                                        data-bs-target="#detailsModal">
-                                                        <span
-                                                            style="background-color: var(--bs-warning); border-radius:10px; padding: 4px;"
-                                                            class="h6 text-dark">
-                                                            {{ $slot['pickup_sector'] ?? 'B' }}
-                                                        </span>
-                                                    </td>
-                                                @else
-                                                    <td>
-                                                        <span class="h6 text-dark">A</span>
-                                                    </td>
-                                                @endif
-                                            @endforeach
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        {{-- <!-- Modal to show booking details for instructors -->
-        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="detailsModalLabel">Booking Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p><strong>Student Name:</strong> <span id="modal-student-name"></span></p>
-                        <p><strong>Class Date:</strong> <span id="modal-class-date"></span></p>
-                        <p><strong>End Date:</strong> <span id="modal-end-date"></span></p>
-                        <p><strong>Vehicle Details:</strong> <span id="modal-vehicle-details"></span></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
 
         <div class="row gy-4">
             <div class="col-lg-12">
@@ -469,7 +670,7 @@
             <div class="card-body">
                 <form class="search-input-form">
                     <!-- Cars Dropdown -->
-                    <select id="carSelect" class="form-control form-select h6 rounded-4 mb-0 py-6 px-8">
+                    <select id="carSelect2" class="form-control form-select h6 rounded-4 mb-0 py-6 px-8">
                         <option value="" selected disabled>Cars</option>
                         @foreach ($all_cars as $car)
                             <option value="{{ $car->id }}" data-make="{{ $car->make }}"
@@ -581,7 +782,7 @@
                     <div class="card-body">
                         <div class="mb-20 flex-between flex-wrap gap-8">
                             <h4 class="mb-0">Expense and Sales Statistics</h4>
-                            <div class="flex-align gap-16 flex-wrap">
+                            {{-- <div class="flex-align gap-16 flex-wrap">
                                 <div class="flex-align flex-wrap gap-16">
                                     <div class="flex-align flex-wrap gap-8">
                                         <span class="w-8 h-8 rounded-circle bg-main-600"></span>
@@ -592,7 +793,7 @@
                                         <span class="text-13 text-gray-600">Sales</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div id="doubleLineChart" class="tooltip-style y-value-left"></div>
@@ -789,7 +990,7 @@
             const schedules = @json($schedules); // Schedule data from server
 
             function filterData() {
-                let carSelect = document.getElementById('carSelect').value;
+                let carSelect = document.getElementById('carSelect2').value;
                 let instructorSelect = document.getElementById('instructorSelect').value;
                 let pickupSectorSelect = document.getElementById('pickupSectorSelect').value;
                 let genderSelect = document.getElementById('genderSelect').value;
@@ -849,7 +1050,7 @@
             }
 
             function resetFilters() {
-                document.getElementById('carSelect').value = '';
+                document.getElementById('carSelect2').value = '';
                 document.getElementById('instructorSelect').value = '';
                 document.getElementById('pickupSectorSelect').value = '';
                 document.getElementById('genderSelect').value = '';

@@ -32,28 +32,42 @@ class DashboardController extends Controller
         $this->studentController = $studentController;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        // Fetch expenses and sales data
-        $expenses = $this->getTotalExpenses();
-        $sales = $this->getTotalSales();
-        $monthlyData = $this->getMonthlyExpensesAndSales();
+        // Get selected dates from the request, if provided
+        $dateBefore = $request->input('dateBefore');
+        $dateAfter = $request->input('dateAfter');
+
+        // Determine if we are filtering by a date range or using today's date
+        $today = Carbon::today();
+        $startDate = $dateBefore ? Carbon::createFromFormat('Y-m-d', $dateBefore) : $today;
+        $endDate = $dateAfter ? Carbon::createFromFormat('Y-m-d', $dateAfter) : $today;
+
+        // Fetch expenses and sales data based on the selected date range
+        $expenses = $this->getTotalExpenses($startDate, $endDate);
+        $sales = $this->getTotalSales($startDate, $endDate);
+        $monthlyData = $this->getMonthlyExpensesAndSales($startDate, $endDate);
         $schedules = Schedule::with([
             'instructor.employee.user',
             'vehicle',
             'student'
-        ])->get();
+        ])
+        ->whereBetween('class_date', [$startDate, $endDate]) // Filter by date range
+        ->get();
 
         $data = $this->getInstructorsCarsAndTimeSlots();
-        $currentCounts = $this->getCurrentCounts();
-        $todaysClasses = $this->getTodaysClasses();
+        $currentCounts = $this->getCurrentCounts($startDate, $endDate);
+        $todaysClasses = $this->getTodaysClasses($startDate, $endDate);
         $carSchedules = $this->scheduleController->getAllCarSchedules();
         $instructorSchedules = $this->scheduleController->getAllInstructorSchedules();
         $todayAdmissions = $this->studentController->getTomorrowAdmissionsData();
         $todayCreatedStudents = $this->studentController->getTodayCreatedStudents();
         $currentBranch = auth()->user()->currentBranch;
 
-        // dd($data);
+        // Get today's expense and sales details with date range
+        $todayExpenseDetails = $this->getTodayExpenseDetails($startDate, $endDate);
+        $todaySalesDetails = $this->getTodaySalesDetails($startDate, $endDate);
+
         return view('admin.dashboard', [
             'todayExpense' => $expenses['today'],
             'monthlyExpense' => $expenses['monthly'],
@@ -81,57 +95,78 @@ class DashboardController extends Controller
             'currentBranch' => $currentBranch,
             'todayAdmissions' => $todayAdmissions,
             'todayCreatedStudents' => $todayCreatedStudents,
+            'todayExpenseDetails' => $todayExpenseDetails,
+            'todaySalesDetails' => $todaySalesDetails,
         ]);
     }
 
-    // Refactored function to get total expenses
-    private function getTotalExpenses()
+
+    // Refactored function to get total expenses based on date range
+    private function getTotalExpenses($startDate, $endDate)
     {
-        $todayExpense = DailyExpense::whereDate('expense_date', Carbon::today())->sum('amount')
-            + FixedExpense::whereDate('expense_date', Carbon::today())->sum('amount')
-            + CarExpense::whereDate('expense_date', Carbon::today())->sum('amount');
+        $todayExpense = DailyExpense::whereDate('expense_date', '>=', $startDate)
+            ->whereDate('expense_date', '<=', $endDate)
+            ->sum('amount')
+            + FixedExpense::whereDate('expense_date', '>=', $startDate)
+            ->whereDate('expense_date', '<=', $endDate)
+            ->sum('amount')
+            + CarExpense::whereDate('expense_date', '>=', $startDate)
+            ->whereDate('expense_date', '<=', $endDate)
+            ->sum('amount');
 
-        $monthlyExpense = DailyExpense::whereMonth('expense_date', Carbon::now()->month)->sum('amount')
-            + FixedExpense::whereMonth('expense_date', Carbon::now()->month)->sum('amount')
-            + CarExpense::whereMonth('expense_date', Carbon::now()->month)->sum('amount');
+        $monthlyExpense = DailyExpense::whereMonth('expense_date', '>=', $startDate)
+            ->whereMonth('expense_date', '<=', $endDate)
+            ->sum('amount')
+            + FixedExpense::whereMonth('expense_date', '>=', $startDate)
+            ->whereMonth('expense_date', '<=', $endDate)
+            ->sum('amount')
+            + CarExpense::whereMonth('expense_date', '>=', $startDate)
+            ->whereMonth('expense_date', '<=', $endDate)
+            ->sum('amount');
 
-        $yearlyExpense = DailyExpense::whereYear('expense_date', Carbon::now()->year)->sum('amount')
-            + FixedExpense::whereYear('expense_date', Carbon::now()->year)->sum('amount')
-            + CarExpense::whereYear('expense_date', Carbon::now()->year)->sum('amount');
+        $yearlyExpense = DailyExpense::whereYear('expense_date', '>=', $startDate)
+            ->whereYear('expense_date', '<=', $endDate)
+            ->sum('amount')
+            + FixedExpense::whereYear('expense_date', '>=', $startDate)
+            ->whereYear('expense_date', '<=', $endDate)
+            ->sum('amount')
+            + CarExpense::whereYear('expense_date', '>=', $startDate)
+            ->whereYear('expense_date', '<=', $endDate)
+            ->sum('amount');
 
         $monthlyFuelExpense = CarExpense::where('expense_type', 'fuel')
-        ->whereMonth('expense_date', Carbon::now()->month)
-        ->sum('amount');
+            ->whereBetween('expense_date', [$startDate, $endDate])
+            ->sum('amount');
 
         return [
             'today' => $todayExpense,
             'monthly' => $monthlyExpense,
             'yearly' => $yearlyExpense,
-            'monthly_fuel' =>$monthlyFuelExpense,
+            'monthly_fuel' => $monthlyFuelExpense,
         ];
     }
 
-    // Refactored function to get total sales
-    private function getTotalSales()
+    // Refactored function to get total sales based on date range
+    private function getTotalSales($startDate, $endDate)
     {
-        // Calculate sales from courses of students admitted today
-        $todaySales = Student::whereDate('admission_date', Carbon::today())
+        $todaySales = Student::whereDate('admission_date', '>=', $startDate)
+            ->whereDate('admission_date', '<=', $endDate)
             ->with('course')
             ->get()
             ->sum(function ($student) {
                 return $student->course->fees ?? 0;
             });
 
-        // Calculate sales from courses of students admitted this month
-        $monthlySales = Student::whereMonth('admission_date', Carbon::now()->month)
+        $monthlySales = Student::whereMonth('admission_date', '>=', $startDate)
+            ->whereMonth('admission_date', '<=', $endDate)
             ->with('course')
             ->get()
             ->sum(function ($student) {
                 return $student->course->fees ?? 0;
             });
 
-        // Calculate sales from courses of students admitted this year
-        $yearlySales = Student::whereYear('admission_date', Carbon::now()->year)
+        $yearlySales = Student::whereYear('admission_date', '>=', $startDate)
+            ->whereYear('admission_date', '<=', $endDate)
             ->with('course')
             ->get()
             ->sum(function ($student) {
@@ -145,40 +180,43 @@ class DashboardController extends Controller
         ];
     }
 
-
-    private function getCurrentCounts()
+    // Refactored function to get current counts based on date range
+    private function getCurrentCounts($startDate, $endDate)
     {
         return [
-            'totalStudents' => Student::count(),
-            'totalInstructors' => Instructor::count(),
-            'totalCars' => Car::count(),
+            'totalStudents' => Student::whereBetween('admission_date', [$startDate, $endDate])->count(),
+            'totalInstructors' => Instructor::whereBetween('created_at', [$startDate, $endDate])->count(),
+            'totalCars' => Car::count(), // Assuming you do not want to filter cars by date
             'submittedForms' => Student::where('form_type', 'admission')->count(),
-            'todaysClasses' => Schedule::where('class_date', Carbon::today()->format('Y-m-d'))->count(),
+            'todaysClasses' => Schedule::whereBetween('class_date', [$startDate, $endDate])->count(),
         ];
     }
 
-    // Function to get monthly expenses and sales data
-    private function getMonthlyExpensesAndSales()
+    // Refactored function to get monthly expenses and sales data based on date range
+    private function getMonthlyExpensesAndSales($startDate, $endDate)
     {
         $monthlyExpenses = [];
         $monthlySales = [];
 
-        // Loop through each month (1-12) to gather monthly data
         foreach (range(1, 12) as $month) {
-            // Get monthly expenses
+            // Get monthly expenses based on the date range
             $monthlyExpenses[] = DailyExpense::whereMonth('expense_date', $month)
                 ->whereYear('expense_date', Carbon::now()->year)
+                ->whereBetween('expense_date', [$startDate, $endDate])
                 ->sum('amount')
                 + FixedExpense::whereMonth('expense_date', $month)
                 ->whereYear('expense_date', Carbon::now()->year)
+                ->whereBetween('expense_date', [$startDate, $endDate])
                 ->sum('amount')
                 + CarExpense::whereMonth('expense_date', $month)
                 ->whereYear('expense_date', Carbon::now()->year)
+                ->whereBetween('expense_date', [$startDate, $endDate])
                 ->sum('amount');
 
-            // Get monthly sales by summing the fees of associated courses
+            // Get monthly sales based on the date range
             $monthlySales[] = Student::whereMonth('admission_date', $month)
                 ->whereYear('admission_date', Carbon::now()->year)
+                ->whereBetween('admission_date', [$startDate, $endDate])
                 ->with('course')
                 ->get()
                 ->sum(function ($student) {
@@ -191,6 +229,7 @@ class DashboardController extends Controller
             'monthlySales' => $monthlySales,
         ];
     }
+
 
    // Function for dropdown data (instructors, cars, and time slots)
    private function getInstructorsCarsAndTimeSlots()
@@ -226,13 +265,46 @@ class DashboardController extends Controller
    {
        $today = Carbon::today()->format('Y-m-d');
 
-       // Fetch schedules where today falls between the class_date and class_end_date
+       // Fetch only 10 schedules where today falls between the class_date and class_end_date
        $todaysClasses = Schedule::with(['student.user', 'instructor.employee.user', 'vehicle'])
            ->where('class_date', '<=', $today)
            ->where('class_end_date', '>=', $today)
+           ->take(10) // Limit to 10 results
            ->get();
 
        return $todaysClasses;
    }
+
+    public function getTodayExpenseDetails($startDate, $endDate)
+    {
+        // Filter expenses based on the provided date range
+        $todayExpenses = DailyExpense::whereDate('expense_date', '>=', $startDate)
+            ->whereDate('expense_date', '<=', $endDate)
+            ->get();
+
+        $todayFixedExpenses = FixedExpense::whereDate('expense_date', '>=', $startDate)
+            ->whereDate('expense_date', '<=', $endDate)
+            ->get();
+
+        $todayCarExpenses = CarExpense::whereDate('expense_date', '>=', $startDate)
+            ->whereDate('expense_date', '<=', $endDate)
+            ->get();
+
+        // Merge all expenses
+        $allExpenses = $todayExpenses->merge($todayFixedExpenses)->merge($todayCarExpenses);
+
+        return $allExpenses;
+    }
+
+    public function getTodaySalesDetails($startDate, $endDate)
+    {
+        // Get all students admitted between the selected dates and their course fees
+        $students = Student::whereDate('admission_date', '>=', $startDate)
+            ->whereDate('admission_date', '<=', $endDate)
+            ->with('course') // Assuming each student has a course relation
+            ->get();
+
+        return $students;
+    }
 }
 

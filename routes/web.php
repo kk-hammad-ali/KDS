@@ -126,6 +126,9 @@ Route::middleware(['role:admin'])->group(function () {
     Route::post('/admin/student/attendance/store', [AttendanceController::class, 'storeStudentAttendance'])->name('student.attendance.store');
     Route::get('/admin/student/attendance/update', [AttendanceController::class, 'showAndUpdateStudentAttendance'])->name('student.attendance.update');
     Route::post('/admin/student/attendance/store-update', [AttendanceController::class, 'storeUpdatedStudentAttendance'])->name('student.attendance.store.update');
+    Route::get('student/attendance/bulk', [AttendanceController::class, 'showBulkAttendanceForm'])->name('student.attendance.bulk');
+    Route::post('student/attendance/bulk/store', [AttendanceController::class, 'storeBulkAttendance'])->name('student.attendance.bulk.store');
+
 
     // Instructor Attendance Routes
     // Display the instructor attendance

@@ -2,29 +2,41 @@
 
 @section('content')
     <div class="dashboard-body">
-        <div class="breadcrumb mb-24">
-            <ul class="flex-align gap-4">
+
+        <div class="breadcrumb mb-24 d-flex justify-content-between">
+            <ul class="flex-align gap-4 mb-0">
                 <li><a href="{{ route('admin.dashboard') }}"
                         class="text-gray-200 fw-normal text-15 hover-text-main-600">Home</a></li>
-                <li> <span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-right"></i></span> </li>
+                <li><span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-right"></i></span></li>
                 <li><span class="text-main-600 fw-normal text-15">Student Attendance</span></li>
             </ul>
+
+            <!-- Bulk Attendance Button on the right -->
+            <a href="{{ route('student.attendance.bulk') }}"
+                class="btn btn-main rounded-pill py-9 d-flex align-items-center gap-2">
+                <i class="ph ph-plus me-4"></i>
+                Mark Bulk Attendance
+            </a>
         </div>
 
-        <!-- Date Picker for Student Attendance -->
+        <!-- Date Picker and Student Name Filter -->
         <div class="card mt-24">
             <div class="card-body">
                 <form action="{{ route('student.attendance.update') }}" method="GET" class="search-input-form">
+                    <!-- Student Name Input -->
+                    <input type="text" id="studentName" class="form-control h6 rounded-4 mb-0 py-6 px-8"
+                        placeholder="Search by Student Name">
+
                     <!-- Date Picker for Attendance Date -->
                     <input type="date" id="attendance_date" name="date" value="{{ old('date', $date) }}"
-                        class="form-control h6 rounded-4 mb-0 py-6 px-8" placeholder="Select Attendance Date">
+                        class="form-control h6 rounded-4 mb-0 py-6 px-8 mt-3" placeholder="Select Attendance Date">
 
                     <!-- Search Button -->
                     <button type="submit" class="btn btn-main rounded-pill py-9 w-100 mt-3">Go</button>
                 </form>
             </div>
         </div>
-
+        <br>
 
         <!-- Attendance Form -->
         <div class="card mt-24 bg-transparent">
@@ -60,12 +72,6 @@
                             <table id="studentTable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="fixed-width">
-                                            <div class="form-check">
-                                                <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
-                                                    id="selectAll">
-                                            </div>
-                                        </th>
                                         <th class="h6 text-gray-300">Student Name</th>
                                         <th class="h6 text-gray-300">Instructor Name</th>
                                         <th class="h6 text-gray-300">Vehicle</th>
@@ -75,12 +81,6 @@
                                 <tbody>
                                     @forelse ($students as $student)
                                         <tr>
-                                            <td class="fixed-width">
-                                                <div class="form-check">
-                                                    <input class="form-check-input border-gray-200 rounded-4"
-                                                        type="checkbox">
-                                                </div>
-                                            </td>
                                             <td class="h6 text-gray-300">{{ $student->user->name }}</td>
                                             <td class="h6 text-gray-300">
                                                 @if ($student->instructor && $student->instructor->employee)
@@ -153,4 +153,26 @@
     <script>
         var events = @json($events);
     </script>
+
+    <script>
+        // Add event listener for live filtering by student name
+        document.getElementById('studentName').addEventListener('input', filterAttendance);
+
+        function filterAttendance() {
+            const studentNameInput = document.getElementById('studentName').value.toLowerCase();
+            const tableRows = document.querySelectorAll('#studentTable tbody tr');
+
+            tableRows.forEach(function(row) {
+                const studentName = row.cells[0].innerText.toLowerCase(); // Get student name from the first column
+
+                // Show or hide the row based on the student name input
+                if (studentName.includes(studentNameInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
 @endsection

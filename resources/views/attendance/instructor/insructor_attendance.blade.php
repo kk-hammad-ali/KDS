@@ -15,12 +15,15 @@
         <div class="card mt-24">
             <div class="card-body">
                 <form action="{{ route('instructor.attendance.update') }}" method="GET" class="search-input-form">
-                    <!-- Date Picker for Attendance Date -->
-                    <input type="date" id="attendance_date" name="date" value="{{ old('date', $date) }}"
-                        class="form-control h6 rounded-4 mb-0 py-6 px-8" placeholder="Select Attendance Date">
+                    <!-- Flexbox to arrange inputs in a row -->
+                    <div class="d-flex gap-3">
+                        <!-- Date Picker for Attendance Date (submits to the route) -->
+                        <input type="date" id="attendance_date" name="date" value="{{ old('date', $date) }}"
+                            class="form-control h6 rounded-4 mb-0 py-6 px-8" placeholder="Select Attendance Date">
 
-                    <!-- Search Button -->
-                    <button type="submit" class="btn btn-main rounded-pill py-9 w-100 mt-3">Go</button>
+                        <!-- Search Button for Date -->
+                        <button type="submit" class="btn btn-main rounded-pill py-9 w-100 mt-3">Go</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -60,12 +63,6 @@
                             <table id="instructorTable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="fixed-width">
-                                            <div class="form-check">
-                                                <input class="form-check-input border-gray-200 rounded-4" type="checkbox"
-                                                    id="selectAll">
-                                            </div>
-                                        </th>
                                         <th class="h6 text-gray-300">Instructor Name</th>
                                         <th class="h6 text-gray-300">Present / Absent</th>
                                     </tr>
@@ -79,12 +76,6 @@
                                                 ->first();
                                         @endphp
                                         <tr>
-                                            <td class="fixed-width">
-                                                <div class="form-check">
-                                                    <input class="form-check-input border-gray-200 rounded-4"
-                                                        type="checkbox">
-                                                </div>
-                                            </td>
                                             <td class="h6 text-gray-300">{{ $instructor->employee->user->name }}</td>
                                             <td>
                                                 <label class="form-check-label me-2 h6 text-gray-300">
@@ -137,4 +128,27 @@
     <script>
         var events = @json($events);
     </script>
+
+    <script>
+        // Add event listener for live filtering by instructor name
+        document.getElementById('instructorName').addEventListener('input', filterInstructorAttendance);
+
+        function filterInstructorAttendance() {
+            const instructorNameInput = document.getElementById('instructorName').value.toLowerCase();
+            const tableRows = document.querySelectorAll('#instructorTable tbody tr');
+
+            tableRows.forEach(function(row) {
+                const instructorName = row.cells[0].innerText
+                    .toLowerCase(); // Get instructor name from the first column
+
+                // Show or hide the row based on the instructor name input
+                if (instructorName.includes(instructorNameInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
 @endsection

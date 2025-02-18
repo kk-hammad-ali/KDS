@@ -235,10 +235,8 @@ class StudentController extends Controller
         $cars = Car::all();
         $branches = Branch::all();
 
-        // Check if the student has a schedule and if class_end_date exists
-        $class_end_date = $student->schedules->first()->class_end_date ?? null;
 
-        return view('admin.students.edit_student', compact('student', 'instructors', 'cars', 'courses', 'class_end_date'));
+        return view('admin.students.edit_student', compact('student', 'instructors', 'cars', 'courses'));
     }
 
     public function adminUpdateStudent(Request $request, $id)
@@ -312,14 +310,17 @@ class StudentController extends Controller
                 ->addDays($course->duration_days) // Add duration_days from the course
                 ->format('Y-m-d');
 
-
-        // Check for overlapping schedule with adjusted times
+        // Check for overlapping schedule with adjusted times, excluding the current student's schedule
         $overlappingSchedule = Schedule::where('instructor_id', $request->instructor_id)
             ->where('vehicle_id', $request->car_id)
-            ->where(function ($query) use ($request, $adjustedStartTime, $class_end_time) {
-                $query->where('class_date', $request->admission_date)
-                    ->whereTime('start_time', '<', $class_end_time)
-                    ->whereTime('end_time', '>', $adjustedStartTime->format('H:i:s'));
+            ->where('class_date', $request->admission_date)
+            ->where(function ($query) use ($request, $adjustedStartTime, $class_end_time, $student) {
+                // Exclude current student's schedule by comparing student_id
+                $query->where(function ($subQuery) use ($student) {
+                    $subQuery->where('student_id', '!=', $student->id);
+                })
+                ->whereTime('start_time', '<', $class_end_time)
+                ->whereTime('end_time', '>', $adjustedStartTime->format('H:i:s'));
             })->exists();
 
         if ($overlappingSchedule) {
@@ -454,12 +455,13 @@ class StudentController extends Controller
         $today = Carbon::today();
 
         // Fetch students created today with associated user and invoice details
+        // Also, filter by form type 'admin form student'
         $todayCreatedStudents = Student::with('user', 'invoice') // Eager load 'user' and 'invoice'
             ->whereDate('created_at', $today)
+            ->where('form_type', 'admin') // Add condition for form type
             ->get();
 
         return $todayCreatedStudents;
     }
-
 
 }

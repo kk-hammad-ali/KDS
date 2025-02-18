@@ -123,19 +123,39 @@
                     <!-- Main Box -->
                     <div class="main-box clearfix">
 
-                        <!-- Hidden Nav Toggler -->
-                        <div class="nav-toggler">
-                            <button class="hidden-bar-opener"><span class="icon"><img
-                                        src="{{ asset('main/images/icons/menu-icon.png') }}"
-                                        alt=""></span></button>
+                        <!-- Hidden Nav Toggler and Logo Row -->
+                        <div class="d-lg-none d-none row d-flex justify-content-between">
+                            <!-- Hidden Nav Toggler -->
+                            <div class="nav-toggler">
+                                <button class="hidden-bar-opener"><span class="icon"><img
+                                            src="{{ asset('main/images/icons/menu-icon.png') }}"
+                                            alt=""></span></button>
+                            </div>
+                            <!-- Logo -->
+                            <div class="logo-box d-lg-none d-block">
+                                <div class="logo">
+                                    <a href="{{ route('home') }}" title="King Driving School">
+                                        <img src="{{ asset('main/images/logo.png') }}" alt=""
+                                            title="King Driving School">
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Logo -->
+                            <div class="logo-box d-lg-none d-block">
+                                <div class="link"><a style="padding: 8px;" href="{{ route('public.admission.form') }}"
+                                        class="theme-btn btn-style-one"><span>Book Now</span></a>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Logo -->
                         <div class="logo-box d-lg-block d-none">
-                            <div class="logo"><a href="{{ route('home') }}" title="King Driving School"><img
-                                        src="{{ asset('main/images/logo.png') }}" alt=""
-                                        src="{{ asset('main/images/logo.png') }}" alt=""
-                                        title="King Driving School"></a></div>
+                            <div class="logo">
+                                <a href="{{ route('home') }}" title="King Driving School">
+                                    <img src="{{ asset('main/images/logo.png') }}" alt=""
+                                        title="King Driving School">
+                                </a>
+                            </div>
                         </div>
 
                         <div class="nav-box clearfix">
@@ -166,6 +186,7 @@
                                         <li><a href="{{ route('public.blog') }}">Blog</a></li>
                                         <li><a href="{{ route('public.contact') }}">Contact</a></li>
                                         <li><a href="{{ route('login') }}">Sign In</a></li>
+                                        {{-- <li><a href="{{ route('public.quiz') }}">Take a Quiz</a></li> --}}
                                         <li>
                                             <div class="link"><a style="padding: 8px;"
                                                     href="{{ route('public.quiz') }}"
@@ -181,17 +202,9 @@
                                     </ul>
                                 </nav>
                                 <!-- Main Menu End -->
+
                             </div>
                             <!-- Nav Outer End -->
-
-                            <!-- Logo -->
-                            <div class="logo-box d-lg-none d-block">
-                                <div class="logo"><a href="{{ route('home') }}" title="King Driving School"><img
-                                            src="{{ asset('main/images/logo.png') }}" alt=""
-                                            src="{{ asset('main/images/logo.png') }}" alt=""
-                                            title="King Driving School"></a></div>
-                            </div>
-
                         </div>
                     </div>
                 </div>

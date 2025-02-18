@@ -176,81 +176,83 @@ class ScheduleController extends Controller
 
     public function getAllCarSchedules()
     {
-       // Fetch all cars
-       $cars = Car::all();
+        // Fetch all cars
+        $cars = Car::with('carModel')->get();
 
-       // Initialize an array to hold car schedules
-       $carSchedules = [];
+        // Initialize an array to hold car schedules
+        $carSchedules = [];
 
-       // Get today's date
-       $today = Carbon::today();
+        // Get today's date
+        $today = Carbon::today();
 
-       // Loop through each car
-       foreach ($cars as $car) {
-           // Fetch schedules with related student and instructor models for today
-           $schedules = Schedule::with(['student.user', 'instructor.employee.user'])
-               ->where('vehicle_id', $car->id)
-               ->where('class_date', '<=', $today) // Class starts before or on today
-               ->where('class_end_date', '>=', $today) // Class ends after or on today
-               ->get(['start_time', 'end_time', 'student_id', 'instructor_id', 'class_date', 'class_end_date']);
+        // Loop through each car
+        foreach ($cars as $car) {
+            // Fetch schedules with related student and instructor models for today
+            $schedules = Schedule::with(['student.user', 'instructor.employee.user'])
+                ->where('vehicle_id', $car->id)
+                ->where('class_date', '<=', $today) // Class starts before or on today
+                ->where('class_end_date', '>=', $today) // Class ends after or on today
+                ->get(['start_time', 'end_time', 'student_id', 'instructor_id', 'class_date', 'class_end_date']);
 
-           // Create time slots from 8 AM to 8 PM (30 minutes each)
-           $timeSlots = [];
-           $startTime = Carbon::createFromTime(8, 0); // 8:00 AM
-           $endTime = Carbon::createFromTime(20, 0); // 8:00 PM
+            // Create time slots from 8 AM to 8 PM (30 minutes each)
+            $timeSlots = [];
+            $startTime = Carbon::createFromTime(8, 0); // 8:00 AM
+            $endTime = Carbon::createFromTime(20, 0); // 8:00 PM
 
-           while ($startTime < $endTime) {
-               $timeSlot = [
-                   'time' => $startTime->format('H:i'),
-                   'status' => 'available', // Default status is 'available'
-                   'student_name' => null,
-                   'instructor_name' => null,
-                   'class_date' => null,
-                   'end_date' => null,
-                   'address' => null, // Initialize address
-                   'pickup_sector' => null, // Initialize pickup_sector
-               ];
+            while ($startTime < $endTime) {
+                $timeSlot = [
+                    'time' => $startTime->format('H:i'),
+                    'status' => 'available', // Default status is 'available'
+                    'student_name' => null,
+                    'instructor_name' => null,
+                    'class_date' => null,
+                    'end_date' => null,
+                    'address' => null, // Initialize address
+                    'pickup_sector' => null, // Initialize pickup_sector
+                ];
 
-               // Check if this time slot is booked
-               foreach ($schedules as $schedule) {
-                   $scheduleStart = Carbon::parse($schedule->start_time);
-                   $scheduleEnd = Carbon::parse($schedule->end_time);
-                   $classStartDate = Carbon::parse($schedule->class_date);
-                   $classEndDate = Carbon::parse($schedule->class_end_date);
+                // Check if this time slot is booked
+                foreach ($schedules as $schedule) {
+                    $scheduleStart = Carbon::parse($schedule->start_time);
+                    $scheduleEnd = Carbon::parse($schedule->end_time);
+                    $classStartDate = Carbon::parse($schedule->class_date);
+                    $classEndDate = Carbon::parse($schedule->class_end_date);
 
-                   // Check if the current time slot falls within the schedule period
-                   if ($startTime >= $scheduleStart && $startTime < $scheduleEnd &&
-                       Carbon::now()->between($classStartDate, $classEndDate)) {
-                       $timeSlot['status'] = 'booked';
-                       $timeSlot['student_name'] = $schedule->student->user->name; // Fetch student name
-                       $timeSlot['instructor_name'] = $schedule->instructor->employee->user->name; // Fetch instructor name
-                       $timeSlot['class_date'] = $classStartDate->format('Y-m-d'); // Class start date
-                       $timeSlot['end_date'] = $classEndDate->format('Y-m-d'); // Class end date
-                       $timeSlot['address'] = $schedule->student->address; // Fetch pickup address
-                       $timeSlot['pickup_sector'] = $schedule->student->pickup_sector; // Fetch pickup sector
-                       break;
-                   }
-               }
+                    // Check if the current time slot falls within the schedule period
+                    if ($startTime >= $scheduleStart && $startTime < $scheduleEnd &&
+                        Carbon::now()->between($classStartDate, $classEndDate)) {
+                        $timeSlot['status'] = 'booked';
+                        $timeSlot['student_name'] = $schedule->student->user->name; // Fetch student name
+                        $timeSlot['instructor_name'] = $schedule->instructor->employee->user->name; // Fetch instructor name
+                        $timeSlot['class_date'] = $classStartDate->format('Y-m-d'); // Class start date
+                        $timeSlot['end_date'] = $classEndDate->format('Y-m-d'); // Class end date
+                        $timeSlot['address'] = $schedule->student->address; // Fetch pickup address
+                        $timeSlot['pickup_sector'] = $schedule->student->pickup_sector; // Fetch pickup sector
+                        break;
+                    }
+                }
 
-               $timeSlots[] = $timeSlot;
-               $startTime->addMinutes(30); // Move to the next 30-minute interval
-           }
+                $timeSlots[] = $timeSlot;
+                $startTime->addMinutes(30); // Move to the next 30-minute interval
+            }
 
-           // Add car schedule to the array
-           $carSchedules[] = [
-               'car' => $car->make . ' - ' . $car->model . ' - ' . $car->registration_number,
-               'timeSlots' => $timeSlots,
-           ];
-       }
+            // Add car schedule to the array, including the transmission type
+            $carSchedules[] = [
+                'car' => $car->make . ' - ' . $car->model . ' - ' . $car->registration_number,
+                'transmission' => $car->carModel->transmission, // Include transmission type
+                'timeSlots' => $timeSlots,
+            ];
+        }
 
-       // Return the car schedules and today's date
-       return [
-           'schedules' => $carSchedules,
-           'today' => $today->format('l, F j, Y'), // Format today's date for display
-       ];
+        // Return the car schedules and today's date
+        return [
+            'schedules' => $carSchedules,
+            'today' => $today->format('l, F j, Y'), // Format today's date for display
+        ];
     }
 
-   public function getAllInstructorSchedules()
+
+    public function getAllInstructorSchedules()
     {
         // Fetch all instructors
         $instructors = Instructor::all();
@@ -311,7 +313,8 @@ class ScheduleController extends Controller
 
             // Add instructor schedule to the array
             $instructorSchedules[] = [
-                'instructor' => $instructor->employee->user->name, // Assuming the instructor has a related employee
+                'instructor' => $instructor->employee->user->name, // Instructor name
+                'gender' => $instructor->employee->gender, // Gender of the instructor
                 'timeSlots' => $timeSlots,
             ];
         }
