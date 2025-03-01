@@ -30,11 +30,13 @@
                     <thead>
                         <tr>
                             <th class="h6 text-gray-300">#</th>
-                            <th class="h6 text-gray-300">Car Model</th> <!-- Updated Column -->
+                            <th class="h6 text-gray-300">Car Model</th>
                             <th class="h6 text-gray-300">Duration (Days)</th>
                             <th class="h6 text-gray-300">Duration (Minutes)</th>
                             <th class="h6 text-gray-300">Fees</th>
-                            <th class="h6 text-gray-300">Course Type</th> <!-- New Column -->
+                            <th class="h6 text-gray-300">Discount (%)</th> <!-- Discount Column -->
+                            <th class="h6 text-gray-300">Discounted Price</th> <!-- New Column -->
+                            <th class="h6 text-gray-300">Course Type</th>
                             <th class="h6 text-gray-300">Actions</th>
                         </tr>
                     </thead>
@@ -62,16 +64,43 @@
                                         class="h6 mb-0 fw-medium text-gray-300">{{ number_format($course->fees, 2) }}</span>
                                 </td>
                                 <td>
+                                    <span
+                                        class="h6 mb-0 fw-medium text-gray-300">{{ number_format($course->discount, 2) }}</span>
+                                </td>
+                                <td>
+                                    <!-- Calculate Discounted Price with custom rounding logic -->
+                                    <span class="h6 mb-0 fw-medium text-gray-300">
+                                        @php
+                                            // Calculate the discounted price
+                                            $discountedPrice = $course->discount
+                                                ? $course->fees - $course->fees * ($course->discount / 100)
+                                                : $course->fees;
+
+                                            // Get the last 3 digits of the discounted price
+                                            $lastThreeDigits = $discountedPrice % 1000;
+
+                                            // Round based on the last 3 digits
+                                            if ($lastThreeDigits < 500) {
+                                                $roundedPrice = floor($discountedPrice / 1000) * 1000;
+                                            } else {
+                                                $roundedPrice = ceil($discountedPrice / 1000) * 1000;
+                                            }
+                                        @endphp
+                                        {{ number_format($roundedPrice, 0) }}
+                                    </span>
+                                </td>
+                                <td>
                                     <span class="h6 mb-0 fw-medium text-gray-300">{{ ucfirst($course->course_type) }}</span>
                                 </td>
                                 <td>
                                     <button
                                         class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white"
                                         data-bs-toggle="modal" data-bs-target="#editCourseModal"
-                                        data-id="{{ $course->id }}" data-car_model_id="{{ $course->car_model_id }}"
+                                        data-id="{{ $course->id }}" data-car_model_id="{{ $course->car_model_id }} "
                                         data-duration_days="{{ $course->duration_days }}"
                                         data-duration_minutes="{{ $course->duration_minutes }}"
-                                        data-fees="{{ $course->fees }}" data-course_type="{{ $course->course_type }}">
+                                        data-fees="{{ $course->fees }}" data-course_type="{{ $course->course_type }}"
+                                        data-discount="{{ $course->discount }}"> <!-- Pass discount to modal -->
                                         Edit
                                     </button>
                                     <button type="button"
@@ -89,6 +118,7 @@
             <div class="card-footer flex-between flex-wrap">
                 <span class="text-gray-900">Showing {{ $courses->firstItem() }} to {{ $courses->lastItem() }} of
                     {{ $courses->total() }} entries</span>
+                <!-- Pagination -->
                 <ul class="pagination flex-align flex-wrap">
                     @if ($courses->onFirstPage())
                         <li class="page-item disabled">
@@ -129,8 +159,8 @@
             </div>
         </div>
         <!-- Courses Table End -->
+
     </div>
-    <!-- Courses Table End -->
 
     <!-- Add Course Modal -->
     <div class="modal fade" id="addCourseModal" tabindex="-1" aria-labelledby="addCourseModalLabel" aria-hidden="true">
@@ -175,6 +205,13 @@
                             <label for="fees" class="form-label">Fees</label>
                             <input type="number" class="form-control" id="fees" name="fees" step="0.01"
                                 required>
+                        </div>
+
+                        <!-- Discount -->
+                        <div class="mb-3">
+                            <label for="discount" class="form-label">Discount (%)</label>
+                            <input type="number" class="form-control" id="discount" name="discount" step="0.01"
+                                min="0" max="100">
                         </div>
 
                         <!-- Course Type -->
@@ -246,6 +283,13 @@
                                 required>
                         </div>
 
+                        <!-- Discount -->
+                        <div class="mb-3">
+                            <label for="edit_discount" class="form-label">Discount (%)</label>
+                            <input type="number" class="form-control" id="edit_discount" name="discount"
+                                step="0.01" min="0" max="100">
+                        </div>
+
                         <!-- Course Type -->
                         <div class="mb-3">
                             <label for="edit_course_type" class="form-label">Course Type</label>
@@ -266,61 +310,31 @@
             </div>
         </div>
     </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this course?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form id="deleteCourseForm" method="GET" action="">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Delete Confirmation Modal -->
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handling Delete Modal
-            const deleteModal = document.getElementById('deleteModal');
-            deleteModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget;
-                const courseId = button.getAttribute('data-course-id');
-                const deleteForm = document.getElementById('deleteCourseForm');
-                deleteForm.action = `/admin/courses/delete/${courseId}`;
-            });
-
-            // Handling Edit Modal
-            const editCourseModal = document.getElementById('editCourseModal');
-            editCourseModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget;
-                const courseId = button.getAttribute('data-id');
-                const carModelId = button.getAttribute('data-car_model_id');
-                const durationDays = button.getAttribute('data-duration_days');
-                const durationMinutes = button.getAttribute('data-duration_minutes');
-                const fees = button.getAttribute('data-fees');
-                const courseType = button.getAttribute('data-course_type');
-
-                document.getElementById('edit_car_model_id').value = carModelId;
-                document.getElementById('edit_duration_days').value = durationDays;
-                document.getElementById('edit_duration_minutes').value = durationMinutes;
-                document.getElementById('edit_fees').value = fees;
-                document.getElementById('edit_course_type').value = courseType;
-
-                const editForm = document.getElementById('editCourseForm');
-                editForm.action = `/admin/courses/${courseId}`;
-            });
-        });
-    </script>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handling Edit Modal
+        const editCourseModal = document.getElementById('editCourseModal');
+        editCourseModal.addEventListener('show.bs.modal', function(event) {
+            const button = event.relatedTarget;
+            const courseId = button.getAttribute('data-id');
+            const carModelId = button.getAttribute('data-car_model_id');
+            const durationDays = button.getAttribute('data-duration_days');
+            const durationMinutes = button.getAttribute('data-duration_minutes');
+            const fees = button.getAttribute('data-fees');
+            const courseType = button.getAttribute('data-course_type');
+            const discount = button.getAttribute('data-discount');
+
+            document.getElementById('edit_car_model_id').value = carModelId;
+            document.getElementById('edit_duration_days').value = durationDays;
+            document.getElementById('edit_duration_minutes').value = durationMinutes;
+            document.getElementById('edit_fees').value = fees;
+            document.getElementById('edit_course_type').value = courseType;
+            document.getElementById('edit_discount').value = discount; // Set the discount field value
+
+            const editForm = document.getElementById('editCourseForm');
+            editForm.action = `/admin/courses/${courseId}`;
+        });
+    });
+</script>

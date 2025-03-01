@@ -389,7 +389,8 @@ $studentStartTime = \Carbon\Carbon::parse(
                                     minutes):</label>
                                 <input type="number" id="class_duration" name="class_duration"
                                     class="form-control @error('class_duration') is-invalid @enderror"
-                                    value="{{ old('class_duration', $student->course->duration_minutes) }}" required>
+                                    value="{{ old('class_duration', $student->schedules->first()->class_duration) }}"
+                                    required>
                                 @error('class_duration')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

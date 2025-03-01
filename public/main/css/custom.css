@@ -1,0 +1,318 @@
+.preloader {
+    display: none;
+}
+
+h4 span {
+    color: #FF8F1F;
+}
+
+/* General styles for tabs */
+nav>.nav.nav-tabs {
+    display: flex;
+    justify-content: center;
+    /* Center-align the tabs */
+    flex-wrap: nowrap;
+    /* Prevent wrapping */
+    background-color: black;
+    /* Maintain background color */
+    border: none;
+    padding: 10px 0;
+    /* Add padding for spacing */
+}
+
+/* Individual tab styling */
+nav>div a.nav-item.nav-link {
+    flex: 1;
+    /* Equal width for all tabs */
+    text-align: center;
+    /* Center-align text within each tab */
+    font-size: 14px;
+    /* Adjust font size */
+    /* color: #fff; */
+    padding: 10px 15px;
+    /* Add padding for a better click area */
+    margin: 0 5px;
+    /* Add spacing between tabs */
+    border-radius: 5px;
+    /* Add slight rounding for a modern look */
+    background-color: black;
+    /* Match background color */
+    transition: all 0.3s ease;
+    /* Smooth transition effect */
+}
+
+/* Active tab styling */
+nav>div a.nav-item.nav-link.active {
+    background-color: #FF8F1F;
+    /* Highlight active tab */
+    color: #fff;
+    /* Keep text white */
+    border-color: #FF8F1F;
+
+    border-radius: 5px;
+}
+
+/* Remove hover effect */
+nav>div a.nav-item.nav-link:hover,
+nav>div a.nav-item.nav-link:focus {
+    background-color: #272e38;
+    /* Maintain original color on hover */
+    /* color: #fff; */
+    /* Keep text white */
+}
+
+.tab-content {
+    background: #fdfdfd;
+    line-height: 25px;
+    /* padding: 30px 25px; */
+}
+
+nav>div a.nav-item.nav-link:hover,
+nav>div a.nav-item.nav-link:focus {
+    border: none;
+    background: #FF8F1F;
+    color: #fff;
+    border-radius: 0;
+    transition: background 0.20s linear;
+}
+
+
+.checkmark {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #FF8F1F;
+    color: white;
+    text-align: center;
+    line-height: 20px;
+    font-size: 16px;
+    margin-right: 10px;
+
+}
+
+/* Background for each step container */
+.step-container {
+    /* Subtle border */
+    border-radius: 8px;
+    /* Rounded corners */
+    padding: 20px;
+    /* Add some space inside the container */
+    margin-bottom: 20px;
+    /* Space between the steps */
+}
+
+/* Background colors for steps */
+.step-1 {
+    background-color: #09296B;
+    /* Dark blue for Step 1 */
+    color: white;
+    /* White text for contrast */
+}
+
+.step-2 {
+    background-color: #FF8F1F;
+    /* Orange for Step 2 */
+    color: white;
+    /* White text for contrast */
+}
+
+.step-3 {
+    background-color: #09296B;
+    /* Dark blue for Step 3 */
+    color: white;
+    /* White text for contrast */
+}
+
+.step-4 {
+    background-color: #FF8F1F;
+    /* Orange for Step 4 */
+    color: white;
+    /* White text for contrast */
+}
+
+/* Style for headings */
+.step-container h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.our_pricing {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: top center;
+    position: relative;
+    /* padding: 20px; */
+}
+
+@media only screen and (max-width: 480px) {
+    .our_pricing {
+        background-size: auto;
+    }
+}
+
+.pricingTable {
+    background: #fff;
+    color: #232434;
+    margin-top: 30px;
+    padding: 50px 15px;
+    box-shadow: 0px 19px 43px 0px rgba(17, 17, 17, 0.05);
+    perspective: 700px;
+    margin-top: 20px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.pricingTabletop {
+    margin-top: -30px;
+}
+
+.pricingTable .price-value .value-bg {
+    color: #FF8F1F;
+    font-weight: 600;
+    font-size: 60px;
+    display: inline-block;
+}
+
+.pricingTable-2 .price-value {
+    color: #e6e4ff;
+}
+
+.pricingTable-2 .price-value .value-bg {
+    color: #FF8F1F;
+}
+
+.pricingTable .pricing-content {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.pricingTable .pricing-content li {
+    line-height: 40px;
+}
+
+.btn-price-bg {
+    background: #FF8F1F;
+    border: 2px solid #FF8F1F;
+    border-radius: 5000px;
+    color: #fff;
+    font-size: 16px;
+    padding: 12px 40px;
+    text-transform: capitalize;
+    transition: all 0.3s ease;
+}
+
+.pricingTable:hover .btn-price-bg {
+    background: #232434;
+    border: 2px solid #232434;
+}
+
+@media only screen and (max-width: 767px) {
+    .pricingTable {
+        margin-bottom: 50px;
+    }
+
+    .pricingTable .price-value .value-bg {
+        font-size: 40px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .pricingTable .price-value .value-bg {
+        font-size: 40px;
+    }
+
+    .customli {
+        margin: 15px 0px;
+    }
+}
+
+.section-title {
+    margin-bottom: 60px;
+}
+
+h1.section-title-white {
+    color: #fff;
+}
+
+.section-title h1 {
+    font-size: 44px;
+    font-weight: 500;
+    margin-top: 0;
+    position: relative;
+    text-transform: capitalize;
+    margin-bottom: 15px;
+}
+
+p.section-title-white {
+    color: #fff;
+}
+
+.section-title p {
+    padding: 0 10px;
+    width: 70%;
+    margin: auto;
+    letter-spacing: 1px;
+}
+
+.original-price {
+    color: #777;
+    /* Grey color for the original price */
+    font-size: 25px;
+}
+
+/* Style the ribbon */
+.ribbon {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+}
+
+.ribbon__content {
+    left: -25px;
+    top: 30px;
+    transform: rotate(45deg);
+    position: absolute;
+    display: block;
+    width: 225px;
+    padding: 10px 0;
+    background-color: #FF8F1F;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    text-align: center;
+    border: 2px dotted #fff;
+    outline: 5px solid #f5cd79;
+}
+
+/* Pseudo-elements for ribbon corners */
+.ribbon::before,
+.ribbon::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    border-style: solid;
+    border-width: 5px;
+}
+
+.ribbon::before {
+    top: 0;
+    left: 0;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-color: #f19066;
+}
+
+.ribbon::after {
+    bottom: 0;
+    right: 0;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-color: #f19066;
+}

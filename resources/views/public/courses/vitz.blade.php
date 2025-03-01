@@ -7,266 +7,7 @@
 
 @section('content')
 
-    <style>
-        .preloader {
-            display: none;
-        }
-
-        h4 span {
-            color: #FF8F1F;
-        }
-
-        /* General styles for tabs */
-        nav>.nav.nav-tabs {
-            display: flex;
-            justify-content: center;
-            /* Center-align the tabs */
-            flex-wrap: nowrap;
-            /* Prevent wrapping */
-            background-color: black;
-            /* Maintain background color */
-            border: none;
-            padding: 10px 0;
-            /* Add padding for spacing */
-        }
-
-        /* Individual tab styling */
-        nav>div a.nav-item.nav-link {
-            flex: 1;
-            /* Equal width for all tabs */
-            text-align: center;
-            /* Center-align text within each tab */
-            font-size: 14px;
-            /* Adjust font size */
-            /* color: #fff; */
-            padding: 10px 15px;
-            /* Add padding for a better click area */
-            margin: 0 5px;
-            /* Add spacing between tabs */
-            border-radius: 5px;
-            /* Add slight rounding for a modern look */
-            background-color: black;
-            /* Match background color */
-            transition: all 0.3s ease;
-            /* Smooth transition effect */
-        }
-
-        /* Active tab styling */
-        nav>div a.nav-item.nav-link.active {
-            background-color: #FF8F1F;
-            /* Highlight active tab */
-            color: #fff;
-            /* Keep text white */
-            border-color: #FF8F1F;
-
-            border-radius: 5px;
-        }
-
-        /* Remove hover effect */
-        nav>div a.nav-item.nav-link:hover,
-        nav>div a.nav-item.nav-link:focus {
-            background-color: #272e38;
-            /* Maintain original color on hover */
-            /* color: #fff; */
-            /* Keep text white */
-        }
-
-        .tab-content {
-            background: #fdfdfd;
-            line-height: 25px;
-            /* padding: 30px 25px; */
-        }
-
-        nav>div a.nav-item.nav-link:hover,
-        nav>div a.nav-item.nav-link:focus {
-            border: none;
-            background: #FF8F1F;
-            color: #fff;
-            border-radius: 0;
-            transition: background 0.20s linear;
-        }
-
-
-        .checkmark {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: #FF8F1F;
-            color: white;
-            text-align: center;
-            line-height: 20px;
-            font-size: 16px;
-            margin-right: 10px;
-
-        }
-
-        /* Background for each step container */
-        .step-container {
-            /* Subtle border */
-            border-radius: 8px;
-            /* Rounded corners */
-            padding: 20px;
-            /* Add some space inside the container */
-            margin-bottom: 20px;
-            /* Space between the steps */
-        }
-
-        /* Background colors for steps */
-        .step-1 {
-            background-color: #09296B;
-            /* Dark blue for Step 1 */
-            color: white;
-            /* White text for contrast */
-        }
-
-        .step-2 {
-            background-color: #FF8F1F;
-            /* Orange for Step 2 */
-            color: white;
-            /* White text for contrast */
-        }
-
-        .step-3 {
-            background-color: #09296B;
-            /* Dark blue for Step 3 */
-            color: white;
-            /* White text for contrast */
-        }
-
-        .step-4 {
-            background-color: #FF8F1F;
-            /* Orange for Step 4 */
-            color: white;
-            /* White text for contrast */
-        }
-
-        /* Style for headings */
-        .step-container h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: white;
-        }
-
-        .our_pricing {
-            background-size: 100%;
-            background-repeat: no-repeat;
-            background-position: top center;
-            position: relative;
-            /* padding: 20px; */
-        }
-
-        @media only screen and (max-width: 480px) {
-            .our_pricing {
-                background-size: auto;
-            }
-        }
-
-        .pricingTable {
-            background: #fff;
-            color: #232434;
-            margin-top: 30px;
-            padding: 50px 15px;
-            box-shadow: 0px 19px 43px 0px rgba(17, 17, 17, 0.05);
-            perspective: 700px;
-            margin-top: 20px;
-            text-align: center;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .pricingTabletop {
-            margin-top: -30px;
-        }
-
-        .pricingTable .price-value .value-bg {
-            color: #FF8F1F;
-            font-weight: 600;
-            font-size: 60px;
-            display: inline-block;
-        }
-
-        .pricingTable-2 .price-value {
-            color: #e6e4ff;
-        }
-
-        .pricingTable-2 .price-value .value-bg {
-            color: #FF8F1F;
-        }
-
-        .pricingTable .pricing-content {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 20px 0;
-        }
-
-        .pricingTable .pricing-content li {
-            line-height: 40px;
-        }
-
-        .btn-price-bg {
-            background: #FF8F1F;
-            border: 2px solid #FF8F1F;
-            border-radius: 5000px;
-            color: #fff;
-            font-size: 16px;
-            padding: 12px 40px;
-            text-transform: capitalize;
-            transition: all 0.3s ease;
-        }
-
-        .pricingTable:hover .btn-price-bg {
-            background: #232434;
-            border: 2px solid #232434;
-        }
-
-        @media only screen and (max-width: 767px) {
-            .pricingTable {
-                margin-bottom: 50px;
-            }
-
-            .pricingTable .price-value .value-bg {
-                font-size: 40px;
-            }
-        }
-
-        @media only screen and (max-width: 480px) {
-            .pricingTable .price-value .value-bg {
-                font-size: 40px;
-            }
-
-            .customli {
-                margin: 15px 0px;
-            }
-        }
-
-        .section-title {
-            margin-bottom: 60px;
-        }
-
-        h1.section-title-white {
-            color: #fff;
-        }
-
-        .section-title h1 {
-            font-size: 44px;
-            font-weight: 500;
-            margin-top: 0;
-            position: relative;
-            text-transform: capitalize;
-            margin-bottom: 15px;
-        }
-
-        p.section-title-white {
-            color: #fff;
-        }
-
-        .section-title p {
-            padding: 0 10px;
-            width: 70%;
-            margin: auto;
-            letter-spacing: 1px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('main/css/custom.css') }}">
 
     <div class="container-fluid px-3">
         <div class="row" style="padding: 0px;">
@@ -360,13 +101,12 @@
                             <div class="container">
                                 @php
                                     $hasBoth = $courses->where('course_type', 'both')->isNotEmpty();
-                                    $hasIndividuals = $courses
-                                        ->whereIn('course_type', ['male', 'female'])
-                                        ->isNotEmpty();
+                                    $hasFemales = $courses->where('course_type', 'female')->isNotEmpty();
+                                    $hasMales = $courses->where('course_type', 'male')->isNotEmpty();
                                 @endphp
 
-                                @if ($hasBoth && !$hasIndividuals)
-                                    <!-- Show only "Both" section -->
+                                <!-- Show "Both" section first -->
+                                @if ($hasBoth)
                                     <div class="row justify-content-center text-center mt-5">
                                         <div class="col-12">
                                             <h4><span>FOR MALE & FEMALE</span></h4>
@@ -374,6 +114,12 @@
                                         @foreach ($courses->where('course_type', 'both') as $course)
                                             <div class="col-xs-12 col-sm-12 col-md-4">
                                                 <div class="pricingTable">
+                                                    <!-- Display the ribbon based on the discount -->
+                                                    @if ($course->discount && $course->discount > 0)
+                                                        <div class="ribbon"><span
+                                                                class="ribbon__content">{{ number_format($course->discount, 0) }}%
+                                                                OFF</span></div>
+                                                    @endif
                                                     <div class="pricingTable-header">
                                                         <h3 class="price-value"><span
                                                                 class="value-bg">{{ $course->duration_days }} Days</span>
@@ -386,43 +132,45 @@
                                                         <li>01 Theory Class</li>
                                                         <li>{{ ucfirst($course->carModel->transmission) }}</li>
                                                     </ul>
-                                                    <h1 class="price-value"><span
-                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
-                                                    </h1>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @elseif ($hasBoth && $hasIndividuals)
-                                    <!-- Show both "Both" and individual sections -->
-                                    <div class="row justify-content-center text-center mt-5">
-                                        <div class="col-12">
-                                            <h4><span>FOR MALE & FEMALE</span></h4>
-                                        </div>
-                                        @foreach ($courses->where('course_type', 'both') as $course)
-                                            <div class="col-xs-12 col-sm-12 col-md-4">
-                                                <div class="pricingTable">
-                                                    <div class="pricingTable-header">
-                                                        <h3 class="price-value"><span
-                                                                class="value-bg">{{ $course->duration_days }} Days</span>
-                                                        </h3>
-                                                        <h3 class="title">{{ $course->duration_minutes }} Min</h3>
-                                                    </div>
-                                                    <ul class="pricing-content">
-                                                        <li>{{ $course->duration_days - 1 }} Days Practical Driving</li>
-                                                        <li>{{ $course->duration_minutes }} Minutes Daily</li>
-                                                        <li>01 Theory Class</li>
-                                                        <li>{{ ucfirst($course->carModel->transmission) }}</li>
-                                                    </ul>
-                                                    <h1 class="price-value"><span
-                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
-                                                    </h1>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
+                                                    <h1 class="price-value">
+                                                        @php
+                                                            // Calculate the discounted price
+                                                            $discountedPrice = $course->discount
+                                                                ? $course->fees -
+                                                                    $course->fees * ($course->discount / 100)
+                                                                : $course->fees;
 
-                                    <!-- Female Section -->
+                                                            // Get the last 3 digits of the discounted price
+                                                            $lastThreeDigits = $discountedPrice % 1000;
+
+                                                            // Round based on the last 3 digits
+                                                            if ($lastThreeDigits < 500) {
+                                                                $roundedPrice = floor($discountedPrice / 1000) * 1000;
+                                                            } else {
+                                                                $roundedPrice = ceil($discountedPrice / 1000) * 1000;
+                                                            }
+                                                        @endphp
+
+                                                        @if ($course->discount && $course->discount > 0)
+                                                            <!-- Show original price with strikethrough and discounted price -->
+                                                            <span
+                                                                class="value-bg">{{ number_format($roundedPrice, 0) }}/-</span>
+                                                            <span class="original-price"
+                                                                style="text-decoration: line-through;">{{ number_format($course->fees, 0) }}/-</span>
+                                                        @else
+                                                            <!-- Show only the original price if no discount -->
+                                                            <span
+                                                                class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
+                                                        @endif
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+
+                                <!-- Show "Females" section -->
+                                @if ($hasFemales)
                                     <div class="row justify-content-center text-center mt-5">
                                         <div class="col-12">
                                             <h4><span>FOR FEMALES</span></h4>
@@ -430,6 +178,12 @@
                                         @foreach ($courses->where('course_type', 'female') as $course)
                                             <div class="col-xs-12 col-sm-12 col-md-4">
                                                 <div class="pricingTable">
+                                                    <!-- Display the ribbon based on the discount -->
+                                                    @if ($course->discount && $course->discount > 0)
+                                                        <div class="ribbon"><span
+                                                                class="ribbon__content">{{ number_format($course->discount, 0) }}%
+                                                                OFF</span></div>
+                                                    @endif
                                                     <div class="pricingTable-header">
                                                         <h3 class="price-value"><span
                                                                 class="value-bg">{{ $course->duration_days }} Days</span>
@@ -442,15 +196,45 @@
                                                         <li>01 Theory Class</li>
                                                         <li>{{ ucfirst($course->carModel->transmission) }}</li>
                                                     </ul>
-                                                    <h1 class="price-value"><span
-                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
+                                                    <h1 class="price-value">
+                                                        @php
+                                                            // Calculate the discounted price
+                                                            $discountedPrice = $course->discount
+                                                                ? $course->fees -
+                                                                    $course->fees * ($course->discount / 100)
+                                                                : $course->fees;
+
+                                                            // Get the last 3 digits of the discounted price
+                                                            $lastThreeDigits = $discountedPrice % 1000;
+
+                                                            // Round based on the last 3 digits
+                                                            if ($lastThreeDigits < 500) {
+                                                                $roundedPrice = floor($discountedPrice / 1000) * 1000;
+                                                            } else {
+                                                                $roundedPrice = ceil($discountedPrice / 1000) * 1000;
+                                                            }
+                                                        @endphp
+
+                                                        @if ($course->discount && $course->discount > 0)
+                                                            <!-- Show original price with strikethrough and discounted price -->
+                                                            <span
+                                                                class="value-bg">{{ number_format($roundedPrice, 0) }}/-</span>
+                                                            <span class="original-price"
+                                                                style="text-decoration: line-through;">{{ number_format($course->fees, 0) }}/-</span>
+                                                        @else
+                                                            <!-- Show only the original price if no discount -->
+                                                            <span
+                                                                class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
+                                                        @endif
                                                     </h1>
                                                 </div>
                                             </div>
                                         @endforeach
                                     </div>
+                                @endif
 
-                                    <!-- Male Section -->
+                                <!-- Show "Males" section -->
+                                @if ($hasMales)
                                     <div class="row justify-content-center text-center mt-5">
                                         <div class="col-12">
                                             <h4><span>FOR MALES</span></h4>
@@ -458,6 +242,12 @@
                                         @foreach ($courses->where('course_type', 'male') as $course)
                                             <div class="col-xs-12 col-sm-12 col-md-4">
                                                 <div class="pricingTable">
+                                                    <!-- Display the ribbon based on the discount -->
+                                                    @if ($course->discount && $course->discount > 0)
+                                                        <div class="ribbon"><span
+                                                                class="ribbon__content">{{ number_format($course->discount, 0) }}%
+                                                                OFF</span></div>
+                                                    @endif
                                                     <div class="pricingTable-header">
                                                         <h3 class="price-value"><span
                                                                 class="value-bg">{{ $course->duration_days }} Days</span>
@@ -470,63 +260,36 @@
                                                         <li>01 Theory Class</li>
                                                         <li>{{ ucfirst($course->carModel->transmission) }}</li>
                                                     </ul>
-                                                    <h1 class="price-value"><span
-                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
-                                                    </h1>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <!-- Show only individual sections -->
-                                    <div class="row justify-content-center text-center mt-5">
-                                        <div class="col-12">
-                                            <h4><span>FOR FEMALES</span></h4>
-                                        </div>
-                                        @foreach ($courses->where('course_type', 'female') as $course)
-                                            <div class="col-xs-12 col-sm-12 col-md-4">
-                                                <div class="pricingTable">
-                                                    <div class="pricingTable-header">
-                                                        <h3 class="price-value"><span
-                                                                class="value-bg">{{ $course->duration_days }} Days</span>
-                                                        </h3>
-                                                        <h3 class="title">{{ $course->duration_minutes }} Min</h3>
-                                                    </div>
-                                                    <ul class="pricing-content">
-                                                        <li>{{ $course->duration_days - 1 }} Days Practical Driving</li>
-                                                        <li>{{ $course->duration_minutes }} Minutes Daily</li>
-                                                        <li>01 Theory Class</li>
-                                                        <li>{{ ucfirst($course->carModel->transmission) }}</li>
-                                                    </ul>
-                                                    <h1 class="price-value"><span
-                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
-                                                    </h1>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
+                                                    <h1 class="price-value">
+                                                        @php
+                                                            // Calculate the discounted price
+                                                            $discountedPrice = $course->discount
+                                                                ? $course->fees -
+                                                                    $course->fees * ($course->discount / 100)
+                                                                : $course->fees;
 
-                                    <div class="row justify-content-center text-center mt-5">
-                                        <div class="col-12">
-                                            <h4><span>FOR MALES</span></h4>
-                                        </div>
-                                        @foreach ($courses->where('course_type', 'male') as $course)
-                                            <div class="col-xs-12 col-sm-12 col-md-4">
-                                                <div class="pricingTable">
-                                                    <div class="pricingTable-header">
-                                                        <h3 class="price-value"><span
-                                                                class="value-bg">{{ $course->duration_days }} Days</span>
-                                                        </h3>
-                                                        <h3 class="title">{{ $course->duration_minutes }} Min</h3>
-                                                    </div>
-                                                    <ul class="pricing-content">
-                                                        <li>{{ $course->duration_days - 1 }} Days Practical Driving</li>
-                                                        <li>{{ $course->duration_minutes }} Minutes Daily</li>
-                                                        <li>01 Theory Class</li>
-                                                        <li>{{ ucfirst($course->carModel->transmission) }}</li>
-                                                    </ul>
-                                                    <h1 class="price-value"><span
-                                                            class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
+                                                            // Get the last 3 digits of the discounted price
+                                                            $lastThreeDigits = $discountedPrice % 1000;
+
+                                                            // Round based on the last 3 digits
+                                                            if ($lastThreeDigits < 500) {
+                                                                $roundedPrice = floor($discountedPrice / 1000) * 1000;
+                                                            } else {
+                                                                $roundedPrice = ceil($discountedPrice / 1000) * 1000;
+                                                            }
+                                                        @endphp
+
+                                                        @if ($course->discount && $course->discount > 0)
+                                                            <!-- Show original price with strikethrough and discounted price -->
+                                                            <span
+                                                                class="value-bg">{{ number_format($roundedPrice, 0) }}/-</span>
+                                                            <span class="original-price"
+                                                                style="text-decoration: line-through;">{{ number_format($course->fees, 0) }}/-</span>
+                                                        @else
+                                                            <!-- Show only the original price if no discount -->
+                                                            <span
+                                                                class="value-bg">{{ number_format($course->fees, 0) }}/-</span>
+                                                        @endif
                                                     </h1>
                                                 </div>
                                             </div>
@@ -542,13 +305,13 @@
                                     <li><span class="checkmark customli">&#x2713;</span>One Theory Class is Compulsory.
                                     </li>
                                     <li><span class="checkmark customli">&#x2713;</span>This packages do not include
-                                        pick-and-drop services. Pick-and-drop charges are based on your location.</li>
+                                        pick-and-drop services. Pick-and-drop charges are based on your location.</li>
                                     <li><span class="checkmark customli">&#x2713;</span>Change Of Driving Route Will Be
-                                        Charged Separately 10,000/-
-                                    </li>
+                                        Charged Separately 10,000/-</li>
                                 </ul>
                             </div>
                         </section>
+
                     </div>
 
                     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
@@ -575,7 +338,6 @@
                                         </ul>
                                     </div>
                                 @endif
-
                                 <div class="form-box contact-form">
                                     <form method="post" action="{{ route('public.admission.store') }}"
                                         id="contact-form">
@@ -648,6 +410,8 @@
                                                         <option value="" disabled selected>Select Gender</option>
                                                         <option value="male">Male</option>
                                                         <option value="female">Female</option>
+                                                        <option value="both">Male & Female Both</option>
+                                                        <!-- Added "both" option -->
                                                     </select>
                                                     @error('gender')
                                                         <div class="text-danger">{{ $message }}</div>
@@ -678,48 +442,50 @@
                                         </div>
                                     </form>
                                 </div>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const carModelSelect = document.getElementById('car_model');
+                                        const genderSelect = document.getElementById('gender');
+                                        const courseSelect = document.getElementById('course');
+
+                                        function updateCourses() {
+                                            const carModelId = carModelSelect.value;
+                                            const gender = genderSelect.value;
+
+                                            courseSelect.innerHTML = '<option value="" disabled selected>Select Course</option>';
+
+                                            if (carModelId && gender) {
+                                                @foreach ($carModels as $carModel)
+                                                    if (carModelId == {{ $carModel->id }}) {
+                                                        @foreach ($carModel->courses as $course)
+                                                            if ('{{ $course->course_type }}' === gender || '{{ $course->course_type }}' ===
+                                                                'both') {
+                                                                courseSelect.innerHTML += `
+                                                            <option value="{{ $course->id }}">
+                                                                {{ $course->duration_days }} days / {{ $course->duration_minutes }} minutes -
+                                                                {{ number_format($course->fees, 2) }} PKR
+                                                            </option>`;
+                                                            }
+                                                        @endforeach
+                                                    }
+                                                @endforeach
+
+                                                if (courseSelect.innerHTML === '<option value="" disabled selected>Select Course</option>') {
+                                                    courseSelect.innerHTML =
+                                                        '<option value="" disabled>No courses available for the selected criteria.</option>';
+                                                }
+                                            }
+                                        }
+
+                                        carModelSelect.addEventListener('change', updateCourses);
+                                        genderSelect.addEventListener('change', updateCourses);
+                                    });
+                                </script>
                             </div>
                         </section>
                     </div>
 
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const carModelSelect = document.getElementById('car_model');
-                            const genderSelect = document.getElementById('gender');
-                            const courseSelect = document.getElementById('course');
 
-                            function updateCourses() {
-                                const carModelId = carModelSelect.value;
-                                const gender = genderSelect.value;
-
-                                courseSelect.innerHTML = '<option value="" disabled selected>Select Course</option>';
-
-                                if (carModelId && gender) {
-                                    @foreach ($carModels as $carModel)
-                                        if (carModelId == {{ $carModel->id }}) {
-                                            @foreach ($carModel->courses as $course)
-                                                if ('{{ $course->course_type }}' === gender) {
-                                                    courseSelect.innerHTML += `
-                                        <option value="{{ $course->id }}">
-                                            {{ $course->duration_days }} days / {{ $course->duration_minutes }} minutes -
-                                            {{ number_format($course->fees, 2) }} PKR
-                                        </option>`;
-                                                }
-                                            @endforeach
-                                        }
-                                    @endforeach
-
-                                    if (courseSelect.innerHTML === '<option value="" disabled selected>Select Course</option>') {
-                                        courseSelect.innerHTML =
-                                            '<option value="" disabled>No courses available for the selected criteria.</option>';
-                                    }
-                                }
-                            }
-
-                            carModelSelect.addEventListener('change', updateCourses);
-                            genderSelect.addEventListener('change', updateCourses);
-                        });
-                    </script>
                 </div>
             </div>
         </div>

@@ -173,8 +173,8 @@
                                                         (Manual)</a></li>
                                                 <li><a href="{{ route('public.courses.vitzCourse') }}">Toyota Vitz
                                                         (Automatic)</a></li>
-                                                <li><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira
-                                                        (Automatic)</a></li>
+                                                {{-- <li><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira
+                                                        (Automatic)</a></li> --}}
                                                 <li><a href="{{ route('public.courses.hondaCourse') }}">Honda City
                                                         (Automatic)</a></li>
                                                 {{-- <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li> --}}
@@ -242,8 +242,8 @@
                                         (Manual)</a></li>
                                 <li><a href="{{ route('public.courses.vitzCourse') }}">Toyota Vitz
                                         (Automatic)</a></li>
-                                <li><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira
-                                        (Automatic)</a></li>
+                                {{-- <li><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira
+                                        (Automatic)</a></li> --}}
                                 <li><a href="{{ route('public.courses.hondaCourse') }}">Honda City
                                         (Automatic)</a></li>
                                 {{-- <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li> --}}
@@ -332,7 +332,7 @@
                                             <li><a href="#">Suzuki Mehran</a></li>
                                             <li><a href="#">Suzuki Alto (Manual)</a></li>
                                             <li><a href="#">Toyota Vitz (Automatic)</a></li>
-                                            <li><a href="#">Daihatsu Mira (Automatic)</a></li>
+                                            {{-- <li><a href="#">Daihatsu Mira (Automatic)</a></li> --}}
                                             <li><a href="#">Honda City (Automatic)</a></li>
                                             <li><a href="#">Bike (CD-70)</a></li>
                                         </ul>

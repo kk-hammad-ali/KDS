@@ -10,6 +10,7 @@ use App\Models\CarExpense;
 use App\Models\Schedule;
 use App\Models\Instructor;
 use App\Models\Student;
+use App\Models\Invoice;
 use App\Models\Car;
 use App\Models\Branch;
 use Carbon\Carbon;
@@ -149,29 +150,32 @@ class DashboardController extends Controller
     // Refactored function to get total sales based on date range
     private function getTotalSales($startDate, $endDate)
     {
-        $todaySales = Student::whereDate('admission_date', '>=', $startDate)
-            ->whereDate('admission_date', '<=', $endDate)
-            ->with('course')
-            ->get()
-            ->sum(function ($student) {
-                return $student->course->fees ?? 0;
-            });
+        // Calculate today sales
+        $todaySales = Invoice::whereHas('schedule.student', function ($query) use ($startDate, $endDate) {
+                $query->whereDate('admission_date', '>=', $startDate)
+                    ->whereDate('admission_date', '<=', $endDate);
+            })
+            ->whereDate('invoice_date', '>=', $startDate)
+            ->whereDate('invoice_date', '<=', $endDate)
+            ->sum('amount_received');
 
-        $monthlySales = Student::whereMonth('admission_date', '>=', $startDate)
-            ->whereMonth('admission_date', '<=', $endDate)
-            ->with('course')
-            ->get()
-            ->sum(function ($student) {
-                return $student->course->fees ?? 0;
-            });
+        // Calculate monthly sales
+        $monthlySales = Invoice::whereHas('schedule.student', function ($query) use ($startDate, $endDate) {
+                $query->whereMonth('admission_date', '>=', $startDate)
+                    ->whereMonth('admission_date', '<=', $endDate);
+            })
+            ->whereMonth('invoice_date', '>=', $startDate)
+            ->whereMonth('invoice_date', '<=', $endDate)
+            ->sum('amount_received');
 
-        $yearlySales = Student::whereYear('admission_date', '>=', $startDate)
-            ->whereYear('admission_date', '<=', $endDate)
-            ->with('course')
-            ->get()
-            ->sum(function ($student) {
-                return $student->course->fees ?? 0;
-            });
+        // Calculate yearly sales
+        $yearlySales = Invoice::whereHas('schedule.student', function ($query) use ($startDate, $endDate) {
+                $query->whereYear('admission_date', '>=', $startDate)
+                    ->whereYear('admission_date', '<=', $endDate);
+            })
+            ->whereYear('invoice_date', '>=', $startDate)
+            ->whereYear('invoice_date', '<=', $endDate)
+            ->sum('amount_received');
 
         return [
             'today' => $todaySales,

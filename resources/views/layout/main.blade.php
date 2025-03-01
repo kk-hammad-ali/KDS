@@ -91,6 +91,95 @@
         <!-- Preloader -->
         <div class="preloader"></div>
 
+        <style>
+            /* Basic styling for the popup */
+            .popup-container {
+                display: none;
+                /* Hide by default */
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                /* Semi-transparent background */
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+                /* Make sure it's on top */
+            }
+
+            .popup-content {
+                /* background: white; */
+                padding: 30px;
+                border-radius: 8px;
+                text-align: center;
+                /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+                width: 80%;
+                max-width: 500px;
+            }
+
+            .popup-content h2 {
+                color: #2f8c6b;
+                /* Greenish color for Christmas theme */
+                font-size: 2em;
+            }
+
+            .popup-content p {
+                font-size: 1.2em;
+                margin: 10px 0;
+            }
+
+            .popup-content button {
+                background-color: #ff4757;
+                /* Red button */
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 1.1em;
+                margin-top: 20px;
+            }
+
+            .popup-content button:hover {
+                background-color: #e84118;
+            }
+
+            .popup-content img {
+                width: 100%;
+                max-width: 400px;
+                margin-bottom: 20px;
+                border-radius: 10px;
+            }
+        </style>
+
+        <div id="christmas-popup" class="popup-container" style="display: flex;">
+            <div class="popup-content">
+                <img src="{{ asset('main/images/ramadan_offer.jpg') }}" alt="Ramadan Offer">
+                <button id="click-here-button">Click Here</button>
+            </div>
+        </div>
+
+        <script>
+            // Show the popup every time the page is loaded
+            document.getElementById('christmas-popup').style.display = 'flex';
+
+            // Close the popup when clicking outside the popup content
+            document.getElementById('christmas-popup').addEventListener('click', function(event) {
+                if (event.target === document.getElementById('christmas-popup')) {
+                    document.getElementById('christmas-popup').style.display = 'none';
+                }
+            });
+
+            // Close the popup when the "Click Here" button is clicked
+            document.getElementById('click-here-button').addEventListener('click', function() {
+                // Redirect to the /courses route in Laravel
+                window.location.href = "{{ route('public.courses') }}";
+            });
+        </script>
+
+
         <!-- Main Header -->
         <header class="main-header header-two">
             <div class="header-top">
@@ -142,7 +231,8 @@
                             </div>
                             <!-- Logo -->
                             <div class="logo-box d-lg-none d-block">
-                                <div class="link"><a style="padding: 8px;" href="{{ route('public.admission.form') }}"
+                                <div class="link"><a style="padding: 8px;"
+                                        href="{{ route('public.admission.form') }}"
                                         class="theme-btn btn-style-one"><span>Book Now</span></a>
                                 </div>
                             </div>
@@ -173,8 +263,8 @@
                                                         (Manual)</a></li>
                                                 <li><a href="{{ route('public.courses.vitzCourse') }}">Toyota Vitz
                                                         (Automatic)</a></li>
-                                                <li><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira
-                                                        (Automatic)</a></li>
+                                                {{-- <li><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira
+                                                        (Automatic)</a></li> --}}
                                                 <li><a href="{{ route('public.courses.hondaCourse') }}">Honda City
                                                         (Automatic)</a></li>
                                                 {{-- <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li> --}}
@@ -243,8 +333,8 @@
                                         (Manual)</a></li>
                                 <li><a href="{{ route('public.courses.vitzCourse') }}">Toyota Vitz
                                         (Automatic)</a></li>
-                                <li><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira
-                                        (Automatic)</a></li>
+                                {{-- <li><a href="{{ route('public.courses.miraCourse') }}">Daihatsu Mira
+                                        (Automatic)</a></li> --}}
                                 <li><a href="{{ route('public.courses.hondaCourse') }}">Honda City
                                         (Automatic)</a></li>
                                 {{-- <li><a href="{{ route('public.courses.swiftCourse') }}">Swift</a></li> --}}
@@ -312,7 +402,7 @@
                                             <li><a href="#">Suzuki Mehran</a></li>
                                             <li><a href="#">Suzuki Alto (Manual)</a></li>
                                             <li><a href="#">Toyota Vitz (Automatic)</a></li>
-                                            <li><a href="#">Daihatsu Mira (Automatic)</a></li>
+                                            {{-- <li><a href="#">Daihatsu Mira (Automatic)</a></li> --}}
                                             <li><a href="#">Honda City (Automatic)</a></li>
                                             <li><a href="#">Bike (CD-70)</a></li>
                                         </ul>

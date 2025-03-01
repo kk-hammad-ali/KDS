@@ -40,13 +40,13 @@ class CoursesController extends Controller
             'duration_days' => 'required|integer',
             'duration_minutes' => 'required|integer',
             'course_type' => 'required|in:male,female,both',
+            'discount' => 'nullable|numeric|min:0|max:100', // Validate discount percentage (optional)
         ]);
 
         Course::create($validatedData);
 
         return redirect()->route('admin.allCourses')->with('success_courses', 'Course added successfully.');
     }
-
 
     /**
      * Show the form for editing a specific course
@@ -69,6 +69,7 @@ class CoursesController extends Controller
             'duration_days' => 'required|integer',
             'duration_minutes' => 'required|integer',
             'course_type' => 'required|in:male,female,both',
+            'discount' => 'nullable|numeric|min:0|max:100', // Validate discount percentage (optional)
         ]);
 
         $course = Course::findOrFail($id);
@@ -76,7 +77,6 @@ class CoursesController extends Controller
 
         return redirect()->route('admin.allCourses')->with('successfully_edit', 'Course updated successfully.');
     }
-
 
     /**
      * Delete a specific course from the database

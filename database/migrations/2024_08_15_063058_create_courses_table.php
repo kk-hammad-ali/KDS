@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('duration_minutes');
             $table->decimal('fees', 8, 2);
             $table->enum('course_type', ['male', 'female', 'both']); // Updated to include "both"
+            $table->decimal('discount', 5, 2)->nullable(); // Discount as a percentage (max 100.00 for 100%)
             $table->timestamps();
         });
     }
